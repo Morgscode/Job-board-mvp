@@ -1,4 +1,3 @@
-const env = require('./utils/env');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');

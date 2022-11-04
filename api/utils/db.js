@@ -11,10 +11,8 @@ const connection = mysql.createConnection({
 function _query(query) {
   return new Promise(function (resolve, reject) {
     connection.query(query, function (error, results, fields) {
-      if (error) {
-        return reject(error);
-      }
-      return resolve(results);
+      if (error) return reject(error);
+      resolve(results);
     });
   });
 }

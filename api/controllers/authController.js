@@ -1,3 +1,4 @@
+const auth = require('../utils/auth');
 const userModel = require('../models/userModel');
 
 async function register(req, res) {
@@ -15,13 +16,14 @@ async function register(req, res) {
     }
 
     const user = await userModel.registerUser(email, password);
+    const token = await auth.createToken({id: user, email,});
     res.status(201).json({
       status: 'sucess',
       data: {
         message: 'registered!',
         user,
       },
-      jwt: '42069',
+      token,
     });
     
   } catch (error) {
@@ -35,8 +37,39 @@ async function register(req, res) {
   }
 }
 
-function login(req, res) {
-  res.status(200).json({ msg: 'login route' });
+async function login(req, res) {
+  
+  const { email, password } = req.body;
+
+  try {
+    if (!email || !password) {
+      throw new Error('incomplete login attempts');
+    }
+
+    const user = await userModel.loginUser(email, password);
+    if (!user) {
+      throw new Error('those details are not correct');
+    }
+
+    const token = await auth.createToken(user);
+    res.status(201).json({
+      status: 'sucess',
+      data: {
+        message: 'registered!',
+        user,
+      },
+      token,
+    });
+
+  } catch (error) {
+    const signupError = {
+      status: 'failed',
+      data: {
+        message: error.message,
+      },
+    };
+    return res.status(401).json(signupError);
+  }
 }
 
 module.exports = { register, login };
