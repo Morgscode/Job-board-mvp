@@ -16,9 +16,9 @@ async function userEmailExists(email) {
 }
 
 async function registerUser(email, password) {
+  let sql = 'INSERT INTO `jb_users` (email, password, role) VALUES (?, ?, 1)';
   try {
     let hash = await bcrypt.hash(password, 8);
-    let sql = 'INSERT INTO `jb_users` (email, password) VALUES (?, ?)';
     const inserts = [email, hash];
     sql = mysql.format(sql, inserts);
     const user = await db._query(sql);
@@ -29,13 +29,15 @@ async function registerUser(email, password) {
 }
 
 async function loginUser(email, password) {
+  let sql =
+    'SELECT `id`, `email`, `password` FROM `jb_users` WHERE `jb_users`.`email` = ?';
+  const inserts = [email];
+  sql = mysql.format(sql, inserts);
   try {
-    let sql = 'SELECT `id`, `email`, `password` FROM `jb_users` WHERE `jb_users`.`email` = ?';
-    const inserts = [email];
-    sql = mysql.format(sql, inserts);
     const user = await db._query(sql);
+    console.log(user);
     if (Array.isArray(user) && user.length === 0) {
-        throw new Error();
+      throw new Error();
     }
     await auth.verifyPassword(password, user[0].password);
     return user[0];

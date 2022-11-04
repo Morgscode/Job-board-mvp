@@ -17,4 +17,4 @@ function _query(query) {
   });
 }
 
-module.exports = { connection, _query };
+module.exports = { _query };

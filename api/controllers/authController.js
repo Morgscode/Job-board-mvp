@@ -55,7 +55,7 @@ async function login(req, res) {
     res.status(201).json({
       status: 'sucess',
       data: {
-        message: 'registered!',
+        message: 'user logged in',
         user,
       },
       token,
