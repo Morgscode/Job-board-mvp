@@ -16,7 +16,10 @@ async function register(req, res) {
     }
 
     const user = await userModel.registerUser(email, password);
-    const token = await auth.createToken({id: user, email,});
+    if (!user) {
+      throw new Error();
+    }
+    const token = await auth.createToken({id: user, email, role: '1'});
     res.status(201).json({
       status: 'sucess',
       data: {

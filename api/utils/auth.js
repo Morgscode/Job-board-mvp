@@ -8,7 +8,7 @@ function filterPayload(token) {
 
 function createToken(user) {
   const payload = JSON.parse(JSON.stringify(filterPayload(user)));
-  return jwt.sign(payload, process.env.JWT_SECRET, {
+  return jwt.sign({user: payload}, process.env.JWT_SECRET, {
     expiresIn: '8h',
   });
 }
@@ -17,7 +17,6 @@ function verifyToken(token) {
   return new Promise(function (resolve, reject) {
     jwt.verify(token, process.env.JWT_SECRET, function (err, payload) {
       if (err) {
-        console.log(err);
         return reject(err);
       }
       resolve(payload);
@@ -26,7 +25,6 @@ function verifyToken(token) {
 }
 
 function verifyPassword(password, hash) {
-  console.log(password, hash);
   return new Promise(function (resolve, reject) {
     bcrypt.compare(password, hash, function (err, match) {
       if (err) return reject(err);
@@ -37,7 +35,6 @@ function verifyPassword(password, hash) {
 
 async function protect(req, res, next) {
   let token = req?.headers?.authorization?.split('Bearer ')[1];
-  console.log(token);
 
   if (!token) {
     return res.status(401).json({
@@ -50,7 +47,7 @@ async function protect(req, res, next) {
 
   try {
     const payload = await verifyToken(token);
-    console.log(payload);
+    req.user = payload.user;
     next();
   } catch (error) {
     res.status(401).json({

@@ -30,12 +30,11 @@ async function registerUser(email, password) {
 
 async function loginUser(email, password) {
   let sql =
-    'SELECT `id`, `email`, `password` FROM `jb_users` WHERE `jb_users`.`email` = ?';
+    'SELECT `id`, `email`, `password`, `role` FROM `jb_users` WHERE `jb_users`.`email` = ?';
   const inserts = [email];
   sql = mysql.format(sql, inserts);
   try {
     const user = await db._query(sql);
-    console.log(user);
     if (Array.isArray(user) && user.length === 0) {
       throw new Error();
     }
