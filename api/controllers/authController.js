@@ -6,6 +6,7 @@ async function register(req, res) {
   const { email, password } = req.body;
   
   try {
+
     if (!email || !password) {
       throw new Error('incomplete signup');
     }
@@ -17,8 +18,9 @@ async function register(req, res) {
 
     const user = await userModel.registerUser(email, password);
     if (!user) {
-      throw new Error();
+      throw new Error('there was a problem creating your account');
     }
+    
     const token = await auth.createToken({id: user, email, role: '1'});
     res.status(201).json({
       status: 'sucess',
