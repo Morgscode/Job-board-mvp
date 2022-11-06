@@ -1,4 +1,3 @@
-const mysql = require('mysql2');
 const { Sequelize, DataTypes } = require('sequelize');
 const moment = require('moment');
 const db = require('../utils/db');
@@ -80,8 +79,14 @@ if (process.env.NODE_ENV === 'development') {
     .catch((err) => console.error(err));
 }
 
+/**
+ * A model specific update function which will prepare user input for db insertion
+ * @param {object} job 
+ * @param {obejct} where 
+ * @returns Object
+ */
 async function _update(job, where) {
-  if ('id' in job) delete id;
+  if ('id' in job) delete job.id;
   return await Job.update(job, {where,});
 }
 

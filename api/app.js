@@ -6,6 +6,7 @@ const authController = require('./controllers/authController');
 const jobRouter = require('./routes/jobRoutes');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
+const relationships = require('./models/index');
 
 const app = express();
 

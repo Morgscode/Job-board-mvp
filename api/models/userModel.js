@@ -1,4 +1,3 @@
-const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utils/db');
