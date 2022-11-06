@@ -35,13 +35,12 @@ app.get('/api/v1', function (req, res) {
 
 app.use('/api/v1/jobs', jobRouter);
 
-
 app.post('/register', authController.register);
 app.post('/login', authController.login);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`cannot find ${req.originalUrl}`));
-});
+}); 
 
 app.use(globalErrorHandler);
 

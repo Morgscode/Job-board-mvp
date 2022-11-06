@@ -1,41 +1,51 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utils/db');
 
-const JobsInCategories = db.sequelize.define(
-  'JobInCategory',
+const Location = db.sequelize.define(
+  'Location',
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    jobId: {
-      type: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: true,
         notNull: true,
-        isInt: true,
       },
     },
-    jobCategoryId: {
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        notNull: true,
+      },
+    },
+    active: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 0,
       validate: {
         notNull: true,
         isInt: true,
-      },
+        isIn: [[0, 1]],
+      }, 
     },
   },
   {
-    tableName: 'jb_jobs_in_categories',
+    tableName: 'jb_locations',
     paranoid: true,
   }
 );
 
 if (process.env.NODE_ENV === 'development') {
-    JobsInCategories.sync()
-    .then(() => console.log('jobs in cats table synced'))
+  Location.sync()
+    .then(() => console.log('Locations table synced'))
     .catch((err) => console.error(err));
 }
 
-module.exports = { JobsInCategories };
+module.exports = { Location };
