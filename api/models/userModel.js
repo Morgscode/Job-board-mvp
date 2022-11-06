@@ -38,8 +38,8 @@ async function loginUser(email, password) {
     if (Array.isArray(user) && user.length === 0) {
       throw new Error();
     }
-    const pass = await auth.verifyPassword(password, user[0].password);
-    if(!pass) {
+    const passwordMatch = await auth.verifyPassword(password, user[0].password);
+    if(!passwordMatch) {
       throw new Error();
     }
     return user[0];

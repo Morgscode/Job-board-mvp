@@ -50,7 +50,7 @@ async function protect(req, res, next) {
     req.user = payload.user;
     next();
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       status: 'failed',
       data: {
         message: 'you shall not pass',

@@ -1,31 +1,22 @@
 const express = require('express');
 const auth = require('../utils/auth');
+const controller = require('../controllers/jobController');
 
 const router = express.Router();
 
 router.route('/')
-.get(function(req, res) {
-    res.status(200).json({msg: 'list jobs route'});
-})
+.get(controller._index)
 
 router.route('/:id')
-.get(function(req, res) {
-    res.status(200).json({msg: 'find job by :id route'});
-});
+.get(controller._find);
 
 router.use(auth.protect);
 
 router.route('/')
-.post(function(req, res) {
-    res.status(201).json({msg: 'post job route'});
-});
+.post(controller._create);
 
 router.route('/:id')
-.put(function(req, res) {
-    res.status(200).json({msg: 'update job by :id route'});
-})
-.delete(function(req, res) {
-    res.status(204).json({msg: 'delete job by :id route'});
-});
+.put(controller._update)
+.delete(controller._delete);
  
 module.exports = router;
