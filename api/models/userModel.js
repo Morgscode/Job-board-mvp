@@ -15,18 +15,35 @@ const User = db.sequelize.define(
     email: {
       type: DataTypes.TEXT('tiny'),
       allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+        notNull: true,
+        isEmail: true,
+      }
     },
     password: {
       type: DataTypes.TEXT('tiny'),
       allowNull: false,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
     },
     role: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 1,
+      validate: {
+        isNumeric: true,
+        notNull: true,
+        isIn: [[1, 2, 3, 4, 5]],
+      }
     },
   },
   {
     tableName: 'jb_users',
+    paranoid: true,
   }
 );
 
@@ -69,4 +86,4 @@ async function loginUser(email, password) {
   }
 }
 
-module.exports = { userEmailExists, registerUser, loginUser };
+module.exports = { User, userEmailExists, registerUser, loginUser };

@@ -11,7 +11,8 @@ const _find = catchAsync(async function(req, res, next) {
 });
 
 const _create = catchAsync(async function(req, res, next) {
-    res.status(201).json({msg: 'post job route'});
+    const job = req.body;
+    console.log(job);
 });
 
 const _update = catchAsync(async function(req, res, next) {
