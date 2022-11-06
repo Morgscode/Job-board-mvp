@@ -1,20 +1,21 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
+const { Sequelize } = require('sequelize');
 
-const connection = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASS,
-  database: process.env.MYSQL_DB,
-  port: process.env.MYSQL_PORT,
-});
+const db = new Sequelize(
+  process.env.MYSQL_DB,
+  process.env.MYSQL_USER,
+  process.env.MYSQL_PASS,
+  {
+    host: process.env.MYSQL_HOST,
+    port: process.env.MYSQL_PORT,
+    dialect: 'mysql',
+  }
+);
 
-function _query(query) {
-  return new Promise(function (resolve, reject) {
-    connection.query(query, function (error, results, fields) {
-      if (error) return reject(error);
-      resolve(results);
-    });
+db.authenticate()
+  .then(() => console.log('Connection has been established successfully.'))
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
   });
-}
 
-module.exports = { _query };
+module.exports = { sequelize: db };

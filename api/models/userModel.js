@@ -1,14 +1,42 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
+const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utils/db');
 const auth = require('../utils/auth');
 
+const User = db.sequelize.define(
+  'User',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    email: {
+      type: DataTypes.TEXT('tiny'),
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.TEXT('tiny'),
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'jb_users',
+  }
+);
+
+User.sync()
+  .then(() => console.log('users table synced'))
+  .catch((err) => console.error(err));
+
 async function userEmailExists(email) {
-  let sql = 'SELECT `email` FROM `jb_users` WHERE `jb_users`.`email` = ?';
-  const inserts = [email];
-  sql = mysql.format(sql, inserts);
-  const emailRecords = await db._query(sql);
-  if (Array.isArray(emailRecords) && emailRecords.length > 0) {
+  const user = await User.findOne({ where: { email } });
+  if (user) {
     return true;
   } else {
     return false;
@@ -16,33 +44,26 @@ async function userEmailExists(email) {
 }
 
 async function registerUser(email, password) {
-  let sql = 'INSERT INTO `jb_users` (email, password, role) VALUES (?, ?, 1)';
   try {
     let hash = await bcrypt.hash(password, 8);
-    const inserts = [email, hash];
-    sql = mysql.format(sql, inserts);
-    const user = await db._query(sql);
-    return user['insertId'];
+    const user = await User.create({ email, password: hash, role: 1 });
+    return user;
   } catch (error) {
     return false;
   }
 }
 
 async function loginUser(email, password) {
-  let sql =
-    'SELECT `id`, `email`, `password`, `role` FROM `jb_users` WHERE `jb_users`.`email` = ?';
-  const inserts = [email];
-  sql = mysql.format(sql, inserts);
   try {
-    const user = await db._query(sql);
-    if (Array.isArray(user) && user.length === 0) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
       throw new Error();
     }
-    const passwordMatch = await auth.verifyPassword(password, user[0].password);
-    if(!passwordMatch) {
+    const passwordMatch = await auth.verifyPassword(password, user.password);
+    if (!passwordMatch) {
       throw new Error();
     }
-    return user[0];
+    return user;
   } catch (error) {
     return false;
   }
