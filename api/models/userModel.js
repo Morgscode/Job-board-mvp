@@ -13,22 +13,22 @@ const User = db.sequelize.define(
       primaryKey: true,
     },
     email: {
-      type: DataTypes.TEXT('tiny'),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
         notEmpty: true,
         notNull: true,
         isEmail: true,
-      }
+      },
     },
     password: {
-      type: DataTypes.TEXT('tiny'),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: true,
         notEmpty: true,
-      }
+      },
     },
     role: {
       type: DataTypes.INTEGER,
@@ -38,7 +38,7 @@ const User = db.sequelize.define(
         isNumeric: true,
         notNull: true,
         isIn: [[1, 2, 3, 4, 5]],
-      }
+      },
     },
   },
   {
@@ -47,9 +47,11 @@ const User = db.sequelize.define(
   }
 );
 
-User.sync()
-  .then(() => console.log('users table synced'))
-  .catch((err) => console.error(err));
+if (process.env.NODE_ENV === 'development') {
+  User.sync()
+    .then(() => console.log('users table synced'))
+    .catch((err) => console.error(err));
+}
 
 async function userEmailExists(email) {
   const user = await User.findOne({ where: { email } });

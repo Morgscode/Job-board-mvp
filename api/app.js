@@ -23,7 +23,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/api/v1/jobs', jobRouter);
 app.get('/api/v1', function (req, res) {
   res.status(200).json({
     status: 'success',
@@ -32,6 +31,10 @@ app.get('/api/v1', function (req, res) {
     },
   });
 });
+
+app.use('/api/v1/jobs', jobRouter);
+
+
 app.post('/register', authController.register);
 app.post('/login', authController.login);
 

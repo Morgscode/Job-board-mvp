@@ -20,15 +20,15 @@ const Job = db.sequelize.define(
       },
     },
     salary: {
-      type: DataTypes.TEXT('tiny'),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: true, 
+        notNull: true,
       },
     },
     salaryType: {
-      type: DataTypes.TEXT('tiny'),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -43,7 +43,7 @@ const Job = db.sequelize.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: true,   
+        notNull: true,
       },
     },
     deadline: {
@@ -74,8 +74,15 @@ const Job = db.sequelize.define(
   }
 );
 
-Job.sync()
-  .then(() => console.log('jobs table synced'))
-  .catch((err) => console.error(err));
+if (process.env.NODE_ENV === 'development') {
+  Job.sync()
+    .then(() => console.log('jobs table synced'))
+    .catch((err) => console.error(err));
+}
 
-module.exports = { Job };
+async function _update(job, where) {
+  if ('id' in job) delete id;
+  return await Job.update(job, {where,});
+}
+
+module.exports = { Job, _update };
