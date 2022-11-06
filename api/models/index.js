@@ -14,6 +14,6 @@ const JobsInLocations = jobsInLocationsModel.JobsInLocations;
 
 Job.belongsToMany(JobCategory, {through: JobsInCategories});
 JobCategory.belongsToMany(Job, {through: JobsInCategories});
+
 Job.belongsToMany(Location, {through: JobsInLocations});
 Location.belongsToMany(Job, {through: JobsInLocations});
-

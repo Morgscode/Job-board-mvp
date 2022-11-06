@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const AppError = require('../utils/AppError');
 
 function filterPayload(token) {
   if ('password' in token) delete token['password'];
@@ -8,7 +9,7 @@ function filterPayload(token) {
 
 function createToken(user) {
   const payload = JSON.parse(JSON.stringify(filterPayload(user)));
-  return jwt.sign({user: payload}, process.env.JWT_SECRET, {
+  return jwt.sign({ user: payload }, process.env.JWT_SECRET, {
     expiresIn: '8h',
   });
 }
@@ -35,28 +36,37 @@ function verifyPassword(password, hash) {
 
 async function protect(req, res, next) {
   let token = req?.headers?.authorization?.split('Bearer ')[1];
-
+  console.log(token);
   if (!token) {
-    return res.status(401).json({
-      status: 'failed',
-      data: {
-        message: 'you shall not pass',
-      },
-    });
+    return next(new AppError(`Not authorized`, 401));
   }
-
-  try {
-    const payload = await verifyToken(token);
-    req.user = payload.user;
-    next();
-  } catch (error) {
-    return res.status(401).json({
-      status: 'failed',
-      data: {
-        message: 'you shall not pass',
-      },
-    });
-  }
+  const payload = await verifyToken(token);
+  req.user = payload.user;
+  next();
 }
 
-module.exports = { createToken, verifyToken, verifyPassword, protect };
+async function jobBoardRecruiter(req, res, next) {
+  let user = req.user;
+  console.log(user);
+  if (user.role === 2 || user.role === 3) {
+    return next();
+  }
+  return next(new AppError(`Not authorized`, 401));
+}
+
+async function jobBoardAdmin(req, res, next) {
+  let user = req.user;
+  if (user.role === 3) {
+    return next();
+  }
+  return next(new AppError(`Not authorized`, 401));
+}
+
+module.exports = {
+  createToken,
+  verifyToken,
+  verifyPassword,
+  protect,
+  jobBoardRecruiter,
+  jobBoardAdmin
+};
