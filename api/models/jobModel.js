@@ -73,21 +73,15 @@ const Job = db.sequelize.define(
   }
 );
 
-if (process.env.NODE_ENV === 'development') {
-  Job.sync()
-    .then(() => console.log('jobs table synced'))
-    .catch((err) => console.error(err));
-}
-
 /**
  * A model specific update function which will prepare user input for db insertion
- * @param {object} job 
- * @param {obejct} where 
+ * @param {object} job
+ * @param {obejct} where
  * @returns Object
  */
 async function _update(job, where) {
   if ('id' in job) delete job.id;
-  return await Job.update(job, {where,});
+  return await Job.update(job, { where });
 }
 
 module.exports = { Job, _update };

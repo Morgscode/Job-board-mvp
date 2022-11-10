@@ -38,12 +38,6 @@ const Location = db.sequelize.define(
   }
 );
 
-if (process.env.NODE_ENV === 'development') {
-  Location.sync()
-    .then(() => console.log('Locations table synced'))
-    .catch((err) => console.error(err));
-}
-
 /**
  * A model specific update function which will prepare user input for db insertion
  * @param {object} job

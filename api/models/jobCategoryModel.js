@@ -49,10 +49,4 @@ const JobCategory = db.sequelize.define(
   return await JobCategory.update(category, {where,});
 }
 
-if (process.env.NODE_ENV === 'development') {
-  JobCategory.sync()
-    .then(() => console.log('job cats table synced'))
-    .catch((err) => console.error(err));
-}
-
 module.exports = { JobCategory, _update };

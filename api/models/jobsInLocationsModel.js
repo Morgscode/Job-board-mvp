@@ -32,10 +32,4 @@ const JobsInLocations = db.sequelize.define(
   }
 );
 
-if (process.env.NODE_ENV === 'development') {
-    JobsInLocations.sync()
-    .then(() => console.log('jobs in cats table synced'))
-    .catch((err) => console.error(err));
-}
-
 module.exports = { JobsInLocations };

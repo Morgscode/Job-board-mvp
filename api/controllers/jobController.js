@@ -57,11 +57,11 @@ const _create = catchAsync(async function (req, res, next) {
   res.status(201).json({ status: 'success', data: { job: record, locations: inLocations, categories: inCategorys } });
 });
 
-const _update = catchAsync(async function (req, res, next) {
+const _update = catchAsync(async function (req, res, next) { 
   const { id } = req.params;
   const { job } = req.body;
   if (!job) {
-    return next(new AppError("we couldn't update that job", 400));
+    return next(new AppError("you need to pass in some job details", 400));
   }
   const updated = await model._update(job, { id });
   if (!updated) {
