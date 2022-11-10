@@ -13,11 +13,11 @@ Location.belongsToMany(Job, { through: JobsInLocations });
 
 // use this to force db table refreshes
 // warning - this will kill ALL db data;
-const force = false;
+const force = true;
 
 if (process.env.NODE_ENV === 'development') {
   User.sync({ force })
-    .then(() => console.log('jobs table synced'))
+    .then(() => console.log('users table synced'))
     .catch((err) => console.error(err));
 }
 
@@ -47,6 +47,6 @@ if (process.env.NODE_ENV === 'development') {
 
 if (process.env.NODE_ENV === 'development') {
   JobsInLocations.sync({ force })
-    .then(() => console.log('jobs in cats table synced'))
+    .then(() => console.log('jobs in locations table synced'))
     .catch((err) => console.error(err));
 }
