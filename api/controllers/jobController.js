@@ -2,6 +2,8 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobModel');
+const { JobsInLocations } = require('../models/jobsInLocationsModel');
+const { JobsInCategories } = require('../models/jobsInCategoriesModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const jobs = await model.Job.findAll();
@@ -24,11 +26,35 @@ const _find = catchAsync(async function (req, res, next) {
 
 const _create = catchAsync(async function (req, res, next) {
   const job = ({ title, salary, salaryType, description, deadline } = req.body);
+  const { locations, categories } = req.body;
+  if (
+    !locations ||
+    !categories ||
+    !Array.isArray(locations) ||
+    !Array.isArray(categories) ||
+    locations?.length === 0 ||
+    categories?.length === 0
+  ) {
+    return next(
+      new AppError(
+        'you need to create a job with at least one location and category',
+        400
+      )
+    );
+  }
   const record = await model.Job.create(job);
   if (!record) {
     return next(new AppError("we couldn't create that job", 500));
   }
-  res.status(201).json({ status: 'success', data: { job: record } });
+  const inLocations = locations.map(async (location) => await JobsInLocations.create({
+    jobId: record.id,
+    locationId: location,
+  }));
+  const inCategorys = categories.map(async (category) => await JobsInCategories.create({
+    jobId: record.id,
+    jobCategoryId: category,
+  }));
+  res.status(201).json({ status: 'success', data: { job: record, locations: inLocations, categories: inCategorys } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
