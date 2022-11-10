@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const error = require('./handleUncaughtException');
 
 dotenv.config({ path: `${__dirname}/../config.env` });
 

@@ -19,11 +19,7 @@ const JobCategory = db.sequelize.define(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-        notNull: true,
-      },
+      allowNull: true,
     },
     active: {
       type: DataTypes.INTEGER,
@@ -42,10 +38,21 @@ const JobCategory = db.sequelize.define(
   }
 );
 
+/**
+ * A model specific update function which will prepare user input for db insertion
+ * @param {object} job 
+ * @param {obejct} where 
+ * @returns Object
+ */
+ async function _update(category, where) {
+  if ('id' in category) delete category.id;
+  return await JobCategory.update(category, {where,});
+}
+
 if (process.env.NODE_ENV === 'development') {
   JobCategory.sync()
     .then(() => console.log('job cats table synced'))
     .catch((err) => console.error(err));
 }
 
-module.exports = { JobCategory };
+module.exports = { JobCategory, _update };

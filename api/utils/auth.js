@@ -36,7 +36,6 @@ function verifyPassword(password, hash) {
 
 async function protect(req, res, next) {
   let token = req?.headers?.authorization?.split('Bearer ')[1];
-  console.log(token);
   if (!token) {
     return next(new AppError(`Not authorized`, 401));
   }
@@ -47,7 +46,6 @@ async function protect(req, res, next) {
 
 async function jobBoardRecruiter(req, res, next) {
   let user = req.user;
-  console.log(user);
   if (user.role === 2 || user.role === 3) {
     return next();
   }
