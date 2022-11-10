@@ -1,16 +1,9 @@
-const userModel = require('./userModel');
-const locationModel = require('./locationModel');
-const jobModel = require('./jobModel');
-const jobCategoryModel = require('./jobCategoryModel');
-const jobsInCategoriesModel = require('./jobsInCategoriesModel');
-const jobsInLocationsModel = require('./jobsInLocationsModel');
-
-const User = userModel.User;
-const Location = locationModel.Location;
-const Job = jobModel.Job;
-const JobCategory = jobCategoryModel.JobCategory;
-const JobsInCategories = jobsInCategoriesModel.JobsInCategories;
-const JobsInLocations = jobsInLocationsModel.JobsInLocations;
+const { User } = require('./userModel');
+const { Job } = require('./jobModel');
+const { Location } = require('./locationModel');
+const { JobCategory } = require('./jobCategoryModel');
+const { JobsInCategories } = require('./jobsInCategoriesModel');
+const { JobsInLocations } = require('./jobsInLocationsModel');
 
 Job.belongsToMany(JobCategory, { through: JobsInCategories });
 JobCategory.belongsToMany(Job, { through: JobsInCategories });
@@ -23,31 +16,37 @@ Location.belongsToMany(Job, { through: JobsInLocations });
 const force = false;
 
 if (process.env.NODE_ENV === 'development') {
-  Job.sync({force,})
+  User.sync({ force })
     .then(() => console.log('jobs table synced'))
     .catch((err) => console.error(err));
 }
 
 if (process.env.NODE_ENV === 'development') {
-  JobCategory.sync({force,})
-    .then(() => console.log('job cats table synced'))
+  Job.sync({ force })
+    .then(() => console.log('jobs table synced'))
     .catch((err) => console.error(err));
 }
 
 if (process.env.NODE_ENV === 'development') {
-  Location.sync({force,})
+  JobCategory.sync({ force })
+    .then(() => console.log('job cats table synced')) 
+    .catch((err) => console.error(err));
+}  
+
+if (process.env.NODE_ENV === 'development') {
+  Location.sync({ force })
     .then(() => console.log('Locations table synced'))
     .catch((err) => console.error(err));
 }
 
 if (process.env.NODE_ENV === 'development') {
-  JobsInCategories.sync({force,})
+  JobsInCategories.sync({ force })
     .then(() => console.log('jobs in cats table synced'))
     .catch((err) => console.error(err));
 }
 
 if (process.env.NODE_ENV === 'development') {
-  JobsInLocations.sync({force,})
+  JobsInLocations.sync({ force })
     .then(() => console.log('jobs in cats table synced'))
     .catch((err) => console.error(err));
 }

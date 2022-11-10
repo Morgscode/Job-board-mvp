@@ -1,29 +1,24 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utils/db');
+const { Job } = require('./jobModel');
+const { Location } = require('./locationModel');
 
 const JobsInLocations = db.sequelize.define(
   'JobInLocation',
   {
-    id: {
+    JobId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      references: {
+        model: Job,
+        key: 'id'
+      }
     },
-    jobId: {
+    LocationId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: true,
-        isInt: true,
-      },
-    },
-    locationId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: true,
-        isInt: true,
-      },
+      references: {
+        model: Location,
+        key: 'id'
+      }
     },
   },
   {

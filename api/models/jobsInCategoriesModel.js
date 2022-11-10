@@ -1,29 +1,24 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utils/db');
+const { Job } = require('./jobModel');
+const { JobCategory } = require('./jobCategoryModel');
 
 const JobsInCategories = db.sequelize.define(
   'JobInCategory',
   {
-    id: {
+    JobId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      references: {
+        model: Job,
+        key: 'id'
+      }
     },
-    jobId: {
+    JobCategoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: true,
-        isInt: true,
-      },
-    },
-    jobCategoryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: true,
-        isInt: true,
-      },
+      references: {
+        model: JobCategory,
+        key: 'id'
+      }
     },
   },
   {
