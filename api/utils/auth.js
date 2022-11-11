@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const AppError = require('../utils/AppError');
 
-function filterPayload(token) {
-  if ('password' in token) delete token['password'];
-  return token;
+function filterPayload(payload) {
+  if ('password' in payload) delete payload['password'];
+  return payload;
 }
 
 function createToken(user) {

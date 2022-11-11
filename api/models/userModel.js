@@ -36,7 +36,7 @@ const User = db.sequelize.define(
       validate: {
         isNumeric: true,
         notNull: true,
-        isIn: [[1, 2, 3, 4, 5]],
+        isIn: [[1, 2, 3,]],
       },
     },
   },
@@ -65,7 +65,7 @@ async function registerUser(email, password) {
   try {
     let hash = await bcrypt.hash(password, 8);
     const user = await User.create({ email, password: hash, role: 1 });
-    return user;
+    return user.dataValues;
   } catch (error) {
     return false;
   }
@@ -81,7 +81,7 @@ async function loginUser(email, password) {
     if (!passwordMatch) {
       throw new Error();
     }
-    return user;
+    return user.dataValues;
   } catch (error) {
     return false;
   }

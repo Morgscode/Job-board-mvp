@@ -1,7 +1,7 @@
-const auth = require('../utils/auth');
-const userModel = require('../models/userModel');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
+const auth = require('../utils/auth');
+const model = require('../models/userModel');
 
 const register = catchAsync(async function (req, res, next) {
   const { email, password } = req.body;
@@ -10,12 +10,12 @@ const register = catchAsync(async function (req, res, next) {
     return next(new AppError(`incomplete signup`, 400));
   }
 
-  const userExists = await userModel.userEmailExists(email);
+  const userExists = await model.userEmailExists(email);
   if (userExists) {
     return next(new AppError(`email address already exists`, 400));
   }
 
-  const user = await userModel.registerUser(email, password);
+  const user = await model.registerUser(email, password);
   if (!user) {
     return next(new AppError(`there was a problem creating your account`, 500));
   }
@@ -29,7 +29,7 @@ const register = catchAsync(async function (req, res, next) {
     },
     token,
   });
-});
+}); 
 
 const login = catchAsync(async function (req, res, next) {
   const { email, password } = req.body;
@@ -38,7 +38,7 @@ const login = catchAsync(async function (req, res, next) {
     return next(new AppError(`incomplete login attempts`, 400));
   }
 
-  const user = await userModel.loginUser(email, password);
+  const user = await model.loginUser(email, password);
   if (!user) {
     return next(new AppError('those details are not correct', 401));
   }

@@ -8,12 +8,10 @@ const _index = catchAsync(async function (req, res, next) {
   if (!locations || locations?.length === 0) {
     return next(new NotFoundError("we couldn't find any job locations"));
   }
-  res
-    .status(200)
-    .json({
-      status: 'success',
-      data: { locations, count: locations.length },
-    });
+  res.status(200).json({
+    status: 'success',
+    data: { locations, count: locations.length },
+  });
 });
 
 const _find = catchAsync(async function (req, res, next) {
@@ -39,12 +37,12 @@ const _update = catchAsync(async function (req, res, next) {
   const { location } = req.body;
   if (!location) {
     return next(new AppError("we couldn't update that location", 400));
-  } 
+  }
   const updated = await model._update(location, { id });
   if (!updated) {
     return next(new AppError("we couldn't update that location", 500));
   }
-  res.status(200).json({ status: 'success', data: { updated } }); 
+  res.status(200).json({ status: 'success', data: { updated } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {

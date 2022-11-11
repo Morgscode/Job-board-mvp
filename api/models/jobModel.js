@@ -50,7 +50,6 @@ const Job = db.sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
       validate: {
-        notEmpty: true,
         notNull: true,
         isDate: true,
         isAfter: moment().format('L'),

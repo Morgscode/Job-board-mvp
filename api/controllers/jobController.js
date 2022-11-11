@@ -53,7 +53,7 @@ const _create = catchAsync(async function (req, res, next) {
 
   const inCategories = await Promise.all(
     categories.map(
-      async (category) =>
+      async (category) => 
         await JobsInCategories.create({
           JobId: record.id,
           JobCategoryId: category,
@@ -102,7 +102,7 @@ const _update = catchAsync(async function (req, res, next) {
           JobCategoryId: category,
         })
     )
-  );
+  ); 
 
   res.status(200).json({ status: 'success', data: { updated } });
 });
