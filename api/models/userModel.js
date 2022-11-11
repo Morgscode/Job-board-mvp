@@ -1,5 +1,5 @@
+const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utils/db');
 const auth = require('../utils/auth');
 
@@ -45,12 +45,6 @@ const User = db.sequelize.define(
     paranoid: true,
   }
 );
-
-if (process.env.NODE_ENV === 'development') {
-  User.sync()
-    .then(() => console.log('users table synced'))
-    .catch((err) => console.error(err));
-}
 
 async function userEmailExists(email) {
   const user = await User.findOne({ where: { email } });

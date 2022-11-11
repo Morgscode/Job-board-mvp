@@ -2,6 +2,7 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobModel');
+const { Location } = require('../models/locationModel');
 const { JobsInLocations } = require('../models/jobsInLocationsModel');
 const { JobsInCategories } = require('../models/jobsInCategoriesModel');
 
@@ -53,7 +54,7 @@ const _create = catchAsync(async function (req, res, next) {
 
   const inCategories = await Promise.all(
     categories.map(
-      async (category) => 
+      async (category) =>
         await JobsInCategories.create({
           JobId: record.id,
           JobCategoryId: category,
@@ -87,6 +88,7 @@ const _update = catchAsync(async function (req, res, next) {
   const inLocations = await Promise.all(
     locations.map(
       async (location) =>
+        // TODO - add in check for junction model row
         await JobsInLocations.create({
           JobId: record.id,
           LocationId: location,
@@ -97,12 +99,13 @@ const _update = catchAsync(async function (req, res, next) {
   const inCategories = await Promise.all(
     categories.map(
       async (category) =>
+         // TODO - add in check for junction model row
         await JobsInCategories.create({
           JobId: record.id,
           JobCategoryId: category,
         })
     )
-  ); 
+  );
 
   res.status(200).json({ status: 'success', data: { updated } });
 });
@@ -116,4 +119,46 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-module.exports = { _index, _find, _create, _update, _delete };
+const findJobsByLocation = catchAsync(async function (req, res, next) {
+  const { id } = req.params;
+  if (!id) {
+    return next(new AppError('you need to specify a category', 400));
+  }
+  const jobs = await JobsInLocations.findAll({
+    where: { LocationId: id },
+    include: [Location, model.Job],
+  });
+  if (!jobs || jobs?.length === 0) {
+    return next(new NotFoundError("we couldn't find any jobs"));
+  }
+  res
+    .status(200)
+    .json({ status: 'success', data: { jobs, count: jobs.length } });
+});
+
+const findJobsByCategory = catchAsync(async function (req, res, next) {
+  const { id } = req.params;
+  if (!id) {
+    return next(new AppError('you need to specify a category', 400));
+  }
+  const jobs = await JobsInCategories.findAll({
+    where: { CategoryId: id },
+    include: [Category, model.Job],
+  });
+  if (!jobs || jobs?.length === 0) {
+    return next(new NotFoundError("we couldn't find any jobs"));
+  }
+  res
+    .status(200)
+    .json({ status: 'success', data: { jobs, count: jobs.length } });
+});
+
+module.exports = {
+  _index,
+  _find,
+  _create,
+  _update,
+  _delete,
+  findJobsByLocation,
+  findJobsByCategory,
+};
