@@ -24,7 +24,7 @@ const Job = db.sequelize.define(
       validate: {
         notEmpty: true,
         notNull: true,
-      },
+      }, 
     },
     salaryType: {
       type: DataTypes.STRING,

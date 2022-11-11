@@ -1,13 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const auth = require('./utils/auth');
+const AppError = require('./utils/AppError');
+const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
-const AppError = require('./utils/AppError');
-const globalErrorHandler = require('./controllers/errorController');
 const relationships = require('./models/index');
 
 const app = express();

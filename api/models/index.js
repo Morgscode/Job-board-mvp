@@ -13,7 +13,7 @@ Location.belongsToMany(Job, { through: JobsInLocations });
 
 // use this to force db table refreshes
 // warning - this will kill ALL db data;
-const force = true;
+const force = false;
 
 if (process.env.NODE_ENV === 'development') {
   User.sync({ force })

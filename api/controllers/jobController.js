@@ -26,15 +26,8 @@ const _find = catchAsync(async function (req, res, next) {
 
 const _create = catchAsync(async function (req, res, next) {
   const job = ({ title, salary, salaryType, description, deadline } = req.body);
-  const { locations, categories } = req.body;
-  if (
-    !locations ||
-    !categories ||
-    !Array.isArray(locations) ||
-    !Array.isArray(categories) ||
-    locations?.length === 0 ||
-    categories?.length === 0
-  ) {
+  const { locations = [], categories = [] } = req.body;
+  if (locations?.length === 0 || categories?.length === 0) {
     return next(
       new AppError(
         'you need to create a job with at least one location and category',
@@ -42,31 +35,75 @@ const _create = catchAsync(async function (req, res, next) {
       )
     );
   }
+
   const record = await model.Job.create(job);
   if (!record) {
     return next(new AppError("we couldn't create that job", 500));
   }
-  const inLocations = locations.map(async (location) => await JobsInLocations.create({
-    jobId: record.id,
-    locationId: location,
-  }));
-  const inCategorys = categories.map(async (category) => await JobsInCategories.create({
-    jobId: record.id,
-    jobCategoryId: category,
-  }));
-  res.status(201).json({ status: 'success', data: { job: record, locations: inLocations, categories: inCategorys } });
+
+  const inLocations = await Promise.all(
+    locations.map(
+      async (location) =>
+        await JobsInLocations.create({
+          JobId: record.id,
+          LocationId: location,
+        })
+    )
+  );
+
+  const inCategories = await Promise.all(
+    categories.map(
+      async (category) =>
+        await JobsInCategories.create({
+          JobId: record.id,
+          JobCategoryId: category,
+        })
+    )
+  );
+
+  res.status(201).json({
+    status: 'success',
+    data: { job: record, categories: inCategories, locations: inLocations },
+  });
 });
 
-const _update = catchAsync(async function (req, res, next) { 
+const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
   const { job } = req.body;
+  const { locations = [], categories = [] } = req.body;
   if (!job) {
-    return next(new AppError("you need to pass in some job details", 400));
+    return next(new AppError('you need to pass in some job details', 400));
   }
   const updated = await model._update(job, { id });
   if (!updated) {
     return next(new AppError("we couldn't update that job", 500));
   }
+
+  const record = await model.Job.findOne({ where: { id } });
+  if (!record) {
+    return next(new NotFoundError("we couldn't find that job"));
+  }
+
+  const inLocations = await Promise.all(
+    locations.map(
+      async (location) =>
+        await JobsInLocations.create({
+          JobId: record.id,
+          LocationId: location,
+        })
+    )
+  );
+
+  const inCategories = await Promise.all(
+    categories.map(
+      async (category) =>
+        await JobsInCategories.create({
+          JobId: record.id,
+          JobCategoryId: category,
+        })
+    )
+  );
+
   res.status(200).json({ status: 'success', data: { updated } });
 });
 
