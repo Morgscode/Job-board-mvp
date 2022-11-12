@@ -4,7 +4,7 @@ const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobCategoryModel');
 
 const _index = catchAsync(async function (req, res, next) {
-  const categories = await model.JobCategory.findAll();
+  const categories = await model.JobCategory.findAll({...req.pagination});
   if (!categories || categories?.length === 0) {
     return next(new NotFoundError("we couldn't find any job categories"));
   }

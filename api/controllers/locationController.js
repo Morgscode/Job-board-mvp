@@ -4,7 +4,7 @@ const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/locationModel');
 
 const _index = catchAsync(async function (req, res, next) {
-  const locations = await model.Location.findAll();
+  const locations = await model.Location.findAll({...req.pagination});
   if (!locations || locations?.length === 0) {
     return next(new NotFoundError("we couldn't find any job locations"));
   }

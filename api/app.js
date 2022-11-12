@@ -19,9 +19,18 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(cors());
 app.use(express.json());
+
+// global middleware for adding a human readable request time to all requests
 app.use(function (req, res, next) {
   const time = new Date().toISOString();
   req.requestTime = time; 
+  next();
+});
+
+// global middleware for handling pagination
+app.use(function(req, res, next) {
+  const query = req.query; 
+  req.pagination = { limit: parseInt(query.limit, 10) || 20, offset: parseInt(query.offset, 10) || 0 };
   next();
 });
 

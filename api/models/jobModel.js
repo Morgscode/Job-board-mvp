@@ -19,7 +19,7 @@ const Job = db.sequelize.define(
       },
     },
     salary: {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT(11, 2),
       allowNull: false,
       validate: {
         notEmpty: true,
