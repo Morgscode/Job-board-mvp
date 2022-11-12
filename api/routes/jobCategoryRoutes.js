@@ -1,8 +1,8 @@
 const express = require('express');
-const auth = require('../utils/auth');
-const controller = require('../controllers/jobCategoryController');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
+const auth = require('../utils/auth');
+const controller = require('../controllers/jobCategoryController');
 
 const router = express.Router();
 

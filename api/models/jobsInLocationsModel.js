@@ -6,6 +6,11 @@ const { Location } = require('./locationModel');
 const JobsInLocations = db.sequelize.define(
   'JobInLocation',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     JobId: {
       type: DataTypes.INTEGER,
       references: {

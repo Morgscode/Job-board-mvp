@@ -1,7 +1,6 @@
 const express = require('express');
 const auth = require('../utils/auth');
 const controller = require('../controllers/locationController');
-const jobController = require('../controllers/jobController');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 
@@ -12,9 +11,6 @@ router.route('/')
 
 router.route('/:id')
 .get(controller._find);
-
-router.route('/:id/jobs')
-.get(jobController.findJobsByLocation);
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.jobBoardRecruiter));

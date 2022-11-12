@@ -7,7 +7,7 @@ const authController = require('./controllers/authController');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
-const relationships = require('./models/index');
+const relationships = require('./models/index'); 
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(function (req, res, next) {
   const time = new Date().toISOString();
-  req.requestTime = time;
+  req.requestTime = time; 
   next();
 });
 

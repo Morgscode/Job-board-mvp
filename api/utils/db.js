@@ -20,3 +20,4 @@ db.authenticate()
   });
 
 module.exports = { sequelize: db };
+ 

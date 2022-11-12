@@ -3,6 +3,7 @@ const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobModel');
 const { Location } = require('../models/locationModel');
+const { JobCategory } = require('../models/jobCategoryModel');
 const { JobsInLocations } = require('../models/jobsInLocationsModel');
 const { JobsInCategories } = require('../models/jobsInCategoriesModel');
 
@@ -13,7 +14,7 @@ const _index = catchAsync(async function (req, res, next) {
   }
   res
     .status(200)
-    .json({ status: 'success', data: { jobs, count: jobs.length } });
+    .json({ status: 'success', data: { jobs, jobCount: jobs.length } });
 });
 
 const _find = catchAsync(async function (req, res, next) {
@@ -124,16 +125,16 @@ const findJobsByLocation = catchAsync(async function (req, res, next) {
   if (!id) {
     return next(new AppError('you need to specify a category', 400));
   }
-  const jobs = await JobsInLocations.findAll({
-    where: { LocationId: id },
-    include: [Location, model.Job],
+  const jobs = await Location.findAll({
+    where: { id, },
+    include: [{model: model.Job, as: 'LocationToJob'}]
   });
   if (!jobs || jobs?.length === 0) {
     return next(new NotFoundError("we couldn't find any jobs"));
   }
   res
     .status(200)
-    .json({ status: 'success', data: { jobs, count: jobs.length } });
+    .json({ status: 'success', data: { location:jobs, jobs: jobs[0].LocationToJob, jobCount: jobs[0].LocationToJob.length } });
 });
 
 const findJobsByCategory = catchAsync(async function (req, res, next) {
@@ -141,16 +142,16 @@ const findJobsByCategory = catchAsync(async function (req, res, next) {
   if (!id) {
     return next(new AppError('you need to specify a category', 400));
   }
-  const jobs = await JobsInCategories.findAll({
-    where: { CategoryId: id },
-    include: [Category, model.Job],
+  const jobs = await JobCategory.findAll({ 
+    where: { id, },
+    include: [{model: model.Job, as: 'CategoryToJob'}]
   });
   if (!jobs || jobs?.length === 0) {
-    return next(new NotFoundError("we couldn't find any jobs"));
+    return next(new NotFoundError("we couldn't find any jobs", 404));
   }
   res
     .status(200)
-    .json({ status: 'success', data: { jobs, count: jobs.length } });
+    .json({ status: 'success', data: { category: jobs, jobs: jobs[0].CategoryToJob, jobCount: jobs[0].CategoryToJob.length } });
 });
 
 module.exports = {

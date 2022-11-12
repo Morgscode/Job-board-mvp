@@ -6,6 +6,11 @@ const { JobCategory } = require('./jobCategoryModel');
 const JobsInCategories = db.sequelize.define(
   'JobInCategory',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     JobId: {
       type: DataTypes.INTEGER,
       references: {
