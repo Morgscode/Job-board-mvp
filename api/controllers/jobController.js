@@ -136,7 +136,7 @@ const findJobsByCategory = catchAsync(async function (req, res, next) {
   }
   const jobs = await category.getJobs();
   if (!jobs || jobs?.length === 0) {
-    return next(new NotFoundError("we couldn't find any jobs"));
+    return next(new NotFoundError("we couldn't find any jobs in that category"));
   }
   res
     .status(200)
@@ -154,28 +154,41 @@ const findJobsByCategoryAndLocation = catchAsync(async function (
   res,
   next
 ) {
+
   const { locationId, jobCategoryId } = req.params;
   if (!locationId || !jobCategoryId) {
     return next(
       new AppError('you need to specify a category and a location', 400)
     );
   }
-  const jobs = await JobCategory.findAll({
-    where: { id: jobCategoryId },
+
+  const location = await Location.findOne({where: {id: locationId}});
+  if (!location) {
+    return next(new NotFoundError('we couldn\'t find that location'));
+  }
+
+  const category = await JobCategory.findOne({where: {id: jobCategoryId}});
+  if (!category) {
+    return next(new NotFoundError('we couldn\'t find that category'));
+  }
+
+  const jobs = await model.Job.findAll({
     include: [
-      { model: model.Job, as: 'CategoryToJob' },
-      { model: Location, as: 'LocationToJob' },
+      { model: JobCategory, as: 'Category', attributes: [], where: {id: jobCategoryId} },
+      { model: Location, attributes: [], where: {id: locationId} }
     ],
   });
-  if (!jobs || jobs?.length === 0) {
+ 
+  if (!jobs || Array.from(jobs).length === 0) {
     return next(new NotFoundError("we couldn't find any jobs", 404));
   }
   res.status(200).json({
     status: 'success',
     data: {
-      category: jobs,
-      jobs: jobs[0].CategoryToJob,
-      jobCount: jobs[0].CategoryToJob.length,
+      category,
+      location,
+      jobs,
+      jobCount: jobs.length,
     },
   });
 });
