@@ -8,20 +8,18 @@ const { JobsInLocations } = require('./jobsInLocationsModel');
 
 Job.belongsToMany(JobCategory, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
-  as: 'JobToCategory'
+  as: 'Category'
 });
 JobCategory.belongsToMany(Job, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
-  as: 'CategoryToJob'
 });
 
 Job.belongsToMany(Location, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
-  as: 'JobToLocation'
+  as: 'Location'
 });
 Location.belongsToMany(Job, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
-  as: 'LocationToJob'
 });
 
 const force = false;

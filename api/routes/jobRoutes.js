@@ -22,6 +22,9 @@ router.route('/:id')
 .put(controller._update)
 .delete(controller._delete);
 
+router.route('/job-categories/:jobCategoryId/locations/:locationId')
+.get(controller.findJobsByCategoryAndLocation);
+
 router.route('/job-categories/:id')
 .get(controller.findJobsByCategory);
 
