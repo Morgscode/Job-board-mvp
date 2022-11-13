@@ -5,6 +5,8 @@ const { Location } = require('./locationModel');
 const { JobCategory } = require('./jobCategoryModel');
 const { JobsInCategories } = require('./jobsInCategoriesModel');
 const { JobsInLocations } = require('./jobsInLocationsModel');
+const { JobApplication } = require('./jobApplicationModel');
+const { JobApplicationStatus } = require('./jobApplicationStatusModel');
 
 Job.belongsToMany(JobCategory, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
@@ -14,25 +16,33 @@ JobCategory.belongsToMany(Job, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
 });
 
-Job.belongsToMany(Location, {
+Job.belongsToMany(Location, { 
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
 Location.belongsToMany(Job, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
 
+Job.hasMany(JobApplication);
+JobApplication.belongsTo(Job);
+
+JobApplicationStatus.hasMany(JobApplication);
+JobApplication.belongsTo(JobApplicationStatus);
+
 const force = false;
 const alter = false;
 
 async function initModels() {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => { 
     try {
       await User.sync({ force, alter });
       await Job.sync({ force, alter }); 
       await JobCategory.sync({ force, alter });
-      await Location.sync({ force, alter }); 
+      await Location.sync({ force, alter });  
       await JobsInCategories.sync({ force, alter });
       await JobsInLocations.sync({ force, alter });
+      await JobApplication.sync({force, alter});
+      await JobApplicationStatus.sync({force, alter});
       resolve('models synced - app data layer running');
     } catch (error) {
       console.error(error); 

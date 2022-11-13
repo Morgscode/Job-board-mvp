@@ -29,6 +29,22 @@ const User = db.sequelize.define(
         notEmpty: true,
       },
     },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    surname: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    middleNames: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     role: {
       type: DataTypes.INTEGER,
       allowNull: false,

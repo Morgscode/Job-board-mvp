@@ -1,5 +1,4 @@
 const { Op } = require('sequelize');
-const { request } = require('../app');
 
 module.exports = (req, res, next) => {
   const query = { ...req.query };
@@ -83,7 +82,6 @@ module.exports = (req, res, next) => {
 
   if (req.sql.where.order) {
     const order = req.sql.where.order.toUpperCase();
-    console.log(order);
     delete req.sql.where.order;
     if (req.sql.where.orderBy) {
       const orderBy = req.sql.where.orderBy;
