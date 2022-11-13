@@ -23,7 +23,13 @@ module.exports = (req, res, next) => {
   // filter out anything that has multiple params for now
   Object.keys(req.sql.where).forEach((key) => {
     let value = req.sql.where[key];
-    value = JSON.parse(value);
+
+    try {
+      value = JSON.parse(value.toString());
+    } catch (error) { 
+      return;
+    }
+ 
     if (typeof value === 'object') delete req.sql.where[key];
   });
 
@@ -39,27 +45,48 @@ module.exports = (req, res, next) => {
   // logical operators (gt, lt, gte, lte)
   Object.keys(query).forEach((queryKey) => {
     let value = query[queryKey];
-    value = JSON.parse(value);
-    req.sql.where[queryKey] = {};
-    if (typeof value === 'object') {
-      Object.keys(value).forEach(paramKey => {
-        switch(paramKey) {
-          case 'gte': 
-            req.sql.where[queryKey][Op.gte] = value[paramKey];
-          break;
-          case 'lte': 
-          req.sql.where[queryKey][Op.lte] = value[paramKey];
-          break;
-          case 'gt':
-            req.sql.where[queryKey][Op.gt] = value[paramKey];
-          break;
-          case 'lt':
-            req.sql.where[queryKey][Op.lt] = value[paramKey];
-          break;
-        }
-      });
+
+    try {
+      value = JSON.parse(value.toString());
+      req.sql.where[queryKey] = {};
+      if (typeof value === 'object') {
+        Object.keys(value).forEach(paramKey => {
+          switch(paramKey) {
+            case 'gte': 
+              req.sql.where[queryKey][Op.gte] = value[paramKey];
+            break;
+            case 'lte': 
+            req.sql.where[queryKey][Op.lte] = value[paramKey];
+            break;
+            case 'gt':
+              req.sql.where[queryKey][Op.gt] = value[paramKey];
+            break;
+            case 'lt':
+              req.sql.where[queryKey][Op.lt] = value[paramKey];
+            break;
+          }
+        });
+      }
+    } catch (error) {
+      return;
     }
+
   });
+
+   // *=== sorting
+   if (req.sql.where.order) {
+    const order = req.sql.where.order;
+    delete req.sql.where.order;
+    if (req.sql.where.orderBy) {
+      const orderBy = req.sql.where.orderBy;
+      delete req.sql.where.orderBy;
+      req.sql.order = [[orderBy, order]];
+    } else {
+      req.sql.order = order;
+    }
+   }
+
+   console.log(req.sql);
 
   next();
 };
