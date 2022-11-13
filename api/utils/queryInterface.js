@@ -14,15 +14,6 @@ module.exports = (req, res, next) => {
   req.sql = {};
   req.sql.where = { ...query };
 
-  // limiting retuned fields 
-  if (req.query.fields) {
-    console.log(req.query.fields);
-    try {
-      req.sql.attributes = Array.from(req.query.fields.split(','));
-    } catch (error) {
-    }
-  }
-
   // filter out anything that has multiple params for now
   Object.keys(req.sql.where).forEach((key) => {
     let value = req.sql.where[key];
@@ -73,6 +64,19 @@ module.exports = (req, res, next) => {
       return;
     }
   });
+
+  // === limiting retuned fields
+  if (req.query.fields) {
+    try {
+      req.sql.attributes = {};
+      const fields = req.query.fields.split(',');
+      if (fields[0].startsWith('-')) {
+        req.sql.attributes.exclude = fields.map(field => field.slice(1))
+      } else {
+        req.sql.attributes = fields;
+      }
+    } catch (error) {}
+  }
 
   // === sorting
 
