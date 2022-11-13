@@ -9,9 +9,10 @@ const { JobsInCategories } = require('../models/jobsInCategoriesModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const jobs = await model.Job.findAll({
+    attributes: req.sql.attributes,
     where: { ...req.sql.where },
+    order: req.sql.order,
     ...req.pagination,
-    order: req.sql.order
   });
 
   if (!jobs || jobs?.length === 0) {

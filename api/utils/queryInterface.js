@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const { request } = require('../app');
 
 module.exports = (req, res, next) => {
   const query = { ...req.query };
@@ -12,6 +13,15 @@ module.exports = (req, res, next) => {
   // copy the query into a new object
   req.sql = {};
   req.sql.where = { ...query };
+
+  // limiting retuned fields 
+  if (req.query.fields) {
+    console.log(req.query.fields);
+    try {
+      req.sql.attributes = Array.from(req.query.fields.split(','));
+    } catch (error) {
+    }
+  }
 
   // filter out anything that has multiple params for now
   Object.keys(req.sql.where).forEach((key) => {
@@ -80,6 +90,8 @@ module.exports = (req, res, next) => {
     // by default sort by the newest records
     req.sql.order = [['createdAt', 'DESC']];
   }
+
+  console.log(req.sql);
 
   next();
 };
