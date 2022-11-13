@@ -14,6 +14,13 @@ const JobApplication = db.sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    JobApplicationStatusId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: JobApplicationStatus,
+        key: 'id',
+      },
+    },
     JobId: {
       type: DataTypes.INTEGER,
       references: {
@@ -32,13 +39,6 @@ const JobApplication = db.sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    JobApplicationStatusId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: JobApplicationStatus,
-        key: 'id',
-      },
-    },
     // TODO - FileUpload Model
     // cvId: {
     //   type: DataTypes.INTEGER,
@@ -47,16 +47,6 @@ const JobApplication = db.sequelize.define(
     //     key: 'id',
     //   },
     // },
-    active: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: {
-        notNull: true,
-        isInt: true,
-        isIn: [[0, 1]],
-      },
-    },
   },
   {
     tableName: 'jb_job_applications',

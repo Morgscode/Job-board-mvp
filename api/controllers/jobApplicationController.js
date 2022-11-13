@@ -29,7 +29,7 @@ const _find = catchAsync(async function (req, res, next) {
 
   res.status(200).json({ status: 'success', data: { application } });
 });
-
+ 
 const _create = catchAsync(async function (req, res, next) {
   const application = ({ jobId, coveringLetter } = req.body);
   application.UserId = req.user.id;
