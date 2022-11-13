@@ -2,16 +2,9 @@ const { Op } = require('sequelize');
 
 module.exports = (req, res, next) => {
   const query = { ...req.query };
-  const exclude = [
-    'page',
-    'sort',
-    'limit',
-    'fields',
-    'description',
-    'id',
-  ];
+  const exclude = ['page', 'sort', 'limit', 'fields', 'description', 'id'];
 
-  // *=== filtering
+  // === filtering
 
   // remove any non allowed keys
   exclude.forEach((item) => delete query[item]);
@@ -26,11 +19,10 @@ module.exports = (req, res, next) => {
 
     try {
       value = JSON.parse(value.toString());
-    } catch (error) { 
+      if (typeof value === 'object') delete req.sql.where[key];
+    } catch (error) {
       return;
     }
- 
-    if (typeof value === 'object') delete req.sql.where[key];
   });
 
   // like cluses for titls and names
@@ -50,31 +42,31 @@ module.exports = (req, res, next) => {
       value = JSON.parse(value.toString());
       req.sql.where[queryKey] = {};
       if (typeof value === 'object') {
-        Object.keys(value).forEach(paramKey => {
-          switch(paramKey) {
-            case 'gte': 
+        Object.keys(value).forEach((paramKey) => {
+          switch (paramKey) {
+            case 'gte':
               req.sql.where[queryKey][Op.gte] = value[paramKey];
-            break;
-            case 'lte': 
-            req.sql.where[queryKey][Op.lte] = value[paramKey];
-            break;
+              break;
+            case 'lte':
+              req.sql.where[queryKey][Op.lte] = value[paramKey];
+              break;
             case 'gt':
               req.sql.where[queryKey][Op.gt] = value[paramKey];
-            break;
+              break;
             case 'lt':
               req.sql.where[queryKey][Op.lt] = value[paramKey];
-            break;
+              break;
           }
         });
       }
     } catch (error) {
       return;
     }
-
   });
 
-   // *=== sorting
-   if (req.sql.where.order) {
+  // === sorting
+
+  if (req.sql.where.order) {
     const order = req.sql.where.order;
     delete req.sql.where.order;
     if (req.sql.where.orderBy) {
@@ -84,9 +76,10 @@ module.exports = (req, res, next) => {
     } else {
       req.sql.order = order;
     }
-   }
-
-   console.log(req.sql);
+  } else {
+    // by default sort by the newest records
+    req.sql.order = [['createdAt', 'DESC']];
+  }
 
   next();
 };
