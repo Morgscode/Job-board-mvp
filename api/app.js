@@ -1,15 +1,17 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const relationships = require('./models/index');
 const { Op } = require('sequelize');
 const AppError = require('./utils/AppError');
-const globalErrorHandler = require('./controllers/errorController');
-const authController = require('./controllers/authController');
+const pagination = require('./utils/pagination');
+const queryInterface = require('./utils/queryInterface');  
+const time = require('./utils/humanRequestTime');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
-const relationships = require('./models/index'); 
-
+const globalErrorHandler = require('./controllers/errorController');
+const authController = require('./controllers/authController');
 
 const app = express();
 
@@ -22,37 +24,10 @@ if (process.env.NODE_ENV === 'production') {
 app.use(cors());
 app.use(express.json());
 
-// global middleware for adding a human readable request time to all requests
-app.use(function (req, res, next) {
-  const time = new Date().toISOString();
-  req.requestTime = time; 
-  next();
-});
+// global middleware
+app.use('/api/v1', [time, pagination, queryInterface]);
 
-// global middleware for handling pagination
-app.use(function(req, res, next) {
-  const query = {...req.query};
-  req.pagination = { limit: parseInt(query.limit, 10) || 20, offset: parseInt(query.offset, 10) || 0 };
-  next();
-});
-
-// global middleware for field queries
-app.use(function(req, res, next) {
-  const query = {...req.query};
-  console.log(query);
-  const exclude = ['page', 'sort', 'limit', 'fields', 'title', 'description', 'name', 'id'];
-  exclude.forEach(item => delete query[item]); 
-  req.sql = {};
-  req.sql.where = {...query};
-  if (req.query.title) {
-    req.sql.where['title'] = {[Op.like]: `${decodeURI(req.query.title)}%`};
-  }
-  if (req.query.name) {
-    req.sql.where['name'] = {[Op.like]: `${decodeURI(req.query.name)}%`};
-  }
-  next();
-});
-
+// mount routers
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/job-categories', jobCategoryRouter);
 app.use('/api/v1/locations', locationRouter);
@@ -71,7 +46,7 @@ app.post('/login', authController.login);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`cannot find ${req.originalUrl}`));
-}); 
+});
 
 app.use(globalErrorHandler);
 
