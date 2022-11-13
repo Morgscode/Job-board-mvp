@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet');
 const relationships = require('./models/index');
 const AppError = require('./utils/AppError');
 const pagination = require('./utils/pagination');
@@ -17,8 +18,11 @@ const app = express();
 process.env.NODE_ENV === 'production'
   ? app.use(morgan())
   : app.use(morgan('dev'));
+
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
+app.disable('x-powered-by');
 
 // global middleware
 app.use('/api/v1', [time, pagination, queryInterface]);
@@ -28,6 +32,7 @@ app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/job-categories', jobCategoryRouter);
 app.use('/api/v1/locations', locationRouter);
 
+// root route
 app.get('/api/v1', function (req, res) {
   res.status(200).json({
     status: 'success',
