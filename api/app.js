@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const relationships = require('./models/index');
-const { Op } = require('sequelize');
 const AppError = require('./utils/AppError');
 const pagination = require('./utils/pagination');
 const queryInterface = require('./utils/queryInterface');
@@ -15,12 +14,9 @@ const authController = require('./controllers/authController');
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(morgan());
-} else {
-  app.use(morgan('dev'));
-}
-
+process.env.NODE_ENV === 'production'
+  ? app.use(morgan())
+  : app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
@@ -41,13 +37,16 @@ app.get('/api/v1', function (req, res) {
   });
 });
 
+// auth routes
 app.post('/register', authController.register);
 app.post('/login', authController.login);
 
+// not found route
 app.all('*', (req, res, next) => {
   next(new AppError(`cannot find ${req.originalUrl}`));
 });
 
+// use error controller globally
 app.use(globalErrorHandler);
 
 module.exports = app;

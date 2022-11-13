@@ -3,7 +3,7 @@ const { request } = require('../app');
 
 module.exports = (req, res, next) => {
   const query = { ...req.query };
-  const exclude = ['page', 'sort', 'limit', 'fields', 'description', 'id'];
+  const exclude = ['page', 'limit', 'fields', 'description', 'id'];
 
   // === filtering
 
@@ -66,12 +66,13 @@ module.exports = (req, res, next) => {
   });
 
   // === limiting retuned fields
+
   if (req.query.fields) {
     try {
       req.sql.attributes = {};
       const fields = req.query.fields.split(',');
       if (fields[0].startsWith('-')) {
-        req.sql.attributes.exclude = fields.map(field => field.slice(1))
+        req.sql.attributes.exclude = fields.map(field => field.slice(1));
       } else {
         req.sql.attributes = fields;
       }
@@ -81,21 +82,22 @@ module.exports = (req, res, next) => {
   // === sorting
 
   if (req.sql.where.order) {
-    const order = req.sql.where.order;
+    const order = req.sql.where.order.toUpperCase();
+    console.log(order);
     delete req.sql.where.order;
     if (req.sql.where.orderBy) {
       const orderBy = req.sql.where.orderBy;
       delete req.sql.where.orderBy;
       req.sql.order = [[orderBy, order]];
     } else {
-      req.sql.order = order;
+      req.sql.order = [['createdAt', order]];
     }
   } else {
     // by default sort by the newest records
     req.sql.order = [['createdAt', 'DESC']];
   }
 
-  console.log(req.sql);
+  // console.log(req.sql);
 
   next();
 };

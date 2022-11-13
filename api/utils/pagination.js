@@ -1,8 +1,13 @@
 module.exports = (req, res, next) => {
   const query = { ...req.query };
+  
+  const page = parseInt(query.page, 10) || 1;
+  const limit = parseInt(query.limit, 10) || 20;
+  const offset = (page - 1) * limit;
+  
   req.pagination = {
-    limit: parseInt(query.limit, 10) || 20,
-    offset: parseInt(query.offset, 10) || 0,
+    limit,
+    offset,
   };
   next();
 };
