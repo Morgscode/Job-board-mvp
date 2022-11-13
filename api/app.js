@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const { Op } = require('sequelize');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
@@ -8,6 +9,7 @@ const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
 const relationships = require('./models/index'); 
+
 
 const app = express();
 
@@ -29,8 +31,25 @@ app.use(function (req, res, next) {
 
 // global middleware for handling pagination
 app.use(function(req, res, next) {
-  const query = req.query; 
+  const query = {...req.query};
   req.pagination = { limit: parseInt(query.limit, 10) || 20, offset: parseInt(query.offset, 10) || 0 };
+  next();
+});
+
+// global middleware for field queries
+app.use(function(req, res, next) {
+  const query = {...req.query};
+  console.log(query);
+  const exclude = ['page', 'sort', 'limit', 'fields', 'title', 'description', 'name', 'id'];
+  exclude.forEach(item => delete query[item]); 
+  req.sql = {};
+  req.sql.where = {...query};
+  if (req.query.title) {
+    req.sql.where['title'] = {[Op.like]: `${decodeURI(req.query.title)}%`};
+  }
+  if (req.query.name) {
+    req.sql.where['name'] = {[Op.like]: `${decodeURI(req.query.name)}%`};
+  }
   next();
 });
 

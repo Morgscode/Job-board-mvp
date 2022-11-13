@@ -8,7 +8,7 @@ const { JobsInLocations } = require('../models/jobsInLocationsModel');
 const { JobsInCategories } = require('../models/jobsInCategoriesModel');
 
 const _index = catchAsync(async function (req, res, next) {
-  const jobs = await model.Job.findAll({...req.pagination});
+  const jobs = await model.Job.findAll({...req.pagination, where: {...req.sql.where}});
   if (!jobs || jobs?.length === 0) {
     return next(new NotFoundError("we couldn't find any jobs"));
   }

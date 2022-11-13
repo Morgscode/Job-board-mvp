@@ -46,7 +46,7 @@ const Job = db.sequelize.define(
       },
     },
     deadline: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       defaultValue: DataTypes.NOW,
       validate: {
