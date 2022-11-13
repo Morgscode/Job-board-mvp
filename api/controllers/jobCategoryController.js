@@ -12,7 +12,7 @@ const _index = catchAsync(async function (req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    data: { categories, count: categories.length },
+    data: { categories,  },
   });
 });
 
@@ -61,9 +61,6 @@ const _update = catchAsync(async function (req, res, next) {
 
 const _delete = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  if (!id) {
-    return next(new AppError("we couldn't delete that job", 400));
-  }
   const deleted = await model.JobCategory.destroy({ where: { id } });
   res.status(200).json({ status: 'success', data: { deleted } });
 });

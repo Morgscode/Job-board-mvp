@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.32)
 # Database: job_board_local
-# Generation Time: 2022-11-13 03:14:27 +0000
+# Generation Time: 2022-11-13 21:55:44 +0000
 # ************************************************************
 
 
@@ -18,6 +18,61 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table jb_job_application_status
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `jb_job_application_status`;
+
+CREATE TABLE `jb_job_application_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `deletedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `jb_job_application_status` WRITE;
+/*!40000 ALTER TABLE `jb_job_application_status` DISABLE KEYS */;
+
+INSERT INTO `jb_job_application_status` (`id`, `name`, `createdAt`, `updatedAt`, `deletedAt`)
+VALUES
+	(1,'applied','2022-11-13 21:53:01','2022-11-13 21:53:01',NULL),
+	(2,'interviewing','2022-11-13 21:53:01','2022-11-13 21:53:01',NULL),
+	(3,'unsuccessful','2022-11-13 21:53:01','2022-11-13 21:53:01',NULL),
+	(4,'successful','2022-11-13 21:53:01','2022-11-13 21:53:01',NULL),
+	(5,'closed','2022-11-13 21:53:01','2022-11-13 21:53:01',NULL);
+
+/*!40000 ALTER TABLE `jb_job_application_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table jb_job_applications
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `jb_job_applications`;
+
+CREATE TABLE `jb_job_applications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `JobId` int(11) DEFAULT NULL,
+  `UserId` int(11) DEFAULT NULL,
+  `coveringLetter` text,
+  `JobApplicationStatusId` int(11) DEFAULT NULL,
+  `active` int(11) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `deletedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `JobId` (`JobId`),
+  KEY `UserId` (`UserId`),
+  KEY `JobApplicationStatusId` (`JobApplicationStatusId`),
+  CONSTRAINT `jb_job_applications_ibfk_4` FOREIGN KEY (`JobId`) REFERENCES `jb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `jb_job_applications_ibfk_5` FOREIGN KEY (`UserId`) REFERENCES `jb_users` (`id`),
+  CONSTRAINT `jb_job_applications_ibfk_6` FOREIGN KEY (`JobApplicationStatusId`) REFERENCES `jb_job_application_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 # Dump of table jb_job_categories
@@ -95,8 +150,8 @@ CREATE TABLE `jb_jobs_in_categories` (
   PRIMARY KEY (`id`),
   KEY `JobId` (`JobId`),
   KEY `JobCategoryId` (`JobCategoryId`),
-  CONSTRAINT `jb_jobs_in_categories_ibfk_10` FOREIGN KEY (`JobCategoryId`) REFERENCES `jb_job_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `jb_jobs_in_categories_ibfk_9` FOREIGN KEY (`JobId`) REFERENCES `jb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `jb_jobs_in_categories_ibfk_11` FOREIGN KEY (`JobId`) REFERENCES `jb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `jb_jobs_in_categories_ibfk_12` FOREIGN KEY (`JobCategoryId`) REFERENCES `jb_job_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `jb_jobs_in_categories` WRITE;
@@ -127,8 +182,8 @@ CREATE TABLE `jb_jobs_in_locations` (
   PRIMARY KEY (`id`),
   KEY `JobId` (`JobId`),
   KEY `LocationId` (`LocationId`),
-  CONSTRAINT `jb_jobs_in_locations_ibfk_10` FOREIGN KEY (`LocationId`) REFERENCES `jb_locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `jb_jobs_in_locations_ibfk_9` FOREIGN KEY (`JobId`) REFERENCES `jb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `jb_jobs_in_locations_ibfk_11` FOREIGN KEY (`JobId`) REFERENCES `jb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `jb_jobs_in_locations_ibfk_12` FOREIGN KEY (`LocationId`) REFERENCES `jb_locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `jb_jobs_in_locations` WRITE;
@@ -188,21 +243,26 @@ CREATE TABLE `jb_users` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `deletedAt` datetime DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `firstName` varchar(255) DEFAULT NULL,
+  `surname` varchar(255) DEFAULT NULL,
+  `middleNames` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `email_2` (`email`),
   UNIQUE KEY `email_3` (`email`),
   UNIQUE KEY `email_4` (`email`),
   UNIQUE KEY `email_5` (`email`),
-  UNIQUE KEY `email_6` (`email`)
+  UNIQUE KEY `email_6` (`email`),
+  UNIQUE KEY `email_7` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `jb_users` WRITE;
 /*!40000 ALTER TABLE `jb_users` DISABLE KEYS */;
 
-INSERT INTO `jb_users` (`id`, `email`, `password`, `role`, `createdAt`, `updatedAt`, `deletedAt`)
+INSERT INTO `jb_users` (`id`, `email`, `password`, `role`, `createdAt`, `updatedAt`, `deletedAt`, `title`, `firstName`, `surname`, `middleNames`)
 VALUES
-	(1,'luke@luke.com','$2b$08$thaLY0k1L.iZz5wzTMStOOXefRP9T8BZsNAdALJPaa9uQmEQPKeCu',3,'2022-11-12 20:03:53','2022-11-12 20:03:53',NULL);
+	(1,'luke@luke.com','$2b$08$thaLY0k1L.iZz5wzTMStOOXefRP9T8BZsNAdALJPaa9uQmEQPKeCu',3,'2022-11-12 20:03:53','2022-11-12 20:03:53',NULL,NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `jb_users` ENABLE KEYS */;
 UNLOCK TABLES;

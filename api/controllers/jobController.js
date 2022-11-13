@@ -21,7 +21,7 @@ const _index = catchAsync(async function (req, res, next) {
 
   res
     .status(200)
-    .json({ status: 'success', data: { jobs, jobCount: jobs.length } });
+    .json({ status: 'success', data: { jobs, } });
 });
 
 const _find = catchAsync(async function (req, res, next) {
@@ -160,7 +160,6 @@ const findJobsByCategory = catchAsync(async function (req, res, next) {
     data: {
       category,
       jobs,
-      jobCount: jobs.length,
     },
   });
 });
@@ -209,7 +208,6 @@ const findJobsByCategoryAndLocation = catchAsync(async function (
       category,
       location,
       jobs,
-      jobCount: jobs.length,
     },
   });
 });

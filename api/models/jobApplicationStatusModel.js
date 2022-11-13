@@ -22,8 +22,8 @@ const JobApplicationStatus = db.sequelize.define(
 
 /**
  * A model specific update function which will prepare user input for db insertion
- * @param {object} job
- * @param {obejct} where
+ * @param {object} status - the status to update
+ * @param {obejct} where - sql where clause
  * @returns Object
  */
 async function _update(status, where) {

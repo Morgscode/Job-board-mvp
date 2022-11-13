@@ -12,7 +12,7 @@ const _index = catchAsync(async function (req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    data: { locations, count: locations.length },
+    data: { locations, },
   });
 });
 
@@ -61,13 +61,7 @@ const _update = catchAsync(async function (req, res, next) {
 
 const _delete = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-
-  if (!id) {
-    return next(new AppError("we couldn't delete that job", 400));
-  }
-
   const deleted = await model.Location.destroy({ where: { id } });
-
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 

@@ -40,8 +40,8 @@ const JobCategory = db.sequelize.define(
 
 /**
  * A model specific update function which will prepare user input for db insertion
- * @param {object} job 
- * @param {obejct} where 
+ * @param {object} category - the cateogry to update
+ * @param {obejct} where - the sql where clause
  * @returns Object
  */
  async function _update(category, where) {

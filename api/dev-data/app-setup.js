@@ -63,3 +63,11 @@ const Jobs = [
     categories: [1],
   },
 ];
+
+const JobApplicationStatus = [
+  'applied',
+  'interviewing',
+  'unsuccessful',
+  'successful',
+  'closed',
+];

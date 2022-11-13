@@ -10,6 +10,7 @@ const time = require('./utils/humanRequestTime');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
+const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
 
@@ -22,6 +23,8 @@ process.env.NODE_ENV === 'production'
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
+
+// drop express powered-by header
 app.disable('x-powered-by');
 
 // global middleware
@@ -31,6 +34,7 @@ app.use('/api/v1', [time, pagination, queryInterface]);
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/job-categories', jobCategoryRouter);
 app.use('/api/v1/locations', locationRouter);
+app.use('/api/v1/job-applications', jobApplicationRouter);
 
 // root route
 app.get('/api/v1', function (req, res) {
