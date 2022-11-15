@@ -27,6 +27,10 @@ const User = db.sequelize.define(
       validate: {
         notNull: true,
         notEmpty: true,
+        min: {
+          args: [8],
+          msg: 'Minimum 8 characters required in password',
+        },
       },
     },
     title: {
@@ -52,7 +56,7 @@ const User = db.sequelize.define(
       validate: {
         isNumeric: true,
         notNull: true,
-        isIn: [[1, 2,]],
+        isIn: [[1, 2]],
       },
     },
     passwordResetToken: {
@@ -113,8 +117,17 @@ async function updatePassword(user, password) {
   if (!user instanceof User) throw new Error('you must pass in a valid user');
   let hash = await bcrypt.hash(password, 12);
   user.password = hash;
+  user.passwordResetExpires = null;
+  user.passwordResetToken = null;
+  user.passwordRefreshedAt = moment.now();
   await user.save();
   return true;
 }
 
-module.exports = { User, userEmailExists, registerUser, loginUser, updatePassword };
+module.exports = {
+  User,
+  userEmailExists,
+  registerUser,
+  loginUser,
+  updatePassword,
+};

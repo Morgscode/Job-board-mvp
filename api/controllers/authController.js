@@ -115,15 +115,10 @@ const verifyPasswordResetToken = catchAsync(async function(req, res, next) {
     return next(AppError('we couldn\'t log you in', 500));
   }
 
-  user.passwordResetExpires = null;
-  user.passwordResetToken = null;
-  user.passwordRefreshedAt = moment.now();
-  await user.save();
-
   res.send({
     status: "success",
     data: {
-      user, 
+      user: {id: user.id, email: user.email}, 
       token: jwt,
     }
   });
@@ -132,6 +127,18 @@ const verifyPasswordResetToken = catchAsync(async function(req, res, next) {
 const updatePassword = catchAsync(async function(req, res, next) {
   const { password, passwordConfirm } = req.body;
   const { id } = req.user;
+
+  if (!password || !passwordConfirm) {
+    return next(new AppError('you need to provide a password', 400));
+  }
+
+  if (password.length < 8) {
+    return next(new AppError('passwords must be at least 8 characters', 400));
+  }
+
+  if (password !== passwordConfirm) {
+    return next(new AppError('password does not match the confirmation', 400));
+  }
   
   const user = await userModel.User.findOne({where: { id, }});
   if (!user) {
