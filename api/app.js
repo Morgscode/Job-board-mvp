@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const relationships = require('./models/index');
 const AppError = require('./utils/AppError');
 const catchAsync = require('./utils/catchAsyncError');
@@ -18,6 +19,12 @@ const authController = require('./controllers/authController');
 
 const app = express();
 
+const limit = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  messgae: 'too many requests from this ip'
+});
+
 process.env.NODE_ENV === 'production'
   ? app.use(morgan())
   : app.use(morgan('dev'));
@@ -25,6 +32,7 @@ process.env.NODE_ENV === 'production'
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
+app.use('/api', limit);
 
 // drop express powered-by header
 app.disable('x-powered-by');
