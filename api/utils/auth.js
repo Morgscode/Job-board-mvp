@@ -94,5 +94,6 @@ module.exports = {
   protect,
   jobBoardUser,
   jobBoardRecruiter,
-  jobBoardAdmin
+  jobBoardAdmin,
+
 };

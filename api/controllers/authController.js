@@ -68,14 +68,12 @@ const forgotPassword = catchAsync(async function (req, res, next) {
   const reset = auth.createPasswordResetToken();
   user.passwordResetToken = reset.hash;
   user.passwordResetExpires = moment().add(15, 'minutes'); 
-
-  console.log(reset);
   
   await user.save();
 
-  mailer.options.to = 'morgan.luke94@gmail.com';
+  mailer.options.to = user.email;
   mailer.options.subject = 'Password reset request';
-  mailer.options.text = `<a href="${process.env.API_DOMAIN}/reset-password?email=luke@luke.com&token=${reset.token}">reset password</a>`;
+  mailer.options.text = `<a href="${process.env.API_DOMAIN}/reset-password?email=${user.email}&token=${reset.token}">reset password</a>`;
 
   await mailer.send();
   
@@ -110,7 +108,7 @@ const verifyPasswordResetToken = catchAsync(async function(req, res, next) {
     return next(AppError('not authroized', 401));
   }
 
-  const jwt = await auth.createJWT(user);
+  const jwt = await auth.createJWT(user.toJSON());
   if (!jwt) {
     return next(AppError('we couldn\'t log you in', 500));
   }
