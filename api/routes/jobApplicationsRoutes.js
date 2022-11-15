@@ -25,4 +25,7 @@ router.route('/:id')
 router.route('/jobs/:id')
 .get(controller.findApplicationsByJobId);
 
+router.route('/users/:id')
+.get(controller.findApplicationsByUserId);
+
 module.exports = router;

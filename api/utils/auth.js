@@ -1,13 +1,25 @@
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const AppError = require('../utils/AppError');
 
 function filterPayload(payload) {
   if ('password' in payload) delete payload['password'];
+  if ('email' in payload) delete payload['email'];
+  if ('title' in payload) delete payload['title'];
+  if ('firstName' in payload) delete payload['firstName'];
+  if ('surname' in payload) delete payload['surname'];
+  if ('middleNames' in payload) delete payload['middleNames'];
+  if ('passwordResetToken' in payload) delete payload['passwordResetToken'];
+  if ('passwordResetExpires' in payload) delete payload['passwordResetExpires'];
+  if ('passwordRefreshedAt' in payload) delete payload['passwordRefreshedAt'];
   return payload;
 }
 
-function createToken(user) {
+function createJWT(user) {
+  if (!user) {
+    throw new Error('no payload passed to jwt');
+  }
   const payload = JSON.parse(JSON.stringify(filterPayload(user)));
   return jwt.sign({ user: payload }, process.env.JWT_SECRET, {
     expiresIn: '8h',
@@ -32,6 +44,12 @@ function verifyPassword(password, hash) {
       resolve(match);
     });
   });
+}
+
+function createPasswordResetToken() {
+  const token = crypto.randomBytes(32).toString('hex');
+  const hash = crypto.createHash('sha256').update(token).digest('hex');
+  return { token, hash };
 }
 
 async function protect(req, res, next) {
@@ -69,9 +87,10 @@ async function jobBoardAdmin(req, res, next) {
 }
 
 module.exports = {
-  createToken,
+  createJWT,
   verifyToken,
   verifyPassword,
+  createPasswordResetToken,
   protect,
   jobBoardUser,
   jobBoardRecruiter,

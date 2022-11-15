@@ -52,8 +52,20 @@ const User = db.sequelize.define(
       validate: {
         isNumeric: true,
         notNull: true,
-        isIn: [[1, 2, 3,]],
+        isIn: [[1, 2,]],
       },
+    },
+    passwordResetToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    passwordResetExpires: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    passwordRefreshedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {
@@ -73,7 +85,7 @@ async function userEmailExists(email) {
 
 async function registerUser(email, password) {
   try {
-    let hash = await bcrypt.hash(password, 8);
+    let hash = await bcrypt.hash(password, 12);
     const user = await User.create({ email, password: hash, role: 1 });
     return user.dataValues;
   } catch (error) {
@@ -97,4 +109,12 @@ async function loginUser(email, password) {
   }
 }
 
-module.exports = { User, userEmailExists, registerUser, loginUser };
+async function updatePassword(user, password) {
+  if (!user instanceof User) throw new Error('you must pass in a valid user');
+  let hash = await bcrypt.hash(password, 12);
+  user.password = hash;
+  await user.save();
+  return true;
+}
+
+module.exports = { User, userEmailExists, registerUser, loginUser, updatePassword };

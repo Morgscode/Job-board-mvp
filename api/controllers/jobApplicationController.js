@@ -3,6 +3,7 @@ const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobApplicationModel');
 const { Job } = require('../models/jobModel');
+const { User } = require('../models/userModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const applications = await model.JobApplication.findAll({
@@ -97,6 +98,25 @@ const findApplicationsByJobId = catchAsync(async function (req, res, next) {
   });
 });
 
+const findApplicationsByUserId = catchAsync(async function (req, res, next) {
+    const { id } = req.params;
+  
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      return next(new NotFoundError("we couldn't find that user"));
+    }
+  
+    const applications = await user.getJobApplications();
+    if (!applications || applications?.length === 0) {
+      return next(new NotFoundError("we couldn't find any job applications for that user"));
+    }
+  
+    res.status(200).json({
+      status: 'success',
+      data: { user, applications },
+    });
+  });
+
 module.exports = {
   _index,
   _find,
@@ -104,4 +124,5 @@ module.exports = {
   _update,
   _delete,
   findApplicationsByJobId,
+  findApplicationsByUserId
 };

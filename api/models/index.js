@@ -34,7 +34,7 @@ JobApplication.belongsTo(JobApplicationStatus);
 
 const force = false; 
 const alter = false;
-
+ 
 async function initModels() {
   return new Promise(async (resolve, reject) => { 
     try {

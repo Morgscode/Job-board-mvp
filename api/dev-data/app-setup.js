@@ -64,7 +64,7 @@ const Jobs = [
   },
 ];
 
-const JobApplicationStatus = [
+const JobApplicationStatuses = [
   'applied',
   'interviewing',
   'unsuccessful',

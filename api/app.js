@@ -4,6 +4,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const relationships = require('./models/index');
 const AppError = require('./utils/AppError');
+const catchAsync = require('./utils/catchAsyncError');
+const auth = require('./utils/auth');
 const pagination = require('./utils/pagination');
 const queryInterface = require('./utils/queryInterface');
 const time = require('./utils/humanRequestTime');
@@ -47,8 +49,12 @@ app.get('/api/v1', function (req, res) {
 });
 
 // auth routes
-app.post('/register', authController.register);
-app.post('/login', authController.login);
+app.post('/api/v1/register', authController.register);
+app.post('/api/v1/login', authController.login);
+app.post('/api/v1/forgot-password', authController.forgotPassword);
+app.get('/api/v1/reset-password', authController.verifyPasswordResetToken);
+app.use('/api/v1/update-password', auth.jobBoardUser);
+app.get('/api/v1/update-password', authController.updatePassword);
 
 // not found route
 app.all('*', (req, res, next) => {
