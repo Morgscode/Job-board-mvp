@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 const relationships = require('./models/index');
 const AppError = require('./utils/AppError');
 const catchAsync = require('./utils/catchAsyncError');
@@ -16,14 +17,15 @@ const locationRouter = require('./routes/locationRoutes');
 const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
+const db = require('./utils/db'); 
 
 const app = express();
 // drop express powered-by header
-app.disable('x-powered-by');
+app.disable('x-powered-by'); 
 
-const limit = rateLimit({
+const limit = rateLimit({ 
   max: 250,
-  windowMs: 60 * 60 * 1000,
+  windowMs: 60 * 60 * 1000, 
   messgae: 'too many requests from this ip'
 });
 
@@ -33,6 +35,7 @@ const limit = rateLimit({
 app.use(helmet());
 app.use(limit);
 app.use(cors());
+app.use(hpp());
 
 // logging
 process.env.NODE_ENV === 'production'
@@ -49,14 +52,16 @@ app.use('/api/v1', [time, pagination, queryInterface]);
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/job-categories', jobCategoryRouter);
 app.use('/api/v1/locations', locationRouter);
-app.use('/api/v1/job-applications', jobApplicationRouter);
+app.use('/api/v1/job-applications', jobApplicationRouter); 
 
 // root route
-app.get('/api/v1', function (req, res) {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      message: 'welcome to version 1!',
+app.get('/api/v1', async function (req, res) {
+  res.status(200).json({ 
+    status: 'success',    
+    data: {  
+      message: 'welcome to version 1!',    
+      results,   
+      metadata,
     },
   });
 });

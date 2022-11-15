@@ -28,10 +28,6 @@ const User = db.sequelize.define(
       validate: {
         notNull: true,
         notEmpty: true,
-        min: {
-          args: [8],
-          msg: 'Minimum 8 characters required in password',
-        },
       },
     },
     title: {
