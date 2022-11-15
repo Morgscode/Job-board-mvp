@@ -18,24 +18,31 @@ const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
 
 const app = express();
+// drop express powered-by header
+app.disable('x-powered-by');
+
 const limit = rateLimit({
   max: 250,
   windowMs: 60 * 60 * 1000,
   messgae: 'too many requests from this ip'
 });
 
-// drop express powered-by header
-app.disable('x-powered-by');
+// global middlewares
 
+// security
+app.use(helmet());
+app.use(limit);
+app.use(cors());
+
+// logging
 process.env.NODE_ENV === 'production'
   ? app.use(morgan())
   : app.use(morgan('dev'));
 
-// global middlewares
-app.use(cors());
-app.use(express.json());
-app.use(helmet());
-app.use(limit);
+// json with limits
+app.use(express.json({limit: '10kb'}));
+
+// api specific global middleware
 app.use('/api/v1', [time, pagination, queryInterface]);
 
 // mount routers
