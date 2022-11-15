@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const moment = require('moment');
 const bcrypt = require('bcrypt');
 const db = require('../utils/db');
 const auth = require('../utils/auth');
@@ -119,7 +120,7 @@ async function updatePassword(user, password) {
   user.password = hash;
   user.passwordResetExpires = null;
   user.passwordResetToken = null;
-  user.passwordRefreshedAt = moment.now();
+  user.passwordRefreshedAt = moment();
   await user.save();
   return true;
 }

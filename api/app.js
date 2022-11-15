@@ -53,8 +53,8 @@ app.post('/api/v1/register', authController.register);
 app.post('/api/v1/login', authController.login);
 app.post('/api/v1/forgot-password', authController.forgotPassword);
 app.get('/api/v1/reset-password', authController.verifyPasswordResetToken);
-app.use('/api/v1/update-password', auth.jobBoardUser);
-app.get('/api/v1/update-password', authController.updatePassword);
+app.use('/api/v1/update-password', [auth.protect, auth.jobBoardUser]);
+app.put('/api/v1/update-password', authController.updatePassword);
 
 // not found route
 app.all('*', (req, res, next) => {
