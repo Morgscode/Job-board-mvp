@@ -27,7 +27,7 @@ const JobsInLocations = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_jobs_in_locations',
+    tableName: 'ojb_jobs_in_locations',
     paranoid: true,
   }
 );

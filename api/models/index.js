@@ -2,11 +2,13 @@ const db = require('../utils/db');
 const { User } = require('./userModel');
 const { Job } = require('./jobModel');
 const { Location } = require('./locationModel');
+const { FileUpload } = require('./fileUploadModel');
 const { JobsInLocations } = require('./jobsInLocationsModel');
 const { JobCategory } = require('./jobCategoryModel');
 const { JobsInCategories } = require('./jobsInCategoriesModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');
 const { JobApplication } = require('./jobApplicationModel');
+
 
 Job.belongsToMany(JobCategory, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
@@ -26,13 +28,16 @@ Location.belongsToMany(Job, {
 User.hasMany(JobApplication);
 JobApplication.belongsTo(User);
 
+User.hasMany(FileUpload);
+FileUpload.belongsTo(User);
+
 Job.hasMany(JobApplication);
 JobApplication.belongsTo(Job);
 
 JobApplicationStatus.hasMany(JobApplication);
 JobApplication.belongsTo(JobApplicationStatus);
 
-const force = false; 
+const force = false;
 const alter = false;
  
 async function initModels() {
@@ -45,6 +50,7 @@ async function initModels() {
       await Location.sync({ force, alter });  
       await JobsInLocations.sync({ force, alter });
       await JobApplicationStatus.sync({force, alter});
+      await FileUpload.sync({force, alter});
       await JobApplication.sync({force, alter});
       resolve('models synced - app data layer running'); 
     } catch (error) {

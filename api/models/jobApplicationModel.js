@@ -4,7 +4,7 @@ const db = require('../utils/db');
 const { Job } = require('./jobModel');
 const { User } = require('./userModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');
-const app = require('../app');
+const { FileUpload } = require('./fileUploadModel');
 
 const JobApplication = db.sequelize.define(
   'JobApplication',
@@ -23,33 +23,50 @@ const JobApplication = db.sequelize.define(
     },
     JobId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: Job,
         key: 'id',
       },
+      validate: {
+        notEmpty: true,
+        notNull: true,
+        isInt: true,
+      },
     },
     UserId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: User,
         key: 'id',
+      },
+      validate: {
+        notEmpty: true,
+        notNull: true,
+        isInt: true,
       },
     },
     coveringLetter: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    // TODO - FileUpload Model
-    // cvId: {
-    //   type: DataTypes.INTEGER,
-    //   references: {
-    //     model: CV,
-    //     key: 'id',
-    //   },
-    // },
+    CvId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: FileUpload,
+        key: 'id', 
+      },
+      validate: {
+        notEmpty: true,
+        notNull: true,
+        isInt: true,
+      },
+    },
   },
   {
-    tableName: 'jb_job_applications',
+    tableName: 'ojb_job_applications',
     paranoid: true,
   }
 );

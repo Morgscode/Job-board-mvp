@@ -13,6 +13,10 @@ const register = catchAsync(async function (req, res, next) {
     return next(new AppError(`incomplete signup`, 400));
   }
 
+  if (password.length < 8) {
+    return next(new AppError(`password must be at least 8 characters`, 400));
+  }
+
   const userExists = await userModel.userEmailExists(email);
   if (userExists) {
     return next(new AppError(`email address already exists`, 400));

@@ -12,6 +12,15 @@ router.route('/')
 router.route('/:id')
 .get(controller._find);
 
+router.route('/job-categories/:jobCategoryId/locations/:locationId')
+.get(controller.findJobsByCategoryAndLocation);
+
+router.route('/job-categories/:id')
+.get(controller.findJobsByCategory);
+
+router.route('/locations/:id')
+.get(controller.findJobsByLocation);
+
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.jobBoardRecruiter));
 
@@ -21,14 +30,5 @@ router.route('/')
 router.route('/:id')
 .put(controller._update)
 .delete(controller._delete);
-
-router.route('/job-categories/:jobCategoryId/locations/:locationId')
-.get(controller.findJobsByCategoryAndLocation);
-
-router.route('/job-categories/:id')
-.get(controller.findJobsByCategory);
-
-router.route('/locations/:id')
-.get(controller.findJobsByLocation);
  
 module.exports = router;

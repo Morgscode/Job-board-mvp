@@ -67,7 +67,7 @@ const Job = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_jobs',
+    tableName: 'ojb_jobs',
     paranoid: true,
   }
 );

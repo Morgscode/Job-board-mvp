@@ -70,7 +70,7 @@ const User = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_users',
+    tableName: 'ojb_users',
     paranoid: true,
   }
 );

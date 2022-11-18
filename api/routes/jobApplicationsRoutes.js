@@ -1,16 +1,18 @@
 const express = require('express');
+const multer = require('multer');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const auth = require('../utils/auth');
 const controller = require('../controllers/jobApplicationController');
 
 const router = express.Router();
+const upload = multer({dest: 'storage/uploads/cv'});
 
 router.use(catchAsync(auth.protect));
 
 router.route('/')
 .post(catchAsync(auth.jobBoardUser))
-.post(controller._create);
+.post(upload.single('cv'), controller._create);
 
 router.use(catchAsync(auth.jobBoardRecruiter));
 

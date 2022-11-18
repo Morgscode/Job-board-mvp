@@ -4,6 +4,7 @@ const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobApplicationModel');
 const { Job } = require('../models/jobModel');
 const { User } = require('../models/userModel');
+const { FileUpload } = require('../models/fileUploadModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const applications = await model.JobApplication.findAll({
@@ -30,19 +31,44 @@ const _find = catchAsync(async function (req, res, next) {
 
   res.status(200).json({ status: 'success', data: { application } });
 });
- 
-const _create = catchAsync(async function (req, res, next) {
-  const application = ({ jobId, coveringLetter } = req.body);
-  application.UserId = req.user.id;
-  const record = await model.JobApplication.create(application);
 
-  if (!record) {
+const _create = catchAsync(async function (req, res, next) {
+  const application = ({ JobId, coveringLetter } = req.body);
+  application.UserId = req.user.id;
+
+  const cv = req.file;
+  if (!JobId || !coveringLetter || !cv) {
+    return next(new AppError('missing applcation details', 400));
+  }
+
+  const job = await Job.findOne({where: { id: JobId}});
+  if (!job) {
+    return next(new AppError("we couldn't find that job that job", 404));
+  }
+
+  // uplaod file - if fail - 500 
+  const upload = {
+    title: cv.originalname,
+    name: cv.filename,
+    path: cv.path,
+    mimetype: cv.mimetype,
+    UserId: req.user.id,
+  }
+  const file = await FileUpload.create(upload);
+  if (!file) {
+    return next(new AppError("we couldn't save your cv", 500));
+  }
+
+  application.CvId = file.id;
+
+  const jobApplication = await model.JobApplication.create(application); 
+  if (!jobApplication) {
     return next(new AppError("we couldn't create that job application", 500));
   }
   // set status relationship
-  await record.setJobApplicationStatus(1);
-
-  res.status(201).json({ status: 'success', data: { application: record } });
+  await jobApplication.setJobApplicationStatus(1);
+ 
+  res.status(201).json({ status: 'success', data: { jobApplication, } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
@@ -89,7 +115,9 @@ const findApplicationsByJobId = catchAsync(async function (req, res, next) {
 
   const applications = await job.getJobApplications();
   if (!applications || applications?.length === 0) {
-    return next(new NotFoundError("we couldn't find any job applications for that job"));
+    return next(
+      new NotFoundError("we couldn't find any job applications for that job")
+    );
   }
 
   res.status(200).json({
@@ -99,23 +127,25 @@ const findApplicationsByJobId = catchAsync(async function (req, res, next) {
 });
 
 const findApplicationsByUserId = catchAsync(async function (req, res, next) {
-    const { id } = req.params;
-  
-    const user = await User.findOne({ where: { id } });
-    if (!user) {
-      return next(new NotFoundError("we couldn't find that user"));
-    }
-  
-    const applications = await user.getJobApplications();
-    if (!applications || applications?.length === 0) {
-      return next(new NotFoundError("we couldn't find any job applications for that user"));
-    }
-  
-    res.status(200).json({
-      status: 'success',
-      data: { user, applications },
-    });
+  const { id } = req.params;
+
+  const user = await User.findOne({ where: { id } });
+  if (!user) {
+    return next(new NotFoundError("we couldn't find that user"));
+  }
+
+  const applications = await user.getJobApplications();
+  if (!applications || applications?.length === 0) {
+    return next(
+      new NotFoundError("we couldn't find any job applications for that user")
+    );
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { user, applications },
   });
+});
 
 module.exports = {
   _index,
@@ -124,5 +154,5 @@ module.exports = {
   _update,
   _delete,
   findApplicationsByJobId,
-  findApplicationsByUserId
+  findApplicationsByUserId,
 };

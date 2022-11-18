@@ -33,7 +33,7 @@ const Location = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_locations',
+    tableName: 'ojb_locations',
     paranoid: true,
   }
 );

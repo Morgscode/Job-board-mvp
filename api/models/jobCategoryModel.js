@@ -33,7 +33,7 @@ const JobCategory = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_job_categories',
+    tableName: 'ojb_job_categories',
     paranoid: true,
   }
 );

@@ -15,7 +15,7 @@ const JobApplicationStatus = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_job_application_status',
+    tableName: 'ojb_job_application_status',
     paranoid: true,
   }
 );

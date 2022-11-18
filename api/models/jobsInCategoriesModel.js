@@ -27,7 +27,7 @@ const JobsInCategories = db.sequelize.define(
     },
   },
   {
-    tableName: 'jb_jobs_in_categories',
+    tableName: 'ojb_jobs_in_categories',
     paranoid: true,
   }
 );
