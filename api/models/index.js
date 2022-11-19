@@ -9,9 +9,11 @@ const { JobsInCategories } = require('./jobsInCategoriesModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');
 const { JobApplication } = require('./jobApplicationModel'); 
 
-const force = false;
-const alter = false;
- 
+const FORCE = false;
+const ALTER = false;
+const force = process.env.NODE_ENV === 'production' ? false : FORCE;
+const alter = process.env.NODE_ENV === 'production' ? false : ALTER;
+  
 async function initModels() {
   return new Promise(async (resolve, reject) => { 
     try {

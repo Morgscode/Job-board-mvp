@@ -7,7 +7,7 @@ const _index = catchAsync(async function (req, res, next) {
   const locations = await model.Location.findAll({ ...req.pagination });
 
   if (!locations || locations?.length === 0) {
-    return next(new NotFoundError("we couldn't find any job locations"));
+    return next(new NotFoundError("locations not found"));
   }
 
   res.status(200).json({
@@ -21,7 +21,7 @@ const _find = catchAsync(async function (req, res, next) {
   const location = await model.Location.findOne({ where: { id } });
 
   if (!location) {
-    return next(new NotFoundError("we couldn't find that location"));
+    return next(new NotFoundError("location not found"));
   }
 
   res.status(200).json({ status: 'success', data: { location } });
@@ -32,7 +32,7 @@ const _create = catchAsync(async function (req, res, next) {
   const record = await model.Location.create(location);
 
   if (!record) {
-    return next(new AppError("we couldn't create that job location", 500));
+    return next(new AppError("couldn't create that location", 500, false));
   }
 
   res.status(201).json({ status: 'success', data: { location: record } });
@@ -43,17 +43,17 @@ const _update = catchAsync(async function (req, res, next) {
   const { location } = req.body;
 
   if (!location) {
-    return next(new AppError('you need to pass in some location details', 400));
+    return next(new AppError('missing location details', 400));
   }
 
   const record = await model.Location.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError("we couldn't find that location"));
+    return next(new NotFoundError("location not found"));
   }
 
   const updated = await model._update(location, { id });
   if (!updated) {
-    return next(new AppError("we couldn't update that location", 500));
+    return next(new AppError("error - could not update location", 500, false));
   }
 
   res.status(200).json({ status: 'success', data: { updated } });

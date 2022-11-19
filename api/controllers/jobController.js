@@ -16,7 +16,7 @@ const _index = catchAsync(async function (req, res, next) {
   });
 
   if (!jobs || jobs?.length === 0) {
-    return next(new NotFoundError("we couldn't find any jobs"));
+    return next(new NotFoundError("jobs not found"));
   }
 
   res
@@ -29,7 +29,7 @@ const _find = catchAsync(async function (req, res, next) {
   const job = await model.Job.findOne({ where: { id } });
 
   if (!job) {
-    return next(new NotFoundError("we couldn't find that job"));
+    return next(new NotFoundError("job not found"));
   }
 
   res.status(200).json({ status: 'success', data: { job } });
@@ -42,7 +42,7 @@ const _create = catchAsync(async function (req, res, next) {
   if (locations?.length === 0 || categories?.length === 0) {
     return next(
       new AppError(
-        'you need to create a job with at least one location and category',
+        'missing job location and/or category',
         400
       )
     );
@@ -50,7 +50,7 @@ const _create = catchAsync(async function (req, res, next) {
 
   const record = await model.Job.create(job);
   if (!record) {
-    return next(new AppError("we couldn't create that job", 500));
+    return next(new AppError("error - unable to create job", 500, false));
   }
 
   const inLocations = await Promise.all(
@@ -73,17 +73,17 @@ const _update = catchAsync(async function (req, res, next) {
   const { locations = [], categories = [] } = req.body;
 
   if (!job) {
-    return next(new AppError('you need to pass in some job details', 400));
+    return next(new AppError('missing job details', 400));
   }
 
   const record = await model.Job.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError("we couldn't find that job"));
+    return next(new NotFoundError("job not found"));
   }
 
   const updated = await model._update(job, { id });
   if (!updated) {
-    return next(new AppError("we couldn't update that job", 500));
+    return next(new AppError("error - unable to update job", 500, false));
   }
 
   const inLocations = await Promise.all(
