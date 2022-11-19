@@ -53,15 +53,9 @@ const JobApplication = db.sequelize.define(
     },
     CvId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
+      references: { 
         model: FileUpload,
-        key: 'id', 
-      },
-      validate: {
-        notEmpty: true,
-        notNull: true,
-        isInt: true,
+        key: 'id',
       },
     },
   },

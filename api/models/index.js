@@ -7,35 +7,7 @@ const { JobsInLocations } = require('./jobsInLocationsModel');
 const { JobCategory } = require('./jobCategoryModel');
 const { JobsInCategories } = require('./jobsInCategoriesModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');
-const { JobApplication } = require('./jobApplicationModel');
-
-
-Job.belongsToMany(JobCategory, {
-  through: { model: JobsInCategories, unique: false, paranoid: true },
-  as: 'Category'
-});
-JobCategory.belongsToMany(Job, {
-  through: { model: JobsInCategories, unique: false, paranoid: true },
-}); 
-
-Job.belongsToMany(Location, { 
-  through: { model: JobsInLocations, unique: false, paranoid: true },
-});
-Location.belongsToMany(Job, {
-  through: { model: JobsInLocations, unique: false, paranoid: true },
-});
-
-User.hasMany(JobApplication);
-JobApplication.belongsTo(User);
-
-User.hasMany(FileUpload);
-FileUpload.belongsTo(User);
-
-Job.hasMany(JobApplication);
-JobApplication.belongsTo(Job);
-
-JobApplicationStatus.hasMany(JobApplication);
-JobApplication.belongsTo(JobApplicationStatus);
+const { JobApplication } = require('./jobApplicationModel'); 
 
 const force = false;
 const alter = false;

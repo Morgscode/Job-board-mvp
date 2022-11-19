@@ -13,7 +13,7 @@ const _find = catchAsync(async (req, res, next) => {
     }
     res.sendFile(upload.dataValues.path, {root: path.join(__dirname, '../../')});
 });
-
+ 
 const findUploadsByUserId = catchAsync(async(req, res, next) => {
     const { id } = req.params;
     const user = await User.findOne({where: {id,}});
