@@ -5,30 +5,30 @@ const AppError = require('../utils/AppError');
 const auth = require('../utils/auth');
 const controller = require('../controllers/uploadController');
 
+const router = express.Router();
 const upload = multer({dest: process.env.UPLOADS_DIR});
 
-const router = express.Router();
-
 router.use(catchAsync(auth.protect));
-router.use(catchAsync(auth.jobBoardUser));
 
 router.route('/:id')
-.get(controller._find);
+.get(catchAsync(auth.jobBoardUser), controller._find);
 
 router.route('/users/:id')
-.get(controller.findUploadsByUserId);
+.get(catchAsync(auth.jobBoardUser), controller.findUploadsByUserId);
 
 router.route('/')
-.post(upload.single('upload'), controller._create);
+.post(catchAsync(auth.jobBoardUser), upload.single('upload'), controller._create);
 
-// router.use(catchAsync(auth.protect));
-// router.use(catchAsync(auth.jobBoardRecruiter));
+router.use(catchAsync(auth.jobBoardRecruiter));
 
-// router.route('/')
-// .get(controller._index)
+router.route('/')
+.get(controller._index)
 
-// router.route('/:id')
-// .put(controller._update) 
-// .delete(controller._delete);
+router.route('/:id')
+.put(controller._update) 
+.delete(controller._delete);
+
+router.route('/job-applications/:id')
+.get(controller.findUploadByJobApplicationId);
  
 module.exports = router;

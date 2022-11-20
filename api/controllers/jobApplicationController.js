@@ -47,7 +47,7 @@ const _create = catchAsync(async function (req, res, next) {
   }
 
   // uplaod file - if fail - 500 
-  const upload = {
+  const upload = { 
     title: cv.originalname,
     name: cv.filename,
     path: cv.path,
@@ -59,13 +59,12 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError("error - unable to save cv file", 500, false));
   }
 
-  application.CvId = file.id;
-
   const jobApplication = await model.JobApplication.create(application); 
   if (!jobApplication) {
     return next(new AppError("error - unable to create job application", 500, false));
   }
-  // set status relationship
+  // set status relationships
+  await jobApplication.setFileUpload(file);
   await jobApplication.setJobApplicationStatus(1);
  
   res.status(201).json({ status: 'success', data: { jobApplication, } });

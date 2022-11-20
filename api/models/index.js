@@ -13,16 +13,28 @@ Job.belongsToMany(JobCategory, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
   as: 'Category'
 });
-JobCategory.belongsToMany(Job, {
+JobCategory.belongsToMany(Job, { 
   through: { model: JobsInCategories, unique: false, paranoid: true },
 });  
-
+ 
 Job.belongsToMany(Location, { 
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
 Location.belongsToMany(Job, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
+ 
+User.hasMany(FileUpload);
+FileUpload.belongsTo(User);
+
+User.hasMany(JobApplication);
+JobApplication.belongsTo(User);
+
+FileUpload.hasMany(JobApplication, {foreignKey: 'CvId'});
+JobApplication.belongsTo(FileUpload, {foreignKey: 'CvId'});
+ 
+JobApplicationStatus.hasMany(JobApplication);
+JobApplication.belongsTo(JobApplicationStatus);
   
 const FORCE = false;
 const ALTER = false;

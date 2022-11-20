@@ -4,8 +4,7 @@ const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const { FileUpload } = require('../models/fileUploadModel');
 const { User } = require('../models/userModel');
-
-
+const { JobApplication } = require('../models/jobApplicationModel');
 
 const _index = catchAsync(async (req, res, next) => {
   const uploads = await FileUpload.findAll({ ...req.query.pagination });
@@ -26,6 +25,70 @@ const _find = catchAsync(async (req, res, next) => {
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
+  res.setStatus(200).json({
+    status: 'success',
+    data: {
+      upload,
+    },
+  });
+});
+
+const _create = catchAsync(async (req, res, next) => {
+  const file = req.file;
+  const upload = {
+    title: file.originalname,
+    name: file.filename,
+    path: file.path,
+    mimetype: file.mimetype,
+    UserId: req.user.id,
+  };
+  const record = await FileUpload.create(upload);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      upload: record,
+    },
+  });
+});
+
+const _update = catchAsync(async (req, res, next) => {
+  const { title } = req.body;
+  const { id } = req.params;
+
+  if (!title) {
+    return next(new AppError('upload details missing', 400));
+  }
+
+  const upload = await FileUpload.findOne({ where: { id } });
+  if (!upload) {
+    return next(new NotFoundError('upload not found'));
+  }
+  upload.title = title;
+  await upload.save();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      upload,
+    },
+  });
+});
+
+const _delete = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const upload = await FileUpload.findOne({ where: { id } });
+  if (!upload) {
+    return next(new NotFoundError('upload not found'));
+  }
+  const deleted = await FileUpload.destroy({ where: { id } });
+  res.status(200).json({ status: 'success', data: { deleted } });
+});
+
+const download = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const upload = await FileUpload.findOne({ where: { id } });
+  if (!upload) {
+    return next(new NotFoundError('upload not found'));
+  }
   res.setStatus(200).sendFile(upload.dataValues.path, {
     root: path.join(__dirname, '../../'),
     headers: {
@@ -33,10 +96,6 @@ const _find = catchAsync(async (req, res, next) => {
       'x-sent': true,
     },
   });
-});
-
-const _create = catchAsync((req, res, next) => {
-
 });
 
 const findUploadsByUserId = catchAsync(async (req, res, next) => {
@@ -55,4 +114,33 @@ const findUploadsByUserId = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { _index, _find, _create, findUploadsByUserId };
+const findUploadByJobApplicationId = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
+  const application = await JobApplication.findOne({where: {id, }});
+  if (!application) {
+    return next(new NotFoundError('application not found'));
+  }
+  const upload = await application.getFileUpload();
+  if (!upload) {
+    return next(new NotFoundError('upload not found'));
+  } 
+  res.status(200).json({
+    status: "success",
+    data: {
+      application,
+      upload,
+    }
+  });
+});
+
+module.exports = {
+  _index,
+  _find,
+  _create,
+  _update,
+  _delete,
+  download,
+  findUploadsByUserId,
+  findUploadByJobApplicationId,
+};

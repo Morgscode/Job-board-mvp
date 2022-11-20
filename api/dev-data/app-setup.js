@@ -6,13 +6,6 @@ const { Location } = require('../models/locationModel');
 const { JobCategory } = require('../models/jobCategoryModel');
 const { JobApplicationStatus } = require('../models/jobApplicationStatusModel');
 
-const User = [
-  {
-    email: 'luke@luke.com',
-    password: '12345678',
-  },
-];
-
 const Locations = [
   {
     id: 1,
