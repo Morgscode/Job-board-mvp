@@ -4,7 +4,7 @@ const { Job } = require('./jobModel');
 const { Location } = require('./locationModel');
 
 const JobsInLocations = db.sequelize.define(
-  'JobInLocation',
+  'JobInLocation', 
   {
     id: {
       type: DataTypes.INTEGER,

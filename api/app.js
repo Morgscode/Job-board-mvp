@@ -18,7 +18,7 @@ const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const uploadRouter = require('./routes/uploadRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
-
+ 
 const app = express();
 // drop express powered-by header
 app.disable('x-powered-by'); 
@@ -44,7 +44,6 @@ process.env.NODE_ENV === 'production'
 
 // json with limits
 app.use(express.json({limit: '10kb'}));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // api specific global middleware
 app.use('/api/v1', [time, pagination, queryInterface]);

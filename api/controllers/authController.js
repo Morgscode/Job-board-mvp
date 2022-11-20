@@ -27,7 +27,7 @@ const register = catchAsync(async function (req, res, next) {
     return next(new AppError(`there was a problem creating your account`, 500));
   }
 
-  const token = auth.createJWT({ id: user, email, role: '1' });
+  const token = auth.createJWT(user);
   res.status(201).json({
     status: 'sucess',
     data: {

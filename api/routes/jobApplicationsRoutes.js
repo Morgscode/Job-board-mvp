@@ -6,7 +6,7 @@ const auth = require('../utils/auth');
 const controller = require('../controllers/jobApplicationController');
 
 const router = express.Router();
-const upload = multer({dest: 'storage/uploads/cv'});
+const upload = multer({dest: process.env.UPLOADS_DIR});
 
 router.use(catchAsync(auth.protect));
 

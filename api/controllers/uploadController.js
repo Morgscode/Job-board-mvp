@@ -5,11 +5,26 @@ const NotFoundError = require('../utils/NotFoundError');
 const { FileUpload } = require('../models/fileUploadModel');
 const { User } = require('../models/userModel');
 
+
+
+const _index = catchAsync(async (req, res, next) => {
+  const uploads = await FileUpload.findAll({ ...req.query.pagination });
+  if (!uploads || uploads.length === 0) {
+    return next(new NotFoundError('Uploads not found'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      uploads,
+    },
+  });
+});
+
 const _find = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const upload = await FileUpload.findOne({ where: { id } });
   if (!upload) {
-    return next(new NotFoundError("upload not found"));
+    return next(new NotFoundError('upload not found'));
   }
   res.setStatus(200).sendFile(upload.dataValues.path, {
     root: path.join(__dirname, '../../'),
@@ -18,6 +33,10 @@ const _find = catchAsync(async (req, res, next) => {
       'x-sent': true,
     },
   });
+});
+
+const _create = catchAsync((req, res, next) => {
+
 });
 
 const findUploadsByUserId = catchAsync(async (req, res, next) => {
@@ -36,4 +55,4 @@ const findUploadsByUserId = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { _find, findUploadsByUserId };
+module.exports = { _index, _find, _create, findUploadsByUserId };
