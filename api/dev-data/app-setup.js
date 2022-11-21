@@ -98,24 +98,80 @@ const JobApplicationStatuses = [
 ];
 
 async function main() {
+  console.log('setting up database with seed data.....')
+  console.log('');
+  console.log('');
+  console.log('Seeding database with some locations:....');
+  console.log('');
+  console.log('');
   const locations = await Locations.map(
     async (location) => await Location.create(location)
   );
+  console.log(`created ${locations.length} locations...`);
+  console.log('======');
+  console.log('');
+  console.log('');
+  console.log(locations);
+  console.log('');
+  console.log('');
+  console.log('======')
+  console.log('seeding database with job categories');
+  console.log('');
+  console.log('');
   const categories = await JobCategories.map(
     async (category) => await JobCategory.create(category)
   );
+  console.log(`created ${categories.length} job categories...`);
+  console.log('======');
+  console.log('');
+  console.log('');
+  console.log(categories);
+  console.log('======');
+  console.log('');
+  console.log('');
+  console.log('seeding database with some jobs data....');
+  console.log('');
+  console.log('');
+  console.log('======');
   const data = await Promise.all([locations, categories]);
 
   const jobs = await Promise.all(Jobs.map(async (job) => {
     const record = await Job.create(job);
+    console.log('created job....', record);
+    console.log('');
+    console.log('');
+    console.log('======');
+    console.log('creating job location relationship....')
+    console.log('');
+    console.log('');
+    console.log('======');
     const jobLocations = await Promise.all(
       job.locations.map(async (location) => await record.addLocation(location))
     );
+    console.log('created job location relationship', jobLocations);
+    console.log('');
+    console.log('');
+    console.log('======');
+    console.log('creating job category relationship....')
+    console.log('');
+    console.log('');
+    console.log('======');
+    console.log()
     const jobCategories = await Promise.all(
       job.categories.map(async (category) => await record.addCategory(category))
     );
+    console.log('created job cateogry relationship', jobCategories);
   }));
+  console.log('creating job status table....')
+  console.log('');
+  console.log('');
+  console.log('======');
   const applicationStatuses = await Promise.all(JobApplicationStatuses.map(async (status) => await JobApplicationStatus.create({name: status})));
+  console.log('created job status table....', applicationStatuses);
+  console.log('');
+  console.log('');
+  console.log('======');
+  console.log('database seeded....')
 }
 
 main();
