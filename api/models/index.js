@@ -16,7 +16,7 @@ Job.belongsToMany(JobCategory, {
 JobCategory.belongsToMany(Job, { 
   through: { model: JobsInCategories, unique: false, paranoid: true },
 });  
- 
+
 Job.belongsToMany(Location, { 
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });

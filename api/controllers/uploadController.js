@@ -116,7 +116,6 @@ const findUploadsByUserId = catchAsync(async (req, res, next) => {
 
 const findUploadByJobApplicationId = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  console.log(id);
   const application = await JobApplication.findOne({where: {id, }});
   if (!application) {
     return next(new NotFoundError('application not found'));

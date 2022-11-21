@@ -1,6 +1,1 @@
-MYSQL_DB= 
-MYSQL_USER= 
-MYSQL_PASS= 
-MYSQL_HOST= 
-MYSQL_PORT= 
-node ./api/dev-data/app-setup.js
+MYSQL_DB=db MYSQL_USER=user MYSQL_PASS=pass MYSQL_HOST=host MYSQL_PORT=port node ./api/dev-data/app-setup.js
