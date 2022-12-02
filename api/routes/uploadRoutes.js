@@ -13,6 +13,9 @@ router.use(catchAsync(auth.protect));
 router.route('/:id')
 .get(catchAsync(auth.jobBoardUser), controller._find);
 
+router.route('/:id/download')
+.get(catchAsync(auth.jobBoardRecruiter), controller.download);
+
 router.route('/users/:id')
 .get(catchAsync(auth.jobBoardUser), controller.findUploadsByUserId);
 
@@ -22,7 +25,7 @@ router.route('/')
 router.use(catchAsync(auth.jobBoardRecruiter));
 
 router.route('/')
-.get(controller._index)
+.get(controller._index);
 
 router.route('/:id')
 .put(controller._update) 

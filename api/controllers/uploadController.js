@@ -63,6 +63,7 @@ const _update = catchAsync(async (req, res, next) => {
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
+
   upload.title = title;
   await upload.save();
   res.status(200).json({
@@ -92,8 +93,10 @@ const download = catchAsync(async (req, res, next) => {
   res.status(200).sendFile(upload.dataValues.path, {
     root: path.join(__dirname, '../../'),
     headers: {
-      'x-timestamp': Date.now(),
-      'x-sent': true,
+      'Content-Type': upload.mimetype,
+      'Content-Disposition': `attachment; filename=${upload.name}`,
+      'X-Timestamp': Date.now(),
+      'X-Sent': true,
     },
   });
 });

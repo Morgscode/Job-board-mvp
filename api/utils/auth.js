@@ -95,5 +95,4 @@ module.exports = {
   jobBoardUser,
   jobBoardRecruiter,
   jobBoardAdmin,
-
 };
