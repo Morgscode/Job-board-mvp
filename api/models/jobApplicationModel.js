@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const moment = require('moment');
-const db = require('../utils/db');
+const db = require('./../utils/db');
 const { Job } = require('./jobModel');
 const { User } = require('./userModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');

@@ -30,4 +30,7 @@ router.route('/jobs/:id')
 router.route('/users/:id')
 .get(controller.findApplicationsByUserId);
 
+router.route('/job-application-status/:id')
+.get(controller.findApplicationsByStatus);
+
 module.exports = router;

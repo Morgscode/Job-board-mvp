@@ -1,4 +1,4 @@
-const db = require('../utils/db');
+const db = require('./../utils/db');
 const { User } = require('./userModel');
 const { Job } = require('./jobModel');
 const { Location } = require('./locationModel');

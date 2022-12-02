@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMTP_MASTER_PASS,
+    pass: process.env.SMTP_KEY,
   },
   logger: true,
   debug: true,

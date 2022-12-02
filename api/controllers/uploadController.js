@@ -25,7 +25,7 @@ const _find = catchAsync(async (req, res, next) => {
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
-  res.setStatus(200).json({
+  res.status(200).json({
     status: 'success',
     data: {
       upload,
@@ -89,7 +89,7 @@ const download = catchAsync(async (req, res, next) => {
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
-  res.setStatus(200).sendFile(upload.dataValues.path, {
+  res.status(200).sendFile(upload.dataValues.path, {
     root: path.join(__dirname, '../../'),
     headers: {
       'x-timestamp': Date.now(),

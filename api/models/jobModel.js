@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const moment = require('moment');
-const db = require('../utils/db');
+const db = require('./../utils/db');
 
 const Job = db.sequelize.define(
   'Job',

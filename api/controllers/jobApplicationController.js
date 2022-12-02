@@ -5,6 +5,7 @@ const model = require('../models/jobApplicationModel');
 const { Job } = require('../models/jobModel');
 const { User } = require('../models/userModel');
 const { FileUpload } = require('../models/fileUploadModel');
+const { JobApplicationStatus } = require('../models/jobApplicationStatusModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const applications = await model.JobApplication.findAll({
@@ -146,6 +147,16 @@ const findApplicationsByUserId = catchAsync(async function (req, res, next) {
   });
 });
 
+const findApplicationsByStatus = catchAsync(async function(req, res, next) {
+  const { id } = req.params;
+  const status = await JobApplicationStatus.findOne({where: {id, }});
+  const applications = await status.getJobApplications();
+  res.status(200).json({
+    status: 'success',
+    data: { status, applications },
+  });
+});
+
 module.exports = {
   _index,
   _find,
@@ -154,4 +165,5 @@ module.exports = {
   _delete,
   findApplicationsByJobId,
   findApplicationsByUserId,
+  findApplicationsByStatus,
 };

@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
-const db = require('../utils/db');
-const auth = require('../utils/auth');
+const db = require('./../utils/db');
+const auth = require('./../utils/auth');
 
 const User = db.sequelize.define(
   'User',
