@@ -71,7 +71,7 @@ app.post('/api/v1/login', authController.login);
 app.get('/api/v1/verify-email', authController.verifyEmail);
 app.post('/api/v1/forgot-password', authController.forgotPassword);
 app.get('/api/v1/reset-password', authController.verifyPasswordResetToken);
-app.use('/api/v1/update-password', [auth.protect, auth.jobBoardUser]);
+app.use('/api/v1/update-password', [auth.protect, auth.emailVerified, auth.jobBoardUser]);
 app.put('/api/v1/update-password', authController.updatePassword);
 
 // not found route
