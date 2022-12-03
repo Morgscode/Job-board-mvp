@@ -16,7 +16,6 @@ function filterPayload(payload) {
   if ('passwordResetExpires' in payload) delete payload['passwordResetExpires'];
   if ('passwordRefreshedAt' in payload) delete payload['passwordRefreshedAt'];
   if ('emailVerifyToken' in payload) delete payload['emailVerifyToken'];
-  if ('emailVerifiedAt' in payload) delete payload['emailVerifiedAt'];
   return payload;
 }
 
@@ -68,8 +67,7 @@ async function protect(req, res, next) {
 
 async function emailVerified(req, res, next) {
   let user = req.user;
-  const data = await User.findOne({ where: { id: user.id } });
-  if (!data.emailVerifiedAt) {
+  if (!user.emailVerifiedAt) {
     return next(new AppError(`Email not verified`, 401));
   }
   next();
