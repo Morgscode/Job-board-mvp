@@ -94,7 +94,7 @@ const JobApplicationStatuses = [
   'interviewing',
   'unsuccessful',
   'successful',
-  'closed',
+  'withdrawn',
 ];
 
 async function main() {

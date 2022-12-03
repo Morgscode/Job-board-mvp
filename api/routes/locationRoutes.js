@@ -13,6 +13,7 @@ router.route('/:id')
 .get(controller._find);
 
 router.use(catchAsync(auth.protect));
+router.use(catchAsync(auth.emailVerified));
 router.use(catchAsync(auth.jobBoardRecruiter));
 
 router.route('/')

@@ -9,6 +9,7 @@ const router = express.Router();
 const upload = multer({dest: process.env.UPLOADS_DIR});
 
 router.use(catchAsync(auth.protect));
+router.use(catchAsync(auth.emailVerified));
 
 router.route('/:id')
 .get(catchAsync(auth.jobBoardUser), controller._find);

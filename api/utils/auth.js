@@ -1,7 +1,9 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 const AppError = require('../utils/AppError');
+const { User } = require('../models/userModel');
 
 function filterPayload(payload) {
   if ('password' in payload) delete payload['password'];
@@ -13,6 +15,8 @@ function filterPayload(payload) {
   if ('passwordResetToken' in payload) delete payload['passwordResetToken'];
   if ('passwordResetExpires' in payload) delete payload['passwordResetExpires'];
   if ('passwordRefreshedAt' in payload) delete payload['passwordRefreshedAt'];
+  if ('emailVerifyToken' in payload) delete payload['emailVerifyToken'];
+  if ('emailVerifiedAt' in payload) delete payload['emailVerifiedAt'];
   return payload;
 }
 
@@ -46,7 +50,7 @@ function verifyPassword(password, hash) {
   });
 }
 
-function createPasswordResetToken() {
+function createCryptoToken() {
   const token = crypto.randomBytes(32).toString('hex');
   const hash = crypto.createHash('sha256').update(token).digest('hex');
   return { token, hash };
@@ -59,6 +63,15 @@ async function protect(req, res, next) {
   }
   const payload = await verifyToken(token);
   req.user = payload.user;
+  next();
+}
+
+async function emailVerified(req, res, next) {
+  let user = req.user;
+  const data = await User.findOne({ where: { id: user.id } });
+  if (!data.emailVerifiedAt) {
+    return next(new AppError(`Email not verified`, 401));
+  }
   next();
 }
 
@@ -90,8 +103,9 @@ module.exports = {
   createJWT,
   verifyToken,
   verifyPassword,
-  createPasswordResetToken,
+  createCryptoToken,
   protect,
+  emailVerified,
   jobBoardUser,
   jobBoardRecruiter,
   jobBoardAdmin,

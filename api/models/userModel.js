@@ -56,10 +56,19 @@ const User = db.sequelize.define(
         isIn: [[1, 2]],
       },
     },
-    passwordResetToken: {
+    emailVerifyToken: {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    emailVerifiedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    },
+    passwordResetToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }, 
     passwordResetExpires: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -88,8 +97,9 @@ async function registerUser(email, password) {
   try {
     let hash = await bcrypt.hash(password, 12);
     const user = await User.create({ email, password: hash, role: 1 });
-    return user.dataValues;
+    return user;
   } catch (error) {
+    console.error(error);
     return false;
   }
 }

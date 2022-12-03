@@ -22,6 +22,7 @@ router.route('/locations/:id')
 .get(controller.findJobsByLocation);
 
 router.use(catchAsync(auth.protect));
+router.use(catchAsync(auth.emailVerified));
 router.use(catchAsync(auth.jobBoardRecruiter));
 
 router.route('/')
