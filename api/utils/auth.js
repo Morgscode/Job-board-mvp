@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 const AppError = require('../utils/AppError');
-const { User } = require('../models/userModel');
 
 function filterPayload(payload) {
   if ('password' in payload) delete payload['password'];
