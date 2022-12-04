@@ -5,7 +5,6 @@ const AppError = require('../utils/AppError');
 const auth = require('../utils/auth');
 const userModel = require('../models/userModel');
 const mailer = require('../utils/mailer');
-const { use } = require('../app');
 
 const register = catchAsync(async function (req, res, next) {
   const { email, password } = req.body;
@@ -28,16 +27,15 @@ const register = catchAsync(async function (req, res, next) {
     return next(new AppError(`there was a problem creating your account`, 500));
   }
 
+  // set verify token
   const verify = auth.createCryptoToken();
   user.emailVerifyToken = verify.hash;
   await user.save();
 
   // send email
-
   mailer.options.to = user.email;
   mailer.options.subject = 'Please verify your email';
   mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${user.email}&token=${verify.token}">verify email</a>`;
-
   await mailer.send();
 
   res.status(201).json({
@@ -87,13 +85,11 @@ const forgotPassword = catchAsync(async function (req, res, next) {
   const reset = auth.createCryptoToken();
   user.passwordResetToken = reset.hash;
   user.passwordResetExpires = moment().add(15, 'minutes');
-
   await user.save();
 
   mailer.options.to = user.email;
   mailer.options.subject = 'Password reset request';
   mailer.options.text = `<a href="${process.env.API_DOMAIN}/reset-password?email=${user.email}&token=${reset.token}">reset password</a>`;
-
   await mailer.send();
 
   res.status(200).send({
@@ -118,18 +114,18 @@ const verifyPasswordResetToken = catchAsync(async function (req, res, next) {
   // check if token is valid
   const hash = crypto.createHash('sha256').update(token).digest('hex');
 
-  if (!hash === user.passwordResetToken) {
-    return next(AppError('not authroized', 401));
+  if (hash !== user.passwordResetToken) {
+    return next(new AppError('not authroized', 401));
   }
 
   const now = moment();
   if (!now.isBefore(user.passwordResetExpires)) {
-    return next(AppError('not authroized', 401));
+    return next(new AppError('not authroized', 401));
   }
 
   const jwt = await auth.createJWT(user.toJSON());
   if (!jwt) {
-    return next(AppError("we couldn't log you in", 500));
+    return next(new AppError("we couldn't log you in", 500));
   }
 
   res.send({
@@ -185,7 +181,7 @@ const verifyEmail = catchAsync(async function (req, res, next) {
   // check if token is valid
   const hash = crypto.createHash('sha256').update(token).digest('hex');
 
-  if (!hash === user.emailVerifyToken) {
+  if (hash !== user.emailVerifyToken) {
     return next(AppError('not authroized', 401));
   }
 

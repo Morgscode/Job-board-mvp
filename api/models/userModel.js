@@ -84,6 +84,25 @@ const User = db.sequelize.define(
   }
 );
 
+/**
+ * A model specific update function which will prepare user input for db insertion
+ * @param {object} location - the location to update
+ * @param {obejct} where - the sql where clause
+ * @returns Object
+ */
+ async function _update(user, where) {
+  if ('id' in user) delete user.id;
+  if ('role' in user) delete user.role;
+  if ('password' in user) delete user.password;
+  if ('passwordResetToken' in user) delete user.passwordResetToken;
+  if ('passwordResetExpires' in user) delete user.passwordResetExpires;
+  if ('psswordRefreshedAt' in user) delete user.passwordRefreshedAt;
+  if ('email' in user) delete user.email;
+  if ('emailVerifyToken' in user) delete user.emailVerifyToken;
+  if ('emailVerifiedAt' in user) delete user.emailVerifiedAt;
+  return await User.update(user, { where });
+}
+
 async function userEmailExists(email) {
   const user = await User.findOne({ where: { email } });
   if (user) {
@@ -93,10 +112,10 @@ async function userEmailExists(email) {
   }
 }
 
-async function registerUser(email, password) {
+async function registerUser(email, password, role = 1) {
   try {
     let hash = await bcrypt.hash(password, 12);
-    const user = await User.create({ email, password: hash, role: 1 });
+    const user = await User.create({ email, password: hash, role, });
     return user;
   } catch (error) {
     console.error(error);
@@ -116,6 +135,7 @@ async function loginUser(email, password) {
     }
     return user.dataValues;
   } catch (error) {
+    console.error(error);
     return false;
   }
 }
@@ -137,4 +157,5 @@ module.exports = {
   registerUser,
   loginUser,
   updatePassword,
+  _update,
 };

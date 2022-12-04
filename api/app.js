@@ -11,6 +11,7 @@ const auth = require('./utils/auth');
 const pagination = require('./utils/pagination');
 const queryInterface = require('./utils/queryInterface');
 const time = require('./utils/humanRequestTime');
+const userRouter = require('./routes/userRouter');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
@@ -49,6 +50,7 @@ app.use(express.json({limit: '10kb'}));
 app.use('/api/v1', [time, pagination, queryInterface]);
 
 // mount routers
+app.use('/api/v1/users', userRouter);
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/job-categories', jobCategoryRouter);
 app.use('/api/v1/locations', locationRouter);
@@ -56,7 +58,7 @@ app.use('/api/v1/job-applications', jobApplicationRouter);
 app.use('/api/v1/uploads', uploadRouter);
 
 // root route
-app.get('/api/v1', async function (req, res) {
+app.get('/api/v1', async function (req, res, next) {
   res.status(200).json({ 
     status: 'success',    
     data: {  

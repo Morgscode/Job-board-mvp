@@ -6,7 +6,7 @@ const auth = require('../utils/auth');
 const controller = require('../controllers/jobApplicationController');
 
 const router = express.Router();
-const upload = multer({dest: process.env.UPLOADS_DIR});
+const upload = multer({dest: `${process.env.UPLOADS_DIR}/cv`});
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
@@ -18,7 +18,7 @@ router.route('/')
 router.use(catchAsync(auth.jobBoardRecruiter));
 
 router.route('/')
-.get(controller._index)
+.get(controller._index);
 
 router.route('/:id')
 .get(controller._find)
