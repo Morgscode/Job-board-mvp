@@ -13,6 +13,8 @@ import "primeicons/primeicons.css";                                //icons
 import 'primeflex/primeflex.scss';
 import './assets/sass/main.scss';
 
+console.log(import.meta.env);
+
 const router = createBrowserRouter([
   {
     path: "/",
