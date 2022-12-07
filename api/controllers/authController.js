@@ -64,7 +64,7 @@ const login = catchAsync(async function (req, res, next) {
   }
 
   const token = await auth.createJWT(user);
-  res.status(201).json({
+  res.status(200).json({
     status: 'sucess',
     data: {
       message: 'user logged in',

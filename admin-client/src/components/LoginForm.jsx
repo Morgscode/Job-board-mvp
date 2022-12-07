@@ -1,14 +1,29 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 
-function LoginForm() {
+function LoginForm(props) {
+  const toast = useRef(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  function handleFormSubmit(submit) {
-    // submit.preventDefault();
+  const [loggingIn, setLoggingIn] = useState(false);
+ 
+  async function handleFormSubmit(submit) {
+    setLoggingIn(true);
+    submit.preventDefault();
+    try {
+      await props.login({
+        email, password
+      });
+      toast.current.show({severity: 'success', summary: 'Logged in'});
+    } catch (error) {
+      console.error(error);
+      toast.current.show({severity: 'error', summary: 'Incorrect login details'});
+    } finally {
+      setLoggingIn(false);
+    }
   }
 
   return (
@@ -45,7 +60,8 @@ function LoginForm() {
             onInput={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button label="Submit" aria-label="Submit" />
+        <Button label="Submit" aria-label="Submit" loading={loggingIn} />
+        <Toast ref={toast} />
       </form>
     </div>
   );
