@@ -6,7 +6,6 @@ function Login() {
   const navigate = useNavigate();
   async function login(user) {
     const res = await http.post('/login', user);
-    console.log(res);
     if (res.status !== 200) {
       return false;
     }
