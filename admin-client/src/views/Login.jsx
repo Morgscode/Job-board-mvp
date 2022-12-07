@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import { http } from '../services/http';
+import { sleep } from '../utils/sleep';
 
 function Login() {
   const navigate = useNavigate();
@@ -9,6 +10,11 @@ function Login() {
     if (res.status !== 200) {
       return false;
     }
+    console.log(res);
+    if (res.data.data.user.role === 1) {
+      return false;
+    }
+    await sleep(1000);
     navigate('/dashboard');
   }
 

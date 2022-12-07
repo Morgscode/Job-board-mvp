@@ -5,6 +5,8 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store/appStore';
 import App from './App';
 import Error from './views/Error';
 import Login from './views/Login';
