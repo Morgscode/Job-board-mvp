@@ -16,6 +16,8 @@ export const authSlice = createSlice({
     logout: (state) => {
       ls.drop('jwt');
       state.loggedIn = false;
+      state.id = null;
+      state.role = null;
     },
     setId: (state, action) => {
       state.id = action.payload;
