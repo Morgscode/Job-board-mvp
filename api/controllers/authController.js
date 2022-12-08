@@ -63,12 +63,12 @@ const login = catchAsync(async function (req, res, next) {
     return next(new AppError('please verify your email', 401));
   }
 
-  const token = await auth.createJWT(user);
+  const token = await auth.createJWT({...user});
   res.status(200).json({
     status: 'sucess',
     data: {
       message: 'user logged in',
-      user,
+      user: userModel.apiUser(user),
     },
     token,
   });

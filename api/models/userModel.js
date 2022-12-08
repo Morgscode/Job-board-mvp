@@ -133,11 +133,20 @@ async function loginUser(email, password) {
     if (!passwordMatch) {
       throw new Error();
     }
-    return user.dataValues;
+    return user.toJSON();
   } catch (error) {
     console.error(error);
     return false;
   }
+}
+
+function apiUser(user) {
+  if ('password' in user) delete user['password'];
+  if ('passwordResetToken' in user) delete user['passwordResetToken'];
+  if ('passwordResetExpires' in user) delete user['passwordResetExpires'];
+  if ('passwordRefreshedAt' in user) delete user['passwordRefreshedAt'];
+  if ('emailVerifyToken' in user) delete user['emailVerifyToken'];
+  return user;
 }
 
 async function updatePassword(user, password) {
@@ -156,6 +165,7 @@ module.exports = {
   userEmailExists,
   registerUser,
   loginUser,
+  apiUser,
   updatePassword,
   _update,
 };

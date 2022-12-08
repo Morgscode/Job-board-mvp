@@ -9,18 +9,21 @@ function LoginForm(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
- 
+
   async function handleFormSubmit(submit) {
     setLoggingIn(true);
     submit.preventDefault();
     try {
       await props.login({
-        email, password
+        email,
+        password,
       });
-      toast.current.show({severity: 'success', summary: 'Logged in'});
     } catch (error) {
       console.error(error);
-      toast.current.show({severity: 'error', summary: 'Incorrect login details'});
+      toast.current.show({
+        severity: 'error',
+        summary: 'Incorrect login details',
+      });
     } finally {
       setLoggingIn(false);
     }

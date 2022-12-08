@@ -18,8 +18,9 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
   1. Set your root environment in `./api/config/config.env` to either `development` or `production` or `whateverenvyoulike`
   2. Then create a file for you environment and fill in the following variables i.e. `development.env` or `production.env` or `whateverenvyoulike.env`
-  
-     ```API_DOMAIN=http://localhost:8080/api/v1
+
+     ```
+     API_DOMAIN=http://localhost:8080/api/v1
      NODE_PORT=8080
      MYSQL_HOST=127.0.0.1
      MYSQL_PORT=8889
@@ -39,7 +40,7 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
 - Custom environments
 
-    Out of the box - OJB comes configured to handle `production` and `development` environment. You can create extra environments by following the naming conventions explained above. Be sure to load your env in the switch statement in `./api/env.js`
+    Out of the box - OJB comes configured to handle `production` and `development` environment. You can create extra environments by following the naming conventions with your new .env files explained above. Be sure to load your env in the switch statement in `./api/env.js` before setting it as the app environment in `./api/config/config.env`
 
 - Database seeding - An exmaple setup shell script `./api/dev-data/app-setup.js` is provided to create some jobs, categories and locations.
 

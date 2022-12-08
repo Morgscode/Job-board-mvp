@@ -11,7 +11,7 @@ const auth = require('./utils/auth');
 const pagination = require('./utils/pagination');
 const queryInterface = require('./utils/queryInterface');
 const time = require('./utils/humanRequestTime');
-const userRouter = require('./routes/userRouter');
+const userRouter = require('./routes/userRoutes');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
@@ -44,7 +44,7 @@ process.env.NODE_ENV === 'production'
   : app.use(morgan('dev'));
 
 // json with limits
-app.use(express.json({limit: '10kb'}));
+app.use(express.json({limit: '256kb'}));
 
 // api specific global middleware
 app.use('/api/v1', [time, pagination, queryInterface]);

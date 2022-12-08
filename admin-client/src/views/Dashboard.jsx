@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 function Dashboard() {
   return (
     <div className="Dashboard w-full">
