@@ -7,7 +7,6 @@ import {
 } from '../store/features/authSlice';
 import { setDetails } from '../store/features/userSlice';
 import { http } from '../services/http';
-import { sleep } from '../utils/sleep';
 import LoginForm from '../components/LoginForm';
 
 function Login() {
