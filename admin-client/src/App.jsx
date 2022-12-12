@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './store/features/authSlice';
@@ -9,15 +9,15 @@ function App() {
   const navigate = useNavigate();
   const loggedIn = useSelector((state) => state.auth.loggedIn);
 
+  function logoutUser() {
+    dispatch(logout());
+  }
+
   useEffect(() => {
     if (!loggedIn) {
       navigate('/login');
     }
   });
-
-  function logoutUser() {
-    dispatch(logout());
-  }
 
   return (
     <div className="App w-full min-h-screen p-0 m-0">

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { default as ls } from '../../services/localStorage';
+import { http } from '../../services/http';
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -12,12 +13,14 @@ export const authSlice = createSlice({
     login: (state, action) => {
       ls.set('jwt', action.payload);
       state.loggedIn = true;
+      http.defaults.headers.common['Authorization'] = `Bearer ${action.payload}`
     },
     logout: (state) => {
       ls.drop('jwt');
       state.loggedIn = false;
       state.id = null;
       state.role = null;
+      http.defaults.headers.common['Authorization'] = ``
     },
     setId: (state, action) => {
       state.id = action.payload;
