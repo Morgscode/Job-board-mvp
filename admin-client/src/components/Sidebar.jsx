@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { MegaMenu } from 'primereact/megamenu';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar(props) {
   const user = useSelector((state) => state.user.details);
@@ -15,7 +15,25 @@ function Sidebar(props) {
     {
       label: 'Jobs',
       icon: 'pi pi-bars',
-      command: () => navigate(`/jobs`),
+      items: [
+        [
+          {
+            label: 'Manage jobs',
+            items: [
+              {
+                label: 'View all',
+                icon: 'pi pi-table',
+                command: () => navigate('/jobs'),
+              },
+              {
+                label: 'Add new',
+                icon: 'pi pi-plus',
+                command: () => navigate('/jobs/create'),
+              }
+            ],
+          },
+        ],
+      ],
     },
     {
       label: 'Job Applications',
@@ -49,7 +67,9 @@ function Sidebar(props) {
     },
   ];
 
-  return <MegaMenu className="h-full w-full" model={items} orientation="vertical" />;
+  return (
+    <MegaMenu className="h-full w-full" model={items} orientation="vertical" />
+  );
 }
 
 export default Sidebar;

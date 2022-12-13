@@ -1,8 +1,8 @@
-import { http } from './http';
+import { http } from '../utils/http';
 
 const jobService = {
-    async index(page = 1, order = 'asc') {
-        const res = await http.get(`/jobs?page=${page}`);
+    async index(page = 1, sortOrder = 'asc') {
+        const res = await http.get(`/jobs?page=${page}&order=${sortOrder}`);
         return res;
     }
 }

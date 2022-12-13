@@ -6,8 +6,8 @@ import {
   setRole,
 } from '../store/features/authSlice';
 import { setDetails } from '../store/features/userSlice';
-import { http } from '../services/http';
-import LoginForm from '../components/LoginForm';
+import { http } from '../utils/http';
+import LoginForm from '../components/auth/LoginForm';
 
 function Login() {
   const navigate = useNavigate();

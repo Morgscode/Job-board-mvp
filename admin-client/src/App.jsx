@@ -25,7 +25,7 @@ function App() {
         <aside className="w-2 min-h-screen">
           <Sidebar logout={logoutUser} />
         </aside>
-        <div className="flex-grow-1 p-4">
+        <div className="w-12 p-4">
           <Outlet />
         </div>
       </div>

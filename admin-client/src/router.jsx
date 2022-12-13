@@ -3,7 +3,8 @@ import App from './App';
 import Error from './views/Error';
 import Login from './views/Login';
 import Dashboard from './views/Dashboard';
-import Jobs from './views/Jobs';
+import ManageJobs from './views/Jobs/ManageJobs';
+import CreateJob from './views/Jobs/CreateJob';
 
 export const router = createBrowserRouter([
   {
@@ -14,12 +15,14 @@ export const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />,
-        errorElement: <Error />,
       },
       {
         path: 'jobs',
-        element: <Jobs />,
-        errorElement: <Error />,
+        element: <ManageJobs />,
+      },
+      {
+        path: 'jobs/create',
+        element: <CreateJob />,
       },
     ],
   },

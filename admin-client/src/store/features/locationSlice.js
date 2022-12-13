@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const jobSlice = createSlice({
-  name: 'jobs',
+export const locationSlice = createSlice({
+  name: 'locations',
   initialState: {
     data: [],
     page: 1,
     sortOrder: 'asc',
   },
   reducers: {
-    setJobs: (state, action) => {
+    setLocations: (state, action) => {
       state.data = action.payload;
     },
     setPage: (state, action) => {
@@ -17,12 +17,12 @@ export const jobSlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
-    deleteJob: (state, action) => {
+    deleteLocation: (state, action) => {
       state.data = state.data.filter(job => job.id !== action.payload);
     }
   },
 });
 
-export const { setJobs, setPage, setSortOrder, deleteJob } = jobSlice.actions;
+export const { setLocations, setPage, setSortOrder, deleteJob } = locationSlice.actions;
 
-export default jobSlice.reducer;
+export default locationSlice.reducer;
