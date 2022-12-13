@@ -18,11 +18,12 @@ function ManageJobs() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  async function getJobs() {
+    const jobData = await jobService.index();
+    dispatch(setJobs(jobData.data.data.jobs));
+  }
+
   useEffect(() => {
-    async function getJobs() {
-      const jobData = await jobService.index();
-      dispatch(setJobs(jobData.data.data.jobs));
-    }
     if (jobs.length === 0) {
       getJobs();
     }

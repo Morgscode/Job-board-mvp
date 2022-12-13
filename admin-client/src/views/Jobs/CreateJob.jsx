@@ -12,24 +12,24 @@ function CreateJob(props) {
   const categories = useSelector((state) => state.jobCategories.data);
 
   async function getLocations() {
-    if (locations?.length === 0) {
-      const res = await locationService.index();
-      const { locations } = res.data.data;
-      dispatch(setLocations(locations));
-    }
+    const res = await locationService.index();
+    const { locations } = res.data.data;
+    dispatch(setLocations(locations));
   }
 
   async function getJobCategories() {
-    if (categories?.length === 0) {
-      const res = await jobCategoryService.index();
-      const { categories } = res.data.data;
-      dispatch(setJobCategories(categories));
-    }
+    const res = await jobCategoryService.index();
+    const { categories } = res.data.data;
+    dispatch(setJobCategories(categories));
   }
 
   useEffect(() => {
-    getLocations();
-    getJobCategories();
+    if (locations?.length === 0) {
+      getLocations();
+    }
+    if (categories?.length === 0) {
+      getJobCategories();
+    }
   });
 
   return (
