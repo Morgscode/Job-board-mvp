@@ -26,7 +26,7 @@ function JobForm(props) {
     }
   }
 
-  const controls = ['bold', 'italic', 'link', 'underline', 'list', 'code-block', 'blockquote']
+  const controls = ['bold', 'italic', 'link', 'underline', 'list', 'code-block']
 
   const header = (
     <React.Fragment>
@@ -37,9 +37,8 @@ function JobForm(props) {
           <button className="ql-link" aria-label="Link"></button>
           <button className="ql-list" value="bullet" aria-label="List"></button>
           <button className="ql-list" value="ordered" aria-label="List"></button>
-          <button className="ql-underline" aria-label="Underline"></button>
           <button className="ql-code-block" aria-label="Code Block"></button>
-          <button className="ql-blockquote" aria-label="Block Quote"></button>
+          <button className="ql-clean" aria-label="Remove Styles"></button>
       </span>
     </React.Fragment>
 );
@@ -62,7 +61,7 @@ function JobForm(props) {
         </div>
         <div className="field col flex flex-column">
           <label htmlFor="salary">Salary Type</label>
-          <Dropdown id="salary" options={salaryTypes} />
+          <Dropdown id="salary" options={props.salaryTypes} optionLabel="name" optionValue="id" />
         </div>
       </div>
       <div className="formgrid grid mb-6">
@@ -91,7 +90,7 @@ function JobForm(props) {
       <div className="formgrid grid mb-6">
         <div className="field flex flex-column w-full">
           <label htmlFor="job-description">Job Description</label>
-          <Editor id="job-description" style={{'min-height':'250px'}} formats={controls} headerTemplate={header} />
+          <Editor id="job-description" style={{minHeight:'250px'}} formats={controls} headerTemplate={header} />
         </div> 
       </div>
       <div className="formgrid grid mb-3">
