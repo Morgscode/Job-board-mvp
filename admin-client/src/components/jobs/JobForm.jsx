@@ -11,21 +11,14 @@ import { sleep } from '../../utils/sleep';
 
 function JobForm(props) {
   const [loading, setLoading] = useState(false);
-
-  const salaryTypes = [
-    { label: 'Per annum', value: 'per-annum' },
-    { label: 'Pro rata', value: 'pro-rata' },
-    { label: 'Hourly', value: 'hourly' },
-    { label: 'Commission', value: 'commission' },
-  ];
+  const [formData, setFormData] = useState(props.formData || {});
 
   async function handleSubmit(submit) {
     submit.preventDefault();
     setLoading(true);
     console.log(submit);
     try {
-      console.log('sleeping');
-      await sleep(5000);
+      return true;
     } catch (error) {
       console.error(error);
     } finally {

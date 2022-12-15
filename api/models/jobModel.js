@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const moment = require('moment');
 const db = require('./../utils/db');
+const { SalaryType } = require('./salaryTypeModel');
 
 const Job = db.sequelize.define(
   'Job',
@@ -24,17 +25,13 @@ const Job = db.sequelize.define(
       validate: {
         notEmpty: true,
         notNull: true,
-      }, 
+      },
     },
-    salaryType: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-        notNull: true,
-        isIn: [
-          ['hourly', 'per-day', 'weekly', 'monthly', 'per-annum', 'pro-rata'],
-        ],
+    SalaryTypeId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: SalaryType,
+        key: 'id',
       },
     },
     description: {
@@ -53,16 +50,6 @@ const Job = db.sequelize.define(
         notNull: true,
         isDate: true,
         isAfter: moment().format('L'),
-      },
-    },
-    active: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: {
-        notNull: true,
-        isInt: true,
-        isIn: [[0, 1]],
       },
     },
   },

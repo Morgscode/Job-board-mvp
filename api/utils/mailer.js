@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const path = require('path');
 
 const OPTIONS = Object.freeze({
     from: process.env.MAIL_FROM,

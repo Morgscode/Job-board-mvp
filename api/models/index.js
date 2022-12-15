@@ -1,5 +1,6 @@
 const db = require('./../utils/db');
 const { User } = require('./userModel');
+const { SalaryType } = require('./salaryTypeModel');
 const { Job } = require('./jobModel');
 const { Location } = require('./locationModel');
 const { FileUpload } = require('./fileUploadModel');
@@ -9,42 +10,46 @@ const { JobsInCategories } = require('./jobsInCategoriesModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');
 const { JobApplication } = require('./jobApplicationModel');
 
-Job.belongsToMany(JobCategory, {
+Job.belongsToMany(JobCategory, { 
   through: { model: JobsInCategories, unique: false, paranoid: true },
-  as: 'Category'
+  as: 'Category',
 });
-JobCategory.belongsToMany(Job, { 
+JobCategory.belongsToMany(Job, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
-});  
+});
 
-Job.belongsToMany(Location, { 
+Job.belongsToMany(Location, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
 Location.belongsToMany(Job, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
- 
+
+SalaryType.hasMany(Job);
+Job.belongsTo(SalaryType);
+
 User.hasMany(FileUpload);
 FileUpload.belongsTo(User);
 
 User.hasMany(JobApplication);
 JobApplication.belongsTo(User);
 
-FileUpload.hasMany(JobApplication, {foreignKey: 'CvId'});
-JobApplication.belongsTo(FileUpload, {foreignKey: 'CvId'});
- 
+FileUpload.hasMany(JobApplication, { foreignKey: 'CvId' });
+JobApplication.belongsTo(FileUpload, { foreignKey: 'CvId' });
+
 JobApplicationStatus.hasMany(JobApplication);
 JobApplication.belongsTo(JobApplicationStatus);
-  
+
 const FORCE = false;
 const ALTER = false;
 const force = process.env.NODE_ENV === 'production' ? false : FORCE;
 const alter = process.env.NODE_ENV === 'production' ? false : ALTER;
- 
+
 async function initModels() {
   return new Promise(async (resolve, reject) => {
     try {
       await User.sync({ force, alter });
+      await SalaryType.sync({ force, alter });
       await Job.sync({ force, alter });
       await JobCategory.sync({ force, alter });
       await JobsInCategories.sync({ force, alter });
@@ -67,3 +72,5 @@ initModels()
     console.log('could not reliably sync the models - shutting down...');
     process.exit(1);
   });
+
+module.exports = { initModels };

@@ -21,16 +21,6 @@ const JobCategory = db.sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    active: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: {
-        notNull: true,
-        isInt: true,
-        isIn: [[0, 1]],
-      },
-    },
   },
   {
     tableName: 'ojb_job_categories',

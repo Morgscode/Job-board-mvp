@@ -1,20 +1,26 @@
 #!/usr/bin/env node
 
 const relationships = require('../models/index');
+const { SalaryType } = require('../models/salaryTypeModel');
 const { Job } = require('../models/jobModel');
 const { Location } = require('../models/locationModel');
 const { JobCategory } = require('../models/jobCategoryModel');
 const { JobApplicationStatus } = require('../models/jobApplicationStatusModel');
 
+const SalaryTypes = [
+  'Per annum',
+  'Pro rata',
+  'Hourly',
+  'Commission',
+];
+
 const Locations = [
   {
-    id: 1,
     name: 'London Office - Camden',
     description: 'A spacious and vibrant office in the heart of Camden',
     active: '1',
   },
   {
-    id: 2,
     name: 'Manchester Office - Northern Quater',
     description: 'A spacious and vibrant office in the Northern Quater',
     active: '1',
@@ -23,13 +29,11 @@ const Locations = [
 
 const JobCategories = [
   {
-    id: 1,
     name: 'Programming and technology',
     description: '',
     active: '1',
   },
-  {
-    id: 2,
+  { 
     name: 'Design and UX',
     description: '',
     active: '1',
@@ -37,10 +41,9 @@ const JobCategories = [
 ];
 
 const Jobs = [
-  {
+  { 
     title: 'mid-weight UX designer',
     salary: '32000.000',
-    salaryType: 'per-annum',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.',
     deadline: '2023-03-30',
@@ -50,7 +53,6 @@ const Jobs = [
   {
     title: 'mid-weight front-end developer',
     salary: '32000.000',
-    salaryType: 'per-annum',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.',
     deadline: '2023-03-30',
@@ -60,7 +62,6 @@ const Jobs = [
   {
     title: 'mid-weight back-end developer',
     salary: '32000.000',
-    salaryType: 'per-annum',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.',
     deadline: '2023-03-30',
@@ -70,7 +71,6 @@ const Jobs = [
   {
     title: 'Lead developer',
     salary: '45000.000',
-    salaryType: 'per-annum',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.',
     deadline: '2023-03-30',
@@ -80,7 +80,7 @@ const Jobs = [
   {
     title: 'Lead UX designer',
     salary: '45000.000',
-    salaryType: 'per-annum',
+    salaryType: 1,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.',
     deadline: '2023-03-30',
@@ -91,7 +91,7 @@ const Jobs = [
 
 const JobApplicationStatuses = [
   'applied',
-  'interviewing',
+  'interviewing', 
   'unsuccessful',
   'successful',
   'withdrawn',
@@ -99,9 +99,18 @@ const JobApplicationStatuses = [
 
 async function main() {
   console.info('setting up database with seed data.....')
+  console.info('======');
   console.info('');
   console.info('');
+  console.info('Seeding database with some salary types:....');
+  console.info('======');
+  console.info('');
+  console.info('');
+  const salaryTypes = await SalaryTypes.map(
+    async (type) => await SalaryType.create({name: type})
+  );
   console.info('Seeding database with some locations:....');
+  console.info('======');
   console.info('');
   console.info('');
   const locations = await Locations.map(
@@ -111,11 +120,8 @@ async function main() {
   console.info('======');
   console.info('');
   console.info('');
-  console.info(locations);
-  console.info('');
-  console.info('');
-  console.info('======')
   console.info('seeding database with job categories');
+  console.info('======');
   console.info('');
   console.info('');
   const categories = await JobCategories.map(
@@ -125,53 +131,52 @@ async function main() {
   console.info('======'); 
   console.info('');
   console.info('');
-  console.info(categories);
-  console.info('======');
-  console.info('');
-  console.info('');
   console.info('seeding database with some jobs data....');
-  console.info('');
-  console.info('');
   console.info('======');
-  const data = await Promise.all([locations, categories]);
-
   const jobs = await Promise.all(Jobs.map(async (job) => {
     const record = await Job.create(job);
-    console.info('created job....', record);
+    console.info('created job');
     console.info('');
     console.info('');
     console.info('======');
-    console.info('creating job location relationship....')
+    console.info('creating job salary type relationship....');
+    console.info('');
+    console.info('');
+    console.info('======');
+    const jobSalaryType = await record.setSalaryType(1); 
+    console.info('created job location relationship');
+    console.info('');
+    console.info('');
+    console.info('======');
+    console.info('creating job location relationship....');
     console.info('');
     console.info('');
     console.info('======');
     const jobLocations = await Promise.all(
       job.locations.map(async (location) => await record.addLocation(location))
     );
-    console.info('created job location relationship', jobLocations);
+    console.info('created job location relationships');
     console.info('');
     console.info('');
     console.info('======');
-    console.info('creating job category relationship....')
+    console.info('creating job category relationship....');
     console.info('');
     console.info('');
     console.info('======');
-    console.info()
     const jobCategories = await Promise.all(
       job.categories.map(async (category) => await record.addCategory(category))
     );
-    console.info('created job cateogry relationship', jobCategories);
+    console.info('created job cateogry relationships');
   }));
-  console.info('creating job status table....')
+  console.info('creating job application status table....');
   console.info('');
   console.info('');
   console.info('======');
   const applicationStatuses = await Promise.all(JobApplicationStatuses.map(async (status) => await JobApplicationStatus.create({name: status})));
-  console.info('created job status table....', applicationStatuses);
+  console.info('created job status table....');
   console.info('');
   console.info('');
   console.info('======');
   console.info('database seeded....');
 }
-
 main();

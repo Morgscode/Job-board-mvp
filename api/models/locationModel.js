@@ -16,20 +16,10 @@ const Location = db.sequelize.define(
         notEmpty: true,
         notNull: true,
       },
-    },
-    description: {
+    }, 
+    description: { 
       type: DataTypes.TEXT,
       allowNull: true,
-    },
-    active: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-      validate: {
-        notNull: true,
-        isInt: true,
-        isIn: [[0, 1]],
-      },
     },
   },
   {

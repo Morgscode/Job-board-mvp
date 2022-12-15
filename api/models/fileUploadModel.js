@@ -16,13 +16,12 @@ const FileUpload = db.sequelize.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: true,
+        notNull: true, 
       },
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: true,
         notNull: true,

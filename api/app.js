@@ -1,4 +1,3 @@
-const path = require('path')
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -17,6 +16,7 @@ const jobCategoryRouter = require('./routes/jobCategoryRoutes');
 const locationRouter = require('./routes/locationRoutes');
 const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const uploadRouter = require('./routes/uploadRoutes');
+const salaryTypeRouter = require('./routes/salaryTypeRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
  
@@ -56,6 +56,7 @@ app.use('/api/v1/job-categories', jobCategoryRouter);
 app.use('/api/v1/locations', locationRouter);
 app.use('/api/v1/job-applications', jobApplicationRouter); 
 app.use('/api/v1/uploads', uploadRouter);
+app.use('/api/v1/salary-types', salaryTypeRouter);
 
 // root route
 app.get('/api/v1', async function (req, res, next) {
