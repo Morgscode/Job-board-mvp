@@ -7,7 +7,6 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Editor } from 'primereact/editor';
-import { sleep } from '../../utils/sleep';
 
 function JobForm(props) {
   const [loading, setLoading] = useState(false);
