@@ -57,7 +57,7 @@ const _create = catchAsync(async function (req, res, next) {
   }
 
   // set verify token 
-  const verify = auth.createCryptoToken();
+  const verify = auth.createAppToken();
   user.emailVerifyToken = verify.hash;
   await user.save();
 

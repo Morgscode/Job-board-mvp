@@ -28,7 +28,7 @@ const register = catchAsync(async function (req, res, next) {
   }
 
   // set verify token
-  const verify = auth.createCryptoToken();
+  const verify = auth.createAppToken();
   user.emailVerifyToken = verify.hash;
   await user.save();
 
@@ -82,7 +82,7 @@ const forgotPassword = catchAsync(async function (req, res, next) {
     return next(new AppError('those details are not correct', 404));
   }
 
-  const reset = auth.createCryptoToken();
+  const reset = auth.createAppToken();
   user.passwordResetToken = reset.hash;
   user.passwordResetExpires = moment().add(15, 'minutes');
   await user.save();

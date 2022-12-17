@@ -48,62 +48,15 @@ function verifyPassword(password, hash) {
   });
 }
 
-function createCryptoToken() {
+function createAppToken() {
   const token = crypto.randomBytes(32).toString('hex');
   const hash = crypto.createHash('sha256').update(token).digest('hex');
   return { token, hash };
-}
-
-async function protect(req, res, next) {
-  let token = req?.headers?.authorization?.split('Bearer ')[1];
-  if (!token) {
-    return next(new AppError(`Not authorized`, 401));
-  }
-  const payload = await verifyToken(token);
-  req.user = payload.user;
-  next();
-}
-
-async function emailVerified(req, res, next) {
-  let user = req.user;
-  if (!user.emailVerifiedAt) {
-    return next(new AppError(`Email not verified`, 401));
-  }
-  next();
-}
-
-async function jobBoardUser(req, res, next) {
-  let user = req.user;
-  if (user.role === 1 || user.role === 2 || user.role === 3) {
-    return next();
-  }
-  return next(new AppError(`Not authorized`, 401));
-}
-
-async function jobBoardRecruiter(req, res, next) {
-  let user = req.user;
-  if (user.role === 2 || user.role === 3) {
-    return next();
-  }
-  return next(new AppError(`Not authorized`, 401));
-}
-
-async function jobBoardAdmin(req, res, next) {
-  let user = req.user;
-  if (user.role === 3) {
-    return next();
-  }
-  return next(new AppError(`Not authorized`, 401));
 }
 
 module.exports = {
   createJWT,
   verifyToken,
   verifyPassword,
-  createCryptoToken,
-  protect,
-  emailVerified,
-  jobBoardUser,
-  jobBoardRecruiter,
-  jobBoardAdmin,
+  createAppToken,
 };

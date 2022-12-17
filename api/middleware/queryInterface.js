@@ -71,7 +71,7 @@ module.exports = (req, res, next) => {
       req.sql.attributes = {};
       const fields = req.query.fields.split(',');
       if (fields[0].startsWith('-')) {
-        req.sql.attributes.exclude = fields.map(field => field.slice(1));
+        req.sql.attributes.exclude = fields.map((field) => field.slice(1));
       } else {
         req.sql.attributes = fields;
       }

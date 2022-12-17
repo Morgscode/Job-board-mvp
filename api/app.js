@@ -3,13 +3,13 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet'); 
 const rateLimit = require('express-rate-limit');
-const hpp = require('hpp'); 
-const relationships = require('./models/index');
+const hpp = require('hpp');
 const AppError = require('./utils/AppError');
-const auth = require('./utils/auth');
-const pagination = require('./utils/pagination');
-const queryInterface = require('./utils/queryInterface');
-const time = require('./utils/humanRequestTime');
+const auth = require('./middleware/authentication');
+const roles = require('./middleware/userRoles');
+const pagination = require('./middleware/pagination');
+const queryInterface = require('./middleware/queryInterface');
+const time = require('./middleware/humanRequestTime');
 const userRouter = require('./routes/userRoutes');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
@@ -74,7 +74,7 @@ app.post('/api/v1/login', authController.login);
 app.get('/api/v1/verify-email', authController.verifyEmail);
 app.post('/api/v1/forgot-password', authController.forgotPassword);
 app.get('/api/v1/reset-password', authController.verifyPasswordResetToken);
-app.use('/api/v1/update-password', [auth.protect, auth.emailVerified, auth.jobBoardUser]);
+app.use('/api/v1/update-password', [auth.protect, auth.emailVerified, roles.jobBoardUser]);
 app.put('/api/v1/update-password', authController.updatePassword);
 
 // not found route

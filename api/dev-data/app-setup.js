@@ -18,12 +18,10 @@ const Locations = [
   {
     name: 'London Office - Camden',
     description: 'A spacious and vibrant office in the heart of Camden',
-    active: '1',
   },
   {
     name: 'Manchester Office - Northern Quater',
     description: 'A spacious and vibrant office in the Northern Quater',
-    active: '1',
   },
 ];
 
@@ -31,12 +29,10 @@ const JobCategories = [
   {
     name: 'Programming and technology',
     description: '',
-    active: '1',
   },
   { 
     name: 'Design and UX',
     description: '',
-    active: '1',
   },
 ];
 

@@ -2,7 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
-const auth = require('../utils/auth');
+const roles = require('../middleware/userRoles');
+const auth = require('../middleware/authentication');
 const controller = require('../controllers/jobApplicationController');
 
 const router = express.Router();
@@ -12,10 +13,10 @@ router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
 
 router.route('/')
-.post(catchAsync(auth.jobBoardUser))
+.post(catchAsync(roles.jobBoardUser))
 .post(upload.single('cv'), controller._create);
 
-router.use(catchAsync(auth.jobBoardRecruiter));
+router.use(catchAsync(roles.jobBoardRecruiter));
 
 router.route('/')
 .get(controller._index);

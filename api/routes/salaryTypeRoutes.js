@@ -1,5 +1,6 @@
 const express = require('express');
-const auth = require('../utils/auth');
+const roles = require('../middleware/userRoles');
+const auth = require('../middleware/authentication');
 const controller = require('../controllers/salaryTypeController');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
@@ -17,7 +18,7 @@ router.route('/jobs/:id')
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
-router.use(catchAsync(auth.jobBoardRecruiter));
+router.use(catchAsync(roles.jobBoardRecruiter));
 
 router.route('/')
 .post(controller._create);

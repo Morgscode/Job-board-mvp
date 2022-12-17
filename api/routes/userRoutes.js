@@ -1,5 +1,6 @@
 const express = require('express');
-const auth = require('../utils/auth');
+const roles = require('../middleware/userRoles');
+const auth = require('../middleware/authentication');
 const controller = require('../controllers/userController');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
@@ -7,7 +8,7 @@ const router = express.Router();
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
-router.use(catchAsync(auth.jobBoardRecruiter));
+router.use(catchAsync(roles.jobBoardRecruiter));
 
 router.route('/')
 .get(controller._index);
