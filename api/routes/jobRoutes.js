@@ -13,6 +13,9 @@ router.route('/')
 router.route('/:id')
 .get(controller._find);
 
+router.route('/salary-types/:id')
+.get(controller.findBySalaryTypeId);
+
 router.route('/job-categories/:jobCategoryId/locations/:locationId')
 .get(controller.findJobsByCategoryAndLocation);
 

@@ -72,6 +72,7 @@ const findByJobId = catchAsync(async function (req, res, next) {
   if (!record) {
     return next(new NotFoundError('job not found'));
   }
+  console.log(record);
   const salaryType = await record.getSalaryType();
   if (!salaryType) {
     return next(new NotFoundError('salary type not found for that job'));

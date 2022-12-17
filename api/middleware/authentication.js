@@ -1,9 +1,12 @@
+const auth = require('../utils/auth');
+const AppError = require('../utils/AppError');
+
 async function protect(req, res, next) {
   let token = req?.headers?.authorization?.split('Bearer ')[1];
   if (!token) {
     return next(new AppError(`Not authorized`, 401));
   }
-  const payload = await verifyToken(token);
+  const payload = await auth.verifyToken(token);
   req.user = payload.user;
   next();
 }

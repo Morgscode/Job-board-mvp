@@ -6,6 +6,7 @@ const { Location } = require('../models/locationModel');
 const { JobCategory } = require('../models/jobCategoryModel');
 const { JobsInLocations } = require('../models/jobsInLocationsModel');
 const { JobsInCategories } = require('../models/jobsInCategoriesModel');
+const { salaryType, SalaryType } = require('../models/salaryTypeModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const jobs = await model.Job.findAll({
@@ -16,12 +17,10 @@ const _index = catchAsync(async function (req, res, next) {
   });
 
   if (!jobs || jobs?.length === 0) {
-    return next(new NotFoundError("jobs not found"));
+    return next(new NotFoundError('jobs not found'));
   }
 
-  res
-    .status(200)
-    .json({ status: 'success', data: { jobs, } });
+  res.status(200).json({ status: 'success', data: { jobs } });
 });
 
 const _find = catchAsync(async function (req, res, next) {
@@ -29,28 +28,24 @@ const _find = catchAsync(async function (req, res, next) {
   const job = await model.Job.findOne({ where: { id } });
 
   if (!job) {
-    return next(new NotFoundError("job not found"));
+    return next(new NotFoundError('job not found'));
   }
 
   res.status(200).json({ status: 'success', data: { job } });
 });
 
 const _create = catchAsync(async function (req, res, next) {
-  const job = ({ title, salary, salaryType, description, deadline } = req.body);
+  const job = ({ title, salary, description, deadline } = req.body);
+  const { salaryType } = req.body;
   const { locations = [], categories = [] } = req.body;
 
   if (locations?.length === 0 || categories?.length === 0) {
-    return next(
-      new AppError(
-        'missing job location and/or category',
-        400
-      )
-    );
+    return next(new AppError('missing job location and/or category', 400));
   }
 
   const record = await model.Job.create(job);
   if (!record) {
-    return next(new AppError("error - unable to create job", 500, false));
+    return next(new AppError('error - unable to create job', 500, false));
   }
 
   const inLocations = await Promise.all(
@@ -61,9 +56,16 @@ const _create = catchAsync(async function (req, res, next) {
     categories.map(async (category) => await record.addCategory(category))
   );
 
+  const jobSalaryType = await record.setSalaryType(job.salaryType);
+
   res.status(201).json({
     status: 'success',
-    data: { job: record, categories: inCategories, locations: inLocations },
+    data: {
+      job: record,
+      categories: inCategories,
+      locations: inLocations,
+      salaryType: jobSalaryType,
+    },
   });
 });
 
@@ -78,12 +80,12 @@ const _update = catchAsync(async function (req, res, next) {
 
   const record = await model.Job.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError("job not found"));
+    return next(new NotFoundError('job not found'));
   }
 
   const updated = await model._update(job, { id });
   if (!updated) {
-    return next(new AppError("error - unable to update job", 500, false));
+    return next(new AppError('error - unable to update job', 500, false));
   }
 
   const inLocations = await Promise.all(
@@ -201,12 +203,34 @@ const findJobsByCategoryAndLocation = catchAsync(async function (
   if (!jobs || Array.from(jobs).length === 0) {
     return next(new NotFoundError("we couldn't find any jobs", 404));
   }
-  
+
   res.status(200).json({
     status: 'success',
     data: {
       category,
       location,
+      jobs,
+    },
+  });
+});
+
+const findBySalaryTypeId = catchAsync(async function (req, res, next) {
+  const { id } = req.params;
+
+  const salaryType = await SalaryType.findOne({ where: { id } });
+  if (!salaryType) {
+    return next(new NotFoundError("we coudln't find that salary type"));
+  }
+  const jobs = await salaryType.getJobs();
+  if (!jobs || jobs?.length === 0) {
+    return next(
+      new NotFoundError("we couldn't find any jobs for that salary type")
+    );
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      salaryType,
       jobs,
     },
   });
@@ -221,4 +245,5 @@ module.exports = {
   findJobsByLocation,
   findJobsByCategory,
   findJobsByCategoryAndLocation,
+  findBySalaryTypeId,
 };

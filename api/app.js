@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet'); 
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
+const relationships = require('./models/index');
 const AppError = require('./utils/AppError');
 const auth = require('./middleware/authentication');
 const roles = require('./middleware/userRoles');
