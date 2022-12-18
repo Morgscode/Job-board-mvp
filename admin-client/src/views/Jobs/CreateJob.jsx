@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLocations } from '../../store/features/locationSlice';
 import { setJobCategories } from '../../store/features/jobCategorySlice';
 import { setSalaryTypes } from '../../store/features/salaryTypeSlice';
+import { addJob } from '../../store/features/jobSlice';
+import { Toast } from 'primereact/toast';
 import JobForm from '../../components/jobs/JobForm';
+import jobService from '../../services/jobService';
 import locationService from '../../services/locationService';
 import jobCategoryService from '../../services/jobCategoryService';
 import salaryTypeService from '../../services/salaryTypeService';
 
 function CreateJob(props) {
+  const toast = useRef(null);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const locations = useSelector((state) => state.locations.data);
   const categories = useSelector((state) => state.jobCategories.data);
   const salaryTypes = useSelector((state) => state.salaryTypes.data);
@@ -32,6 +37,27 @@ function CreateJob(props) {
     dispatch(setSalaryTypes(salaryTypes));
   }
 
+  async function createJob(submit) {
+    console.log(submit);
+    setLoading(true);
+    try {
+      const job = await jobService.create(submit);
+      dispatch(addJob(job.data.data.job));
+      toast.current.show({
+        severity: 'success',
+        summary: 'Job posted',
+      });
+    } catch (error) {
+      console.error(error);
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem creating that job',
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     if (locations?.length === 0) {
       getLocations();
@@ -47,7 +73,8 @@ function CreateJob(props) {
   return (
     <div>
       <h1 className="font-normal">Create a job posting</h1>
-      <JobForm locations={locations} categories={categories} salaryTypes={salaryTypes} />
+      <JobForm locations={locations} categories={categories} salaryTypes={salaryTypes} submit={createJob} loading={loading} />
+      <Toast ref={toast} />
     </div>
   );
 }

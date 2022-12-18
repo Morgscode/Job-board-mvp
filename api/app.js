@@ -11,6 +11,7 @@ const roles = require('./middleware/userRoles');
 const pagination = require('./middleware/pagination');
 const queryInterface = require('./middleware/queryInterface');
 const time = require('./middleware/humanRequestTime');
+const globalErrorHandler = require('./middleware/errors');
 const userRouter = require('./routes/userRoutes');
 const jobRouter = require('./routes/jobRoutes');
 const jobCategoryRouter = require('./routes/jobCategoryRoutes');
@@ -18,7 +19,6 @@ const locationRouter = require('./routes/locationRoutes');
 const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const uploadRouter = require('./routes/uploadRoutes');
 const salaryTypeRouter = require('./routes/salaryTypeRoutes');
-const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
  
 const app = express();

@@ -17,12 +17,15 @@ export const jobSlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
+    addJob: (state, action) => {
+      state.data = [action.payload, ...state.data];
+    },
     deleteJob: (state, action) => {
       state.data = state.data.filter(job => job.id !== action.payload);
     }
   },
 });
 
-export const { setJobs, setPage, setSortOrder, deleteJob } = jobSlice.actions;
+export const { setJobs, setPage, setSortOrder, addJob, deleteJob } = jobSlice.actions;
 
 export default jobSlice.reducer;
