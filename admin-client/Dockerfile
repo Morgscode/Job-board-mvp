@@ -17,5 +17,4 @@ COPY . .
 
 EXPOSE 8888
 
-RUN npm run build &&\
-    npm run start
+CMD npm run build;npm run start

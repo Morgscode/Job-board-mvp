@@ -7,8 +7,8 @@ const Inert = require('@hapi/inert');
 const init = async () => {
 
     const server = Hapi.server({
-        port: '8888',
-        host: 'localhost',
+        port: process.env.NODE_PORT || 88,
+        host: process.env.NODE_HOST || '127.0.0.1',
         routes: {
             files: {
                 relativeTo: Path.join(__dirname, 'dist')
