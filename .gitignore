@@ -2,4 +2,4 @@
 /api/config/development.env
 /storage
 setup.sh
-/ojb-tooling/*/.env
+/ojb-tooling/node/.env

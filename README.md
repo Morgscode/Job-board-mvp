@@ -82,10 +82,10 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
   SMTP_KEY=key
   MAIL_FROM=mail from <email@here>
   UPLOADS_DIR=storage/uploads
+  
   ```
-
   3. Create an env file for the admin client in `./ojb-tooling/web/.env`
-
+  
   ```
   VITE_API_URL=http://localhost:8080/api/v1
   NODE_PORT=8888
