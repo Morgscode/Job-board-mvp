@@ -6,13 +6,15 @@ process.on('uncaughtException', async function (err) {
   process.exit(1);
 });
 
-dotenv.config({ path: `${__dirname}/config/config.env` });
+if (!process.env.APP_ENV_LOADED) {
+  dotenv.config({ path: `${__dirname}/config/config.env` });
 
-switch (process.env.NODE_ENV) {
-  case 'development':
-    dotenv.config({ path: `${__dirname}/config/development.env` });
-    break;
-  case 'production':
-    dotenv.config({ path: `${__dirname}/config/production.env` });
-    break;
+  switch (process.env.NODE_ENV) {
+    case 'development':
+      dotenv.config({ path: `${__dirname}/config/development.env` });
+      break;
+    case 'production':
+      dotenv.config({ path: `${__dirname}/config/production.env` });
+      break;
+  }
 }

@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: "no"
+    env_file: ./mysql/.env
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - db:/var/lib/mysql
+  api:
+    depends_on:
+      - db
+    build: ./../api/
+    restart: "no"
+    env_file: ./node/.env
+    ports:
+      - 8080:8080
+    stdin_open: true
+    tty: true
+  admin-client:
+    depends_on:
+      - api
+    build: ./../admin-client/
+    restart: "no"
+    env_file: ./web/.env
+    ports: 
+      - 8888:8888
+
+volumes:
+  db:

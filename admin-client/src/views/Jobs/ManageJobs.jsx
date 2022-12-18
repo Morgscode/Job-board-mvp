@@ -12,9 +12,8 @@ import JobLister from '../../components/jobs/JobLister';
 // fix api to only allow certain query terms
 
 function ManageJobs() {
-  const [action, setAction] = useState('index');
-  const [job, setJob] = useState(null);
   const jobs = useSelector((state) => state.jobs.data);
+  const [manageJob, setManageJob] = useState({ action: null, data: null });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,9 +22,20 @@ function ManageJobs() {
     dispatch(setJobs(jobData.data.data.jobs));
   }
 
+  async function deleteJobs(jobs) {
+    console.log(jobs);
+  }
+
   useEffect(() => {
     if (jobs.length === 0) {
       getJobs();
+    }
+    if (manageJob.action && manageJob.data) {
+      if (manageJob.action === 'edit') {
+        dispatch(navigate(`/jobs/${manageJob.data.id}/edit`));
+      } else if (manageJob.action === 'delete') {
+        deleteJobs(manageJob.data);
+      }
     }
   });
 
@@ -43,7 +53,7 @@ function ManageJobs() {
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobLister jobs={jobs} changeAction={setAction} />
+      <JobLister jobs={jobs} manage={setManageJob} />
     </div>
   );
 }

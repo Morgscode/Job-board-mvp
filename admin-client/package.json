@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server.cjs"
   },
   "dependencies": {
+    "@hapi/hapi": "^21.1.0",
+    "@hapi/inert": "^7.0.0",
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.1",
     "localforage": "^1.10.0",

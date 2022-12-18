@@ -9,7 +9,6 @@ const jobService = {
     },
     async create(job) {
         const res = await http.post(ROUTE, job);
-        console.log(res);
         return res;
     }
 }
