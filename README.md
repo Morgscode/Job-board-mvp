@@ -109,8 +109,13 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
   7.  run the setup script from the api container
 
   ```
+  docker exec -it ojb-api /bin/bash
   sh setup.sh
   ```
+
+  8. Register as a user through the api
+  9. Update your user role to 3 and your email verified at to a current timestamp
+  10. explore
 
 ## ADMIN CLIENT
 
