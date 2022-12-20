@@ -73,6 +73,7 @@ const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
   const { job } = req.body;
   const { locations = [], categories = [] } = req.body;
+  const { salaryType } = req.body;
 
   if (!job) {
     return next(new AppError('missing job details', 400));
@@ -86,6 +87,14 @@ const _update = catchAsync(async function (req, res, next) {
   const updated = await model._update(job, { id });
   if (!updated) {
     return next(new AppError('error - unable to update job', 500, false));
+  }
+
+  if (salaryType) {
+    await record.setSalaryType(salaryType);
+  }
+
+  if (contractType) {
+    await record.setEmploymentContractType(contractType);
   }
 
   const inLocations = await Promise.all(

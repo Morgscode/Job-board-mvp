@@ -57,7 +57,7 @@ function JobForm(props) {
     }
   }
 
-  const header = (
+  const editorHeader = (
     <React.Fragment>
       <span className="ql-formats">
         <button className="ql-bold" aria-label="Bold"></button>
@@ -196,7 +196,7 @@ function JobForm(props) {
                 id="job-description"
                 style={{ minHeight: '250px' }}
                 formats={editorControls}
-                headerTemplate={header}
+                headerTemplate={editorHeader}
               />
             )}
           />

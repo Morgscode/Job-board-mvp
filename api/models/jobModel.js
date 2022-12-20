@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const moment = require('moment');
 const db = require('./../utils/db');
 const { SalaryType } = require('./salaryTypeModel');
+const { EmploymentContractType } = require('./employmentContractTypeModel');
 
 const Job = db.sequelize.define(
   'Job',
@@ -17,6 +18,13 @@ const Job = db.sequelize.define(
       validate: {
         notEmpty: true,
         notNull: true,
+      },
+    },
+    EmploymentContractTypeId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: EmploymentContractType,
+        key: 'id',
       },
     },
     salary: {

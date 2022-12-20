@@ -1,6 +1,7 @@
 const db = require('./../utils/db');
 const { User } = require('./userModel');
 const { SalaryType } = require('./salaryTypeModel');
+const { EmploymentContractType } = require('./employmentContractTypeModel');
 const { Job } = require('./jobModel');
 const { Location } = require('./locationModel');
 const { FileUpload } = require('./fileUploadModel');
@@ -10,7 +11,7 @@ const { JobsInCategories } = require('./jobsInCategoriesModel');
 const { JobApplicationStatus } = require('./jobApplicationStatusModel');
 const { JobApplication } = require('./jobApplicationModel');
 
-Job.belongsToMany(JobCategory, { 
+Job.belongsToMany(JobCategory, {
   through: { model: JobsInCategories, unique: false, paranoid: true },
   as: 'Category',
 });
@@ -24,6 +25,9 @@ Job.belongsToMany(Location, {
 Location.belongsToMany(Job, {
   through: { model: JobsInLocations, unique: false, paranoid: true },
 });
+
+EmploymentContractType.hasMany(Job);
+Job.belongsTo(EmploymentContractType);
 
 SalaryType.hasMany(Job);
 Job.belongsTo(SalaryType);
@@ -48,17 +52,21 @@ const alter = process.env.NODE_ENV === 'production' ? false : ALTER;
 async function initModels() {
   return new Promise(async (resolve, reject) => {
     try {
-      await User.sync({ force, alter });
-      await SalaryType.sync({ force, alter });
-      await Job.sync({ force, alter });
-      await JobCategory.sync({ force, alter });
-      await JobsInCategories.sync({ force, alter });
-      await Location.sync({ force, alter });
-      await JobsInLocations.sync({ force, alter });
-      await JobApplicationStatus.sync({ force, alter });
-      await FileUpload.sync({ force, alter });
-      await JobApplication.sync({ force, alter });
-      resolve('models synced - app data layer running');
+      const tables = [
+        await User.sync({ force, alter }),
+        await SalaryType.sync({ force, alter }),
+        await EmploymentContractType.sync({ force, alter }),
+        await Job.sync({ force, alter }),
+        await JobCategory.sync({ force, alter }),
+        await JobsInCategories.sync({ force, alter }),
+        await Location.sync({ force, alter }),
+        await JobsInLocations.sync({ force, alter }),
+        await JobApplicationStatus.sync({ force, alter }),
+        await FileUpload.sync({ force, alter }),
+        await JobApplication.sync({ force, alter }),
+      ];
+      const result = await Promise.all(tables);
+      resolve(result);
     } catch (error) {
       console.error(error);
       reject(error);

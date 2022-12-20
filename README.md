@@ -48,9 +48,9 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
   2. enter your db credentials to pass into the setup script.
   3. run the setup script.
 
-- OJB Tooling docker compose
+## OJB Tooling
 
-  A docker compose environment is setup and ready to go.
+  - A docker compose environment for testing and api deveopment is ready to go. Follow below for setup instructions
 
   1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 
@@ -114,8 +114,15 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
   ```
 
   8. Register as a user through the api
-  9. Update your user role to 3 and your email verified at to a current timestamp
-  10. explore
+  ```
+  POST: http://localhost:8080/api/v1/register
+  {
+    "email": "your@email.here",
+    "password": "password",
+  }
+  ```
+  9. In the phpMyAdmin container - update your user role to `3` and your email verified at to a `current timestamp`
+  10. Explore the admin client - coming soon: explore the job finder site
 
 ## ADMIN CLIENT
 
