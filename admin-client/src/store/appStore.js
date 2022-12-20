@@ -5,6 +5,7 @@ import jobReducer from './features/jobSlice';
 import locationReducer from './features/locationSlice';
 import jobCategoryReducer from './features/jobCategorySlice';
 import salaryTypeReducer from './features/salaryTypeSlice';
+import employmentContractTypeReducer from './features/employmentContractTypeSlice';
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     locations: locationReducer,
     jobCategories: jobCategoryReducer,
     salaryTypes: salaryTypeReducer,
+    employmentContractTypes: employmentContractTypeReducer,
   },
 });

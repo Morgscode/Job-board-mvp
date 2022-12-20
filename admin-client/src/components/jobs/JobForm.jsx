@@ -14,6 +14,7 @@ const model = Object.freeze({
   title: '',
   salary: '0.00',
   salaryType: '',
+  contractType: '',
   locations: [],
   categories: [],
   description: '<p></p>',
@@ -21,10 +22,8 @@ const model = Object.freeze({
 });
 
 function JobForm(props) {
-  const [formData, setFormData] = useState(
-    props.formData || {...model}
-  );
-
+  const [formData, setFormData] = useState(props.formData || { ...model });
+  
   const {
     register,
     control,
@@ -45,12 +44,12 @@ function JobForm(props) {
     return (
       errors[name] && <small className="p-error">{errors[name].message}</small>
     );
-  };
+  }
 
   async function submit(form) {
     try {
       await props.submit(form);
-      setFormData({...model});
+      setFormData({ ...model });
       console.log(formData);
     } catch (error) {
       console.error(error);
@@ -77,7 +76,7 @@ function JobForm(props) {
       className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6  shadow-1"
       onSubmit={handleSubmit(submit)}
     >
-      <div className="formgrid gird mb-6">
+      <div className="formgrid gird mb-4">
         <div className="field flex flex-column">
           <label htmlFor="title">Job Title</label>
           <Controller
@@ -96,7 +95,7 @@ function JobForm(props) {
           {getFormErrorMessage('title')}
         </div>
       </div>
-      <div className="formgrid grid">
+      <div className="formgrid grid mb-2">
         <div className="field col flex flex-column">
           <label htmlFor="salary">Salary</label>
           <Controller
@@ -117,7 +116,7 @@ function JobForm(props) {
           {getFormErrorMessage('salary')}
         </div>
         <div className="field col flex flex-column">
-          <label htmlFor="salaryType">Salary Type</label>
+          <label htmlFor="salary-type">Salary Type</label>
           <Controller
             name="salaryType"
             control={control}
@@ -129,14 +128,33 @@ function JobForm(props) {
                 options={props.salaryTypes}
                 optionLabel="name"
                 optionValue="id"
-                id="salaryType"
+                id="salary-type"
+              />
+            )}
+          />
+          {getFormErrorMessage('salaryType')}
+        </div>
+        <div className="field col flex flex-column">
+          <label htmlFor="contract-type">Contract Type</label>
+          <Controller
+            name="contractType"
+            control={control}
+            rules={{ required: 'Contract Type is required' }}
+            render={({ field, fieldState }) => (
+              <Dropdown
+                {...field}
+                className={classNames({ 'p-invalid': fieldState.invalid })}
+                options={props.contractTypes}
+                optionLabel="name"
+                optionValue="id"
+                id="contract-type"
               />
             )}
           />
           {getFormErrorMessage('salaryType')}
         </div>
       </div>
-      <div className="formgrid grid mb-6">
+      <div className="formgrid grid mb-4">
         <div className="col field flex flex-column">
           <label htmlFor="locations-select" className="block">
             Locations
@@ -182,7 +200,7 @@ function JobForm(props) {
           {getFormErrorMessage('categories')}
         </div>
       </div>
-      <div className="formgrid grid mb-6">
+      <div className="formgrid grid mb-4 pb-4">
         <div className="field flex flex-column w-full">
           <label htmlFor="job-description">Job Description</label>
           <Controller
@@ -193,6 +211,7 @@ function JobForm(props) {
               <Editor
                 {...field}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
+                onChange={(e) => field.onChange(e.value)}
                 id="job-description"
                 style={{ minHeight: '250px' }}
                 formats={editorControls}
@@ -203,7 +222,7 @@ function JobForm(props) {
           {getFormErrorMessage('description')}
         </div>
       </div>
-      <div className="formgrid grid mb-3">
+      <div className="formgrid grid mb-2">
         <div className="field flex flex-column w-full">
           <label htmlFor="application-deadline">Application deadline</label>
           <Controller
@@ -216,8 +235,8 @@ function JobForm(props) {
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 onChange={(e) => field.onChange(e.value)}
                 id="application-deadline"
-                dateFormat="dd/mm/yy" 
-                mask="99/99/9999" 
+                dateFormat="dd/mm/yy"
+                mask="99/99/9999"
                 showIcon
               />
             )}
@@ -225,11 +244,15 @@ function JobForm(props) {
           {getFormErrorMessage('deadline')}
         </div>
       </div>
-      <Button
-        label="Submit"
-        loading={props.loading}
-        loadingIcon="pi pi-spinner"
-      />
+      <div className="formgrid grid mb-2">
+        <div className="field flex flex-column w-full">
+          <Button
+            label="Submit"
+            loading={props.loading}
+            loadingIcon="pi pi-spinner"
+          />
+        </div>
+      </div>
     </form>
   );
 }

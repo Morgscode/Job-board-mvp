@@ -40,7 +40,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/jobs/1",
+							"raw": "{{dev_domain}}/api/v1/jobs/111",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -48,7 +48,7 @@
 								"api",
 								"v1",
 								"jobs",
-								"1"
+								"111"
 							]
 						}
 					},
@@ -71,7 +71,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"mid-weight back-end developer\",\n    \"salary\": \"32000.00\",\n    \"salaryType\": \"per-annum\",\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.\",\n    \"deadline\": \"2023-03-30\",\n    \"locations\": [\n        1,\n        2\n    ],\n    \"categories\": [\n        2\n    ]\n}",
+							"raw": "{\n    \"title\": \"Operations Manager\",\n    \"salary\": \"32000.00\",\n    \"salaryType\": 1,\n    \"contractType\": 1,\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac tortor ut turpis ornare molestie pretium tempor nibh. In aliquam accumsan sollicitudin. In id lectus pretium, efficitur magna eget, gravida augue. Integer venenatis vulputate elit, et volutpat mauris feugiat ut. Fusce at luctus nisi. Integer interdum gravida dignissim. Quisque mattis ligula ut ex elementum consequat. Nulla sit amet leo a leo congue fringilla. Suspendisse euismod quis metus eu fringilla. Sed facilisis eleifend odio dictum rhoncus. Mauris lobortis sapien a elit ultricies euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas at mi et dapibus. Duis rhoncus rutrum sem sit amet mollis. Nam magna ante, imperdiet vel nisl eget, sodales facilisis risus.\",\n    \"deadline\": \"2023-03-30\",\n    \"locations\": [\n        1,\n        2\n    ],\n    \"categories\": [\n        3\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -163,6 +163,58 @@
 					"response": []
 				},
 				{
+					"name": "Find by salary type id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/jobs/salary-types/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"salary-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by employment contract type id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/jobs/employment-contract-types/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"employment-contract-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Find by location id",
 					"request": {
 						"auth": {
@@ -180,6 +232,30 @@
 								"v1",
 								"jobs",
 								"locations",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by job category id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/jobs/job-categories/2",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"job-categories",
 								"2"
 							]
 						}
@@ -206,30 +282,6 @@
 								"job-categories",
 								"1",
 								"locations",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Find by job category id",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{dev_domain}}/api/v1/jobs/job-categories/2",
-							"host": [
-								"{{dev_domain}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"jobs",
-								"job-categories",
 								"2"
 							]
 						}
@@ -303,7 +355,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"name\": \"Programming and Technology\",\n        \"description\": \"\",\n        \"active\": \"1\"\n    }",
+							"raw": "{\n        \"name\": \"Leadership and Management\",\n        \"description\": \"\"\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -560,6 +612,335 @@
 								"api",
 								"v1",
 								"locations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Salary Types",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/salary-types/",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"salary-types",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/salary-types/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"salary-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"internship\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/salary-types",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"salary-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"salaryType\": {\n        \"name\": \"Internship\" \n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/salary-types/5",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"salary-types",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/salary-types/5",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"salary-types",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by Job Id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/salary-types/jobs/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"salary-types",
+								"jobs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employment Contract Types",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/employment-contract-types",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employment-contract-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/employment-contract-types/2",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employment-contract-types",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/employment-contract-types",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employment-contract-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/employment-contract-types/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employment-contract-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/employment-contract-types/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employment-contract-types",
 								"1"
 							]
 						}
@@ -1112,165 +1493,6 @@
 			]
 		},
 		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Update password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjozLCJjcmVhdGVkQXQiOiIyMDIyLTExLTIwVDE4OjQyOjAwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTExLTI3VDAxOjE0OjIwLjAwMFoiLCJkZWxldGVkQXQiOm51bGx9LCJpYXQiOjE2Njk1MTE4MzAsImV4cCI6MTY2OTU0MDYzMH0.VUliCl0gFSV7Ydj5g_H-WU1ztEQVeJnu58waaxSwxf8",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"password\": \"12345678\",\n    \"passwordConfirm\": \"12345678\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dev_domain}}/api/v1/update-password",
-							"host": [
-								"{{dev_domain}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"update-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Forgot password",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"morgan.luke94@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dev_domain}}/api/v1/forgot-password",
-							"host": [
-								"{{dev_domain}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"forgot-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Reset password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjozLCJjcmVhdGVkQXQiOiIyMDIyLTExLTIwVDE4OjQyOjAwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTExLTI3VDAxOjE0OjIwLjAwMFoiLCJkZWxldGVkQXQiOm51bGx9LCJpYXQiOjE2Njk1MTE4MzAsImV4cCI6MTY2OTU0MDYzMH0.VUliCl0gFSV7Ydj5g_H-WU1ztEQVeJnu58waaxSwxf8",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{dev_domain}}/api/v1/reset-password",
-							"host": [
-								"{{dev_domain}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"reset-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"luke@tjcuk.co.uk\",\n    \"password\": \"12345678\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dev_domain}}/api/v1/register",
-							"host": [
-								"{{dev_domain}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"morgan_luke94@icloud.com\",\n    \"password\": \"12345678\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dev_domain}}/api/v1/login",
-							"host": [
-								"{{dev_domain}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Users",
 			"item": [
 				{
@@ -1434,6 +1656,165 @@
 								"v1",
 								"users",
 								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Update password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjozLCJjcmVhdGVkQXQiOiIyMDIyLTExLTIwVDE4OjQyOjAwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTExLTI3VDAxOjE0OjIwLjAwMFoiLCJkZWxldGVkQXQiOm51bGx9LCJpYXQiOjE2Njk1MTE4MzAsImV4cCI6MTY2OTU0MDYzMH0.VUliCl0gFSV7Ydj5g_H-WU1ztEQVeJnu58waaxSwxf8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"12345678\",\n    \"passwordConfirm\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/update-password",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"morgan.luke94@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/forgot-password",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xlIjozLCJjcmVhdGVkQXQiOiIyMDIyLTExLTIwVDE4OjQyOjAwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTExLTI3VDAxOjE0OjIwLjAwMFoiLCJkZWxldGVkQXQiOm51bGx9LCJpYXQiOjE2Njk1MTE4MzAsImV4cCI6MTY2OTU0MDYzMH0.VUliCl0gFSV7Ydj5g_H-WU1ztEQVeJnu58waaxSwxf8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/reset-password",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"morgan.luke94@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/register",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"morgan.luke94@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/login",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
 							]
 						}
 					},

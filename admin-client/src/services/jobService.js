@@ -7,10 +7,14 @@ const jobService = {
         const res = await http.get(`${ROUTE}?page=${page}&order=${sortOrder}`);
         return res;
     },
+    async find(id) {
+        const res = await http.get(`${ROUTE}/${id}`, id);
+        return res;
+    },
     async create(job) {
         const res = await http.post(ROUTE, job);
         return res;
-    }
+    },
 }
 
 export default jobService;

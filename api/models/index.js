@@ -1,4 +1,3 @@
-const db = require('./../utils/db');
 const { User } = require('./userModel');
 const { SalaryType } = require('./salaryTypeModel');
 const { EmploymentContractType } = require('./employmentContractTypeModel');
@@ -75,7 +74,7 @@ async function initModels() {
 }
 
 initModels()
-  .then((message) => console.log(message))
+  .then((tables) => console.log(tables))
   .catch((err) => {
     console.log('could not reliably sync the models - shutting down...');
     process.exit(1);

@@ -19,6 +19,7 @@ const locationRouter = require('./routes/locationRoutes');
 const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const uploadRouter = require('./routes/uploadRoutes');
 const salaryTypeRouter = require('./routes/salaryTypeRoutes');
+const employmentContractTypeRouter = require('./routes/employmentContractTypeRoutes');
 const authController = require('./controllers/authController');
  
 const app = express();
@@ -58,6 +59,7 @@ app.use('/api/v1/locations', locationRouter);
 app.use('/api/v1/job-applications', jobApplicationRouter); 
 app.use('/api/v1/uploads', uploadRouter);
 app.use('/api/v1/salary-types', salaryTypeRouter);
+app.use('/api/v1/employment-contract-types', employmentContractTypeRouter);
 
 // root route
 app.get('/api/v1', async function (req, res, next) {

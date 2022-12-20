@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLocations } from '../../store/features/locationSlice';
 import { setJobCategories } from '../../store/features/jobCategorySlice';
 import { setSalaryTypes } from '../../store/features/salaryTypeSlice';
+import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
 import { addJob } from '../../store/features/jobSlice';
 import { Toast } from 'primereact/toast';
 import JobForm from '../../components/jobs/JobForm';
@@ -10,6 +11,7 @@ import jobService from '../../services/jobService';
 import locationService from '../../services/locationService';
 import jobCategoryService from '../../services/jobCategoryService';
 import salaryTypeService from '../../services/salaryTypeService';
+import employmentContractTypeService from '../../services/employmentContractTypeService';
 
 function CreateJob(props) {
   const toast = useRef(null);
@@ -18,6 +20,7 @@ function CreateJob(props) {
   const locations = useSelector((state) => state.locations.data);
   const categories = useSelector((state) => state.jobCategories.data);
   const salaryTypes = useSelector((state) => state.salaryTypes.data);
+  const contractTypes = useSelector((state) => state.employmentContractTypes.data);
 
   async function getLocations() {
     const res = await locationService.index();
@@ -35,6 +38,12 @@ function CreateJob(props) {
     const res = await salaryTypeService.index();
     const { salaryTypes } = res.data.data;
     dispatch(setSalaryTypes(salaryTypes));
+  }
+
+  async function getEmploymentContractTypes() {
+    const res = await employmentContractTypeService.index();
+    const { contractTypes } = res.data.data;
+    dispatch(setContractTypes(contractTypes));
   }
 
   async function createJob(submit) {
@@ -68,12 +77,15 @@ function CreateJob(props) {
     if (salaryTypes.length === 0) {
       getSalaryTypes();
     }
+    if (contractTypes.length === 0) {
+      getEmploymentContractTypes();
+    }
   });
 
   return (
     <div>
       <h1 className="font-normal">Create a job posting</h1>
-      <JobForm locations={locations} categories={categories} salaryTypes={salaryTypes} submit={createJob} loading={loading} />
+      <JobForm locations={locations} categories={categories} salaryTypes={salaryTypes} contractTypes={contractTypes} submit={createJob} loading={loading} />
       <Toast ref={toast} />
     </div>
   );

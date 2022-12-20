@@ -1,7 +1,7 @@
 const express = require('express');
 const roles = require('../middleware/userRoles');
 const auth = require('../middleware/authentication');
-const controller = require('../controllers/jobController');
+const controller = require('../controllers/employmentContractType');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 
@@ -12,21 +12,6 @@ router.route('/')
 
 router.route('/:id')
 .get(controller._find);
-
-router.route('/salary-types/:id')
-.get(controller.findBySalaryTypeId);
-
-router.route('/employment-contract-types/:id')
-.get(controller.findJobsByEmploymentContractTypeId);
-
-router.route('/job-categories/:jobCategoryId/locations/:locationId')
-.get(controller.findJobsByCategoryAndLocation);
-
-router.route('/job-categories/:id')
-.get(controller.findJobsByCategory);
-
-router.route('/locations/:id')
-.get(controller.findJobsByLocation);
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));

@@ -32,7 +32,7 @@ function ManageJobs() {
     }
     if (manageJob.action && manageJob.data) {
       if (manageJob.action === 'edit') {
-        dispatch(navigate(`/jobs/${manageJob.data.id}/edit`));
+        navigate(`/jobs/${manageJob.data.id}/edit`);
       } else if (manageJob.action === 'delete') {
         deleteJobs(manageJob.data);
       }

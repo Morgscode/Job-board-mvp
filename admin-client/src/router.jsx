@@ -5,6 +5,7 @@ import Login from './views/Login';
 import Dashboard from './views/Dashboard';
 import ManageJobs from './views/Jobs/ManageJobs';
 import CreateJob from './views/Jobs/CreateJob';
+import EditJob from './views/Jobs/EditJob';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: 'jobs/create',
         element: <CreateJob />,
+      },
+      {
+        path: 'jobs/:id/edit',
+        element: <EditJob />,
       },
     ],
   },

@@ -7,8 +7,6 @@ services:
     env_file: ./mysql/.env
     ports:
       - 3306:3306
-    expose:
-      - 3306
     volumes:
       - db:/var/lib/mysql
   phpmyadmin:

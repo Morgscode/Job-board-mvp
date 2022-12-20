@@ -111,8 +111,12 @@ const JobApplicationStatuses = [
 
 async function main() {
   try {
+    console.info('Building db tables.....');
+    console.info('======');
+    console.info('');
+    console.info('');
     await relationships.initModels();
-    console.info('setting up database with seed data.....');
+    console.info('DB Tables created - seeding db.....');
     console.info('======');
     console.info('');
     console.info('');
