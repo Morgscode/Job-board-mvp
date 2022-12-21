@@ -93,7 +93,7 @@ function EditJob(props) {
     if (contractTypes.length === 0) {
       getEmploymentContractTypes();
     }
-  });
+  }, [job, locations, categories, salaryTypes, contractTypes]);
 
   return (
     <div>

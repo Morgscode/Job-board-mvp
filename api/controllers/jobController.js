@@ -37,11 +37,14 @@ const _find = catchAsync(async function (req, res, next) {
 
 const _create = catchAsync(async function (req, res, next) {
   const job = ({ title, salary, description, deadline } = req.body);
-  const { salaryType } = req.body;
-  const { locations = [], categories = [] } = req.body;
+  const { locations = [], categories = [], contractType, salaryType } = req.body;
 
   if (locations?.length === 0 || categories?.length === 0) {
     return next(new AppError('missing job location and/or category', 400));
+  }
+
+  if (!contractType || !salaryType) {
+    return next(new AppError('missing job salary type and/or contract type', 400));
   }
 
   const record = await model.Job.create(job);
@@ -57,7 +60,9 @@ const _create = catchAsync(async function (req, res, next) {
     categories.map(async (category) => await record.addCategory(category))
   );
 
-  const jobSalaryType = await record.setSalaryType(job.salaryType);
+  const jobSalaryType = await record.setSalaryType(salaryType);
+
+  const jobContractType = await record.setEmploymentContractType(contractType);
 
   res.status(201).json({
     status: 'success',
@@ -66,6 +71,7 @@ const _create = catchAsync(async function (req, res, next) {
       categories: inCategories,
       locations: inLocations,
       salaryType: jobSalaryType,
+      contractType: jobContractType
     },
   });
 });
@@ -73,8 +79,7 @@ const _create = catchAsync(async function (req, res, next) {
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
   const { job } = req.body;
-  const { locations = [], categories = [] } = req.body;
-  const { salaryType } = req.body;
+  const { locations = [], categories = [], salaryType, contractType } = req.body;
 
   if (!job) {
     return next(new AppError('missing job details', 400));

@@ -17,7 +17,7 @@ function App() {
     if (!loggedIn) {
       navigate('/login');
     }
-  });
+  }, [loggedIn]);
 
   return (
     <div className="App w-full min-h-screen p-0 m-0">

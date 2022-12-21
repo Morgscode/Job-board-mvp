@@ -80,7 +80,7 @@ function CreateJob(props) {
     if (contractTypes.length === 0) {
       getEmploymentContractTypes();
     }
-  });
+  }, [locations, categories, salaryTypes, contractTypes]);
 
   return (
     <div>

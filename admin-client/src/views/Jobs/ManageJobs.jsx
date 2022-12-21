@@ -37,7 +37,7 @@ function ManageJobs() {
         deleteJobs(manageJob.data);
       }
     }
-  });
+  }, [jobs, manageJob]);
 
   const actions = (
     <React.Fragment>
