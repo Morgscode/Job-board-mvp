@@ -29,7 +29,7 @@ function CreateJob(props) {
     contractType: '',
     locations: [],
     categories: [],
-    description: '<p></p>',
+    description: '<p>Make it snappy</p>',
     deadline: null,
   });
 
@@ -61,8 +61,9 @@ function CreateJob(props) {
     console.log(submit);
     setLoading(true);
     try {
-      const job = await jobService.create(submit);
-      dispatch(addJob(job.data.data.job));
+      const res = await jobService.create(submit);
+      const { job } = res.data.data;
+      dispatch(addJob(job));
       toast.current.show({
         severity: 'success',
         summary: 'Job posted',

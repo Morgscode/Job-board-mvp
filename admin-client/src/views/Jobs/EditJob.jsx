@@ -57,7 +57,6 @@ function EditJob(props) {
   }
 
   async function updateJob(submit) {
-    console.log(submit);
     setLoading(true);
     try {
       const job = await jobService.update(submit);

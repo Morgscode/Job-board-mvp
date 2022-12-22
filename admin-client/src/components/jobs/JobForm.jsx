@@ -13,13 +13,19 @@ import { classNames } from 'primereact/utils';
 function JobForm(props) {
   const [formData, setFormData] = useState(props.formData);
 
-  console.log(formData);
+  useEffect(() => {
+    if (!isDirty) {
+      setFormData(props.formData);
+    }
+  });
   
   const {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
+    isDirty,
   } = useForm({ defaultValues: formData });
 
   const editorControls = [
@@ -40,7 +46,8 @@ function JobForm(props) {
   async function submit(form) {
     try {
       await props.submit(form);
-      setFormData({ ...model });
+      setFormData({});
+      reset();
       console.log(formData);
     } catch (error) {
       console.error(error);
@@ -97,6 +104,7 @@ function JobForm(props) {
               <InputNumber
                 id="salary"
                 value={field.value}
+                onChange={(e) => field.onChange(e.value)}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 mode="currency"
                 currency="GBP"
@@ -114,12 +122,12 @@ function JobForm(props) {
             rules={{ required: 'Salary Type is required' }}
             render={({ field, fieldState }) => (
               <Dropdown
+                id="salary-type"
                 {...field}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 options={props.salaryTypes}
                 optionLabel="name"
                 optionValue="id"
-                id="salary-type"
               />
             )}
           />
@@ -133,12 +141,12 @@ function JobForm(props) {
             rules={{ required: 'Contract Type is required' }}
             render={({ field, fieldState }) => (
               <Dropdown
+                id="contract-type"
                 {...field}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 options={props.contractTypes}
                 optionLabel="name"
                 optionValue="id"
-                id="contract-type"
               />
             )}
           />
@@ -156,13 +164,13 @@ function JobForm(props) {
             rules={{ required: 'At least 1 location is required' }}
             render={({ field, fieldState }) => (
               <MultiSelect
+                optionValue="id"
                 value={field.value}
+                onChange={(e) => field.onChange(e.value)}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 id="locations-select"
                 options={props.locations}
                 optionLabel="name"
-                optionValue="id"
-                onChange={(e) => field.onChange(e.value)}
               />
             )}
           />
@@ -178,13 +186,13 @@ function JobForm(props) {
             rules={{ required: 'At least 1 category is required' }}
             render={({ field, fieldState }) => (
               <MultiSelect
+                id="categories-select"
                 value={field.value}
+                onChange={(e) => field.onChange(e.value)}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 options={props.categories}
                 optionLabel="name"
                 optionValue="id"
-                id="categories-select"
-                onChange={(e) => field.onChange(e.value)}
               />
             )}
           />
@@ -200,10 +208,10 @@ function JobForm(props) {
             rules={{ required: 'You need to set a job description' }}
             render={({ field, fieldState }) => (
               <Editor
-                {...field}
-                className={classNames({ 'p-invalid': fieldState.invalid })}
-                onChange={(e) => field.onChange(e.value)}
                 id="job-description"
+                value={field.value}
+                onTextChange={(e) => field.onChange(e.htmlValue)}
+                className={classNames({ 'p-invalid': fieldState.invalid })}
                 style={{ minHeight: '250px' }}
                 formats={editorControls}
                 headerTemplate={editorHeader}
@@ -222,10 +230,10 @@ function JobForm(props) {
             rules={{ required: 'You need to set a deadline for applications' }}
             render={({ field, fieldState }) => (
               <Calendar
-                value={field.value}
-                className={classNames({ 'p-invalid': fieldState.invalid })}
-                onChange={(e) => field.onChange(e.value)}
                 id="application-deadline"
+                value={field.value}
+                onChange={(e) => field.onChange(e.value)}
+                className={classNames({ 'p-invalid': fieldState.invalid })}
                 dateFormat="dd/mm/yy"
                 mask="99/99/9999"
                 showIcon

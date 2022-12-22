@@ -7,8 +7,13 @@ const { User, apiUser } = require('../models/userModel');
 const { JobApplication } = require('../models/jobApplicationModel');
 
 const _index = catchAsync(async (req, res, next) => {
-  const uploads = await FileUpload.findAll({ ...req.query.pagination });
-  if (!uploads || uploads.length === 0) {
+  const uploads = await FileUpload.findAll({
+    attributes: req.sql.attributes,
+    where: { ...req.sql.where },
+    order: req.sql.order,
+    ...req.pagination,
+  });
+  if (!uploads) {
     return next(new NotFoundError('Uploads not found'));
   }
   res.status(200).json({
@@ -119,20 +124,20 @@ const findUploadsByUserId = catchAsync(async (req, res, next) => {
 
 const findUploadByJobApplicationId = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const application = await JobApplication.findOne({where: {id, }});
+  const application = await JobApplication.findOne({ where: { id } });
   if (!application) {
     return next(new NotFoundError('application not found'));
   }
   const upload = await application.getFileUpload();
   if (!upload) {
     return next(new NotFoundError('upload not found'));
-  } 
+  }
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       application,
       upload,
-    }
+    },
   });
 });
 

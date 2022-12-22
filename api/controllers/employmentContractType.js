@@ -5,24 +5,30 @@ const model = require('../models/employmentContractTypeModel');
 const { Job } = require('../models/jobModel');
 
 const _index = catchAsync(async function (req, res, next) {
-  const contractTypes = await model.EmploymentContractType.findAll({ ...req.pagination });
-
-  if (!contractTypes || contractTypes?.length === 0) {
-    return next(new NotFoundError("salary types not found"));
+  const contractTypes = await model.EmploymentContractType.findAll({
+    attributes: req.sql.attributes,
+    where: { ...req.sql.where },
+    order: req.sql.order,
+    ...req.pagination,
+  });
+  if (!contractTypes) {
+    return next(new NotFoundError('contract types not found'));
   }
 
   res.status(200).json({
     status: 'success',
-    data: { contractTypes, },
+    data: { contractTypes },
   });
 });
 
 const _find = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const contractType = await model.EmploymentContractType.findOne({ where: { id } });
+  const contractType = await model.EmploymentContractType.findOne({
+    where: { id },
+  });
 
   if (!contractType) {
-    return next(new NotFoundError("contract type not found"));
+    return next(new NotFoundError('contract type not found'));
   }
 
   res.status(200).json({ status: 'success', data: { contractType } });
@@ -30,7 +36,7 @@ const _find = catchAsync(async function (req, res, next) {
 
 const _create = catchAsync(async function (req, res, next) {
   const { name } = req.body;
-  const record = await model.EmploymentContractType.create({name,});
+  const record = await model.EmploymentContractType.create({ name });
 
   if (!record) {
     return next(new AppError("couldn't create that contract type", 500, false));
@@ -49,12 +55,14 @@ const _update = catchAsync(async function (req, res, next) {
 
   const record = await model.EmploymentContractType.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError("location not found"));
+    return next(new NotFoundError('location not found'));
   }
 
   const updated = await model._update(contractType, { id });
   if (!updated) {
-    return next(new AppError("error - could not update salary type", 500, false));
+    return next(
+      new AppError('error - could not update salary type', 500, false)
+    );
   }
 
   res.status(200).json({ status: 'success', data: { updated } });
@@ -66,5 +74,4 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-
-module.exports = { _index, _find, _create, _update, _delete, };
+module.exports = { _index, _find, _create, _update, _delete };

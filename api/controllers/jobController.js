@@ -17,8 +17,7 @@ const _index = catchAsync(async function (req, res, next) {
     order: req.sql.order,
     ...req.pagination,
   });
-
-  if (!jobs || jobs?.length === 0) {
+  if (!jobs) {
     return next(new NotFoundError('jobs not found'));
   }
 

@@ -18,7 +18,8 @@ export const jobSlice = createSlice({
       state.sortOrder = action.payload;
     },
     addJob: (state, action) => {
-      state.data = [action.payload, ...state.data];
+      const jobs = [...state.data]
+      state.data = [action.payload, ...jobs];
     },
     deleteJob: (state, action) => {
       state.data = state.data.filter(job => job.id !== action.payload);

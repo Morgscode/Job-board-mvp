@@ -12,8 +12,7 @@ const _index = catchAsync(async function (req, res, next) {
     order: req.sql.order,
     ...req.pagination,
   });
-
-  if (!users || users?.length === 0) {
+  if (!users) {
     return next(new NotFoundError('users not found'));
   }
 

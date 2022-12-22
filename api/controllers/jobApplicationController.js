@@ -9,10 +9,12 @@ const { JobApplicationStatus } = require('../models/jobApplicationStatusModel');
 
 const _index = catchAsync(async function (req, res, next) {
   const applications = await model.JobApplication.findAll({
+    attributes: req.sql.attributes,
+    where: { ...req.sql.where },
+    order: req.sql.order,
     ...req.pagination,
   });
-
-  if (!applications || applications?.length === 0) {
+  if (!applications) {
     return next(new NotFoundError("job applications not found"));
   }
 

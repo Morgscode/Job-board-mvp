@@ -2,17 +2,22 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/locationModel');
+const { Job } = require('../models/jobModel');
 
 const _index = catchAsync(async function (req, res, next) {
-  const locations = await model.Location.findAll({ ...req.pagination });
-
-  if (!locations || locations?.length === 0) {
-    return next(new NotFoundError("locations not found"));
+  const locations = await model.Location.findAll({
+    attributes: req.sql.attributes,
+    where: { ...req.sql.where },
+    order: req.sql.order,
+    ...req.pagination,
+  });
+  if (!locations) {
+    return next(new NotFoundError('locations not found'));
   }
-
+  
   res.status(200).json({
     status: 'success',
-    data: { locations, },
+    data: { locations },
   });
 });
 
@@ -21,7 +26,7 @@ const _find = catchAsync(async function (req, res, next) {
   const location = await model.Location.findOne({ where: { id } });
 
   if (!location) {
-    return next(new NotFoundError("location not found"));
+    return next(new NotFoundError('location not found'));
   }
 
   res.status(200).json({ status: 'success', data: { location } });
@@ -48,12 +53,12 @@ const _update = catchAsync(async function (req, res, next) {
 
   const record = await model.Location.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError("location not found"));
+    return next(new NotFoundError('location not found'));
   }
 
   const updated = await model._update(location, { id });
   if (!updated) {
-    return next(new AppError("error - could not update location", 500, false));
+    return next(new AppError('error - could not update location', 500, false));
   }
 
   res.status(200).json({ status: 'success', data: { updated } });
@@ -65,4 +70,21 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-module.exports = { _index, _find, _create, _update, _delete };
+const findByJobId = catchAsync(async function (req, res, next) {
+  const { id } = req.params;
+  const job = await Job.findOne({ where: { id } });
+  if (!job) {
+    return next(new NotFoundError('job not found'));
+  }
+
+  const locations = await job.getLocations();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      job,
+      locations,
+    },
+  });
+});
+
+module.exports = { _index, _find, _create, _update, _delete, findByJobId };
