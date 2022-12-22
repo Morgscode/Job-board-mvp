@@ -17,16 +17,16 @@ router.route('/salary-types/:id')
 .get(controller.findBySalaryTypeId);
 
 router.route('/employment-contract-types/:id')
-.get(controller.findJobsByEmploymentContractTypeId);
+.get(controller.findByEmploymentContractTypeId);
 
 router.route('/job-categories/:jobCategoryId/locations/:locationId')
-.get(controller.findJobsByCategoryAndLocation);
+.get(controller.findByCategoryAndLocation);
 
 router.route('/job-categories/:id')
-.get(controller.findJobsByCategory);
+.get(controller.findByCategory);
 
 router.route('/locations/:id')
-.get(controller.findJobsByLocation);
+.get(controller.findByLocation);
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
@@ -38,5 +38,8 @@ router.route('/')
 router.route('/:id')
 .put(controller._update)
 .delete(controller._delete);
+
+router.route('/job-applications/:id')
+.get(controller.findByJobApplicationId);
  
 module.exports = router;

@@ -109,7 +109,7 @@ function JobForm(props) {
         <div className="field col flex flex-column">
           <label htmlFor="salary-type">Salary Type</label>
           <Controller
-            name="salaryType"
+            name="salary_type_id"
             control={control}
             rules={{ required: 'Salary Type is required' }}
             render={({ field, fieldState }) => (
@@ -128,7 +128,7 @@ function JobForm(props) {
         <div className="field col flex flex-column">
           <label htmlFor="contract-type">Contract Type</label>
           <Controller
-            name="contractType"
+            name="employment_contract_type_id"
             control={control}
             rules={{ required: 'Contract Type is required' }}
             render={({ field, fieldState }) => (

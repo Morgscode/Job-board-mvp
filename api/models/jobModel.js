@@ -20,15 +20,8 @@ const Job = db.sequelize.define(
         notNull: true,
       },
     },
-    employment_contract_type_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: EmploymentContractType,
-        key: 'id',
-      },
-    },
-    salary: {
-      type: DataTypes.FLOAT(11, 2),
+    description: {
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -42,12 +35,19 @@ const Job = db.sequelize.define(
         key: 'id',
       },
     },
-    description: {
-      type: DataTypes.TEXT,
+    salary: {
+      type: DataTypes.FLOAT(11, 2),
       allowNull: false,
       validate: {
         notEmpty: true,
         notNull: true,
+      },
+    },
+    employment_contract_type_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: EmploymentContractType,
+        key: 'id',
       },
     },
     deadline: {

@@ -44,6 +44,9 @@ JobApplication.belongsTo(User, {foreignKey: 'user_id'});
 FileUpload.hasMany(JobApplication, { foreignKey: 'cv_id' });
 JobApplication.belongsTo(FileUpload, { foreignKey: 'cv_id' });
 
+Job.hasMany(JobApplication, {foreignKey: 'job_id'});
+JobApplication.belongsTo(Job, {foreignKey: 'job_id'});
+
 JobApplicationStatus.hasMany(JobApplication, {foreignKey: 'job_application_status_id'});
 JobApplication.belongsTo(JobApplicationStatus, {foreignKey: 'job_application_status_id'});
 
