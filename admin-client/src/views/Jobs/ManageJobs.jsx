@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setJobs } from '../../store/features/jobSlice';
+import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import jobService from '../../services/jobService';
+import employmentContractTypeService from '../../services/employmentContractTypeService';
 import JobLister from '../../components/jobs/JobLister';
 
 // bring in toast for ajax success/error
@@ -13,23 +15,39 @@ import JobLister from '../../components/jobs/JobLister';
 
 function ManageJobs() {
   const jobs = useSelector((state) => state.jobs.data);
+  const contractTypes = useSelector((state) => state.employmentContractTypes.data);
   const [manageJob, setManageJob] = useState({ action: null, data: null });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   async function getJobs() {
     const jobData = await jobService.index();
-    dispatch(setJobs(jobData.data.data.jobs));
+    const { jobs } = jobData.data.data;
+    dispatch(setJobs(jobs));
   }
+  useEffect(() => {
+    if (jobs.length === 0) {
+      getJobs();
+    }
+  }, [jobs]);
 
   async function deleteJobs(jobs) {
     console.log(jobs);
   }
 
+  async function getContractTypes() {
+    const contractTypesData = await employmentContractTypeService.index();
+    const { contractTypes } = contractTypesData.data.data;
+    dispatch(setContractTypes(contractTypes));
+  }
+
   useEffect(() => {
-    if (jobs.length === 0) {
-      getJobs();
+    if (contractTypes.length === 0) {
+      getContractTypes();
     }
+  }, [contractTypes]);
+
+  useEffect(() => {
     if (manageJob.action && manageJob.data) {
       if (manageJob.action === 'edit') {
         navigate(`/jobs/${manageJob.data.id}/edit`);
@@ -37,7 +55,8 @@ function ManageJobs() {
         deleteJobs(manageJob.data);
       }
     }
-  }, [jobs, manageJob]);
+    return 
+  }, [manageJob]); 
 
   const actions = (
     <React.Fragment>
@@ -53,7 +72,7 @@ function ManageJobs() {
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobLister jobs={jobs} manage={setManageJob} />
+      <JobLister jobs={jobs} contractTypes={contractTypes} manage={setManageJob} />
     </div>
   );
 }

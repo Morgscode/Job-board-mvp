@@ -11,14 +11,14 @@ const JobsInCategories = db.sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    JobId: {
+    job_id: {
       type: DataTypes.INTEGER,
       references: {
         model: Job,
         key: 'id'
       }
     },
-    JobCategoryId: {
+    job_category_id: {
       type: DataTypes.INTEGER,
       references: {
         model: JobCategory,

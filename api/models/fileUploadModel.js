@@ -39,7 +39,7 @@ const FileUpload = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    UserId: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

@@ -8,13 +8,15 @@ function filterPayload(payload) {
   if ('password' in payload) delete payload['password'];
   if ('email' in payload) delete payload['email'];
   if ('title' in payload) delete payload['title'];
-  if ('firstName' in payload) delete payload['firstName'];
+  if ('first_name' in payload) delete payload['first_name'];
   if ('surname' in payload) delete payload['surname'];
-  if ('middleNames' in payload) delete payload['middleNames'];
-  if ('passwordResetToken' in payload) delete payload['passwordResetToken'];
-  if ('passwordResetExpires' in payload) delete payload['passwordResetExpires'];
-  if ('passwordRefreshedAt' in payload) delete payload['passwordRefreshedAt'];
-  if ('emailVerifyToken' in payload) delete payload['emailVerifyToken'];
+  if ('middle_names' in payload) delete payload['middle_names'];
+  if ('password_reset_token' in payload) delete payload['password_reset_token'];
+  if ('password_reset_expires' in payload)
+    delete payload['password_reset_expires'];
+  if ('password_refreshed_at' in payload)
+    delete payload['password_refreshed_at'];
+  if ('email_verify_token' in payload) delete payload['email_verify_token'];
   return payload;
 }
 
@@ -22,7 +24,7 @@ function createJWT(user) {
   if (!user) {
     throw new Error('no payload passed to jwt');
   }
-  const payload = JSON.parse(JSON.stringify(filterPayload(user)));
+  const payload = filterPayload({...user});
   return jwt.sign({ user: payload }, process.env.JWT_SECRET, {
     expiresIn: '8h',
   });

@@ -20,7 +20,7 @@ const Job = db.sequelize.define(
         notNull: true,
       },
     },
-    EmploymentContractTypeId: {
+    employment_contract_type_id: {
       type: DataTypes.INTEGER,
       references: {
         model: EmploymentContractType,
@@ -35,7 +35,7 @@ const Job = db.sequelize.define(
         notNull: true,
       },
     },
-    SalaryTypeId: {
+    salary_type_id: {
       type: DataTypes.INTEGER,
       references: {
         model: SalaryType,

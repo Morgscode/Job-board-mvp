@@ -10,19 +10,10 @@ import { Button } from 'primereact/button';
 import { Editor } from 'primereact/editor';
 import { classNames } from 'primereact/utils';
 
-const model = Object.freeze({
-  title: '',
-  salary: '0.00',
-  salaryType: '',
-  contractType: '',
-  locations: [],
-  categories: [],
-  description: '<p></p>',
-  deadline: null,
-});
-
 function JobForm(props) {
-  const [formData, setFormData] = useState(props.formData || { ...model });
+  const [formData, setFormData] = useState(props.formData);
+
+  console.log(formData);
   
   const {
     register,

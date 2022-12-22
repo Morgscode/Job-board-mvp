@@ -30,10 +30,6 @@ function JobLister(props) {
     setGlobalFilterValue(value);
   };
 
-  function formatActive(data) {
-    return data.active === 0 ? 'Closed' : 'Open';
-  }
-
   function formatCreatedDate(data) {
     return moment(data.createdAt).format('L');
   }
@@ -74,7 +70,6 @@ function JobLister(props) {
         rowHover
       >
         <Column field="title" header="Title"></Column>
-        <Column field="active" header="Open" body={formatActive}></Column>
         <Column
           field="createdAt"
           header="Created"

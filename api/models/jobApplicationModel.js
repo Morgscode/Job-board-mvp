@@ -14,14 +14,14 @@ const JobApplication = db.sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    JobApplicationStatusId: {
+    job_application_status_id: {
       type: DataTypes.INTEGER,
       references: {
         model: JobApplicationStatus,
         key: 'id',
       },
     },
-    JobId: {
+    job_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -34,7 +34,7 @@ const JobApplication = db.sequelize.define(
         isInt: true,
       },
     },
-    UserId: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -47,11 +47,11 @@ const JobApplication = db.sequelize.define(
         isInt: true,
       },
     },
-    coveringLetter: {
+    cover_letter: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    CvId: {
+    cv_id: {
       type: DataTypes.INTEGER,
       references: { 
         model: FileUpload,

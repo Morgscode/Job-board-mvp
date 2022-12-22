@@ -22,6 +22,17 @@ function CreateJob(props) {
   const salaryTypes = useSelector((state) => state.salaryTypes.data);
   const contractTypes = useSelector((state) => state.employmentContractTypes.data);
 
+  const model = Object.freeze({
+    title: '',
+    salary: '0.00',
+    salaryType: '',
+    contractType: '',
+    locations: [],
+    categories: [],
+    description: '<p></p>',
+    deadline: null,
+  });
+
   async function getLocations() {
     const res = await locationService.index();
     const { locations } = res.data.data;
@@ -85,7 +96,7 @@ function CreateJob(props) {
   return (
     <div>
       <h1 className="font-normal">Create a job posting</h1>
-      <JobForm locations={locations} categories={categories} salaryTypes={salaryTypes} contractTypes={contractTypes} submit={createJob} loading={loading} />
+      <JobForm formData={{...model}} locations={locations} categories={categories} salaryTypes={salaryTypes} contractTypes={contractTypes} submit={createJob} loading={loading} />
       <Toast ref={toast} />
     </div>
   );

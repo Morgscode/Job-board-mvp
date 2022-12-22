@@ -13,20 +13,21 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function login(user) {
-    const res = await http.post('/login', user);
+  async function login(request) {
+    const res = await http.post('/login', request);
     if (res.status !== 200) {
       return false;
     }
     if (res.data.data.user.role === 1) {
       return false;
+       // redirect to job finder site
     }
-    const userDetails = res.data.data.user;
+    const { user } = res.data.data;
     const token = res.data.token;
     dispatch(loginUser(token));
-    dispatch(setId(userDetails.id));
-    dispatch(setRole(userDetails.role));
-    dispatch(setDetails(userDetails));
+    dispatch(setId(user.id));
+    dispatch(setRole(user.role));
+    dispatch(setDetails(user));
     navigate('/dashboard');
   }
 

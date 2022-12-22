@@ -13,7 +13,7 @@ async function protect(req, res, next) {
 
 async function emailVerified(req, res, next) {
   let user = req.user;
-  if (!user.emailVerifiedAt) {
+  if (!user.email_verified_at) {
     return next(new AppError(`Email not verified`, 401));
   }
   next();

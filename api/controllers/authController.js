@@ -29,7 +29,7 @@ const register = catchAsync(async function (req, res, next) {
 
   // set verify token
   const verify = auth.createAppToken();
-  user.emailVerifyToken = verify.hash;
+  user.email_verify_token = verify.hash;
   await user.save();
 
   // send email
@@ -42,7 +42,7 @@ const register = catchAsync(async function (req, res, next) {
     status: 'sucess',
     data: {
       message: 'registered! please verify your email address',
-      user: user.dataValues,
+      user: userModel.apiUser(user.dataValues),
     },
   });
 });
@@ -59,11 +59,11 @@ const login = catchAsync(async function (req, res, next) {
     return next(new AppError('those details are not correct', 401));
   }
 
-  if (!user.emailVerifiedAt) {
+  if (!user.email_verified_at) {
     return next(new AppError('please verify your email', 401));
   }
 
-  const token = await auth.createJWT({...user});
+  const token = await auth.createJWT(user);
   res.status(200).json({
     status: 'sucess',
     data: {
@@ -83,8 +83,8 @@ const forgotPassword = catchAsync(async function (req, res, next) {
   }
 
   const reset = auth.createAppToken();
-  user.passwordResetToken = reset.hash;
-  user.passwordResetExpires = moment().add(15, 'minutes');
+  user.password_reset_token = reset.hash;
+  user.password_reset_expires = moment().add(15, 'minutes');
   await user.save();
 
   mailer.options.to = user.email;
@@ -109,17 +109,21 @@ const verifyPasswordResetToken = catchAsync(async function (req, res, next) {
 
   const user = await userModel.User.findOne({ where: { email } });
   if (!user) {
-    return next(new AppError('those details are not correct', 404));
+    return next(new AppError('those details are not correct', 400));
   }
   // check if token is valid
   const hash = crypto.createHash('sha256').update(token).digest('hex');
 
-  if (hash !== user.passwordResetToken) {
+  if (!user.password_reset_token) {
+    return next(new AppError('not authroized', 401));
+  }
+
+  if (hash !== user.password_reset_token) {
     return next(new AppError('not authroized', 401));
   }
 
   const now = moment();
-  if (!now.isBefore(user.passwordResetExpires)) {
+  if (!now.isBefore(user.password_reset_expires)) {
     return next(new AppError('not authroized', 401));
   }
 
@@ -131,7 +135,7 @@ const verifyPasswordResetToken = catchAsync(async function (req, res, next) {
   res.send({
     status: 'success',
     data: {
-      user: { id: user.id, email: user.email },
+      user: userModel.apiUser(user.toJSON()),
       token: jwt,
     },
   });
@@ -181,12 +185,12 @@ const verifyEmail = catchAsync(async function (req, res, next) {
   // check if token is valid
   const hash = crypto.createHash('sha256').update(token).digest('hex');
 
-  if (hash !== user.emailVerifyToken) {
+  if (hash !== user.email_verify_token) {
     return next(AppError('not authroized', 401));
   }
 
   const now = moment().format();
-  user.emailVerifiedAt = now;
+  user.email_verified_at = now;
   await user.save();
 
   const jwt = await auth.createJWT(user.toJSON());

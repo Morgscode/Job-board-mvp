@@ -101,7 +101,8 @@ POST: http://localhost:8080/api/v1/register
 #### SETUP
 
 1. From the root of the monorepo - run `npm i`
-2. From the root of the monorepo - run `npm run dev:api`
+2. Follow the api environment setup instructions below
+3. From the root of the monorepo - run `npm run dev:api`
 
 - API Environment
 

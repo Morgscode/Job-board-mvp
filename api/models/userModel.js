@@ -34,7 +34,7 @@ const User = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    firstName: {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -42,7 +42,7 @@ const User = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    middleNames: {
+    middle_names: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -56,24 +56,24 @@ const User = db.sequelize.define(
         isIn: [[1, 2]],
       },
     },
-    emailVerifyToken: {
+    email_verify_token: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    emailVerifiedAt: {
+    email_verified_at: {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: null,
     },
-    passwordResetToken: {
+    password_reset_token: {
       type: DataTypes.STRING,
       allowNull: true,
     }, 
-    passwordResetExpires: {
+    password_reset_expires: {
       type: DataTypes.DATE,
       allowNull: true,
     },
-    passwordRefreshedAt: {
+    password_refreshed_at: {
       type: DataTypes.DATE,
       allowNull: true,
     },
@@ -94,12 +94,12 @@ const User = db.sequelize.define(
   if ('id' in user) delete user.id;
   if ('role' in user) delete user.role;
   if ('password' in user) delete user.password;
-  if ('passwordResetToken' in user) delete user.passwordResetToken;
-  if ('passwordResetExpires' in user) delete user.passwordResetExpires;
-  if ('psswordRefreshedAt' in user) delete user.passwordRefreshedAt;
+  if ('password_reset_token' in user) delete user.passwordResetToken;
+  if ('password_reset_expires' in user) delete user.passwordResetExpires;
+  if ('pssword_refreshed_at' in user) delete user.passwordRefreshedAt;
   if ('email' in user) delete user.email;
-  if ('emailVerifyToken' in user) delete user.emailVerifyToken;
-  if ('emailVerifiedAt' in user) delete user.emailVerifiedAt;
+  if ('email_verify_token' in user) delete user.emailVerifyToken;
+  if ('email_verified_at' in user) delete user.emailVerifiedAt;
   return await User.update(user, { where });
 }
 
@@ -142,10 +142,10 @@ async function loginUser(email, password) {
 
 function apiUser(user) {
   if ('password' in user) delete user['password'];
-  if ('passwordResetToken' in user) delete user['passwordResetToken'];
-  if ('passwordResetExpires' in user) delete user['passwordResetExpires'];
-  if ('passwordRefreshedAt' in user) delete user['passwordRefreshedAt'];
-  if ('emailVerifyToken' in user) delete user['emailVerifyToken'];
+  if ('password_reset_token' in user) delete user['password_reset_token'];
+  if ('password_reset_expires' in user) delete user['password_reset_expires'];
+  if ('password_refreshed_at' in user) delete user['password_refreshed_at'];
+  if ('email_verify_token' in user) delete user['email_verify_token'];
   return user;
 }
 
