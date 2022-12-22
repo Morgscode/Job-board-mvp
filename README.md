@@ -8,45 +8,11 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 - NPM 7.24.2
 - MySQL 5.7
 
-## API
+### SETUP
 
-- At its core - the ojb api is an express application. This means you can build on top of the core api like you would any other express application (https://expressjs.com/).
-
-#### SETUP
-
-- API Environment
-
-  1. Set your root environment in `./api/config/config.env` to either `development` or `production` or `whateverenvyoulike`
-  2. Then create a file for you environment and fill in the following variables i.e. `development.env` or `production.env` or `whateverenvyoulike.env`
-
-     ```
-     API_DOMAIN=http://localhost:8080/api/v1
-     NODE_PORT=8080
-     MYSQL_HOST=127.0.0.1
-     MYSQL_PORT=8889
-     MYSQL_USER=root
-     MYSQL_PASS=root
-     MYSQL_DB=ojb_db_name
-     JWT_SECRET=yOuRsUpErSeCuReSeCrEt
-     SMTP_NAME=smtp@sender.name
-     SMTP_HOST=smtp.relay
-     SMTP_PORT=587
-     SMTP_USER=yoursmtp@user.com
-     SMTP_MASTER_PASS=pass
-     SMTP_KEY=key
-     MAIL_FROM=mail from <email@here>
-     UPLOADS_DIR=storage/uploads
-     ```
-
-- Custom environments
-
-  Out of the box - OJB comes configured to handle `production` and `development` environment. You can create extra environments by following the naming conventions with your new .env files explained above. Be sure to load your env in the switch statement in `./api/env.js` before setting it as the app environment in `./api/config/config.env`
-
-- Database seeding - An exmaple setup shell script `./api/dev-data/app-setup.js` is provided to create some jobs, categories and locations.
-
-  1. copy `example.setup.sh` to `setup.sh` into the root of the project.
-  2. enter your db credentials to pass into the setup script.
-  3. run the setup script.
+1. From the root of the monorepo - run `npm i`
+2. Follow the environment setup instructions for the api
+3. From the root of the monorepo - run `npm run dev`
 
 ## OJB Tooling
 
@@ -128,6 +94,58 @@ POST: http://localhost:8080/api/v1/register
 9. In the phpMyAdmin container - update your user role to `3` and your email verified at to a `current timestamp`
 10. Explore the admin client - coming soon: explore the job finder site
 
+## API
+
+- At its core - the ojb api is an express application. This means you can build on top of the core api like you would any other express application (https://expressjs.com/).
+
+#### SETUP
+
+1. From the root of the monorepo - run `npm i`
+2. From the root of the monorepo - run `npm run dev:api`
+
+- API Environment
+
+  1. Set your root environment in `./api/config/config.env` to either `development` or `production` or `whateverenvyoulike`
+  2. Then create a file for you environment and fill in the following variables i.e. `development.env` or `production.env` or `whateverenvyoulike.env`
+
+     ```
+     API_DOMAIN=http://localhost:8080/api/v1
+     NODE_PORT=8080
+     MYSQL_HOST=127.0.0.1
+     MYSQL_PORT=8889
+     MYSQL_USER=root
+     MYSQL_PASS=root
+     MYSQL_DB=ojb_db_name
+     JWT_SECRET=yOuRsUpErSeCuReSeCrEt
+     SMTP_NAME=smtp@sender.name
+     SMTP_HOST=smtp.relay
+     SMTP_PORT=587
+     SMTP_USER=yoursmtp@user.com
+     SMTP_MASTER_PASS=pass
+     SMTP_KEY=key
+     MAIL_FROM=mail from <email@here>
+     UPLOADS_DIR=storage/uploads
+     ```
+
+- Custom environments
+
+  Out of the box - OJB comes configured to handle `production` and `development` environment. You can create extra environments by following the naming conventions with your new .env files explained above. Be sure to load your env in the switch statement in `./api/env.js` before setting it as the app environment in `./api/config/config.env`
+
+- Database seeding - An exmaple setup shell script `./api/dev-data/app-setup.js` is provided to create some jobs, categories and locations.
+
+  1. copy `example.setup.sh` to `setup.sh` into the root of the project.
+  2. enter your db credentials to pass into the setup script.
+  3. run the setup script.
+
 ## ADMIN CLIENT
+
+## API
+
+- At its core - the ojb admin client is a React application. This means you can build on top of the core api like you would any other React application (https://reactjs.org/).
+
+### SETUP
+
+1. From the root of the monorepo - run `npm i`
+2. From the root of the monorepo - run `npm run dev:admin-client`
 
 ## JOBFINDER SITE
