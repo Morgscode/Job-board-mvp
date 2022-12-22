@@ -50,79 +50,83 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
 ## OJB Tooling
 
-  - A docker compose environment for testing and api deveopment is ready to go. Follow below for setup instructions
+- A docker compose environment for testing and api deveopment is ready to go. Follow below for setup instructions
 
-  1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
+1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 
-  ```
-  MYSQL_HOST=localhost
-  MYSQL_TCP_PORT=3306
-  MYSQL_DATABASE=ojb_local
-  MYSQL_USER=root
-  MYSQL_PASSWORD=root
-  MYSQL_ROOT_PASSWORD=root
-  ```
+```
+MYSQL_HOST=localhost
+MYSQL_TCP_PORT=3306
+MYSQL_DATABASE=ojb_local
+MYSQL_USER=root
+MYSQL_PASSWORD=root
+MYSQL_ROOT_PASSWORD=root
+```
 
-  2.  Create an env file for the api in `./ojb-tooling/node/.env`
+2.  Create an env file for the api in `./ojb-tooling/node/.env`
 
-  ```
-  API_DOMAIN=http://localhost:8080/api/v1
-  NODE_PORT=8080
-  MYSQL_HOST=db
-  MYSQL_PORT=3306
-  MYSQL_USER=root
-  MYSQL_PASS=root
-  MYSQL_DB=ojb_local
-  JWT_SECRET=yOuRsUpErSeCuReSeCrEt
-  SMTP_NAME=smtp@sender.name
-  SMTP_HOST=smtp.relay
-  SMTP_PORT=587
-  SMTP_USER=yoursmtp@user.com
-  SMTP_MASTER_PASS=pass
-  SMTP_KEY=key
-  MAIL_FROM=mail from <email@here>
-  UPLOADS_DIR=storage/uploads
-  
-  ```
-  3. Create an env file for the admin client in `./ojb-tooling/web/.env`
-  
-  ```
-  VITE_API_URL=http://localhost:8080/api/v1
-  NODE_PORT=8888
-  NODE_HOST=0.0.0.0
-  ```
+```
+APP_ENV_LOADED=1
+API_DOMAIN=http://localhost:8080/api/v1
+NODE_PORT=8080
+MYSQL_HOST=db
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASS=root
+MYSQL_DB=ojb_local
+JWT_SECRET=yOuRsUpErSeCuReSeCrEt
+SMTP_NAME=smtp@sender.name
+SMTP_HOST=smtp.relay
+SMTP_PORT=587
+SMTP_USER=yoursmtp@user.com
+SMTP_MASTER_PASS=pass
+SMTP_KEY=key
+MAIL_FROM=mail from <email@here>
+UPLOADS_DIR=storage/uploads
 
-  4.  copy `example.setup.sh` to `setup.sh` into the root of the project.
-  5.  enter your db credentials to pass into the setup script.
+```
 
-  ```
-  MYSQL_DB=ojb_local MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js
-  ```
+3. Create an env file for the admin client in `./ojb-tooling/web/.env`
 
-  6.  Build the container
+```
+VITE_API_URL=http://localhost:8080/api/v1
+NODE_PORT=8888
+NODE_HOST=0.0.0.0
+```
 
-  ```
-  cd ./ojb-tooling
-  docker-compose up --build
-  ```
+4.  Copy `example.setup.sh` to `setup.sh` into the root of the project.
+5.  Enter your db credentials to pass into the setup script.
 
-  7.  run the setup script from the api container
+```
+MYSQL_DB=ojb_local MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js
+```
 
-  ```
-  docker exec -it ojb-api /bin/bash
-  sh setup.sh
-  ```
+6.  Build the container
 
-  8. Register as a user through the api
-  ```
-  POST: http://localhost:8080/api/v1/register
-  {
-    "email": "your@email.here",
-    "password": "password",
-  }
-  ```
-  9. In the phpMyAdmin container - update your user role to `3` and your email verified at to a `current timestamp`
-  10. Explore the admin client - coming soon: explore the job finder site
+```
+cd ./ojb-tooling
+docker-compose up --build
+```
+
+7.  run the setup script from the api container
+
+```
+docker exec -it ojb-api /bin/bash
+sh setup.sh
+```
+
+8. Register as a user through the api
+
+```
+POST: http://localhost:8080/api/v1/register
+{
+  "email": "your@email.here",
+  "password": "password",
+}
+```
+
+9. In the phpMyAdmin container - update your user role to `3` and your email verified at to a `current timestamp`
+10. Explore the admin client - coming soon: explore the job finder site
 
 ## ADMIN CLIENT
 
