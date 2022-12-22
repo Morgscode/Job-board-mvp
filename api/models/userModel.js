@@ -94,12 +94,12 @@ const User = db.sequelize.define(
   if ('id' in user) delete user.id;
   if ('role' in user) delete user.role;
   if ('password' in user) delete user.password;
-  if ('password_reset_token' in user) delete user.passwordResetToken;
-  if ('password_reset_expires' in user) delete user.passwordResetExpires;
-  if ('pssword_refreshed_at' in user) delete user.passwordRefreshedAt;
+  if ('password_reset_token' in user) delete user.password_reset_token;
+  if ('password_reset_expires' in user) delete user.password_reset_expires;
+  if ('pssword_refreshed_at' in user) delete user.pssword_refreshed_at;
   if ('email' in user) delete user.email;
-  if ('email_verify_token' in user) delete user.emailVerifyToken;
-  if ('email_verified_at' in user) delete user.emailVerifiedAt;
+  if ('email_verify_token' in user) delete user.email_verify_token;
+  if ('email_verified_at' in user) delete user.email_verified_at;
   return await User.update(user, { where });
 }
 
@@ -153,9 +153,9 @@ async function updatePassword(user, password) {
   if (!user instanceof User) throw new Error('you must pass in a valid user');
   let hash = await bcrypt.hash(password, 12);
   user.password = hash;
-  user.passwordResetExpires = null;
-  user.passwordResetToken = null;
-  user.passwordRefreshedAt = moment();
+  user.password_reset_expires = null;
+  user.password_reset_token = null;
+  user.password_refreshed_at = moment();
   await user.save();
   return true;
 }

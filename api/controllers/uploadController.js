@@ -40,7 +40,7 @@ const _create = catchAsync(async (req, res, next) => {
     name: file.filename,
     path: file.path,
     mimetype: file.mimetype,
-    UserId: req.user.id,
+    user_id: req.user.id,
   };
   const record = await FileUpload.create(upload);
   res.status(200).json({

@@ -54,6 +54,21 @@ const FileUpload = db.sequelize.define(
   }
 );
 
+/**
+ * A model specific update function which will prepare user input for db insertion
+ * @param {object} status - the status to update
+ * @param {obejct} where - sql where clause
+ * @returns Object
+ */
+async function _update(file, where) {
+  if ('id' in file) delete file.id;
+  if ('user_id' in file) delete file.user_id;
+  if ('mimetype' in file) delete file.mimetype;
+  if ('path' in file) delete file.path;
+  if ('name' in file) delete file.name; 
+  return await FileUpload.update(file, { where });
+}
+
 module.exports = {
-  FileUpload,
+  FileUpload, _update
 };

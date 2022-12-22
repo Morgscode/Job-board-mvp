@@ -73,9 +73,9 @@ const JobApplication = db.sequelize.define(
  */
 async function _update(application, where) {
   if ('id' in application) delete application.id;
-  if ('JobId' in application) delete application.JobId;
-  if ('UserId' in application) delete application.UserId;
-  if ('coveringLetter' in application) delete application.coveringLetter;
+  if ('job_id' in application) delete application.job_id;
+  if ('user_id' in application) delete application.user_id;
+  if ('cover_letter' in application) delete application.cover_letter;
   return await JobApplication.update(application, { where });
 }
 
