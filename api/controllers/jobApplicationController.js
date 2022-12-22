@@ -3,7 +3,7 @@ const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/jobApplicationModel');
 const { Job } = require('../models/jobModel');
-const { User } = require('../models/userModel');
+const { User, apiUser } = require('../models/userModel');
 const { FileUpload } = require('../models/fileUploadModel');
 const { JobApplicationStatus } = require('../models/jobApplicationStatusModel');
 
@@ -34,15 +34,15 @@ const _find = catchAsync(async function (req, res, next) {
 });
 
 const _create = catchAsync(async function (req, res, next) {
-  const application = ({ JobId, coveringLetter } = req.body);
-  application.UserId = req.user.id;
+  const application = ({ job_id, cover_letter } = req.body);
+  application.user_id = req.user.id;
 
   const cv = req.file;
-  if (!JobId || !coveringLetter || !cv) {
+  if (!job_id || !cover_letter || !cv) {
     return next(new AppError('missing applcation details', 400));
   }
 
-  const job = await Job.findOne({where: { id: JobId}});
+  const job = await Job.findOne({where: { id: job_id}});
   if (!job) {
     return next(new AppError("job not found", 404));
   }
@@ -53,7 +53,7 @@ const _create = catchAsync(async function (req, res, next) {
     name: cv.filename,
     path: cv.path,
     mimetype: cv.mimetype,
-    UserId: req.user.id,
+    user_id: req.user.id,
   }
   const file = await FileUpload.create(upload);
   if (!file) {
@@ -143,7 +143,7 @@ const findApplicationsByUserId = catchAsync(async function (req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    data: { user, applications },
+    data: { user: apiUser(user.toJSON()), applications },
   });
 });
 

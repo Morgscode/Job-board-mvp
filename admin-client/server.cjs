@@ -4,7 +4,7 @@ const Path = require('path');
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 
-const init = async () => {
+async function main() {
 
     const server = Hapi.server({
         port: process.env.NODE_PORT || 88,
@@ -39,4 +39,4 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-init();
+main();

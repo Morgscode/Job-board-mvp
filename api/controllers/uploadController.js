@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const { FileUpload } = require('../models/fileUploadModel');
-const { User } = require('../models/userModel');
+const { User, apiUser } = require('../models/userModel');
 const { JobApplication } = require('../models/jobApplicationModel');
 
 const _index = catchAsync(async (req, res, next) => {
@@ -113,7 +113,7 @@ const findUploadsByUserId = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({
     status: 'success',
-    data: { user, uploads },
+    data: { user: apiUser(user.toJSON()), uploads },
   });
 });
 
