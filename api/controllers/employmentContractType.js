@@ -74,4 +74,24 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-module.exports = { _index, _find, _create, _update, _delete };
+const findByJobId = catchAsync(async function(req, res, next) {
+  const { id } = req.params;
+  const job = await Job.findOne({where: {id, }});
+  if (!job) {
+    return next(new NotFoundError('job not found'));
+  }
+
+  const contractTypes = await job.getEmploymentContractType();
+  if (!contractTypes) {
+    return next(new AppError('there was a problem getting the contract types'));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      contractTypes,
+    }
+  })
+});
+
+module.exports = { _index, _find, _create, _update, _delete, findByJobId };

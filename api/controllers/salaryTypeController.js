@@ -85,7 +85,7 @@ const findByJobId = catchAsync(async function (req, res, next) {
   }
   res
     .status(200)
-    .json({ status: 'success', data: { salaryType, job: record } });
+    .json({ status: 'success', data: { salaryType } });
 });
 
 module.exports = { _index, _find, _create, _update, _delete, findByJobId };

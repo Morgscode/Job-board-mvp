@@ -27,12 +27,12 @@ router.route('/:id')
 .delete(controller._delete);
 
 router.route('/jobs/:id')
-.get(controller.findApplicationsByJobId);
+.get(controller.findByJobId);
 
 router.route('/users/:id')
-.get(controller.findApplicationsByUserId);
+.get(controller.findByUserId);
 
 router.route('/job-application-status/:id')
-.get(controller.findApplicationsByStatus);
+.get(controller.findByJobApplicationStatusId);
 
 module.exports = router;

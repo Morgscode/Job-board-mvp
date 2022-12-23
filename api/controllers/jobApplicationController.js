@@ -14,10 +14,10 @@ const _index = catchAsync(async function (req, res, next) {
     order: req.sql.order,
     ...req.pagination,
   });
+
   if (!applications) {
     return next(new NotFoundError("job applications not found"));
   }
-
   res.status(200).json({
     status: 'success',
     data: { applications },
@@ -97,7 +97,6 @@ const _update = catchAsync(async function (req, res, next) {
   if (!updated) {
     return next(new AppError("error - unable to update jobs", 500, false));
   }
-
   res.status(200).json({ status: 'success', data: { updated } });
 });
 
@@ -107,7 +106,7 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-const findApplicationsByJobId = catchAsync(async function (req, res, next) {
+const findByJobId = catchAsync(async function (req, res, next) {
   const { id } = req.params;
 
   const job = await Job.findOne({ where: { id } });
@@ -116,19 +115,18 @@ const findApplicationsByJobId = catchAsync(async function (req, res, next) {
   }
 
   const applications = await job.getJobApplications();
-  if (!applications || applications?.length === 0) {
+  if (!applications) {
     return next(
       new NotFoundError("applications not found for job")
     );
   }
-
   res.status(200).json({
     status: 'success',
-    data: { job, applications },
+    data: { applications },
   });
 });
 
-const findApplicationsByUserId = catchAsync(async function (req, res, next) {
+const findByUserId = catchAsync(async function (req, res, next) {
   const { id } = req.params;
 
   const user = await User.findOne({ where: { id } });
@@ -137,25 +135,25 @@ const findApplicationsByUserId = catchAsync(async function (req, res, next) {
   }
 
   const applications = await user.getJobApplications();
-  if (!applications || applications?.length === 0) {
+  if (!applications) {
     return next(
       new NotFoundError("applications not found for user")
     );
   }
-
   res.status(200).json({
     status: 'success',
-    data: { user: apiUser(user.toJSON()), applications },
+    data: { applications },
   });
 });
 
-const findApplicationsByStatus = catchAsync(async function(req, res, next) {
+const findByJobApplicationStatusId = catchAsync(async function(req, res, next) {
   const { id } = req.params;
   const status = await JobApplicationStatus.findOne({where: {id, }});
+  
   const applications = await status.getJobApplications();
   res.status(200).json({
     status: 'success',
-    data: { status, applications },
+    data: { applications },
   });
 });
 
@@ -165,7 +163,7 @@ module.exports = {
   _create,
   _update,
   _delete,
-  findApplicationsByJobId,
-  findApplicationsByUserId,
-  findApplicationsByStatus,
+  findByJobId,
+  findByUserId,
+  findByJobApplicationStatusId,
 };

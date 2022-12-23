@@ -19,7 +19,7 @@ router.route('/:id/download')
 .get(catchAsync(roles.jobBoardRecruiter), controller.download);
 
 router.route('/users/:id')
-.get(catchAsync(roles.jobBoardUser), controller.findUploadsByUserId);
+.get(catchAsync(roles.jobBoardUser), controller.findByUserId);
 
 router.route('/')
 .post(catchAsync(roles.jobBoardUser), upload.single('upload'), controller._create);
@@ -34,6 +34,6 @@ router.route('/:id')
 .delete(controller._delete);
 
 router.route('/job-applications/:id')
-.get(controller.findUploadByJobApplicationId);
+.get(controller.findByJobApplicationId);
  
 module.exports = router;

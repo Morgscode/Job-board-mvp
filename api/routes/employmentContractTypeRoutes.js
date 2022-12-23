@@ -13,6 +13,9 @@ router.route('/')
 router.route('/:id')
 .get(controller._find);
 
+router.route('/jobs/:id')
+.get(controller.findByJobId);
+
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
 router.use(catchAsync(roles.jobBoardRecruiter));

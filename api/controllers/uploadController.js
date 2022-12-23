@@ -96,7 +96,7 @@ const download = catchAsync(async (req, res, next) => {
     return next(new NotFoundError('upload not found'));
   }
   res.status(200).sendFile(upload.dataValues.path, {
-    root: path.join(__dirname, '../../'),
+    root: path.join(__dirname, '../'),
     headers: {
       'Content-Type': upload.mimetype,
       'Content-Disposition': `attachment; filename=${upload.name}`,
@@ -106,7 +106,7 @@ const download = catchAsync(async (req, res, next) => {
   });
 });
 
-const findUploadsByUserId = catchAsync(async (req, res, next) => {
+const findByUserId = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findOne({ where: { id } });
   if (!user) {
@@ -118,11 +118,11 @@ const findUploadsByUserId = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({
     status: 'success',
-    data: { user: apiUser(user.toJSON()), uploads },
+    data: { uploads },
   });
 });
 
-const findUploadByJobApplicationId = catchAsync(async (req, res, next) => {
+const findByJobApplicationId = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const application = await JobApplication.findOne({ where: { id } });
   if (!application) {
@@ -135,7 +135,6 @@ const findUploadByJobApplicationId = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      application,
       upload,
     },
   });
@@ -148,6 +147,6 @@ module.exports = {
   _update,
   _delete,
   download,
-  findUploadsByUserId,
-  findUploadByJobApplicationId,
+  findByUserId,
+  findByJobApplicationId,
 };

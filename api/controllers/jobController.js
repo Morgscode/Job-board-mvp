@@ -143,7 +143,7 @@ const findByLocation = catchAsync(async function (req, res, next) {
   }
 
   const jobs = await location.getJobs();
-  if (!jobs || Array.from(jobs)?.length === 0) {
+  if (!jobs) {
     return next(
       new NotFoundError("we couldn't find any jobs at that location")
     );
@@ -152,9 +152,7 @@ const findByLocation = catchAsync(async function (req, res, next) {
   res.status(200).json({
     status: 'success',
     data: {
-      location,
       jobs,
-      jobCount: jobs.length,
     },
   });
 });
@@ -166,8 +164,9 @@ const findByCategory = catchAsync(async function (req, res, next) {
   if (!category) {
     return next(new NotFoundError("we coudln't find that category"));
   }
+
   const jobs = await category.getJobs();
-  if (!jobs || jobs?.length === 0) {
+  if (!jobs) {
     return next(
       new NotFoundError("we couldn't find any jobs in that category")
     );
@@ -175,7 +174,6 @@ const findByCategory = catchAsync(async function (req, res, next) {
   res.status(200).json({
     status: 'success',
     data: {
-      category,
       jobs,
     },
   });
@@ -197,7 +195,6 @@ const findByCategoryAndLocation = catchAsync(async function (
   if (!location) {
     return next(new NotFoundError("we couldn't find that location"));
   }
-
   const category = await JobCategory.findOne({ where: { id: jobCategoryId } });
   if (!category) {
     return next(new NotFoundError("we couldn't find that category"));
@@ -214,16 +211,13 @@ const findByCategoryAndLocation = catchAsync(async function (
       { model: Location, attributes: [], where: { id: locationId } },
     ],
   });
-
-  if (!jobs || Array.from(jobs).length === 0) {
+  if (!jobs) {
     return next(new NotFoundError("we couldn't find any jobs", 404));
   }
 
   res.status(200).json({
     status: 'success',
     data: {
-      category,
-      location,
       jobs,
     },
   });
@@ -237,7 +231,7 @@ const findBySalaryTypeId = catchAsync(async function (req, res, next) {
     return next(new NotFoundError("we coudln't find that salary type"));
   }
   const jobs = await salaryType.getJobs();
-  if (!jobs || jobs?.length === 0) {
+  if (!jobs) {
     return next(
       new NotFoundError("we couldn't find any jobs for that salary type")
     );
@@ -245,7 +239,6 @@ const findBySalaryTypeId = catchAsync(async function (req, res, next) {
   res.status(200).json({
     status: 'success',
     data: {
-      salaryType,
       jobs,
     },
   });
@@ -259,7 +252,7 @@ const findByEmploymentContractTypeId = catchAsync(async function(req, res, next)
     return next(new NotFoundError("we coudln't find that salary type"));
   }
   const jobs = await contractType.getJobs();
-  if (!jobs || jobs?.length === 0) {
+  if (!jobs) {
     return next(
       new NotFoundError("we couldn't find any jobs for that salary type")
     );
@@ -267,7 +260,6 @@ const findByEmploymentContractTypeId = catchAsync(async function(req, res, next)
   res.status(200).json({
     status: 'success',
     data: {
-      contractType,
       jobs,
     },
   });
@@ -289,7 +281,7 @@ const findByJobApplicationId = catchAsync(async function(req, res, next) {
   res.status(200).json({
     status: 'success',
     data: {
-      application, job
+      job
     }
   })
 }); 
