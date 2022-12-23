@@ -21,12 +21,12 @@ export const jobSlice = createSlice({
       const jobs = [...state.data]
       state.data = [action.payload, ...jobs];
     },
+    updateJob: (state, action) => {
+      state.data = state.data.map(job => job.id === action.payload.id ? action.payload : job);
+    },
     deleteJob: (state, action) => {
       state.data = state.data.filter(job => job.id !== action.payload);
     },
-    updateJob: (state, action) => {
-      state.data = state.data.map(job => job.id === action.payload.id ? action.payload : job);
-    }
   },
 });
 

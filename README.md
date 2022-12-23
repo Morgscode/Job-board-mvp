@@ -2,6 +2,10 @@
 
 This monorepo is powered for devleopment and production using NPM workspaces (https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
+## TODOS
+
+1. fix api to only allow certain query terms 
+
 ## Requirements
 
 - Node.js 16.16.0

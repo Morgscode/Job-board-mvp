@@ -9,11 +9,6 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import JobLister from '../../components/jobs/JobLister';
-import { sleep } from '../../utils/sleep';
-
-// bring in toast for ajax success/error
-
-// fix api to only allow certain query terms
 
 function ManageJobs() {
   const toast = useRef(null);
