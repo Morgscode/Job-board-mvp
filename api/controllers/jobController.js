@@ -103,7 +103,7 @@ const _update = catchAsync(async function (req, res, next) {
     await Promise.all(
       locations.map(async (location) => {
         const locationRecord = await JobsInLocations.findOne({
-          where: { JobId: record.id, LocationId: location },
+          where: { 'job_id': record.id, 'location_id': location },
         });
         if (!locationRecord) {
           return await record.addLocation(location);
@@ -116,7 +116,7 @@ const _update = catchAsync(async function (req, res, next) {
     await Promise.all(
       categories.map(async (category) => {
         const catRecord = await JobsInCategories.findOne({
-          where: { jobCategoryId: category, jobId: record.id },
+          where: { 'job_category_id': category, 'job_id': record.id },
         });
         if (!catRecord) {
           return await record.addCategory(category);

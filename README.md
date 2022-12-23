@@ -140,7 +140,7 @@ POST: http://localhost:8080/api/v1/register
 
 ## ADMIN CLIENT
 
-- At its core - the ojb admin client is a React application. This means you can build on top of itå like you would any other React application (https://reactjs.org/).
+- At its core - the ojb admin client is a React application. This means you can build on top of it like you would any other React application (https://reactjs.org/).
 
 ### SETUP
 

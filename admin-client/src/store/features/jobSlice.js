@@ -23,10 +23,13 @@ export const jobSlice = createSlice({
     },
     deleteJob: (state, action) => {
       state.data = state.data.filter(job => job.id !== action.payload);
+    },
+    updateJob: (state, action) => {
+      state.data = state.data.map(job => job.id === action.payload.id ? action.payload : job);
     }
   },
 });
 
-export const { setJobs, setPage, setSortOrder, addJob, deleteJob } = jobSlice.actions;
+export const { setJobs, setPage, setSortOrder, addJob, updateJob, deleteJob,  } = jobSlice.actions;
 
 export default jobSlice.reducer;

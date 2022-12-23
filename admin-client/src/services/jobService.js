@@ -15,8 +15,13 @@ const jobService = {
     const res = await http.post(ROUTE, job);
     return res;
   },
-  async update(job, id) {},
-  async delete(id) {},
+  async update(job, id) {
+    const res = await http.put(`${ROUTE}/${id}`, job);
+  },
+  async delete(id) {
+    const res = await http.delete(`${ROUTE}/${id}`);
+    return res;
+  },
 };
 
 export default jobService;

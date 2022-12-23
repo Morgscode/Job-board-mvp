@@ -15,15 +15,19 @@ function JobForm(props) {
     control,
     handleSubmit,
     getValues,
-    formState: { errors, },
+    reset,
+    formState: { errors, isDirty },
   } = useForm({
     defaultValues: values,
     values,
   });
 
   useEffect(() => {
-    console.log(values);
-  });
+    if (!isDirty) {
+      console.log('setting form data');
+      reset(values);
+    }
+  }, [values, isDirty]);
 
   const editorControls = [
     'bold',

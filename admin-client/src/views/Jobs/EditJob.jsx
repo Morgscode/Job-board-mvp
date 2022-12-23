@@ -5,6 +5,7 @@ import { setLocations } from '../../store/features/locationSlice';
 import { setJobCategories } from '../../store/features/jobCategorySlice';
 import { setSalaryTypes } from '../../store/features/salaryTypeSlice';
 import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
+import { updateJob } from '../../store/features/jobSlice';
 import { Toast } from 'primereact/toast';
 import JobForm from '../../components/jobs/JobForm';
 import jobService from '../../services/jobService';
@@ -93,14 +94,14 @@ function EditJob(props) {
     }
   }, [contractTypes]);
 
-  async function updateJob(submit) {
+  async function updateJobById(submit) {
     setLoading(true);
     try {
-      const job = await jobService.update(submit);
-      dispatch(updateJob(job.data.data.job));
+      await jobService.update(submit, submit.id);
+      dispatch(updateJob(submit));
       toast.current.show({
         severity: 'success',
-        summary: 'Job posted',
+        summary: 'Job updated',
       });
     } catch (error) {
       console.error(error);
@@ -122,7 +123,7 @@ function EditJob(props) {
         categories={categories}
         salaryTypes={salaryTypes}
         contractTypes={contractTypes}
-        submit={updateJob}
+        submit={updateJobById}
         loading={loading}
       />
       <Toast ref={toast} />

@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setJobs } from '../../store/features/jobSlice';
+import jobService from '../../services/jobService';
+import employmentContractTypeService from '../../services/employmentContractTypeService';
+import { setJobs, deleteJob } from '../../store/features/jobSlice';
 import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
-import jobService from '../../services/jobService';
-import employmentContractTypeService from '../../services/employmentContractTypeService';
+import { Toast } from 'primereact/toast';
 import JobLister from '../../components/jobs/JobLister';
+import { sleep } from '../../utils/sleep';
 
 // bring in toast for ajax success/error
 
 // fix api to only allow certain query terms
 
 function ManageJobs() {
+  const toast = useRef(null);
   const jobs = useSelector((state) => state.jobs.data);
   const contractTypes = useSelector(
     (state) => state.employmentContractTypes.data
@@ -45,14 +48,20 @@ function ManageJobs() {
   }, [contractTypes]);
 
   useEffect(() => {
-    async function deleteJob(job) {
-      console.log(job);
+    async function deleteJobById(job) {
+      try {
+        await jobService.delete(job.id);
+        dispatch(deleteJob(job.id));
+        toast.current.show({severity: 'success', summary: 'Job deleted'});
+      } catch (error) {
+        toast.current.show({severity: 'error', summary: 'There was a problem deleting that job'});
+      }
     }
     if (manageJob.action && manageJob.data) {
       if (manageJob.action === 'edit') {
         navigate(`/jobs/${manageJob.data.id}/edit`);
       } else if (manageJob.action === 'delete') {
-        deleteJob(manageJob.data);
+        deleteJobById(manageJob.data);
       }
     }
     return;
@@ -77,6 +86,7 @@ function ManageJobs() {
         contractTypes={contractTypes}
         manage={setManageJob}
       />
+      <Toast ref={toast} />
     </div>
   );
 }
