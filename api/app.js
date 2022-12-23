@@ -27,7 +27,7 @@ const app = express();
 app.disable('x-powered-by'); 
 
 const limit = rateLimit({ 
-  max: 250,
+  max: 1000,
   windowMs: 60 * 60 * 1000, 
   messgae: 'too many requests from this ip'
 });

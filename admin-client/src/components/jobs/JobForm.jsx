@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import moment from 'moment';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
@@ -11,22 +10,20 @@ import { Editor } from 'primereact/editor';
 import { classNames } from 'primereact/utils';
 
 function JobForm(props) {
-  const [formData, setFormData] = useState(props.formData);
-
-  useEffect(() => {
-    if (!isDirty) {
-      setFormData(props.formData);
-    }
-  });
-  
+  const values = props.formData;
   const {
-    register,
     control,
     handleSubmit,
-    reset,
-    formState: { errors },
-    isDirty,
-  } = useForm({ defaultValues: formData });
+    getValues,
+    formState: { errors, },
+  } = useForm({
+    defaultValues: values,
+    values,
+  });
+
+  useEffect(() => {
+    console.log(values);
+  });
 
   const editorControls = [
     'bold',
@@ -46,9 +43,6 @@ function JobForm(props) {
   async function submit(form) {
     try {
       await props.submit(form);
-      setFormData({});
-      reset();
-      console.log(formData);
     } catch (error) {
       console.error(error);
     }
@@ -83,8 +77,8 @@ function JobForm(props) {
             rules={{ required: 'Job title is required' }}
             render={({ field, fieldState }) => (
               <InputText
-                id="title"
                 {...field}
+                id="title"
                 autoFocus
                 className={classNames({ 'p-invalid': fieldState.invalid })}
               />
@@ -122,8 +116,8 @@ function JobForm(props) {
             rules={{ required: 'Salary Type is required' }}
             render={({ field, fieldState }) => (
               <Dropdown
-                id="salary-type"
                 {...field}
+                id="salary-type"
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 options={props.salaryTypes}
                 optionLabel="name"
@@ -141,8 +135,8 @@ function JobForm(props) {
             rules={{ required: 'Contract Type is required' }}
             render={({ field, fieldState }) => (
               <Dropdown
-                id="contract-type"
                 {...field}
+                id="contract-type"
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 options={props.contractTypes}
                 optionLabel="name"
@@ -234,7 +228,7 @@ function JobForm(props) {
                 value={field.value}
                 onChange={(e) => field.onChange(e.value)}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
-                dateFormat="dd/mm/yy"
+                dateFormat="dd-mm-yyyy"
                 mask="99/99/9999"
                 showIcon
               />

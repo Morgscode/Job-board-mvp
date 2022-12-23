@@ -80,14 +80,13 @@ const findByJobId = catchAsync(async function (req, res, user) {
   if (!job) {
     return next(new NotFoundError('job not found'));
   }
-  const categories = await job.getCategories();
+  const categories = await job.getCategory();
   res.status(200).json({
     status: 'success',
     data: {
-      job,
       categories,
     },
   });
 });
 
-module.exports = { _index, _find, _create, _update, _delete };
+module.exports = { _index, _find, _create, _update, _delete, findByJobId };

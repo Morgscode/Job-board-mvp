@@ -12,10 +12,12 @@ import locationService from '../../services/locationService';
 import jobCategoryService from '../../services/jobCategoryService';
 import salaryTypeService from '../../services/salaryTypeService';
 import employmentContractTypeService from '../../services/employmentContractTypeService';
+import { job as jobSchema } from '../../utils/schema';
 
 function EditJob(props) {
   const { id } = useParams();
-  const [job, setJob] = useState(null);
+  const [job, setJob] = useState({...jobSchema});
+  const [fetchedJob, setFetchedJob] = useState(false);
   const toast = useRef(null);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -26,35 +28,70 @@ function EditJob(props) {
     (state) => state.employmentContractTypes.data
   );
 
-  async function getJob(id) {
-    const res = await jobService.find(id);
-    const { job } = res.data.data;
-    setJob(job);
-  }
+  useEffect(() => {
+    async function getJob(id) {
+      const jobRes = await jobService.find(id);
+      const { job } = jobRes.data.data;
+      if (!job) {
+        getJob(id);
+      }
+      const locationRes = await locationService.findByJobId(id);
+      const categoriesRes = await jobCategoryService.findByJobId(id);
+      job.categories = categoriesRes.data.data.categories.map((cat) => cat.id);
+      job.locations = locationRes.data.data.locations.map(
+        (location) => location.id
+      );
+      setJob(job);
+      setFetchedJob(true);
+    }
+    if (!fetchedJob) {
+      getJob(id);
+    }
+  }, [job]);
 
-  async function getLocations() {
-    const res = await locationService.index();
-    const { locations } = res.data.data;
-    dispatch(setLocations(locations));
-  }
+  useEffect(() => {
+    async function getLocations() {
+      const res = await locationService.index();
+      const { locations } = res.data.data;
+      dispatch(setLocations(locations));
+    }
+    if (locations?.length === 0) {
+      getLocations();
+    }
+  }, [locations]);
 
-  async function getJobCategories() {
-    const res = await jobCategoryService.index();
-    const { categories } = res.data.data;
-    dispatch(setJobCategories(categories));
-  }
+  useEffect(() => {
+    async function getJobCategories() {
+      const res = await jobCategoryService.index();
+      const { categories } = res.data.data;
+      dispatch(setJobCategories(categories));
+    }
+    if (categories?.length === 0) {
+      getJobCategories();
+    }
+  }, [categories]);
 
-  async function getSalaryTypes() {
-    const res = await salaryTypeService.index();
-    const { salaryTypes } = res.data.data;
-    dispatch(setSalaryTypes(salaryTypes));
-  }
+  useEffect(() => {
+    async function getSalaryTypes() {
+      const res = await salaryTypeService.index();
+      const { salaryTypes } = res.data.data;
+      dispatch(setSalaryTypes(salaryTypes));
+    }
+    if (salaryTypes.length === 0) {
+      getSalaryTypes();
+    }
+  }, [salaryTypes]);
 
-  async function getEmploymentContractTypes() {
-    const res = await employmentContractTypeService.index();
-    const { contractTypes } = res.data.data;
-    dispatch(setContractTypes(contractTypes));
-  }
+  useEffect(() => {
+    async function getEmploymentContractTypes() {
+      const res = await employmentContractTypeService.index();
+      const { contractTypes } = res.data.data;
+      dispatch(setContractTypes(contractTypes));
+    }
+    if (contractTypes.length === 0) {
+      getEmploymentContractTypes();
+    }
+  }, [contractTypes]);
 
   async function updateJob(submit) {
     setLoading(true);
@@ -75,24 +112,6 @@ function EditJob(props) {
       setLoading(false);
     }
   }
-
-  useEffect(() => {
-    if (!job) {
-      getJob(id);
-    }
-    if (locations?.length === 0) {
-      getLocations();
-    }
-    if (categories?.length === 0) {
-      getJobCategories();
-    }
-    if (salaryTypes.length === 0) {
-      getSalaryTypes();
-    }
-    if (contractTypes.length === 0) {
-      getEmploymentContractTypes();
-    }
-  }, [job, locations, categories, salaryTypes, contractTypes]);
 
   return (
     <div>

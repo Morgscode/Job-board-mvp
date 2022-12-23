@@ -15,48 +15,48 @@ import JobLister from '../../components/jobs/JobLister';
 
 function ManageJobs() {
   const jobs = useSelector((state) => state.jobs.data);
-  const contractTypes = useSelector((state) => state.employmentContractTypes.data);
+  const contractTypes = useSelector(
+    (state) => state.employmentContractTypes.data
+  );
   const [manageJob, setManageJob] = useState({ action: null, data: null });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  async function getJobs() {
-    const jobData = await jobService.index();
-    const { jobs } = jobData.data.data;
-    dispatch(setJobs(jobs));
-  }
   useEffect(() => {
+    async function getJobs() {
+      const jobData = await jobService.index();
+      const { jobs } = jobData.data.data;
+      dispatch(setJobs(jobs));
+    }
     if (jobs.length === 0) {
       getJobs();
     }
   }, [jobs]);
 
-  async function deleteJobs(jobs) {
-    console.log(jobs);
-  }
-
-  async function getContractTypes() {
-    const contractTypesData = await employmentContractTypeService.index();
-    const { contractTypes } = contractTypesData.data.data;
-    dispatch(setContractTypes(contractTypes));
-  }
-
   useEffect(() => {
+    async function getContractTypes() {
+      const contractTypesData = await employmentContractTypeService.index();
+      const { contractTypes } = contractTypesData.data.data;
+      dispatch(setContractTypes(contractTypes));
+    }
     if (contractTypes.length === 0) {
       getContractTypes();
     }
   }, [contractTypes]);
 
   useEffect(() => {
+    async function deleteJob(job) {
+      console.log(job);
+    }
     if (manageJob.action && manageJob.data) {
       if (manageJob.action === 'edit') {
         navigate(`/jobs/${manageJob.data.id}/edit`);
       } else if (manageJob.action === 'delete') {
-        deleteJobs(manageJob.data);
+        deleteJob(manageJob.data);
       }
     }
-    return 
-  }, [manageJob]); 
+    return;
+  }, [manageJob]);
 
   const actions = (
     <React.Fragment>
@@ -72,7 +72,11 @@ function ManageJobs() {
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobLister jobs={jobs} contractTypes={contractTypes} manage={setManageJob} />
+      <JobLister
+        jobs={jobs}
+        contractTypes={contractTypes}
+        manage={setManageJob}
+      />
     </div>
   );
 }
