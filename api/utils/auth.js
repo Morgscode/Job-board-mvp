@@ -30,7 +30,7 @@ function createJWT(user) {
   });
 }
 
-function verifyToken(token) {
+function verifyJWT(token) {
   return new Promise(function (resolve, reject) {
     jwt.verify(token, process.env.JWT_SECRET, function (err, payload) {
       if (err) {
@@ -58,7 +58,7 @@ function createAppToken() {
 
 module.exports = {
   createJWT,
-  verifyToken,
+  verifyJWT,
   verifyPassword,
   createAppToken,
 };

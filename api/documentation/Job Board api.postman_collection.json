@@ -223,7 +223,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/jobs/locations/2",
+							"raw": "{{dev_domain}}/api/v1/jobs/locations/1",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -232,7 +232,7 @@
 								"v1",
 								"jobs",
 								"locations",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -247,7 +247,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/jobs/job-categories/3",
+							"raw": "{{dev_domain}}/api/v1/jobs/job-categories/1",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -256,7 +256,7 @@
 								"v1",
 								"jobs",
 								"job-categories",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -271,7 +271,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/jobs/job-categories/3/locations/2",
+							"raw": "{{dev_domain}}/api/v1/jobs/job-categories/1/locations/2",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -280,7 +280,7 @@
 								"v1",
 								"jobs",
 								"job-categories",
-								"3",
+								"1",
 								"locations",
 								"2"
 							]
@@ -1022,6 +1022,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Find by job id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/employment-contract-types/jobs/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employment-contract-types",
+								"jobs",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1616,7 +1637,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/users/2",
+							"raw": "{{dev_domain}}/api/v1/users/1",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -1624,7 +1645,7 @@
 								"api",
 								"v1",
 								"users",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -1734,6 +1755,55 @@
 								"2"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by upload id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/users/uploads/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"uploads",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by job application id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}

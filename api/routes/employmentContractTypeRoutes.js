@@ -1,7 +1,7 @@
 const express = require('express');
 const roles = require('../middleware/userRoles');
 const auth = require('../middleware/authentication');
-const controller = require('../controllers/employmentContractType');
+const controller = require('../controllers/employmentContractTypeController');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 

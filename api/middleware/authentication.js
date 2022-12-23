@@ -6,7 +6,7 @@ async function protect(req, res, next) {
   if (!token) {
     return next(new AppError(`Not authorized`, 401));
   }
-  const payload = await auth.verifyToken(token);
+  const payload = await auth.verifyJWT(token);
   req.user = payload.user;
   next();
 }

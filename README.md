@@ -5,6 +5,7 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 ## TODOS
 
 1. fix api to only allow certain query terms 
+2. setup datatable filtering for jobs
 
 ## Requirements
 
