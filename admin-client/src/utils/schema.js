@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const job = Object.freeze({
     title: '',
     salary: '0.00',
@@ -6,7 +8,7 @@ export const job = Object.freeze({
     locations: [],
     categories: [],
     description: '<p>Make it snappy</p>',
-    deadline: null,
+    deadline: moment().format('YYYY-MM-DD'),
   });
 
   

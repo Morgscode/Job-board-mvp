@@ -7,18 +7,18 @@ import Sidebar from './components/Sidebar';
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-
-  function logoutUser() {
-    dispatch(logout());
-  }
-
   useEffect(() => {
     if (!loggedIn) {
       navigate('/login');
     }
   }, [loggedIn]);
 
+  function logoutUser() {
+    dispatch(logout());
+  }
+  
   return (
     <div className="App w-full min-h-screen p-0 m-0">
       <div className="flex h-full">

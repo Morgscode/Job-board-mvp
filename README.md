@@ -4,8 +4,7 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
 ## TODOS
 
-1. fix api to only allow certain query terms 
-2. setup datatable filtering for jobs
+1. setup datatable filtering for jobs
 
 ## Requirements
 
@@ -54,7 +53,6 @@ SMTP_MASTER_PASS=pass
 SMTP_KEY=key
 MAIL_FROM=mail from <email@here>
 UPLOADS_DIR=storage/uploads
-
 ```
 
 3. Create an env file for the admin client in `./ojb-tooling/web/.env`

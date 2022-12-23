@@ -12,14 +12,10 @@ import JobLister from '../../components/jobs/JobLister';
 
 function ManageJobs() {
   const toast = useRef(null);
-  const jobs = useSelector((state) => state.jobs.data);
-  const contractTypes = useSelector(
-    (state) => state.employmentContractTypes.data
-  );
-  const [manageJob, setManageJob] = useState({ action: null, data: null });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
+  const jobs = useSelector((state) => state.jobs.data);
   useEffect(() => {
     async function getJobs() {
       const jobData = await jobService.index();
@@ -31,6 +27,9 @@ function ManageJobs() {
     }
   }, [jobs]);
 
+  const contractTypes = useSelector(
+    (state) => state.employmentContractTypes.data
+  );
   useEffect(() => {
     async function getContractTypes() {
       const contractTypesData = await employmentContractTypeService.index();
@@ -42,6 +41,7 @@ function ManageJobs() {
     }
   }, [contractTypes]);
 
+  const [manageJob, setManageJob] = useState({ action: null, data: null });
   useEffect(() => {
     async function deleteJobById(job) {
       try {

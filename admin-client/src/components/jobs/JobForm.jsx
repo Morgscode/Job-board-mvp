@@ -23,8 +23,8 @@ function JobForm(props) {
   });
 
   useEffect(() => {
+    console.log(values);
     if (!isDirty) {
-      console.log('setting form data');
       reset(values);
     }
   }, [values, isDirty]);
@@ -232,9 +232,9 @@ function JobForm(props) {
                 value={field.value}
                 onChange={(e) => field.onChange(e.value)}
                 className={classNames({ 'p-invalid': fieldState.invalid })}
-                dateFormat="dd-mm-yyyy"
-                mask="99/99/9999"
+                dateFormat="yy/mm/dd"
                 showIcon
+                placeholder={field.value}
               />
             )}
           />

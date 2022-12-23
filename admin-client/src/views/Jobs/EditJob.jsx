@@ -17,18 +17,12 @@ import { job as jobSchema } from '../../utils/schema';
 
 function EditJob(props) {
   const { id } = useParams();
-  const [job, setJob] = useState({...jobSchema});
-  const [fetchedJob, setFetchedJob] = useState(false);
   const toast = useRef(null);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const locations = useSelector((state) => state.locations.data);
-  const categories = useSelector((state) => state.jobCategories.data);
-  const salaryTypes = useSelector((state) => state.salaryTypes.data);
-  const contractTypes = useSelector(
-    (state) => state.employmentContractTypes.data
-  );
-
+  
+  const [fetchedJob, setFetchedJob] = useState(false);
+  const [job, setJob] = useState({...jobSchema});
   useEffect(() => {
     async function getJob(id) {
       const jobRes = await jobService.find(id);
@@ -48,8 +42,9 @@ function EditJob(props) {
     if (!fetchedJob) {
       getJob(id);
     }
-  }, [job]);
+  }, [fetchedJob, job]);
 
+  const locations = useSelector((state) => state.locations.data);
   useEffect(() => {
     async function getLocations() {
       const res = await locationService.index();
@@ -61,6 +56,7 @@ function EditJob(props) {
     }
   }, [locations]);
 
+  const categories = useSelector((state) => state.jobCategories.data);
   useEffect(() => {
     async function getJobCategories() {
       const res = await jobCategoryService.index();
@@ -72,6 +68,7 @@ function EditJob(props) {
     }
   }, [categories]);
 
+  const salaryTypes = useSelector((state) => state.salaryTypes.data);
   useEffect(() => {
     async function getSalaryTypes() {
       const res = await salaryTypeService.index();
@@ -83,6 +80,9 @@ function EditJob(props) {
     }
   }, [salaryTypes]);
 
+  const contractTypes = useSelector(
+    (state) => state.employmentContractTypes.data
+  );
   useEffect(() => {
     async function getEmploymentContractTypes() {
       const res = await employmentContractTypeService.index();
