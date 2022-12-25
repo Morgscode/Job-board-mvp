@@ -1,1 +1,0 @@
-MYSQL_DB=ojb_local MYSQL_USER=user MYSQL_PASS=pass MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js

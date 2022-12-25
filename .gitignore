@@ -1,5 +1,5 @@
 /node_modules
-/api/config/development.env
+/api/config/*.env
 /api/storage
 setup.sh
 /ojb-tooling/node/.env
