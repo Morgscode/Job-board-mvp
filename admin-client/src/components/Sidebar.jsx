@@ -13,6 +13,11 @@ function Sidebar(props) {
       command: () => navigate(`/dashboard`),
     },
     {
+      label: 'Job Applications',
+      icon: 'pi pi-file',
+      command: () => navigate(`/job-applications`),
+    },
+    {
       label: 'Jobs',
       icon: 'pi pi-bars',
       items: [
@@ -34,11 +39,6 @@ function Sidebar(props) {
           },
         ],
       ],
-    },
-    {
-      label: 'Job Applications',
-      icon: 'pi pi-file',
-      command: () => navigate(`/job-applications`),
     },
     {
       label: 'Job Locations',

@@ -8,30 +8,36 @@ import { Button } from 'primereact/button';
 
 function JobLister(props) {
   const [selectedJobs, setSelectedJobs] = useState([]);
+  useEffect(() => {
+    console.log(selectedJobs);
+  }, [selectedJobs])
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
+  useEffect(() => {
+    console.log(globalFilterValue);
+  }, [globalFilterValue]);
+  
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    title: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
   });
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
     _filters['global'].value = value;
-
     setFilters(_filters);
     setGlobalFilterValue(value);
   };
 
   function formatCreatedDate(data) {
-    return moment(data.createdAt).format('L');
+    return moment(data.createdAt).format('DD-MM-YYYY');
   }
 
   function formateDeadline(data) {
-    return moment(data.deadline).format('L');
+    return moment(data.deadline).format('DD-MM-YYYY');
   }
 
   function formateActive(data) {
@@ -41,7 +47,7 @@ function JobLister(props) {
   const header = (
     <React.Fragment>
       <div className="flex justify-content-between align-items-center">
-        <h5 className="m-0">Mange all jobs</h5>
+        <h2 className="m-0">Mange jobs</h2>
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText
@@ -82,9 +88,11 @@ function JobLister(props) {
       <DataTable
         value={props.jobs}
         selection={selectedJobs}
+        onSelectionChange={e => setSelectedJobs(e.value)}
+        filters={filters}
         header={header}
         className="w-full p-datatable-customers"
-        globalFilterFields={['title']}
+        globalFilterFields={['title', 'deadline', 'createdAt', 'active']}
         responsiveLayout="scroll"
         rows={10}
         rowsPerPageOptions={[10, 25, 50]}
@@ -92,15 +100,18 @@ function JobLister(props) {
         rowHover
         emptyMessage="No jobs found."
       >
-        <Column field="title" header="Title"></Column>
-        <Column field="active" header="Status" body={formateActive}></Column>
+        <Column selectionMode="multiple" selectionAriaLabel="name" headerStyle={{ width: '3em' }}></Column>
+        <Column field="title" filter header="Job Title"></Column>
+        <Column field="active" sortable header="Status" body={formateActive}></Column>
         <Column
           field="createdAt"
+          sortable 
           header="Created"
           body={formatCreatedDate}
         ></Column>
         <Column
           field="deadline"
+          sortable
           header="Closing date"
           body={formateDeadline}
         ></Column>

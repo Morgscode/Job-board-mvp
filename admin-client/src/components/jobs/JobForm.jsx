@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import moment from 'moment';
 import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
 import { InputNumber } from 'primereact/inputnumber';
@@ -22,8 +23,6 @@ function JobForm(props) {
     defaultValues: values,
     values,
   });
-
-  console.log(props);
 
   useEffect(() => {
     if (!isDirty) {
@@ -74,14 +73,14 @@ function JobForm(props) {
       className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6  shadow-1"
       onSubmit={handleSubmit(submit)}
     >
-      <h5>Make this job posting active</h5>
-      <div className="field-checkbox">
+      <div className="field-checkbox mb-6">
         <Controller
           name="active"
           control={control}
           render={({ field, fieldState }) => (
             <Checkbox
               id="active"
+              fieldId="active"
               value={field.value}
               checked={field.value}
               onChange={(e) => field.onChange(e.checked ? 1 : 0)}
@@ -90,7 +89,9 @@ function JobForm(props) {
             />
           )}
         />
-        <label htmlFor="binary">Remember Me</label>
+        <label className="inline-block ml-3" htmlFor="active">
+          Make this job posting active
+        </label>
       </div>
       <div className="formgrid gird mb-4">
         <div className="field flex flex-column">
@@ -112,6 +113,25 @@ function JobForm(props) {
         </div>
       </div>
       <div className="formgrid grid mb-2">
+        <div className="field col flex flex-column">
+          <label htmlFor="contract-type">Contract Type</label>
+          <Controller
+            name="employment_contract_type_id"
+            control={control}
+            rules={{ required: 'Contract Type is required' }}
+            render={({ field, fieldState }) => (
+              <Dropdown
+                {...field}
+                id="contract-type"
+                className={classNames({ 'p-invalid': fieldState.invalid })}
+                options={props.contractTypes}
+                optionLabel="name"
+                optionValue="id"
+              />
+            )}
+          />
+          {getFormErrorMessage('salaryType')}
+        </div>
         <div className="field col flex flex-column">
           <label htmlFor="salary">Salary</label>
           <Controller
@@ -144,25 +164,6 @@ function JobForm(props) {
                 id="salary-type"
                 className={classNames({ 'p-invalid': fieldState.invalid })}
                 options={props.salaryTypes}
-                optionLabel="name"
-                optionValue="id"
-              />
-            )}
-          />
-          {getFormErrorMessage('salaryType')}
-        </div>
-        <div className="field col flex flex-column">
-          <label htmlFor="contract-type">Contract Type</label>
-          <Controller
-            name="employment_contract_type_id"
-            control={control}
-            rules={{ required: 'Contract Type is required' }}
-            render={({ field, fieldState }) => (
-              <Dropdown
-                {...field}
-                id="contract-type"
-                className={classNames({ 'p-invalid': fieldState.invalid })}
-                options={props.contractTypes}
                 optionLabel="name"
                 optionValue="id"
               />
@@ -250,11 +251,14 @@ function JobForm(props) {
               <Calendar
                 id="application-deadline"
                 value={field.value}
-                onChange={(e) => field.onChange(e.value)}
+                viewDate={field.value}
+                onChange={(e) =>
+                  field.onChange(moment(e.value).format('YYYY-MM-DD'))
+                }
                 className={classNames({ 'p-invalid': fieldState.invalid })}
-                dateFormat="yy/mm/dd"
+                dateFormat="dd/mm/yy"
                 showIcon
-                placeholder={field.value}
+                placeholder={moment(field.value).format('DD/MM/YYYY')}
               />
             )}
           />

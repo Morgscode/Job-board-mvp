@@ -7,7 +7,9 @@ const { JobCategory } = require('../models/jobCategoryModel');
 const { JobsInLocations } = require('../models/jobsInLocationsModel');
 const { JobsInCategories } = require('../models/jobsInCategoriesModel');
 const { SalaryType } = require('../models/salaryTypeModel');
-const { EmploymentContractType } = require('../models/employmentContractTypeModel');
+const {
+  EmploymentContractType,
+} = require('../models/employmentContractTypeModel');
 const { JobApplication } = require('../models/jobApplicationModel');
 
 const _index = catchAsync(async function (req, res, next) {
@@ -37,14 +39,21 @@ const _find = catchAsync(async function (req, res, next) {
 
 const _create = catchAsync(async function (req, res, next) {
   const job = ({ title, salary, description, deadline } = req.body);
-  const { locations = [], categories = [], employment_contract_type_id, salary_type_id } = req.body;
+  const {
+    locations = [],
+    categories = [],
+    employment_contract_type_id,
+    salary_type_id,
+  } = req.body;
 
   if (locations?.length === 0 || categories?.length === 0) {
     return next(new AppError('missing job location and/or category', 400));
   }
 
   if (!employment_contract_type_id || !salary_type_id) {
-    return next(new AppError('missing job salary type and/or contract type', 400));
+    return next(
+      new AppError('missing job salary type and/or contract type', 400)
+    );
   }
 
   const record = await model.Job.create(job);
@@ -52,15 +61,17 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to create job', 500, false));
   }
 
-  const jobSalaryType = await record.setSalaryType(salary_type_id);
+  await record.setSalaryType(salary_type_id);
 
-  const jobContractType = await record.setEmploymentContractType(employment_contract_type_id);
+  await record.setEmploymentContractType(employment_contract_type_id);
 
-  const inLocations = locations.map(async (location) => await record.addLocation(location));
+  await Promise.all(
+    locations.map(async (location) => await record.addLocation(location))
+  );
 
-  const inCategories = categories.map(async (category) => await record.addCategory(category));
-
-  const insert = await Promise.all([record, jobSalaryType, jobContractType, inLocations, inCategories]);
+  await Promise.all(
+    categories.map(async (category) => await record.addCategory(category))
+  );
 
   res.status(201).json({
     status: 'success',
@@ -73,7 +84,12 @@ const _create = catchAsync(async function (req, res, next) {
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
   const job = ({ title, salary, description, deadline } = req.body);
-  const { locations = [], categories = [], salary_type_id, employment_contract_type_id } = req.body;
+  const {
+    locations = [],
+    categories = [],
+    salary_type_id,
+    employment_contract_type_id,
+  } = req.body;
 
   if (!job) {
     return next(new AppError('missing job details', 400));
@@ -98,29 +114,55 @@ const _update = catchAsync(async function (req, res, next) {
   }
 
   if (locations.length > 0) {
+
+    const jobLocations = await JobsInLocations.findAll({
+      where: { job_id: record.id },
+    });
+
+    // add any new locations
     await Promise.all(
       locations.map(async (location) => {
-        const locationRecord = await JobsInLocations.findOne({
-          where: { 'job_id': record.id, 'location_id': location },
-        });
-        if (!locationRecord) {
+        const jobLocation = jobLocations.find(jLocation => jLocation.toJSON().id === parseInt(location, 10));
+        if (!jobLocation) {
           return await record.addLocation(location);
         }
       })
     );
+
+    // clean up any removed locations
+    await Promise.all(jobLocations.map(async (jobLocation) => {
+      const target = locations.find(location => jobLocation.toJSON().id === location);
+      if (!target) {
+        console.log('deleting', jobLocation);
+        return await record.removeLocation(jobLocation.toJSON().id)
+      }
+    }));
   }
- 
+
   if (categories.length > 0) {
+
+    const jobCategories = await JobsInCategories.findAll({
+      where: { job_id: record.id },
+    });
+
+    // add any new categories
     await Promise.all(
       categories.map(async (category) => {
-        const catRecord = await JobsInCategories.findOne({
-          where: { 'job_category_id': category, 'job_id': record.id },
-        });
-        if (!catRecord) {
+        const jobCategory = jobCategories.find(jCategory => jCategory.toJSON().id === parseInt(category, 10));
+        if (!jobCategory) {
           return await record.addCategory(category);
         }
       })
     );
+
+      // clean up any removed locations
+      await Promise.all(jobCategories.map(async (jobCategory) => {
+        const target = categories.find(category => jobCategory.toJSON().id === category);
+        if (!target) {
+          console.log('deleting', jobCategory);
+          return await record.removeCategory(jobCategory.toJSON().id)
+        }
+      }));
   }
 
   res.status(200).json({ status: 'success', data: { updated } });
@@ -129,6 +171,8 @@ const _update = catchAsync(async function (req, res, next) {
 const _delete = catchAsync(async function (req, res, next) {
   const { id } = req.params;
   const deleted = await model.Job.destroy({ where: { id } });
+  await JobsInCategories.destroy({ where: { job_id: id } });
+  await JobsInLocations.destroy({ where: { job_id: id } });
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
@@ -177,11 +221,7 @@ const findByCategory = catchAsync(async function (req, res, next) {
   });
 });
 
-const findByCategoryAndLocation = catchAsync(async function (
-  req,
-  res,
-  next
-) {
+const findByCategoryAndLocation = catchAsync(async function (req, res, next) {
   const { locationId, jobCategoryId } = req.params;
   if (!locationId || !jobCategoryId) {
     return next(
@@ -242,7 +282,11 @@ const findBySalaryTypeId = catchAsync(async function (req, res, next) {
   });
 });
 
-const findByEmploymentContractTypeId = catchAsync(async function(req, res, next) {
+const findByEmploymentContractTypeId = catchAsync(async function (
+  req,
+  res,
+  next
+) {
   const { id } = req.params;
 
   const contractType = await EmploymentContractType.findOne({ where: { id } });
@@ -263,26 +307,26 @@ const findByEmploymentContractTypeId = catchAsync(async function(req, res, next)
   });
 });
 
-const findByJobApplicationId = catchAsync(async function(req, res, next) {
+const findByJobApplicationId = catchAsync(async function (req, res, next) {
   const { id } = req.params;
 
-  const application = await JobApplication.findOne({where: {id, }});
+  const application = await JobApplication.findOne({ where: { id } });
   if (!application) {
     return next(new NotFoundError('application not found'));
   }
 
   const job = await application.getJob();
-  if (!job ) {
+  if (!job) {
     return next(new NotFoundError('job not found'));
   }
 
   res.status(200).json({
     status: 'success',
     data: {
-      job
-    }
-  })
-}); 
+      job,
+    },
+  });
+});
 
 module.exports = {
   _index,
@@ -295,5 +339,5 @@ module.exports = {
   findByCategoryAndLocation,
   findBySalaryTypeId,
   findByEmploymentContractTypeId,
-  findByJobApplicationId
+  findByJobApplicationId,
 };
