@@ -9,6 +9,7 @@ export const job = Object.freeze({
     categories: [],
     description: '<p>Make it snappy</p>',
     deadline: moment().format('YYYY-MM-DD'),
+    active: 1,
   });
 
   

@@ -56,13 +56,11 @@ const _create = catchAsync(async function (req, res, next) {
 
   const jobContractType = await record.setEmploymentContractType(employment_contract_type_id);
 
-  const inLocations = await Promise.all(
-    locations.map(async (location) => await record.addLocation(location))
-  );
+  const inLocations = locations.map(async (location) => await record.addLocation(location));
 
-  const inCategories = await Promise.all(
-    categories.map(async (category) => await record.addCategory(category))
-  );
+  const inCategories = categories.map(async (category) => await record.addCategory(category));
+
+  const insert = await Promise.all([record, jobSalaryType, jobContractType, inLocations, inCategories]);
 
   res.status(201).json({
     status: 'success',

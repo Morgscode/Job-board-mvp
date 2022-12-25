@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
+import { Checkbox } from 'primereact/checkbox';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'primereact/dropdown';
@@ -22,8 +23,9 @@ function JobForm(props) {
     values,
   });
 
+  console.log(props);
+
   useEffect(() => {
-    console.log(values);
     if (!isDirty) {
       reset(values);
     }
@@ -72,6 +74,24 @@ function JobForm(props) {
       className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6  shadow-1"
       onSubmit={handleSubmit(submit)}
     >
+      <h5>Make this job posting active</h5>
+      <div className="field-checkbox">
+        <Controller
+          name="active"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Checkbox
+              id="active"
+              value={field.value}
+              checked={field.value}
+              onChange={(e) => field.onChange(e.checked ? 1 : 0)}
+              trueValue={1}
+              falseValue={0}
+            />
+          )}
+        />
+        <label htmlFor="binary">Remember Me</label>
+      </div>
       <div className="formgrid gird mb-4">
         <div className="field flex flex-column">
           <label htmlFor="title">Job Title</label>
