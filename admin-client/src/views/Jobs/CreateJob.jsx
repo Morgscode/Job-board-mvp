@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLocations } from '../../store/features/locationSlice';
-import { setJobCategories } from '../../store/features/jobCategorySlice';
+import { setCategories } from '../../store/features/jobCategorySlice';
 import { setSalaryTypes } from '../../store/features/salaryTypeSlice';
 import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
 import { addJob } from '../../store/features/jobSlice';
@@ -34,7 +34,7 @@ function CreateJob(props) {
   useEffect(() => {
     async function getJobCategories() {
       const categories = await jobCategoryService.index();
-      dispatch(setJobCategories(categories));
+      dispatch(setCategories(categories));
     }
     if (categories?.length === 0) {
       getJobCategories();

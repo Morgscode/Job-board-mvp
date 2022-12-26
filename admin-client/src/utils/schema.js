@@ -15,4 +15,26 @@ export const job = Object.freeze({
 export const location = Object.freeze({
   name: '',
   description: '<p></p>',
-}); 
+});
+
+export const jobCategory = Object.freeze({
+  name: '',
+  description: '<p></p>',
+});
+
+export const salaryType = Object.freeze({
+  name: '',
+});
+
+export const employmentContractType = Object.freeze({
+  name: '',
+});
+
+export const user = Object.freeze({
+  email: '',
+  title: '',
+  first_name: '',
+  surname: '',
+  middle_names: '',
+  role: 2,
+});

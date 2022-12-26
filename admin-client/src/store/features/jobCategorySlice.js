@@ -8,7 +8,7 @@ export const jobCategorySlice = createSlice({
     sortOrder: 'asc',
   },
   reducers: {
-    setJobCategories: (state, action) => {
+    setCategories: (state, action) => {
       state.data = action.payload;
     },
     setPage: (state, action) => {
@@ -17,12 +17,19 @@ export const jobCategorySlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
-    deleteJobCategory: (state, action) => {
-      state.data = state.data.filter(job => job.id !== action.payload);
+    addCategory: (state, action) => {
+      const categories = [...state.data];
+      state.data = [action.payload, ...categories];
+    },
+    updateCategory: (state, action) => {
+      state.data = state.data.map(category => category.id === action.payload.id ? action.payload : category);
+    },
+    deleteCategory: (state, action) => {
+      state.data = state.data.filter(category => category.id !== action.payload);
     }
   },
 });
 
-export const { setJobCategories, setPage, setSortOrder, deleteJob } = jobCategorySlice.actions;
+export const { setCategories, setPage, setSortOrder, addCategory, updateCategory, deleteCategory } = jobCategorySlice.actions;
 
 export default jobCategorySlice.reducer;

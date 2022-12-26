@@ -16,7 +16,6 @@ function JobForm(props) {
   const {
     control,
     handleSubmit,
-    getValues,
     reset,
     formState: { errors, isDirty },
   } = useForm({

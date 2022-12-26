@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setLocations } from '../../store/features/locationSlice';
-import { setJobCategories } from '../../store/features/jobCategorySlice';
+import { setCategories } from '../../store/features/jobCategorySlice';
 import { setSalaryTypes } from '../../store/features/salaryTypeSlice';
 import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
 import { updateJob } from '../../store/features/jobSlice';
@@ -56,7 +56,7 @@ function EditJob(props) {
   useEffect(() => {
     async function getJobCategories() {
       const categories = await jobCategoryService.index();
-      dispatch(setJobCategories(categories));
+      dispatch(setCategories(categories));
     }
     if (categories?.length === 0) {
       getJobCategories();

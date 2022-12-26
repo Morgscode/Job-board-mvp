@@ -1,4 +1,4 @@
-import { http } from '../utils/http';
+import { http } from './http';
 
 const salaryTypeService = {
     async index(page = 1, sortOrder = 'asc') {

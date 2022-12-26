@@ -2,13 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import locationService from '../../services/locationService';
-import { setLocations, updateLocation } from '../../store/features/locationSlice';
-import { updateJob } from '../../store/features/jobSlice';
+import { updateLocation } from '../../store/features/locationSlice';
 import { Toast } from 'primereact/toast';
 import LocationForm from '../../components/locations/LocationForm';
 import { location as locationSchema } from '../../utils/schema';
 
-function EditJob(props) {
+function EditLocation(props) {
   const { id } = useParams();
   const toast = useRef(null);
   const dispatch = useDispatch();
@@ -43,7 +42,7 @@ function EditJob(props) {
       console.error(error);
       toast.current.show({
         severity: 'error',
-        summary: 'There was a problem updating that job',
+        summary: 'There was a problem updating that location',
       });
     } finally {
       setLoading(false);
@@ -63,4 +62,4 @@ function EditJob(props) {
   );
 }
 
-export default EditJob;
+export default EditLocation;

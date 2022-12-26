@@ -11,17 +11,6 @@ function CreateJob(props) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   
-  const locations = useSelector((state) => state.locations.data);
-  useEffect(() => {
-    async function getLocations() {
-      const locations = await locationService.index();
-      dispatch(setLocations(locations));
-    }
-    if (locations?.length === 0) {
-      getLocations();
-    }
-  }, [locations]);
-
   async function createLocation(submit) {
     setLoading(true);
     try {
@@ -47,7 +36,6 @@ function CreateJob(props) {
       <h1 className="font-normal">Create a new location</h1>
       <LocationForm
         formData={{ ...locationSchema }}
-        locations={locations}
         submit={createLocation}
         loading={loading}
       />

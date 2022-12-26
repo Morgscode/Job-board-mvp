@@ -9,6 +9,9 @@ import EditJob from './views/Jobs/EditJob';
 import ManageLocations from './views/Locations/ManageLocations';
 import CreateLocation from './views/Locations/CreateLocation';
 import EditLocation from './views/Locations/EditLocation';
+import ManageJobCategories from './views/JobCategories/ManageJobCategories';
+import CreateJobCategory from './views/JobCategories/CreateJobCategory';
+import EditJobCategory from './views/JobCategories/EditJobCategory';
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +46,18 @@ export const router = createBrowserRouter([
       {
         path: '/locations/:id/edit',
         element: <EditLocation />
+      },
+      {
+        path: '/job-categories',
+        element: <ManageJobCategories />
+      },
+      {
+        path: '/job-categories/create',
+        element: <CreateJobCategory />
+      },
+      {
+        path: '/job-categories/:id/edit',
+        element: <EditJobCategory />
       },
     ],
   },

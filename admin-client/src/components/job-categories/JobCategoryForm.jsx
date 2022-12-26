@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { Editor } from 'primereact/editor';
 import { classNames } from 'primereact/utils';
 
-function LocationForm(props) {
+function JobCategoryForm(props) {
   const values = props.formData;
   const {
     control,
@@ -120,4 +120,4 @@ function LocationForm(props) {
   );
 }
 
-export default LocationForm;
+export default JobCategoryForm;

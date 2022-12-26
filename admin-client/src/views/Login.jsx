@@ -6,7 +6,7 @@ import {
   setRole,
 } from '../store/features/authSlice';
 import { setDetails } from '../store/features/userSlice';
-import { http } from '../utils/http';
+import { http } from '../services/http';
 import LoginForm from '../components/auth/LoginForm';
 
 function Login() {

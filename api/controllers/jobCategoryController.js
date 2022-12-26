@@ -47,7 +47,7 @@ const _create = catchAsync(async function (req, res, next) {
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const { category } = req.body;
+  const category = ({name, description} = req.body);
 
   if (!category) {
     return next(new AppError('missing job category details', 400));

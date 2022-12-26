@@ -50,7 +50,7 @@ function Sidebar(props) {
     {
       label: 'Job Categories',
       icon: 'pi pi-tag',
-      items: manageResourceItems('categories')
+      items: manageResourceItems('job-categories')
     },
     {
       label: 'Uploads',

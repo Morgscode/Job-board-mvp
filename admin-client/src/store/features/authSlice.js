@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { default as ls } from '../../utils/localStorage';
-import { http } from '../../utils/http';
+import { http } from '../../services/http';
 
 export const authSlice = createSlice({
   name: 'auth',
