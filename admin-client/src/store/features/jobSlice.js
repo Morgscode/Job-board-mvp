@@ -19,7 +19,7 @@ export const jobSlice = createSlice({
     },
     addJob: (state, action) => {
       const jobs = [...state.data]
-      state.data = [action.payload, ...jobs];
+      state.data = [...jobs, action.payload];
     },
     updateJob: (state, action) => {
       state.data = state.data.map(job => job.id === action.payload.id ? action.payload : job);

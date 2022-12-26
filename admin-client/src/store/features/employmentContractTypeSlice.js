@@ -18,7 +18,7 @@ export const employmentContractTypeSlice = createSlice({
       state.sortOrder = action.payload;
     },
     addContractType: (state, action) => {
-      state.data = [action.payload, ...state.data];
+      state.data = [...state.data, action.payload];
     },
     deleteContractType: (state, action) => {
       state.data = state.data.filter(type => type.id !== action.payload);

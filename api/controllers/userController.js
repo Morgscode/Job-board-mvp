@@ -34,13 +34,14 @@ const _find = catchAsync(async function (req, res, next) {
 });
 
 const _create = catchAsync(async function (req, res, next) {
-  const { email, password, role } = req.body;
+  const user = ({ email, first_name, surname, title } = req.body);
+  const { password, role } = req.body;
 
-  if (!email || !password) {
+  if (!user.email || !password) {
     return next(new AppError('user details incorrect', 400));
   }
 
-  const userExists = await model.userEmailExists(email);
+  const userExists = await model.userEmailExists(user.email);
   if (userExists) {
     return next(new AppError(`email address already exists`, 400));
   }
@@ -53,25 +54,25 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('user details incorrect', 400));
   }
 
-  const user = await model.registerUser(email, password, role);
-  if (!user) {
-    return next(new AppError('error - unable to create user', 500, false));
+  const newUser = await model.registerUser(user, password, role);
+  if (!newUser) {
+    return next(new AppError('error - unable to create newUser', 500, false));
   }
 
   // set verify token 
   const verify = auth.createAppToken();
-  user.email_verify_token = verify.hash;
-  await user.save();
+  newUser.email_verify_token = verify.hash;
+  await newUser.save();
 
   // send email
-  mailer.options.to = user.email;
+  mailer.options.to = newUser.email;
   mailer.options.subject = 'Please verify your email';
-  mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${user.email}&token=${verify.token}">verify email</a>`;
+  mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${newUser.email}&token=${verify.token}">verify email</a>`;
   await mailer.send();
 
   res.status(201).json({
     status: 'success',
-    data: { user: model.apiUser(user.toJSON()) },
+    data: { user: model.apiUser(newUser.toJSON()) },
   });
 });
 

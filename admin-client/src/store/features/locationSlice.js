@@ -19,7 +19,7 @@ export const locationSlice = createSlice({
     },
     addLocation: (state, action) => {
       const locations = [...state.data];
-      state.data = [action.payload, ...locations];
+      state.data = [...locations, action.payload];
     },
     updateLocation: (state, action) => {
       state.data = state.data.map(location => location.id === action.payload.id ? action.payload : location);

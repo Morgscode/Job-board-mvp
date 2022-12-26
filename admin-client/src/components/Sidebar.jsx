@@ -35,7 +35,7 @@ function Sidebar(props) {
     {
       label: 'Job Applications',
       icon: 'pi pi-file',
-      items: manageResourceItems('applications')
+      command: () => navigate(`/applications`),
     },
     {
       label: 'Jobs',

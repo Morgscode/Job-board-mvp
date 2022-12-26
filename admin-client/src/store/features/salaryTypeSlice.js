@@ -17,6 +17,13 @@ export const salaryTypeSlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
+    addSalaryType: (state, action) => {
+      const types = [...state.data];
+      state.data = [...types, action.payload];
+    },
+    updateSalaryType: (state, action) => {
+      state.data = state.data.map(salaryType => salaryType.id === action.payload.id ? action.payload : salaryType);
+    },
     deleteSalaryType: (state, action) => {
       state.data = state.data.filter(type => type.id !== action.payload);
     }

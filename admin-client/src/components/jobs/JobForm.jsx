@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import moment from 'moment';
 import { InputText } from 'primereact/inputtext';
@@ -76,20 +76,24 @@ function JobForm(props) {
         <Controller
           name="active"
           control={control}
+          rules={{ required: true }}
           render={({ field, fieldState }) => (
-            <Checkbox
-              id="active"
-              value={field.value}
-              checked={field.value}
-              onChange={(e) => field.onChange(e.checked ? 1 : 0)}
-              trueValue={1}
-              falseValue={0}
-            />
+            <React.Fragment>
+              <Checkbox
+                inputId={field.name}
+                value={field.value}
+                checked={field.value}
+                trueValue={1}
+                falseValue={0}
+                className={classNames({ 'p-invalid': fieldState.invalid })}
+                onChange={(e) => field.onChange(e.checked ? 1 : 0)}
+              />
+              <label className="inline-block ml-3" htmlFor="active">
+                Make this job posting active
+              </label>
+            </React.Fragment>
           )}
         />
-        <label className="inline-block ml-3" htmlFor="active">
-          Make this job posting active
-        </label>
       </div>
       <div className="formgrid gird mb-4">
         <div className="field flex flex-column">

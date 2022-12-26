@@ -19,7 +19,7 @@ export const jobCategorySlice = createSlice({
     },
     addCategory: (state, action) => {
       const categories = [...state.data];
-      state.data = [action.payload, ...categories];
+      state.data = [...categories, action.payload];
     },
     updateCategory: (state, action) => {
       state.data = state.data.map(category => category.id === action.payload.id ? action.payload : category);

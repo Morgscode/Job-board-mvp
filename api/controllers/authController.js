@@ -7,9 +7,10 @@ const userModel = require('../models/userModel');
 const mailer = require('../utils/mailer');
 
 const register = catchAsync(async function (req, res, next) {
-  const { email, password } = req.body;
+  const user = ({ email, first_name, surname, title } = req.body);
+  const { password } = req.body;
 
-  if (!email || !password) {
+  if (!user.email || !password) {
     return next(new AppError(`incomplete signup`, 400));
   }
 
@@ -17,32 +18,32 @@ const register = catchAsync(async function (req, res, next) {
     return next(new AppError(`password must be at least 8 characters`, 400));
   }
 
-  const userExists = await userModel.userEmailExists(email);
+  const userExists = await userModel.userEmailExists(user.email);
   if (userExists) {
     return next(new AppError(`email address already exists`, 400));
   }
 
-  const user = await userModel.registerUser(email, password);
-  if (!user) {
+  const newUser = await userModel.registerUser(user, password);
+  if (!newUser) {
     return next(new AppError(`there was a problem creating your account`, 500));
   }
 
   // set verify token
   const verify = auth.createAppToken();
-  user.email_verify_token = verify.hash;
-  await user.save();
+  newUser.email_verify_token = verify.hash;
+  await newUser.save();
 
   // send email
-  mailer.options.to = user.email;
+  mailer.options.to = newUser.email;
   mailer.options.subject = 'Please verify your email';
-  mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${user.email}&token=${verify.token}">verify email</a>`;
+  mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${newUser.email}&token=${verify.token}">verify email</a>`;
   await mailer.send();
 
   res.status(201).json({
     status: 'sucess',
     data: {
       message: 'registered! please verify your email address',
-      user: userModel.apiUser(user.dataValues),
+      user: userModel.apiUser(newUser.toJSON()),
     },
   });
 });
