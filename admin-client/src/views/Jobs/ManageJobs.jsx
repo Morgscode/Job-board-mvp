@@ -14,7 +14,7 @@ function ManageJobs() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const jobs = useSelector((state) => state.jobs.data);
   useEffect(() => {
     async function getJobs() {
@@ -26,28 +26,18 @@ function ManageJobs() {
     }
   }, [jobs]);
 
-  const contractTypes = useSelector(
-    (state) => state.employmentContractTypes.data
-  );
-  useEffect(() => {
-    async function getContractTypes() {
-      const contractTypes = await employmentContractTypeService.index();
-      dispatch(setContractTypes(contractTypes));
-    }
-    if (contractTypes.length === 0) {
-      getContractTypes();
-    }
-  }, [contractTypes]);
-
   const [manageJob, setManageJob] = useState({ action: null, data: null });
   useEffect(() => {
     async function deleteJobById(job) {
       try {
         await jobService.delete(job.id);
         dispatch(deleteJob(job.id));
-        toast.current.show({severity: 'success', summary: 'Job deleted'});
+        toast.current.show({ severity: 'success', summary: 'Job deleted' });
       } catch (error) {
-        toast.current.show({severity: 'error', summary: 'There was a problem deleting that job'});
+        toast.current.show({
+          severity: 'error',
+          summary: 'There was a problem deleting that job',
+        });
       }
     }
     if (manageJob.action && manageJob.data) {
@@ -74,11 +64,7 @@ function ManageJobs() {
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobLister
-        jobs={jobs}
-        contractTypes={contractTypes}
-        manage={setManageJob}
-      />
+      <JobLister jobs={jobs} manage={setManageJob} />
       <Toast ref={toast} />
     </div>
   );

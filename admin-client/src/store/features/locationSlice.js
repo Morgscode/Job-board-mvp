@@ -23,6 +23,6 @@ export const locationSlice = createSlice({
   },
 });
 
-export const { setLocations, setPage, setSortOrder, deleteJob } = locationSlice.actions;
+export const { setLocations, setPage, setSortOrder, deleteLocation } = locationSlice.actions;
 
 export default locationSlice.reducer;

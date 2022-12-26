@@ -43,12 +43,12 @@ function Sidebar(props) {
     {
       label: 'Job Locations',
       icon: 'pi pi-map-marker',
-      command: () => navigate(`/job-locations`),
+      command: () => navigate(`/locations`),
     },
     {
       label: 'Job Categories',
       icon: 'pi pi-tag',
-      command: () => navigate(`/job-categories`),
+      command: () => navigate(`/categories`),
     },
     {
       label: 'Uploads',

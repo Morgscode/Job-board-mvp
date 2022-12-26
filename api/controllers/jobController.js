@@ -114,7 +114,6 @@ const _update = catchAsync(async function (req, res, next) {
   }
 
   if (locations.length > 0) {
-
     const jobLocations = await JobsInLocations.findAll({
       where: { job_id: record.id },
     });
@@ -122,7 +121,9 @@ const _update = catchAsync(async function (req, res, next) {
     // add any new locations
     await Promise.all(
       locations.map(async (location) => {
-        const jobLocation = jobLocations.find(jLocation => jLocation.toJSON().id === parseInt(location, 10));
+        const jobLocation = jobLocations.find(
+          (jLocation) => jLocation.toJSON().id === parseInt(location, 10)
+        );
         if (!jobLocation) {
           return await record.addLocation(location);
         }
@@ -130,17 +131,19 @@ const _update = catchAsync(async function (req, res, next) {
     );
 
     // clean up any removed locations
-    await Promise.all(jobLocations.map(async (jobLocation) => {
-      const target = locations.find(location => jobLocation.toJSON().id === location);
-      if (!target) {
-        console.log('deleting', jobLocation);
-        return await record.removeLocation(jobLocation.toJSON().id)
-      }
-    }));
+    await Promise.all(
+      jobLocations.map(async (jobLocation) => {
+        const target = locations.find(
+          (location) => jobLocation.toJSON().id === location
+        );
+        if (!target) {
+          return await record.removeLocation(jobLocation.toJSON().id);
+        }
+      })
+    );
   }
 
   if (categories.length > 0) {
-
     const jobCategories = await JobsInCategories.findAll({
       where: { job_id: record.id },
     });
@@ -148,21 +151,26 @@ const _update = catchAsync(async function (req, res, next) {
     // add any new categories
     await Promise.all(
       categories.map(async (category) => {
-        const jobCategory = jobCategories.find(jCategory => jCategory.toJSON().id === parseInt(category, 10));
+        const jobCategory = jobCategories.find(
+          (jCategory) => jCategory.toJSON().id === parseInt(category, 10)
+        );
         if (!jobCategory) {
           return await record.addCategory(category);
         }
       })
     );
 
-      // clean up any removed locations
-      await Promise.all(jobCategories.map(async (jobCategory) => {
-        const target = categories.find(category => jobCategory.toJSON().id === category);
+    // clean up any removed categories
+    await Promise.all(
+      jobCategories.map(async (jobCategory) => {
+        const target = categories.find(
+          (category) => jobCategory.toJSON().id === category
+        );
         if (!target) {
-          console.log('deleting', jobCategory);
-          return await record.removeCategory(jobCategory.toJSON().id)
+          return await record.removeCategory(jobCategory.toJSON().id);
         }
-      }));
+      })
+    );
   }
 
   res.status(200).json({ status: 'success', data: { updated } });

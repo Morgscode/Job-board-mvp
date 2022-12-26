@@ -80,7 +80,6 @@ function JobForm(props) {
           render={({ field, fieldState }) => (
             <Checkbox
               id="active"
-              fieldId="active"
               value={field.value}
               checked={field.value}
               onChange={(e) => field.onChange(e.checked ? 1 : 0)}

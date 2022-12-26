@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
 function JobLister(props) {
-  const [selectedJobs, setSelectedJobs] = useState([]);
+  const [selectedLocations, setSelectedLocations] = useState([]);
   const [globalFilterValue, setGlobalFilterValue] = useState(''); 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -21,22 +21,10 @@ function JobLister(props) {
     setGlobalFilterValue(value);
   };
 
-  function formatCreatedDate(data) {
-    return moment(data.createdAt).format('DD-MM-YYYY');
-  }
-
-  function formateDeadline(data) {
-    return moment(data.deadline).format('DD-MM-YYYY');
-  }
-
-  function formateActive(data) {
-    return data.active== 0 ? 'Hidden' : 'Active';
-  }
-
   const header = (
     <React.Fragment>
       <div className="flex justify-content-between align-items-center">
-        <h2 className="m-0">Mange jobs</h2>
+        <h2 className="m-0">Mange locations</h2>
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText
@@ -48,7 +36,6 @@ function JobLister(props) {
       </div>
     </React.Fragment>
   );
-
 
   const updateTemplate = (options) => {
     return (
@@ -75,35 +62,22 @@ function JobLister(props) {
   return (
     <div className="card w-full">
       <DataTable
-        value={props.jobs}
-        selection={selectedJobs}
-        onSelectionChange={e => setSelectedJobs(e.value)}
+        value={props.locations}
+        selection={selectedLocations}
+        onSelectionChange={e => setSelectedLocations(e.value)}
         filters={filters}
         header={header}
         className="w-full p-datatable-customers"
-        globalFilterFields={['title', 'deadline', 'createdAt', 'active']}
+        globalFilterFields={['name']}
         responsiveLayout="scroll"
         rows={10}
         rowsPerPageOptions={[10, 25, 50]}
         paginator
         rowHover
-        emptyMessage="No jobs found."
+        emptyMessage="No locations found."
       >
         <Column selectionMode="multiple" selectionAriaLabel="name" headerStyle={{ width: '3em' }}></Column>
-        <Column field="title" filter header="Job Title"></Column>
-        <Column field="active" sortable header="Status" body={formateActive}></Column>
-        <Column
-          field="createdAt"
-          sortable 
-          header="Created"
-          body={formatCreatedDate}
-        ></Column>
-        <Column
-          field="deadline"
-          sortable
-          header="Closing date"
-          body={formateDeadline}
-        ></Column>
+        <Column field="name" filter header="Location Name"></Column>
         <Column
           headerStyle={{ width: '4rem', textAlign: 'center' }}
           bodyStyle={{ textAlign: 'center', overflow: 'visible' }}
