@@ -35,7 +35,7 @@ function Sidebar(props) {
     {
       label: 'Job Applications',
       icon: 'pi pi-file',
-      command: () => navigate(`/applications`),
+      command: () => navigate(`/job-applications`),
     },
     {
       label: 'Jobs',

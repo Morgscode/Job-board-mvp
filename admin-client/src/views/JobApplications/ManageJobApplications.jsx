@@ -1,42 +1,54 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import jobCategoryService from '../../services/jobCategoryService';
+import jobApplicationService from '../../services/jobApplicationService';
 import {
-  deleteCategory,
-  setCategories,
-} from '../../store/features/jobCategorySlice';
+  setApplications,
+  deleteApplication,
+} from '../../store/features/jobApplicationSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import JobCategoryLister from '../../components/job-categories/JobCategoryLister';
+import JobApplicationLister from '../../components/job-applications/JobApplicationLister';
 
-function ManageJobCategories() {
+// applications
+
+// statuses
+
+// jobs
+
+// users
+
+function ManageJobApplications() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [selectedApplications, setSelectedApplications] = useState([]);
 
-  const categories = useSelector((state) => state.jobCategories.data);
+  const applications = useSelector((state) => state.jobApplications.data);
   useEffect(() => {
-    async function getCategories() {
-      const categories = await jobCategoryService.index();
-      dispatch(setCategories(categories));
+    async function getApplications() {
+      const applications = await jobApplicationService.index();
+      dispatch(setApplications(applications));
     }
-    if (categories.length === 0) {
-      getCategories();
+    if (applications.length === 0) {
+      getApplications();
     }
-  }, [categories]);
+  }, [applications]);
 
-  const [manageCategory, setManageCategory] = useState({
+  const [manageApplication, setManageApplication] = useState({
     action: null,
     data: null,
   });
   useEffect(() => {
-    async function deleteCategoryById(job) {
+    async function deleteApplicationById(job) {
       try {
-        await jobCategoryService.delete(job.id);
-        dispatch(deleteCategory(job.id));
-        toast.current.show({ severity: 'success', summary: 'Job category deleted' });
+        await jobApplicationService.delete(job.id);
+        dispatch(deleteApplication(job.id));
+        toast.current.show({
+          severity: 'success',
+          summary: 'Job category deleted',
+        });
       } catch (error) {
         toast.current.show({
           severity: 'error',
@@ -44,15 +56,15 @@ function ManageJobCategories() {
         });
       }
     }
-    if (manageCategory.action && manageCategory.data) {
-      if (manageCategory.action === 'edit') {
-        navigate(`/job-categories/${manageCategory.data.id}/edit`);
-      } else if (manageCategory.action === 'delete') {
-        deleteCategoryById(manageCategory.data);
+    if (manageApplication.action && manageApplication.data) {
+      if (manageApplication.action === 'edit') {
+        navigate(`/job-applications/${manageApplication.data.id}/edit`);
+      } else if (manageApplication.action === 'delete') {
+        deleteApplicationById(manageApplication.data);
       }
     }
     return;
-  }, [manageCategory]);
+  }, [manageApplication]);
 
   const actions = (
     <React.Fragment>
@@ -60,7 +72,7 @@ function ManageJobCategories() {
         label="New"
         icon="pi pi-plus"
         className="mr-2"
-        onClick={() => navigate('/job-categories/create')}
+        onClick={() => console.log('bulk status update', selectedApplications)}
       />
     </React.Fragment>
   );
@@ -68,10 +80,15 @@ function ManageJobCategories() {
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobCategoryLister categories={categories} manage={setManageCategory} />
+      <JobApplicationLister
+        applications={applications}
+        manage={setManageApplication}
+        selectedApplications={selectedApplications}
+        setSelectedApplications={setSelectedApplications}
+      />
       <Toast ref={toast} />
     </div>
   );
 }
 
-export default ManageJobCategories;
+export default ManageJobApplications;

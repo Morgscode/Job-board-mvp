@@ -3,6 +3,7 @@ import App from './App';
 import Error from './views/Error';
 import Login from './views/Login';
 import Dashboard from './views/Dashboard';
+import ManageJobApplications from './views/JobApplications/ManageJobApplications';
 import ManageJobs from './views/Jobs/ManageJobs';
 import CreateJob from './views/Jobs/CreateJob';
 import EditJob from './views/Jobs/EditJob';
@@ -13,6 +14,7 @@ import ManageJobCategories from './views/JobCategories/ManageJobCategories';
 import CreateJobCategory from './views/JobCategories/CreateJobCategory';
 import EditJobCategory from './views/JobCategories/EditJobCategory';
 
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -22,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />,
+      },
+      {
+        path: 'job-applications',
+        element: <ManageJobApplications />,
       },
       {
         path: 'jobs',
