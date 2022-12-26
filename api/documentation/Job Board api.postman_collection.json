@@ -1052,16 +1052,6 @@
 				{
 					"name": "Index",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1081,16 +1071,6 @@
 				{
 					"name": "Find by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1111,16 +1091,6 @@
 				{
 					"name": "Create",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1128,7 +1098,7 @@
 							"formdata": [
 								{
 									"key": "job_id",
-									"value": "1",
+									"value": "3",
 									"type": "text"
 								},
 								{
@@ -1161,21 +1131,11 @@
 				{
 					"name": "Update by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"application\": {\n        \"JobId\": 2,\n        \"coveringLetter\": \"<p>My dope cover letter</p>\"\n    },\n    \"status\": 1\n}",
+							"raw": "{\n    \"status\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1183,7 +1143,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/job-applications/1",
+							"raw": "{{dev_domain}}/api/v1/job-applications/2",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -1191,7 +1151,7 @@
 								"api",
 								"v1",
 								"job-applications",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -1200,16 +1160,6 @@
 				{
 					"name": "Delete by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1230,16 +1180,6 @@
 				{
 					"name": "Find by job id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1261,16 +1201,6 @@
 				{
 					"name": "Find by user id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1290,22 +1220,12 @@
 					"response": []
 				},
 				{
-					"name": "Find by application status",
+					"name": "Find by application status id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/job-applications/job-application-status/1",
+							"raw": "{{dev_domain}}/api/v1/job-applications/job-application-statuses/1",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -1313,12 +1233,42 @@
 								"api",
 								"v1",
 								"job-applications",
-								"job-application-status",
+								"job-application-statuses",
 								"1"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -1328,16 +1278,6 @@
 				{
 					"name": "Index",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1358,16 +1298,6 @@
 				{
 					"name": "Find by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1388,16 +1318,6 @@
 				{
 					"name": "Create",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1428,16 +1348,6 @@
 				{
 					"name": "Update by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -1467,16 +1377,6 @@
 				{
 					"name": "Delete by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1497,16 +1397,6 @@
 				{
 					"name": "Find by user id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1528,16 +1418,6 @@
 				{
 					"name": "Find by job application id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1559,16 +1439,6 @@
 				{
 					"name": "Download by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1587,6 +1457,36 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1595,16 +1495,6 @@
 				{
 					"name": "Index",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1624,16 +1514,6 @@
 				{
 					"name": "Find by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1654,16 +1534,6 @@
 				{
 					"name": "Create",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1692,21 +1562,11 @@
 				{
 					"name": "Update by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"id\": 1,\n        \"email\": \"lol@hacked.com\",\n        \"firstName\": \"Luke\",\n        \"surname\": \"Morgan\"\n    }\n}",
+							"raw": "{\n    \"title\": \"Mr\",\n    \"first_name\": \"Luke\",\n    \"surname\": \"Morgan\",\n    \"email\": \"lol@hakced.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1714,7 +1574,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/users/7",
+							"raw": "{{dev_domain}}/api/v1/users/1",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -1722,7 +1582,7 @@
 								"api",
 								"v1",
 								"users",
-								"7"
+								"1"
 							]
 						}
 					},
@@ -1731,16 +1591,6 @@
 				{
 					"name": "Delete by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1792,16 +1642,6 @@
 				{
 					"name": "Find by job application id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1819,6 +1659,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -1978,6 +1848,178 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Job Application Statuses",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/job-application-statuses",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"job-application-statuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/job-application-statuses/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"job-application-statuses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cancelled\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/job-application-statuses",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"job-application-statuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"cancelled\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/job-application-statuses/6",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"job-application-statuses",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/job-application-statuses/6",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"job-application-statuses",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by job application id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/job-application-statuses/job-applications/2",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"job-application-statuses",
+								"job-applications",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
