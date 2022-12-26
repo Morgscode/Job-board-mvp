@@ -1,45 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setLocations } from '../../store/features/locationSlice';
-import { setJobCategories } from '../../store/features/jobCategorySlice';
-import { setSalaryTypes } from '../../store/features/salaryTypeSlice';
-import { setContractTypes } from '../../store/features/employmentContractTypeSlice';
+import locationService from '../../services/locationService';
+import { setLocations, updateLocation } from '../../store/features/locationSlice';
 import { updateJob } from '../../store/features/jobSlice';
 import { Toast } from 'primereact/toast';
-import JobForm from '../../components/jobs/JobForm';
-import jobService from '../../services/jobService';
-import locationService from '../../services/locationService';
-import jobCategoryService from '../../services/jobCategoryService';
-import salaryTypeService from '../../services/salaryTypeService';
-import employmentContractTypeService from '../../services/employmentContractTypeService';
-import { job as jobSchema } from '../../utils/schema';
+import LocationForm from '../../components/locations/LocationForm';
+import { location as locationSchema } from '../../utils/schema';
 
 function EditJob(props) {
   const { id } = useParams();
   const toast = useRef(null);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-
-  const [fetchedJob, setFetchedJob] = useState(false);
-  const [job, setJob] = useState({ ...jobSchema });
+  
+  const [fetchedLocation, setFetchedLocation] = useState(false);
+  const [location, setLocation] = useState({...locationSchema});
   useEffect(() => {
-    async function getJob(id) {
-      const job = await jobService.find(id);
-      if (!job) {
-        getJob(id);
+    async function getLocation(id) {
+      const location = await locationService.find(id);
+      if (!location) {
+        getLocation(id);
       }
-      const locations = await locationService.findByJobId(id);
-      const categories = await jobCategoryService.findByJobId(id);
-      job.categories = categories.map((category) => category.id);
-      job.locations = locations.map((location) => location.id);
-      setJob(job);
-      setFetchedJob(true);
+      setLocation(location);
+      setFetchedLocation(true);
     }
-    if (!fetchedJob) {
-      getJob(id);
+    if (!fetchedLocation) {
+      getLocation(id);
     }
-  }, [fetchedJob, job]);
+  }, [fetchedLocation, location]);
 
   const locations = useSelector((state) => state.locations.data);
   useEffect(() => {

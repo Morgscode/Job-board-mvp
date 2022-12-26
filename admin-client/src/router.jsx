@@ -7,6 +7,7 @@ import ManageJobs from './views/Jobs/ManageJobs';
 import CreateJob from './views/Jobs/CreateJob';
 import EditJob from './views/Jobs/EditJob';
 import ManageLocations from './views/Locations/ManageLocations';
+import CreateLocation from './views/Locations/CreateLocation';
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: '/locations',
         element: <ManageLocations />
+      },
+      {
+        path: '/locations/create',
+        element: <CreateLocation />
       }
     ],
   },

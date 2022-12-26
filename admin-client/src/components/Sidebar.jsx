@@ -6,6 +6,26 @@ function Sidebar(props) {
   const user = useSelector((state) => state.user.details);
   const navigate = useNavigate();
 
+  const manageResourceItems = (resource) => [
+    [
+      {
+        label: `Manage ${resource}`,
+        items: [
+          {
+            label: 'View all',
+            icon: 'pi pi-table',
+            command: () => navigate(`${resource}`),
+          },
+          {
+            label: 'Add new',
+            icon: 'pi pi-plus',
+            command: () => navigate(`/${resource}/create`),
+          }
+        ],
+      },
+    ],
+  ]; 
+
   const items = [
     {
       label: 'Dashboard',
@@ -15,50 +35,32 @@ function Sidebar(props) {
     {
       label: 'Job Applications',
       icon: 'pi pi-file',
-      command: () => navigate(`/job-applications`),
+      items: manageResourceItems('applications')
     },
     {
       label: 'Jobs',
       icon: 'pi pi-bars',
-      items: [
-        [
-          {
-            label: 'Manage jobs',
-            items: [
-              {
-                label: 'View all',
-                icon: 'pi pi-table',
-                command: () => navigate('/jobs'),
-              },
-              {
-                label: 'Add new',
-                icon: 'pi pi-plus',
-                command: () => navigate('/jobs/create'),
-              }
-            ],
-          },
-        ],
-      ],
+      items: manageResourceItems('jobs')
     },
     {
       label: 'Job Locations',
       icon: 'pi pi-map-marker',
-      command: () => navigate(`/locations`),
+      items: manageResourceItems('locations')
     },
     {
       label: 'Job Categories',
       icon: 'pi pi-tag',
-      command: () => navigate(`/categories`),
+      items: manageResourceItems('categories')
     },
     {
       label: 'Uploads',
       icon: 'pi pi-file-import',
-      command: () => navigate(`/uplaods`),
+      items: manageResourceItems('uploads')
     },
     {
       label: 'Users',
       icon: 'pi pi-users',
-      command: () => navigate(`/users`),
+      items: manageResourceItems('users')
     },
     {
       label: 'Logout',
