@@ -7,7 +7,7 @@ const userModel = require('../models/userModel');
 const mailer = require('../utils/mailer');
 
 const register = catchAsync(async function (req, res, next) {
-  const user = ({ email, first_name, surname, title } = req.body);
+  const user = ({ email, first_name, surname, title, middle_names } = req.body);
   const { password } = req.body;
 
   if (!user.email || !password) {

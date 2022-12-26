@@ -34,7 +34,7 @@ const _find = catchAsync(async function (req, res, next) {
 });
 
 const _create = catchAsync(async function (req, res, next) {
-  const user = ({ email, first_name, surname, title } = req.body);
+  const user = ({ email, first_name, surname, title, middle_names } = req.body);
   const { password, role } = req.body;
 
   if (!user.email || !password) {
@@ -78,11 +78,7 @@ const _create = catchAsync(async function (req, res, next) {
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const { user } = req.body;
-
-  if (!user) {
-    return next(new AppError('missing user details', 400));
-  }
+  const user = ({ title, first_name, surname, middle_names } = req.body);
 
   const record = await model.User.findOne({ where: { id } });
   if (!record) {
