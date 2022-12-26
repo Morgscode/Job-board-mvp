@@ -17,21 +17,8 @@ const Location = db.sequelize.define(
         notNull: true,
       },
     },
-    google_place_id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-        notNull: true,
-      },
-    },
     description: { 
       type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    coordinates: {
-      type: DataTypes.JSON,
       allowNull: true,
     },
   },

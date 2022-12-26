@@ -19,19 +19,24 @@ module.exports = (req, res, next) => {
 
     try {
       value = JSON.parse(value.toString());
+      // remove any object parameters from the sql where
       if (typeof value === 'object') delete req.sql.where[key];
     } catch (error) {
       return;
     }
   });
 
-  // like cluses for titls and names
+  // allow like/contains clauses for titles and names
   if (req.query.title) {
-    req.sql.where['title'] = { [Op.like]: `${decodeURI(req.query.title)}%` };
+    req.sql.where['title'] = { [Op.like]: `%${decodeURI(req.query.title)}%` };
   }
 
   if (req.query.name) {
-    req.sql.where['name'] = { [Op.like]: `${decodeURI(req.query.name)}%` };
+    req.sql.where['name'] = { [Op.like]: `%${decodeURI(req.query.name)}%` };
+  }
+
+  if (req.query.description) {
+    req.sql.where['description'] = { [Op.like]: `%${decodeURI(req.query.description)}%` };
   }
 
   // logical operators (gt, lt, gte, lte)
@@ -95,7 +100,7 @@ module.exports = (req, res, next) => {
     req.sql.order = [['createdAt', 'DESC']];
   }
 
-  // console.log(req.sql);
+  console.log(req.sql);
 
   next();
 };

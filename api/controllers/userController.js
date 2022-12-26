@@ -4,7 +4,9 @@ const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/userModel');
 const auth = require('../utils/auth');
 const mailer = require('../utils/mailer');
-
+const { JobApplication } = require('../models/jobApplicationModel');
+const { FileUpload } = require('../models/fileUploadModel');
+ 
 const _index = catchAsync(async function (req, res, next) {
   const users = await model.User.findAll({
     attributes: req.sql.attributes,
@@ -110,6 +112,11 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
+
+const findByUploadId = catchAsync(async function(req, res, next) {
+
+});
+
 const findByJobApplicationId = catchAsync(async function(req, res, next) {
 
 });
@@ -120,4 +127,6 @@ module.exports = {
   _create,
   _update,
   _delete,
+  findByUploadId,
+  findByJobApplicationId
 };

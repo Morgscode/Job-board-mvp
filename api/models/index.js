@@ -83,7 +83,7 @@ async function initModels() {
 initModels()
   .then((tables) => console.log(tables))
   .catch((err) => {
-    console.log('could not reliably sync the models - shutting down...');
+    console.error('could not reliably sync the models - shutting down...');
     process.exit(1);
   });
 

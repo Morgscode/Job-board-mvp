@@ -20,7 +20,7 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
 ## OJB Tooling
 
-- A docker compose environment for testing and api deveopment is ready to go. Follow below for setup instructions
+- A docker compose environment for QA is ready to go. Follow below for setup instructions.
 
 1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 
