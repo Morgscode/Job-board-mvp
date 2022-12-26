@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import moment from 'moment';
 import { InputText } from 'primereact/inputtext';
-import { Checkbox } from 'primereact/checkbox';
-import { InputNumber } from 'primereact/inputnumber';
-import { MultiSelect } from 'primereact/multiselect';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Editor } from 'primereact/editor';
 import { classNames } from 'primereact/utils';
 
-function JobForm(props) {
+function LocationForm(props) {
   const values = props.formData;
   const {
     control,
@@ -127,4 +121,4 @@ function JobForm(props) {
   );
 }
 
-export default JobForm;
+export default LocationForm;

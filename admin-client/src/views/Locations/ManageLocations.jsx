@@ -36,11 +36,11 @@ function ManageLocations() {
       try {
         await locationService.delete(job.id);
         dispatch(deleteLocation(job.id));
-        toast.current.show({ severity: 'success', summary: 'Job deleted' });
+        toast.current.show({ severity: 'success', summary: 'Location deleted' });
       } catch (error) {
         toast.current.show({
           severity: 'error',
-          summary: 'There was a problem deleting that job',
+          summary: 'There was a problem deleting that location',
         });
       }
     }

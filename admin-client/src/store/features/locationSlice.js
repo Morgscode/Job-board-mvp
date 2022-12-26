@@ -21,12 +21,15 @@ export const locationSlice = createSlice({
       const locations = [...state.data];
       state.data = [action.payload, ...locations];
     },
+    updateLocation: (state, action) => {
+      state.data = state.data.map(location => location.id === action.payload.id ? action.payload : location);
+    },
     deleteLocation: (state, action) => {
-      state.data = state.data.filter(job => job.id !== action.payload);
+      state.data = state.data.filter(location => location.id !== action.payload);
     }
   },
 });
 
-export const { setLocations, setPage, setSortOrder, addLocation, deleteLocation } = locationSlice.actions;
+export const { setLocations, setPage, setSortOrder, addLocation, updateLocation, deleteLocation } = locationSlice.actions;
 
 export default locationSlice.reducer;

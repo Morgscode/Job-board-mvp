@@ -25,7 +25,7 @@ function CreateJob(props) {
   async function createLocation(submit) {
     setLoading(true);
     try {
-      const job = await locationService.create(submit);
+      const location = await locationService.create(submit);
       dispatch(addLocation(location));
       toast.current.show({
         severity: 'success',

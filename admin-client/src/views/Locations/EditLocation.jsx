@@ -30,60 +30,14 @@ function EditJob(props) {
     }
   }, [fetchedLocation, location]);
 
-  const locations = useSelector((state) => state.locations.data);
-  useEffect(() => {
-    async function getLocations() {
-      const locations = await locationService.index();
-      dispatch(setLocations(locations));
-    }
-    if (locations?.length === 0) {
-      getLocations();
-    }
-  }, [locations]);
-
-  const categories = useSelector((state) => state.jobCategories.data);
-  useEffect(() => {
-    async function getJobCategories() {
-      const categories = await jobCategoryService.index();
-      dispatch(setJobCategories(categories));
-    }
-    if (categories?.length === 0) {
-      getJobCategories();
-    }
-  }, [categories]);
-
-  const salaryTypes = useSelector((state) => state.salaryTypes.data);
-  useEffect(() => {
-    async function getSalaryTypes() {
-      const salaryTypes = await salaryTypeService.index();
-      dispatch(setSalaryTypes(salaryTypes));
-    }
-    if (salaryTypes.length === 0) {
-      getSalaryTypes();
-    }
-  }, [salaryTypes]);
-
-  const contractTypes = useSelector(
-    (state) => state.employmentContractTypes.data
-  );
-  useEffect(() => {
-    async function getEmploymentContractTypes() {
-      const contractTypes = await employmentContractTypeService.index();
-      dispatch(setContractTypes(contractTypes));
-    }
-    if (contractTypes.length === 0) {
-      getEmploymentContractTypes();
-    }
-  }, [contractTypes]);
-
-  async function updateJobById(submit) {
+  async function updateLocationById(submit) {
     setLoading(true);
     try {
-      await jobService.update(submit, submit.id);
-      dispatch(updateJob(submit));
+      await locationService.update(submit, submit.id);
+      dispatch(updateLocation(submit));
       toast.current.show({
         severity: 'success',
-        summary: 'Job updated',
+        summary: 'Location updated',
       });
     } catch (error) {
       console.error(error);
@@ -98,14 +52,10 @@ function EditJob(props) {
 
   return (
     <div>
-      <h1 className="font-normal">Edit job posting</h1>
-      <JobForm
-        formData={job}
-        locations={locations}
-        categories={categories}
-        salaryTypes={salaryTypes}
-        contractTypes={contractTypes}
-        submit={updateJobById}
+      <h1 className="font-normal">Edit location</h1>
+      <LocationForm
+        formData={location}
+        submit={updateLocationById}
         loading={loading}
       />
       <Toast ref={toast} />

@@ -33,7 +33,7 @@ const _find = catchAsync(async function (req, res, next) {
 });
 
 const _create = catchAsync(async function (req, res, next) {
-  const location = ({ name, description, active } = req.body);
+  const location = ({ name, description } = req.body);
   const record = await model.Location.create(location);
 
   if (!record) {
@@ -45,7 +45,7 @@ const _create = catchAsync(async function (req, res, next) {
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const { location } = req.body;
+  const location = ({name, description} = req.body);
 
   if (!location) {
     return next(new AppError('missing location details', 400));
