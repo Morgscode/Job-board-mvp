@@ -1,25 +1,25 @@
 import { http } from './http';
 
-const ROUTE = '/job-categories';
+const ROUTE = '/job-applications';
 
-const jobCategoryService = {
+const jobService = {
   async index(page = 1, sortOrder = 'asc') {
     const res = await http.get(`${ROUTE}?page=${page}&order=${sortOrder}`);
     if (res.status !== 200) throw new Error(res.status);
-    return Array.from(res.data.data.categories) || [];
+    return Array.from(res.data.data.applications) || [];
   },
   async find(id) {
     const res = await http.get(`${ROUTE}/${id}`, id);
     if (res.status !== 200) throw new Error(res.status);
-    return res.data.data.category || false;
+    return res.data.data.application || false;
   },
-  async create(category) {
-    const res = await http.post(ROUTE, category);
+  async create(job) {
+    const res = await http.post(ROUTE, job);
     if (res.status !== 201) throw new Error(res.status);
-    return res.data.data.category || false;
+    return res.data.data.application || false;
   },
-  async update(category, id) {
-    const res = await http.put(`${ROUTE}/${id}`, category);
+  async update(job, id) {
+    const res = await http.put(`${ROUTE}/${id}`, job);
     if (res.status !== 200) throw new Error(res.status);
     return true;
   },
@@ -28,11 +28,6 @@ const jobCategoryService = {
     if (res.status !== 200) throw new Error(res.status);
     return true;
   },
-  async findByJobId(id) {
-    const res = await http.get(`${ROUTE}/jobs/${id}`);
-    if (res.status !== 200) throw new Error(res.status);
-    return Array.from(res.data.data.categories) || [];
-  },
 };
 
-export default jobCategoryService;
+export default jobService;

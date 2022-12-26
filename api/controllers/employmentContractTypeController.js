@@ -42,7 +42,9 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError("couldn't create that contract type", 500, false));
   }
 
-  res.status(201).json({ status: 'success', data: { contractType: record } });
+  res
+    .status(201)
+    .json({ status: 'success', data: { contractType: record.toJSON() } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
@@ -65,7 +67,9 @@ const _update = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(200).json({ status: 'success', data: { updated } });
+  res
+    .status(200)
+    .json({ status: 'success', data: { contractType: record.toJSON() } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
@@ -74,9 +78,9 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-const findByJobId = catchAsync(async function(req, res, next) {
+const findByJobId = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const job = await Job.findOne({where: {id, }});
+  const job = await Job.findOne({ where: { id } });
   if (!job) {
     return next(new NotFoundError('job not found'));
   }
@@ -87,11 +91,11 @@ const findByJobId = catchAsync(async function(req, res, next) {
   }
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       contractTypes,
-    }
-  })
+    },
+  });
 });
 
 module.exports = { _index, _find, _create, _update, _delete, findByJobId };

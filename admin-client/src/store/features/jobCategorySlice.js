@@ -22,14 +22,25 @@ export const jobCategorySlice = createSlice({
       state.data = [...categories, action.payload];
     },
     updateCategory: (state, action) => {
-      state.data = state.data.map(category => category.id === action.payload.id ? action.payload : category);
+      state.data = state.data.map((category) =>
+        category.id === action.payload.id ? action.payload : category
+      );
     },
     deleteCategory: (state, action) => {
-      state.data = state.data.filter(category => category.id !== action.payload);
-    }
+      state.data = state.data.filter(
+        (category) => category.id !== action.payload
+      );
+    },
   },
 });
 
-export const { setCategories, setPage, setSortOrder, addCategory, updateCategory, deleteCategory } = jobCategorySlice.actions;
+export const {
+  setCategories,
+  setPage,
+  setSortOrder,
+  addCategory,
+  updateCategory,
+  deleteCategory,
+} = jobCategorySlice.actions;
 
 export default jobCategorySlice.reducer;

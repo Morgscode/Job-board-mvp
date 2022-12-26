@@ -21,11 +21,17 @@ export const employmentContractTypeSlice = createSlice({
       state.data = [...state.data, action.payload];
     },
     deleteContractType: (state, action) => {
-      state.data = state.data.filter(type => type.id !== action.payload);
-    }
+      state.data = state.data.filter((type) => type.id !== action.payload);
+    },
   },
 });
 
-export const { setContractTypes, setPage, setSortOrder, addContractType, deleteContractType} = employmentContractTypeSlice.actions;
+export const {
+  setContractTypes,
+  setPage,
+  setSortOrder,
+  addContractType,
+  deleteContractType,
+} = employmentContractTypeSlice.actions;
 
 export default employmentContractTypeSlice.reducer;

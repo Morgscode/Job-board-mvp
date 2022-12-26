@@ -14,7 +14,7 @@ const _index = catchAsync(async function (req, res, next) {
   if (!locations) {
     return next(new NotFoundError('locations not found'));
   }
-  
+
   res.status(200).json({
     status: 'success',
     data: { locations },
@@ -40,12 +40,14 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError("couldn't create that location", 500, false));
   }
 
-  res.status(201).json({ status: 'success', data: { location: record } });
+  res
+    .status(201)
+    .json({ status: 'success', data: { location: record.toJSON() } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const location = ({name, description} = req.body);
+  const location = ({ name, description } = req.body);
 
   if (!location) {
     return next(new AppError('missing location details', 400));
@@ -61,7 +63,9 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new AppError('error - could not update location', 500, false));
   }
 
-  res.status(200).json({ status: 'success', data: { updated } });
+  res
+    .status(200)
+    .json({ status: 'success', data: { location: record.toJSON() } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {

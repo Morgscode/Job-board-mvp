@@ -16,7 +16,7 @@ const _index = catchAsync(async function (req, res, next) {
   });
 
   if (!applications) {
-    return next(new NotFoundError("job applications not found"));
+    return next(new NotFoundError('job applications not found'));
   }
   res.status(200).json({
     status: 'success',
@@ -29,7 +29,7 @@ const _find = catchAsync(async function (req, res, next) {
   const application = await model.JobApplication.findOne({ where: { id } });
 
   if (!application) {
-    return next(new NotFoundError("job application not found"));
+    return next(new NotFoundError('job application not found'));
   }
 
   res.status(200).json({ status: 'success', data: { application } });
@@ -44,48 +44,50 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('missing applcation details', 400));
   }
 
-  const job = await Job.findOne({where: { id: job_id}});
+  const job = await Job.findOne({ where: { id: job_id } });
   if (!job) {
-    return next(new AppError("job not found", 404));
+    return next(new AppError('job not found', 404));
   }
 
-  // uplaod file - if fail - 500 
-  const upload = { 
+  // uplaod file - if fail - 500
+  const upload = {
     title: cv.originalname,
     name: cv.filename,
     path: cv.path,
     mimetype: cv.mimetype,
     user_id: req.user.id,
-  }
+  };
   const file = await FileUpload.create(upload);
   if (!file) {
-    return next(new AppError("error - unable to save cv file", 500, false));
+    return next(new AppError('error - unable to save cv file', 500, false));
   }
 
-  const jobApplication = await model.JobApplication.create(application); 
-  if (!jobApplication) {
-    return next(new AppError("error - unable to create job application", 500, false));
+  const record = await model.JobApplication.create(application);
+  if (!record) {
+    return next(
+      new AppError('error - unable to create job application', 500, false)
+    );
   }
   // set status relationships
-  await jobApplication.setFileUpload(file);
-  await jobApplication.setJobApplicationStatus(1);
- 
-  res.status(201).json({ status: 'success', data: { jobApplication, } });
+  await record.setFileUpload(file);
+  await record.setJobApplicationStatus(1);
+
+  res
+    .status(201)
+    .json({ status: 'success', data: { application: record.toJSON() } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const { application, status } = req.body;
+  const { status } = req.body;
 
-  if (!application) {
-    return next(
-      new AppError('missing job application details', 400)
-    );
+  if (!status) {
+    return next(new AppError('missing job application details', 400));
   }
 
   const record = await model.JobApplication.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError("job not found"));
+    return next(new NotFoundError('job not found'));
   }
 
   if (status) {
@@ -93,11 +95,9 @@ const _update = catchAsync(async function (req, res, next) {
     await record.setJobApplicationStatus(status);
   }
 
-  const updated = await model._update(application, { id });
-  if (!updated) {
-    return next(new AppError("error - unable to update jobs", 500, false));
-  }
-  res.status(200).json({ status: 'success', data: { updated } });
+  res
+    .status(200)
+    .json({ status: 'success', data: { application: record.toJSON() } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
@@ -111,14 +111,12 @@ const findByJobId = catchAsync(async function (req, res, next) {
 
   const job = await Job.findOne({ where: { id } });
   if (!job) {
-    return next(new NotFoundError("job not found"));
+    return next(new NotFoundError('job not found'));
   }
 
   const applications = await job.getJobApplications();
   if (!applications) {
-    return next(
-      new NotFoundError("applications not found for job")
-    );
+    return next(new NotFoundError('applications not found for job'));
   }
   res.status(200).json({
     status: 'success',
@@ -131,14 +129,12 @@ const findByUserId = catchAsync(async function (req, res, next) {
 
   const user = await User.findOne({ where: { id } });
   if (!user) {
-    return next(new NotFoundError("user not found"));
+    return next(new NotFoundError('user not found'));
   }
 
   const applications = await user.getJobApplications();
   if (!applications) {
-    return next(
-      new NotFoundError("applications not found for user")
-    );
+    return next(new NotFoundError('applications not found for user'));
   }
   res.status(200).json({
     status: 'success',
@@ -146,10 +142,14 @@ const findByUserId = catchAsync(async function (req, res, next) {
   });
 });
 
-const findByJobApplicationStatusId = catchAsync(async function(req, res, next) {
+const findByJobApplicationStatusId = catchAsync(async function (
+  req,
+  res,
+  next
+) {
   const { id } = req.params;
-  const status = await JobApplicationStatus.findOne({where: {id, }});
-  
+  const status = await JobApplicationStatus.findOne({ where: { id } });
+
   const applications = await status.getJobApplications();
   res.status(200).json({
     status: 'success',

@@ -173,7 +173,7 @@ const _update = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(200).json({ status: 'success', data: { updated } });
+  res.status(200).json({ status: 'success', data: { job: record.toJSON() } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {

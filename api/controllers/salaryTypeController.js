@@ -83,9 +83,7 @@ const findByJobId = catchAsync(async function (req, res, next) {
   if (!salaryType) {
     return next(new NotFoundError('salary type not found for that job'));
   }
-  res
-    .status(200)
-    .json({ status: 'success', data: { salaryType } });
+  res.status(200).json({ status: 'success', data: { salaryType } });
 });
 
 module.exports = { _index, _find, _create, _update, _delete, findByJobId };

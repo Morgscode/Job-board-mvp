@@ -13,7 +13,9 @@ export const authSlice = createSlice({
     login: (state, action) => {
       ls.set('jwt', action.payload);
       state.loggedIn = true;
-      http.defaults.headers.common['Authorization'] = `Bearer ${action.payload}`;
+      http.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${action.payload}`;
     },
     logout: (state) => {
       ls.drop('jwt');

@@ -18,18 +18,21 @@ export const jobSlice = createSlice({
       state.sortOrder = action.payload;
     },
     addJob: (state, action) => {
-      const jobs = [...state.data]
+      const jobs = [...state.data];
       state.data = [...jobs, action.payload];
     },
     updateJob: (state, action) => {
-      state.data = state.data.map(job => job.id === action.payload.id ? action.payload : job);
+      state.data = state.data.map((job) =>
+        job.id === action.payload.id ? action.payload : job
+      );
     },
     deleteJob: (state, action) => {
-      state.data = state.data.filter(job => job.id !== action.payload);
+      state.data = state.data.filter((job) => job.id !== action.payload);
     },
   },
 });
 
-export const { setJobs, setPage, setSortOrder, addJob, updateJob, deleteJob,  } = jobSlice.actions;
+export const { setJobs, setPage, setSortOrder, addJob, updateJob, deleteJob } =
+  jobSlice.actions;
 
 export default jobSlice.reducer;

@@ -42,7 +42,7 @@ const _create = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(201).json({ status: 'success', data: { category: record } });
+  res.status(201).json({ status: 'success', data: { category: record.toJSON() } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
@@ -65,7 +65,7 @@ const _update = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(200).json({ status: 'success', data: { updated } });
+  res.status(200).json({ status: 'success', data: { category: record.toJSON() } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
