@@ -21,7 +21,7 @@ const locationService = {
   async update(location, id) { 
     const res = await http.put(`${ROUTE}/${id}`, location);
     if (res.status !== 200) throw new Error(res.status);
-    return true;
+    return res.data.data.location || false;
   },
   async delete(id) {
     const res = await http.delete(`${ROUTE}/${id}`);

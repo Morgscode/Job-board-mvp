@@ -21,7 +21,7 @@ const jobService = {
   async update(job, id) { 
     const res = await http.put(`${ROUTE}/${id}`, job);
     if (res.status !== 200) throw new Error(res.status);
-    return true;
+    return res.data.data.job || false;
   },
   async delete(id) {
     const res = await http.delete(`${ROUTE}/${id}`);

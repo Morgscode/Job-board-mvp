@@ -47,12 +47,12 @@ const _create = catchAsync(async (req, res, next) => {
     mimetype: file.mimetype,
     user_id: req.user.id,
   };
-  
+
   const record = await FileUpload.create(upload);
   res.status(200).json({
     status: 'success',
     data: {
-      upload: record,
+      upload: record.toJSON(),
     },
   });
 });
@@ -65,8 +65,8 @@ const _update = catchAsync(async (req, res, next) => {
     return next(new AppError('upload details missing', 400));
   }
 
-  const upload = await FileUpload.findOne({ where: { id } });
-  if (!upload) {
+  const record = await FileUpload.findOne({ where: { id } });
+  if (!record) {
     return next(new NotFoundError('upload not found'));
   }
 
@@ -75,7 +75,7 @@ const _update = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      upload,
+      upload: record.toJSON(),
     },
   });
 });
@@ -83,7 +83,7 @@ const _update = catchAsync(async (req, res, next) => {
 const _delete = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const upload = await FileUpload.findOne({ where: { id } });
-  
+
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
@@ -94,7 +94,7 @@ const _delete = catchAsync(async (req, res, next) => {
 const download = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const upload = await FileUpload.findOne({ where: { id } });
-  
+
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
@@ -112,13 +112,13 @@ const download = catchAsync(async (req, res, next) => {
 const findByUserId = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findOne({ where: { id } });
-  
+
   if (!user) {
     return next(new NotFoundError('user not found'));
   }
-  
+
   const uploads = await user.getFileUploads();
-  if (!uploads || uploads.length === 0) {
+  if (!uploads) {
     return next(new NotFoundError('uploads not found'));
   }
   res.status(200).json({
@@ -130,11 +130,11 @@ const findByUserId = catchAsync(async (req, res, next) => {
 const findByJobApplicationId = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const application = await JobApplication.findOne({ where: { id } });
-  
+
   if (!application) {
     return next(new NotFoundError('application not found'));
   }
-  
+
   const upload = await application.getFileUpload();
   if (!upload) {
     return next(new NotFoundError('upload not found'));

@@ -13,15 +13,10 @@ const jobService = {
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.application || false;
   },
-  async create(job) {
-    const res = await http.post(ROUTE, job);
-    if (res.status !== 201) throw new Error(res.status);
-    return res.data.data.application || false;
-  },
   async update(job, id) {
     const res = await http.put(`${ROUTE}/${id}`, job);
     if (res.status !== 200) throw new Error(res.status);
-    return true;
+    return res.data.data.application || false;
   },
   async delete(id) {
     const res = await http.delete(`${ROUTE}/${id}`);

@@ -90,7 +90,7 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to update user', 500, false));
   }
 
-  res.status(200).json({ status: 'success', data: { updated } });
+  res.status(200).json({ status: 'success', data: { user: apiUser(record.toJSON()) } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
