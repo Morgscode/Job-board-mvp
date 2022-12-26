@@ -18,8 +18,7 @@ function ManageJobs() {
   const jobs = useSelector((state) => state.jobs.data);
   useEffect(() => {
     async function getJobs() {
-      const jobData = await jobService.index();
-      const { jobs } = jobData.data.data;
+      const jobs = await jobService.index();
       dispatch(setJobs(jobs));
     }
     if (jobs.length === 0) {
@@ -32,8 +31,7 @@ function ManageJobs() {
   );
   useEffect(() => {
     async function getContractTypes() {
-      const contractTypesData = await employmentContractTypeService.index();
-      const { contractTypes } = contractTypesData.data.data;
+      const contractTypes = await employmentContractTypeService.index();
       dispatch(setContractTypes(contractTypes));
     }
     if (contractTypes.length === 0) {

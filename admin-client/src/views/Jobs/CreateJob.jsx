@@ -22,8 +22,7 @@ function CreateJob(props) {
   const locations = useSelector((state) => state.locations.data);
   useEffect(() => {
     async function getLocations() {
-      const res = await locationService.index();
-      const { locations } = res.data.data;
+      const locations = await locationService.index();
       dispatch(setLocations(locations));
     }
     if (locations?.length === 0) {
@@ -34,8 +33,7 @@ function CreateJob(props) {
   const categories = useSelector((state) => state.jobCategories.data);
   useEffect(() => {
     async function getJobCategories() {
-      const res = await jobCategoryService.index();
-      const { categories } = res.data.data;
+      const categories = await jobCategoryService.index();
       dispatch(setJobCategories(categories));
     }
     if (categories?.length === 0) {
@@ -46,8 +44,7 @@ function CreateJob(props) {
   const salaryTypes = useSelector((state) => state.salaryTypes.data);
   useEffect(() => {
     async function getSalaryTypes() {
-      const res = await salaryTypeService.index();
-      const { salaryTypes } = res.data.data;
+      const salaryTypes = await salaryTypeService.index();
       dispatch(setSalaryTypes(salaryTypes));
     }
     if (salaryTypes.length === 0) {
@@ -60,8 +57,7 @@ function CreateJob(props) {
   );
   useEffect(() => {
     async function getEmploymentContractTypes() {
-      const res = await employmentContractTypeService.index();
-      const { contractTypes } = res.data.data;
+      const contractTypes = await employmentContractTypeService.index();
       dispatch(setContractTypes(contractTypes));
     }
     if (contractTypes.length === 0) {
@@ -72,8 +68,7 @@ function CreateJob(props) {
   async function createJob(submit) {
     setLoading(true);
     try {
-      const res = await jobService.create(submit);
-      const { job } = res.data.data;
+      const job = await jobService.create(submit);
       dispatch(addJob(job));
       toast.current.show({
         severity: 'success',

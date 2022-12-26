@@ -8,21 +8,10 @@ import { Button } from 'primereact/button';
 
 function JobLister(props) {
   const [selectedJobs, setSelectedJobs] = useState([]);
-  useEffect(() => {
-    console.log(selectedJobs);
-  }, [selectedJobs])
-
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-  useEffect(() => {
-    console.log(globalFilterValue);
-  }, [globalFilterValue]);
-  
+  const [globalFilterValue, setGlobalFilterValue] = useState(''); 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
 
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
