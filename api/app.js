@@ -20,6 +20,7 @@ const jobApplicationRouter = require('./routes/jobApplicationsRoutes');
 const uploadRouter = require('./routes/uploadRoutes');
 const salaryTypeRouter = require('./routes/salaryTypeRoutes');
 const employmentContractTypeRouter = require('./routes/employmentContractTypeRoutes');
+const jobApplicationStatusRouter = require('./routes/jobApplicationStatusRoutes');
 const authController = require('./controllers/authController');
  
 const app = express();
@@ -55,18 +56,19 @@ app.use('/api/v1', [time, pagination, queryInterface]);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/job-categories', jobCategoryRouter);
-app.use('/api/v1/locations', locationRouter);
 app.use('/api/v1/job-applications', jobApplicationRouter); 
-app.use('/api/v1/uploads', uploadRouter);
-app.use('/api/v1/salary-types', salaryTypeRouter);
+app.use('/api/v1/job-application-statuses', jobApplicationStatusRouter);
 app.use('/api/v1/employment-contract-types', employmentContractTypeRouter);
+app.use('/api/v1/salary-types', salaryTypeRouter);
+app.use('/api/v1/locations', locationRouter);
+app.use('/api/v1/uploads', uploadRouter);
 
 // root route
 app.get('/api/v1', async function (req, res, next) {
   res.status(200).json({ 
     status: 'success',    
     data: {  
-      message: 'welcome to version 1!',
+      message: 'Welcome to OJB version 1',
     },
   });
 });

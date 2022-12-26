@@ -32,7 +32,7 @@ router.route('/jobs/:id')
 router.route('/users/:id')
 .get(controller.findByUserId);
 
-router.route('/job-application-status/:id')
+router.route('/job-application-statuses/:id')
 .get(controller.findByJobApplicationStatusId);
 
 module.exports = router;
