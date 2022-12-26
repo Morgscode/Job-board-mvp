@@ -386,7 +386,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"name\": \"Leadership and Management\",\n        \"description\": \"\"\n    }",
+							"raw": "{\n        \"name\": \"Leadership and Management\",\n        \"description\": \"<p>Lead the way</p>\"\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1668,7 +1668,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"morgan_luke94@icloud.com\",\n    \"password\": \"12345678\",\n    \"role\": 2\n}",
+							"raw": "{\n    \"email\": \"morgan_luke94@icloud.com\",\n    \"first_name\": \"Luke\",\n    \"surname\": \"Morgan\",\n    \"title\": \"Mr\",\n    \"password\": \"12345678\",\n    \"role\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1930,7 +1930,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"morgan.luke94@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"raw": "{\n    \"email\": \"morgan_luke94@icloud.com\",\n    \"first_name\": \"Luke\",\n    \"surname\": \"Morgan\",\n    \"title\": \"Mr\",\n    \"password\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
