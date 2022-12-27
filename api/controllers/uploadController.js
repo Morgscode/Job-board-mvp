@@ -98,15 +98,7 @@ const download = catchAsync(async (req, res, next) => {
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
-  res.status(200).sendFile(upload.dataValues.path, {
-    root: path.join(__dirname, '../'),
-    headers: {
-      'Content-Type': upload.mimetype,
-      'Content-Disposition': `attachment; filename=${upload.name}`,
-      'X-Timestamp': Date.now(),
-      'X-Sent': true,
-    },
-  });
+  res.status(200).download(upload.dataValues.path, encodeURI(upload.title));
 });
 
 const findByUserId = catchAsync(async (req, res, next) => {

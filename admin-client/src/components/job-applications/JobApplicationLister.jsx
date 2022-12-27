@@ -49,6 +49,11 @@ function JobApplicationLister(props) {
     return user ? `${user?.title} ${user?.first_name} ${user?.surname}` : 'Loading...';
   }
 
+  const formatJobTitle = (options) => {
+    const job = props.jobs.find(job => job.id === options.job_id);
+    return job ? job.title : 'Loading...';
+  }
+
   const updateTemplate = (options) => {
     return (
       <Button
@@ -93,12 +98,12 @@ function JobApplicationLister(props) {
           selectionAriaLabel="id"
           headerStyle={{ width: '3em' }}
         ></Column>
-        <Column field="job_id" header="Job Title"></Column>
-        <Column
+            <Column
           field="job_application_status_id"
           header="Status"
           body={formatStatus}
         ></Column>
+        <Column field="job_id" header="Job Title" body={formatJobTitle}></Column>
         <Column field="user_id" header="Applicant" body={formatApplicantName}></Column>
         <Column
           field="createdAt"

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import jobApplicationService from '../../services/jobApplicationService';
 import jobApplicationStatusService from '../../services/jobApplicationStatusService';
-import jobService from '../../services/jobApplicationService';
+import jobService from '../../services/jobService';
 import userService from '../../services/userService';
 import {
   setApplications,
@@ -16,10 +16,6 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import JobApplicationLister from '../../components/job-applications/JobApplicationLister';
-
-// jobs
-
-// users
 
 function ManageJobApplications() {
   const toast = useRef(null);
@@ -60,6 +56,17 @@ function ManageJobApplications() {
     }
   }, [users]);
 
+  const jobs = useSelector((state) => state.jobs.data);
+  useEffect(() => {
+    async function getJobs() {
+      const jobs = await jobService.index();
+      dispatch(setJobs(jobs));
+    }
+    if (jobs.length === 0) {
+      getJobs();
+    }
+  }, [jobs]);
+
   const [manageApplication, setManageApplication] = useState({
     action: null,
     data: null,
@@ -71,18 +78,18 @@ function ManageJobApplications() {
         dispatch(deleteApplication(job.id));
         toast.current.show({
           severity: 'success',
-          summary: 'Job category deleted',
+          summary: 'Job application deleted',
         });
       } catch (error) {
         toast.current.show({
           severity: 'error',
-          summary: 'There was a problem deleting that job category',
+          summary: 'There was a problem deleting that job application',
         });
       }
     }
     if (manageApplication.action && manageApplication.data) {
       if (manageApplication.action === 'edit') {
-        navigate(`/job-applications/${manageApplication.data.id}/edit`);
+        navigate(`/job-applications/${manageApplication.data.id}/manage`);
       } else if (manageApplication.action === 'delete') {
         deleteApplicationById(manageApplication.data);
       }
@@ -96,18 +103,19 @@ function ManageJobApplications() {
         label="New"
         icon="pi pi-plus"
         className="mr-2"
-        onClick={() => console.log('bulk status update', selectedApplications)}
+        onClick={() => console.log('bulk updates', selectedApplications)}
       />
     </React.Fragment>
   );
 
   return (
     <div>
-      <Toolbar className="mb-5" right={actions} />
+      {/* <Toolbar className="mb-5" right={actions} /> */}
       <JobApplicationLister
         applications={applications}
         statuses={statuses}
         users={users}
+        jobs={jobs}
         manage={setManageApplication}
         selectedApplications={selectedApplications}
         setSelectedApplications={setSelectedApplications}

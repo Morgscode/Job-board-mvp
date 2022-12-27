@@ -69,7 +69,7 @@ function JobForm(props) {
 
   return (
     <form
-      className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6  shadow-1"
+      className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1"
       onSubmit={handleSubmit(submit)}
     >
       <div className="field-checkbox mb-6">
