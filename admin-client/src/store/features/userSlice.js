@@ -11,9 +11,15 @@ export const userSlice = createSlice({
     setUsers: (state, action) => {
       state.data = action.payload;
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setSortOrder: (state, action) => {
+      state.sortOrder = action.payload;
+    },
   },
 });
 
-export const { setUsers } = userSlice.actions;
+export const { setUsers, setPage, setSortOrder } = userSlice.actions;
 
 export default userSlice.reducer;

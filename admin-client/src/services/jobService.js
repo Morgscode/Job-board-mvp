@@ -6,7 +6,7 @@ const jobService = {
   async index(page = 1, sortOrder = 'asc') {
     const res = await http.get(`${ROUTE}?page=${page}&order=${sortOrder}`);
     if (res.status !== 200) throw new Error(res.status);
-    return Array.from(res.data.data.jobs) || [];
+    return res.data.data.jobs || [];
   },
   async find(id) {
     const res = await http.get(`${ROUTE}/${id}`, id);

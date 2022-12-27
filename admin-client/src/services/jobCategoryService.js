@@ -6,7 +6,7 @@ const jobCategoryService = {
   async index(page = 1, sortOrder = 'asc') {
     const res = await http.get(`${ROUTE}?page=${page}&order=${sortOrder}`);
     if (res.status !== 200) throw new Error(res.status);
-    return Array.from(res.data.data.categories) || [];
+    return res.data.data.categories || [];
   },
   async find(id) {
     const res = await http.get(`${ROUTE}/${id}`, id);
@@ -31,7 +31,7 @@ const jobCategoryService = {
   async findByJobId(id) {
     const res = await http.get(`${ROUTE}/jobs/${id}`);
     if (res.status !== 200) throw new Error(res.status);
-    return Array.from(res.data.data.categories) || [];
+    return res.data.data.categories || [];
   },
 };
 

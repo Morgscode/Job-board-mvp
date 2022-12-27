@@ -1,22 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './features/userSlice';
 import authReducer from './features/authSlice';
-import jobApplicationReducer from './features/jobApplicationSlice';
+import userReducer from './features/userSlice';
 import jobReducer from './features/jobSlice';
-import locationReducer from './features/locationSlice';
+import jobApplicationReducer from './features/jobApplicationSlice';
+import jobApplicationStatusReducer from './features/jobApplicationStatusSlice';
 import jobCategoryReducer from './features/jobCategorySlice';
 import salaryTypeReducer from './features/salaryTypeSlice';
 import employmentContractTypeReducer from './features/employmentContractTypeSlice';
-import jobApplicationStatusReducer from './features/jobApplicationStatusSlice';
+import locationReducer from './features/locationSlice';
 
 export default configureStore({
   reducer: {
     auth: authReducer,
-    user: userReducer,
+    users: userReducer,
     jobs: jobReducer,
-    jobCategories: jobCategoryReducer,
     jobApplications: jobApplicationReducer,
     jobApplicationStatuses: jobApplicationStatusReducer,
+    jobCategories: jobCategoryReducer,
     salaryTypes: salaryTypeReducer,
     employmentContractTypes: employmentContractTypeReducer,
     locations: locationReducer,

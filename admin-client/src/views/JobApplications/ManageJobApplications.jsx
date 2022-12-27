@@ -4,19 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import jobApplicationService from '../../services/jobApplicationService';
 import jobApplicationStatusService from '../../services/jobApplicationStatusService';
 import jobService from '../../services/jobApplicationService';
+import userService from '../../services/userService';
 import {
   setApplications,
   deleteApplication,
 } from '../../store/features/jobApplicationSlice';
 import { setStatuses } from '../../store/features/jobApplicationStatusSlice';
+import { setJobs } from '../../store/features/jobSlice';
+import { setUsers } from '../../store/features/userSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import JobApplicationLister from '../../components/job-applications/JobApplicationLister';
-
-// applications
-
-// statuses
 
 // jobs
 
@@ -49,6 +48,17 @@ function ManageJobApplications() {
       getStatuses();
     }
   }, [statuses]);
+
+  const users = useSelector((state) => state.users.data);
+  useEffect(() => {
+    async function getUsers() {
+      const users = await userService.index();
+      dispatch(setUsers(users));
+    }
+    if (users.length === 0) {
+      getUsers();
+    }
+  }, [users]);
 
   const [manageApplication, setManageApplication] = useState({
     action: null,
@@ -97,6 +107,7 @@ function ManageJobApplications() {
       <JobApplicationLister
         applications={applications}
         statuses={statuses}
+        users={users}
         manage={setManageApplication}
         selectedApplications={selectedApplications}
         setSelectedApplications={setSelectedApplications}

@@ -4,7 +4,7 @@ const salaryTypeService = {
     async index(page = 1, sortOrder = 'asc') {
         const res = await http.get(`/salary-types?page=${page}&order=${sortOrder}`);
         if (res.status !== 200) throw new Error(res.status);
-        return Array.from(res.data.data.salaryTypes) || [];
+        return res.data.data.salaryTypes || [];
     }
 }
 

@@ -1,22 +1,27 @@
 import { http } from './http';
 
-const ROUTE = '/job-applications';
+const ROUTE = '/users';
 
-const jobService = {
+const userService = {
   async index(page = 1, sortOrder = 'asc') {
     const res = await http.get(`${ROUTE}?page=${page}&order=${sortOrder}`);
     if (res.status !== 200) throw new Error(res.status);
-    return res.data.data.applications || [];
+    return res.data.data.users || [];
   },
   async find(id) {
     const res = await http.get(`${ROUTE}/${id}`, id);
     if (res.status !== 200) throw new Error(res.status);
-    return res.data.data.application || false;
+    return res.data.data.user || false;
   },
-  async update(job, id) {
-    const res = await http.put(`${ROUTE}/${id}`, job);
+  async create(location) {
+    const res = await http.post(ROUTE, location);
+    if (res.status !== 201) throw new Error(res.status);
+    return res.data.data.user || false;
+  },
+  async update(location, id) { 
+    const res = await http.put(`${ROUTE}/${id}`, location);
     if (res.status !== 200) throw new Error(res.status);
-    return res.data.data.application || false;
+    return res.data.data.user || false;
   },
   async delete(id) {
     const res = await http.delete(`${ROUTE}/${id}`);
@@ -25,4 +30,4 @@ const jobService = {
   },
 };
 
-export default jobService;
+export default userService;

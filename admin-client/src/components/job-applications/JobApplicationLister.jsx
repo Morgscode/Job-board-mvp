@@ -12,8 +12,6 @@ function JobApplicationLister(props) {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
-  console.log(props.statuses);
-
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
@@ -44,7 +42,12 @@ function JobApplicationLister(props) {
   const formatStatus = (options) =>
     props.statuses.find(
       (status) => status.id === options.job_application_status_id
-    )['name'] || 'Loading...';
+    )?.name || 'Loading...';
+
+  const formatApplicantName = (options) => {
+    const user = props?.users.find(user => user.id === options.user_id);
+    return user ? `${user?.title} ${user?.first_name} ${user?.surname}` : 'Loading...';
+  }
 
   const updateTemplate = (options) => {
     return (
@@ -83,7 +86,7 @@ function JobApplicationLister(props) {
         rowsPerPageOptions={[10, 25, 50]}
         paginator
         rowHover
-        emptyMessage="No job categories found."
+        emptyMessage="No job appliacations found."
       >
         <Column
           selectionMode="multiple"
@@ -96,7 +99,7 @@ function JobApplicationLister(props) {
           header="Status"
           body={formatStatus}
         ></Column>
-        <Column field="user_id" header="Applicant"></Column>
+        <Column field="user_id" header="Applicant" body={formatApplicantName}></Column>
         <Column
           field="createdAt"
           header="Application date"
