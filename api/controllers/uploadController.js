@@ -98,7 +98,7 @@ const download = catchAsync(async (req, res, next) => {
   if (!upload) {
     return next(new NotFoundError('upload not found'));
   }
-  res.status(200).download(upload.dataValues.path, encodeURI(upload.title));
+  res.status(200).download(upload.path, upload.title);
 });
 
 const findByUserId = catchAsync(async (req, res, next) => {

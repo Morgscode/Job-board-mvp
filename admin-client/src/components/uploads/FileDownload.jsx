@@ -27,7 +27,7 @@ function FileDownload(props) {
       try {
         setLoading(true);
         const { data } = await uploadService.download(props.file.id);
-        const url = URL.createObjectURL(new Blob([data]));
+        const url = URL.createObjectURL(new Blob([data], { type: props.file.mimetype }));
         setDownloadURL(url);
       } catch (error) {
         toast.current.show({

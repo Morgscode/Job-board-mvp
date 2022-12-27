@@ -29,7 +29,7 @@ const userService = {
     return true;
   },
   async download(id) {
-    const res = await http.get(`${ROUTE}/${id}/download`);
+    const res = await http.get(`${ROUTE}/${id}/download`, { responseType: 'blob' });
     if (res.status !== 200) throw new Error(res.status);
     return res;
   },
