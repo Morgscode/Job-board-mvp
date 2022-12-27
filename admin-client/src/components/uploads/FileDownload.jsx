@@ -8,7 +8,6 @@ import { Toast } from 'primereact/toast';
 function FileDownload(props) {
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
-
   const values = { ...props.file };
   const { control, reset } = useForm({
     defaultValues: values,
@@ -41,7 +40,7 @@ function FileDownload(props) {
     if (!downloadURL && Object.keys(values).length > 0) {
       download();
     }
-  }, [downloadURL, values]);
+  }, [downloadURL, values, setLoading]);
   
   return (
     <React.Fragment>

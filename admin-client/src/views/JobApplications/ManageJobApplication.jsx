@@ -11,12 +11,14 @@ import { setStatuses } from '../../store/features/jobApplicationStatusSlice';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import JobApplicationDetails from '../../components/job-applications/JobApplicationDetails';
+import JobApplicationStatus from '../../components/job-applications/JobApplicationStatus';
 import UserDetails from '../../components/users/UserDetails';
 
 function ManageJobApplication() {
   const { id } = useParams();
   const toast = useRef(null);
   const dispatch = useDispatch();
+  const [loading, setLoading ] = useState(false);
 
   const [application, setApplication] = useState(null);
   useEffect(() => {
@@ -73,6 +75,25 @@ function ManageJobApplication() {
     }
   }, [cv, application]);
 
+  async function updateApplicationStatus(application) {
+    try {
+      setLoading(true);
+      await jobApplicationService.update(application, id);
+      dispatch(updateApplication(application));
+      toast.current.show({
+        severity: 'success',
+        summary: 'Application status updated',
+      });
+    } catch (error) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem deleting the application status',
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const actions = (
     <React.Fragment>
       <Button
@@ -89,7 +110,10 @@ function ManageJobApplication() {
       <h1 className="font-normal">Manage job application</h1>
       <div className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1">
         {/* <Toolbar className="mb-5" right={actions} /> */}
-        <h2 className="font-normal">Application Details</h2>
+        <h2 className="font-normal mb-6">Application Details</h2>
+        <div className="p-3 surface-200 mb-6 border-solid border-1 border-gray-100 border-round">
+          <JobApplicationStatus application={application} statuses={statuses} handleStatusChange={updateApplicationStatus} loading={loading} />
+        </div>
         <UserDetails user={user} disabled />
         <JobApplicationDetails application={application} job={job} cv={cv} />
         <Toast ref={toast} />

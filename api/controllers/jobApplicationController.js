@@ -79,9 +79,9 @@ const _create = catchAsync(async function (req, res, next) {
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const { status } = req.body;
+  const { job_application_status_id } = req.body;
 
-  if (!status) {
+  if (!job_application_status_id) {
     return next(new AppError('missing job application details', 400));
   }
 
@@ -90,9 +90,9 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new NotFoundError('job not found'));
   }
 
-  if (status) {
-    // set status relationship
-    await record.setJobApplicationStatus(status);
+  if (job_application_status_id) {
+    // set job_application_status_id relationship
+    await record.setJobApplicationStatus(job_application_status_id);
   }
 
   res

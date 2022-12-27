@@ -13,8 +13,8 @@ const jobService = {
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.application || false;
   },
-  async update(job, id) {
-    const res = await http.put(`${ROUTE}/${id}`, job);
+  async update(application, id) {
+    const res = await http.put(`${ROUTE}/${id}`, application);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.application || false;
   },
