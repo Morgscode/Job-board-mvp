@@ -6,8 +6,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     loggedIn: false,
-    id: null,
-    role: null,
+    loggedInUser: {},
   },
   reducers: {
     login: (state, action) => {
@@ -20,19 +19,15 @@ export const authSlice = createSlice({
     logout: (state) => {
       ls.drop('jwt');
       state.loggedIn = false;
-      state.id = null;
-      state.role = null;
+      state.loggedInUser = {};
       http.defaults.headers.common['Authorization'] = ``;
     },
-    setId: (state, action) => {
-      state.id = action.payload;
-    },
-    setRole: (state, action) => {
-      state.role = action.payload;
+    setLoggedInUser: (state, action) => {
+      state.loggedInUser = action.payload;
     },
   },
 });
 
-export const { login, logout, setId, setRole } = authSlice.actions;
+export const { login, logout, setLoggedInUser } = authSlice.actions;
 
 export default authSlice.reducer;

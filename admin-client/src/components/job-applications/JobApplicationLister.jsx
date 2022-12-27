@@ -7,10 +7,12 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
 function JobApplicationLister(props) {
-  const [globalFilterValue, setGlobalFilterValue] = useState(''); 
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+
+  console.log(props.statuses);
 
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
@@ -36,7 +38,13 @@ function JobApplicationLister(props) {
     </React.Fragment>
   );
 
-  const formatApplicationDate = (options) => moment(options.createdAt).format('L') 
+  const formatApplicationDate = (options) =>
+    moment(options.createdAt).format('L');
+
+  const formatStatus = (options) =>
+    props.statuses.find(
+      (status) => status.id === options.job_application_status_id
+    )['name'] || 'Loading...';
 
   const updateTemplate = (options) => {
     return (
@@ -65,7 +73,7 @@ function JobApplicationLister(props) {
       <DataTable
         value={props.applications}
         selection={props.selectedApplications}
-        onSelectionChange={e => props.setSelectedApplications(e.value)}
+        onSelectionChange={(e) => props.setSelectedApplications(e.value)}
         filters={filters}
         header={header}
         className="w-full p-datatable-customers"
@@ -77,11 +85,23 @@ function JobApplicationLister(props) {
         rowHover
         emptyMessage="No job categories found."
       >
-        <Column selectionMode="multiple" selectionAriaLabel="id" headerStyle={{ width: '3em' }}></Column>
+        <Column
+          selectionMode="multiple"
+          selectionAriaLabel="id"
+          headerStyle={{ width: '3em' }}
+        ></Column>
         <Column field="job_id" header="Job Title"></Column>
-        <Column field="job_application_status_id" header="Status"></Column>
+        <Column
+          field="job_application_status_id"
+          header="Status"
+          body={formatStatus}
+        ></Column>
         <Column field="user_id" header="Applicant"></Column>
-        <Column field="createdAt" header="Application date" body={formatApplicationDate}></Column>
+        <Column
+          field="createdAt"
+          header="Application date"
+          body={formatApplicationDate}
+        ></Column>
         <Column
           headerStyle={{ width: '4rem', textAlign: 'center' }}
           bodyStyle={{ textAlign: 'center', overflow: 'visible' }}

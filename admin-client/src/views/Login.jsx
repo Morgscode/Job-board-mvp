@@ -2,10 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   login as loginUser,
-  setId,
-  setRole,
+  setLoggedInUser,
 } from '../store/features/authSlice';
-import { setDetails } from '../store/features/userSlice';
 import { http } from '../services/http';
 import LoginForm from '../components/auth/LoginForm';
 
@@ -25,9 +23,7 @@ function Login() {
     const { user } = res.data.data;
     const token = res.data.token;
     dispatch(loginUser(token));
-    dispatch(setId(user.id));
-    dispatch(setRole(user.role));
-    dispatch(setDetails(user));
+    dispatch(setLoggedInUser(user));
     navigate('/dashboard');
   }
 

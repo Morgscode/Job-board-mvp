@@ -3,7 +3,7 @@ import { MegaMenu } from 'primereact/megamenu';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar(props) {
-  const user = useSelector((state) => state.user.details);
+  const user = useSelector((state) => state.auth.loggedInUser);
   const navigate = useNavigate();
 
   const manageResourceItems = (resource) => [

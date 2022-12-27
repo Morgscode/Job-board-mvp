@@ -2,10 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import jobApplicationService from '../../services/jobApplicationService';
+import jobApplicationStatusService from '../../services/jobApplicationStatusService';
+import jobService from '../../services/jobApplicationService';
 import {
   setApplications,
   deleteApplication,
 } from '../../store/features/jobApplicationSlice';
+import { setStatuses } from '../../store/features/jobApplicationStatusSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
@@ -35,6 +38,17 @@ function ManageJobApplications() {
       getApplications();
     }
   }, [applications]);
+
+  const statuses = useSelector((state) => state.jobApplicationStatuses.data);
+  useEffect(() => {
+    async function getStatuses() {
+      const statuses = await jobApplicationStatusService.index();
+      dispatch(setStatuses(statuses));
+    }
+    if (statuses.length === 0) {
+      getStatuses();
+    }
+  }, [statuses]);
 
   const [manageApplication, setManageApplication] = useState({
     action: null,
@@ -82,6 +96,7 @@ function ManageJobApplications() {
       <Toolbar className="mb-5" right={actions} />
       <JobApplicationLister
         applications={applications}
+        statuses={statuses}
         manage={setManageApplication}
         selectedApplications={selectedApplications}
         setSelectedApplications={setSelectedApplications}
