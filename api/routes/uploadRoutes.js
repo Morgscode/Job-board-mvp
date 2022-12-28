@@ -22,7 +22,7 @@ router.route('/users/:id')
 .get(catchAsync(roles.jobBoardUser), controller.findByUserId);
 
 router.route('/')
-.post(catchAsync(roles.jobBoardUser), upload.single('upload'), controller._create);
+.post(catchAsync(roles.jobBoardUser), upload.array('uploads', 10), controller._create);
 
 router.use(catchAsync(roles.jobBoardRecruiter));
 

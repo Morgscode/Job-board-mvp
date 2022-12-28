@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 
-function UserDetails(props) {
-  const values = props.user;
+function UploadDetails(props) {
+  const values = props.upload;
   const {
     control,
     reset,
@@ -14,7 +14,6 @@ function UserDetails(props) {
   });
 
   useEffect(() => {
-    console.log(values);
     if (!isDirty) {
       reset(values);
     }
@@ -30,7 +29,7 @@ function UserDetails(props) {
     <React.Fragment>
       <div className="formgrid grid mb-4 pb-4">
         <div className="field col flex flex-column w-full">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">File nicename</label>
           <Controller
             name="title"
             control={control}
@@ -46,76 +45,58 @@ function UserDetails(props) {
           {getFormErrorMessage('title')}
         </div>
         <div className="field col flex flex-column w-full">
-          <label htmlFor="surname">Surname</label>
+          <label htmlFor="name">Filesystem name</label>
           <Controller
-            name="surname"
+            name="name"
             control={control}
             render={({ field, fieldState }) => (
               <InputText
-                id="surname"
+                id="name"
                 value={field.value || ''}
                 onChange={(e) => field.onChange(e.value)}
                 disabled={props.disabled}
               />
             )}
           />
-          {getFormErrorMessage('surname')}
+          {getFormErrorMessage('name')}
         </div>
       </div>
       <div className="formgrid grid mb-4 pb-4">
         <div className="field col flex flex-column w-full">
-          <label htmlFor="first-name">First Name</label>
+          <label htmlFor="location">Location</label>
           <Controller
-            name="first_name"
+            name="path"
             control={control}
             render={({ field }) => (
               <InputText
-                id="first-name"
+                id="location"
                 value={field.value || ''}
                 onChange={(e) => field.onChange(e.value)}
                 disabled={props.disabled}
               />
             )}
           />
-          {getFormErrorMessage('first_name')}
+          {getFormErrorMessage('path')}
         </div>
         <div className="field col flex flex-column w-full">
-          <label htmlFor="middle-names">Middle Names</label>
+          <label htmlFor="mimetype">File mimetype</label>
           <Controller
-            name="middle_names"
+            name="mimetype"
             control={control}
             render={({ field }) => (
               <InputText
-                id="middle-names"
+                id="mimetype"
                 value={field.value || ''}
                 onChange={(e) => field.onChange(e.value)}
                 disabled={props.disabled}
               />
             )}
           />
-          {getFormErrorMessage('middle_names')}
-        </div>
-      </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-full">
-          <label htmlFor="email">Email</label>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field }) => (
-              <InputText
-                id="email"
-                value={field.value || ''}
-                onChange={(e) => field.onChange(e.value)}
-                disabled={props.disabled}
-              />
-            )}
-          />
-          {getFormErrorMessage('email')}
+          {getFormErrorMessage('mimetype')}
         </div>
       </div>
     </React.Fragment>
   );
 }
 
-export default UserDetails;
+export default UploadDetails;

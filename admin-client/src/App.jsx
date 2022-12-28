@@ -3,6 +3,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './store/features/authSlice';
 import Sidebar from './components/Sidebar';
+import appStore from './store/appStore';
 
 function App() {
   const dispatch = useDispatch();

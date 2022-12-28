@@ -39,20 +39,29 @@ const _find = catchAsync(async (req, res, next) => {
 });
 
 const _create = catchAsync(async (req, res, next) => {
-  const file = req.file;
-  const upload = {
-    title: file.originalname,
-    name: file.filename,
-    path: file.path,
-    mimetype: file.mimetype,
-    user_id: req.user.id,
-  };
+  const files = req.files;
+  if (files.length === 0) {
+    return next(new AppError('Missing upload details', 400));
+  }
 
-  const record = await FileUpload.create(upload);
+  const uploads = await Promise.all(
+    files.map(async (file) => {
+      const upload = {
+        title: file.originalname,
+        name: file.filename,
+        path: file.path,
+        mimetype: file.mimetype,
+        user_id: req.user.id,
+      };
+
+      return await (await FileUpload.create(upload)).toJSON();
+    })
+  );
+
   res.status(200).json({
     status: 'success',
     data: {
-      upload: record.toJSON(),
+      uploads,
     },
   });
 });

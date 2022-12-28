@@ -14,7 +14,9 @@ import EditLocation from './views/Locations/EditLocation';
 import ManageJobCategories from './views/JobCategories/ManageJobCategories';
 import CreateJobCategory from './views/JobCategories/CreateJobCategory';
 import EditJobCategory from './views/JobCategories/EditJobCategory';
-
+import ManageUploads from './views/Uploads/ManageUploads';
+import ManageUpload from './views/Uploads/ManageUpload';
+import CreateUpload from './views/Uploads/CreateUpload';
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +71,18 @@ export const router = createBrowserRouter([
       {
         path: '/job-categories/:id/edit',
         element: <EditJobCategory />
+      },
+      {
+        path: '/uploads',
+        element: <ManageUploads />
+      },
+      {
+        path: '/uploads/create',
+        element: <CreateUpload />
+      },
+      {
+        path: '/uploads/:id/manage',
+        element: <ManageUpload />
       },
     ],
   },

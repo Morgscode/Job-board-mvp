@@ -38,3 +38,14 @@ export const user = Object.freeze({
   middle_names: '',
   role: 2,
 });
+
+export const upload = Object.freeze({
+  title: '',
+  name: '',
+  path: '',
+  mimetype: '',
+  user_id: '',
+  createdAt: moment(),
+  updatedAt: moment(),
+  deletedAt: moment(),
+});

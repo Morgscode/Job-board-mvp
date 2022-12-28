@@ -8,6 +8,7 @@ import jobCategoryReducer from './features/jobCategorySlice';
 import salaryTypeReducer from './features/salaryTypeSlice';
 import employmentContractTypeReducer from './features/employmentContractTypeSlice';
 import locationReducer from './features/locationSlice';
+import uploadReducer from './features/uploadSlice';
 
 export default configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export default configureStore({
     salaryTypes: salaryTypeReducer,
     employmentContractTypes: employmentContractTypeReducer,
     locations: locationReducer,
+    uploads: uploadReducer,
   },
 });

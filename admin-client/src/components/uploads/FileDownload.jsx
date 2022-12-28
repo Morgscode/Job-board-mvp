@@ -26,7 +26,9 @@ function FileDownload(props) {
       try {
         setLoading(true);
         const { data } = await uploadService.download(props.file.id);
-        const url = URL.createObjectURL(new Blob([data], { type: props.file.mimetype }));
+        const url = URL.createObjectURL(
+          new Blob([data], { type: props.file.mimetype })
+        );
         setDownloadURL(url);
       } catch (error) {
         toast.current.show({
@@ -41,33 +43,56 @@ function FileDownload(props) {
       download();
     }
   }, [downloadURL, values, setLoading]);
-  
-  return (
-    <React.Fragment>
-      <div className="formgrid grid">
-        <div className="field col flex flex-column w-full">
-          <label htmlFor="cv-title">CV Upload</label>
-          <div className="p-inputgroup">
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => (
-                <InputText id="cv-title" value={field.value || ''} disabled />
-              )}
-            />
-            <a href={downloadURL} download={props?.file?.title || ''} className="no-underline">
-              <Button
-                label="Download"
-                loading={loading}
-                loadingIcon="pi pi-spinner"
+
+  if (props.buttonOnly) {
+    return (
+      <React.Fragment>
+        <a
+          href={downloadURL}
+          download={props?.file?.title || ''}
+          className="no-underline"
+        >
+          <Button
+            label="Download"
+            loading={loading}
+            loadingIcon="pi pi-spinner"
+          />
+        </a>
+        <Toast />
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <div className="formgrid grid">
+          <div className="field col flex flex-column w-full">
+            <label htmlFor="cv-title">CV Upload</label>
+            <div className="p-inputgroup">
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => (
+                  <InputText id="cv-title" value={field.value || ''} disabled />
+                )}
               />
-            </a>
+              <a
+                href={downloadURL}
+                download={props?.file?.title || ''}
+                className="no-underline"
+              >
+                <Button
+                  label="Download"
+                  loading={loading}
+                  loadingIcon="pi pi-spinner"
+                />
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <Toast />
-    </React.Fragment>
-  );
+        <Toast />
+      </React.Fragment>
+    );
+  }
 }
 
 export default FileDownload;
