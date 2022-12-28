@@ -6,6 +6,8 @@ import uploadService from '../../services/uploadService';
 import { Toast } from 'primereact/toast';
 
 function FileDownload(props) {
+  const anchor = useRef(null);
+  const [url, setUrl] = useState('');
   const toast = useRef(null);
   const [loading, setLoading] = useState(false);
   const values = { ...props.file };
@@ -20,44 +22,41 @@ function FileDownload(props) {
     }
   }, [values]);
 
-  const [downloadURL, setDownloadURL] = useState(null);
-  useEffect(() => {
-    async function download() {
-      try {
-        setLoading(true);
-        const { data } = await uploadService.download(props.file.id);
-        const url = URL.createObjectURL(
-          new Blob([data], { type: props.file.mimetype })
-        );
-        setDownloadURL(url);
-      } catch (error) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'There was a problem downloading the file',
-        });
-      } finally {
-        setLoading(false);
-      }
+  async function download(download) {
+    download.preventDefault();
+    try {
+      setLoading(true);
+      const { data } = await uploadService.download(props.file.id)
+      const url = URL.createObjectURL(
+        new Blob([data], { type: props.file.mimetype })
+      );
+      setUrl(url);
+      setTimeout(() => {
+        anchor.current?.click();
+      }, 500)
+    } catch (error) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem downloading the file',
+      });
+    } finally {
+      setLoading(false);
     }
-    if (!downloadURL && Object.keys(values).length > 0) {
-      download();
-    }
-  }, [downloadURL, values, setLoading]);
+  }
 
   if (props.buttonOnly) {
     return (
       <React.Fragment>
+        <Button
+          label="Download"
+          onClick={download}
+        />
         <a
-          href={downloadURL}
+          ref={anchor}
+          href={url}
           download={props?.file?.title || ''}
-          className="no-underline"
-        >
-          <Button
-            label="Download"
-            loading={loading}
-            loadingIcon="pi pi-spinner"
-          />
-        </a>
+          className="hidden"
+        ></a>
         <Toast />
       </React.Fragment>
     );
@@ -66,7 +65,7 @@ function FileDownload(props) {
       <React.Fragment>
         <div className="formgrid grid">
           <div className="field col flex flex-column w-full">
-            <label htmlFor="cv-title">CV Upload</label>
+            <label htmlFor="cv-title">{props.label || 'Upload'}</label>
             <div className="p-inputgroup">
               <Controller
                 name="title"
@@ -75,17 +74,16 @@ function FileDownload(props) {
                   <InputText id="cv-title" value={field.value || ''} disabled />
                 )}
               />
+              <Button
+                onClick={download}
+                label="Download"
+              />
               <a
-                href={downloadURL}
+                ref={anchor}
+                href={url}
                 download={props?.file?.title || ''}
-                className="no-underline"
-              >
-                <Button
-                  label="Download"
-                  loading={loading}
-                  loadingIcon="pi pi-spinner"
-                />
-              </a>
+                className="hidden"
+              ></a>
             </div>
           </div>
         </div>

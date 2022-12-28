@@ -17,6 +17,10 @@ export const uploadSlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
+    addUpload: (state, action) => {
+      const uploads = [...state.data];
+      state.data = [...uploads, action.payload];
+    },
     updateUpload: (state, action) => {
       state.data = state.data.map((upload) =>
         upload.id === action.payload.id ? action.payload : upload
@@ -28,6 +32,6 @@ export const uploadSlice = createSlice({
   },
 });
 
-export const { setUploads, setPage, setSortOrder, uopdateUpload, deleteUpload } = uploadSlice.actions;
+export const { setUploads, setPage, setSortOrder, addUpload, updateUpload, deleteUpload } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

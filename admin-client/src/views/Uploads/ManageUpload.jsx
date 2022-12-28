@@ -6,6 +6,7 @@ import uploadService from '../../services/uploadService';
 import { upload as uploadSchema, user as userSchema } from '../../utils/schema';
 import UploadDetails from '../../components/uploads/UploadDetails';
 import UserDetails from '../../components/users/UserDetails';
+import FileDownload from '../../components/uploads/FileDownload';
 
 function ManageUpload(props) {
   const { id } = useParams();
@@ -33,9 +34,6 @@ function ManageUpload(props) {
     if (!fetchedUpload) {
       getUpload(id);
     }
-    if (fetchedUpload && !fecthedUser) {
-      getUser(upload.user_id);
-    }
   }, [fetchedUpload, upload]);
 
   const [fecthedUser, setFetchedUser] = useState(false);
@@ -60,6 +58,7 @@ function ManageUpload(props) {
       <h1 className="font-normal">Manage upload</h1>
       <form className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1">
         <h3 className="font-normal mb-6">Upload details</h3>
+        <FileDownload file={upload} />
         <UploadDetails upload={upload} disabled />
         <h3 className="font-normal mb-6">User details</h3>
         <UserDetails user={user} disabled />

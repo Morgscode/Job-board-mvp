@@ -13,13 +13,13 @@ const userService = {
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.upload || false;
   },
-  async create(location) {
-    const res = await http.post(ROUTE, location);
+  async create(upload) {
+    const res = await http.post(ROUTE, upload);
     if (res.status !== 201) throw new Error(res.status);
-    return res.data.data.upload || false;
+    return res.data.data.uploads || false;
   },
-  async update(location, id) { 
-    const res = await http.put(`${ROUTE}/${id}`, location);
+  async update(upload, id) { 
+    const res = await http.put(`${ROUTE}/${id}`, upload);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.upload || false;
   },
