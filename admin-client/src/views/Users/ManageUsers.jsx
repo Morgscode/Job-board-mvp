@@ -57,7 +57,7 @@ function ManageUploads() {
     }
     if (manageUser.action && manageUser.data) {
       if (manageUser.action === 'edit') {
-        navigate(`/uploads/${manageUser.data.id}/manage`);
+        navigate(`/users/${manageUser.data.id}/edit`);
       } else if (manageUser.action === 'delete') {
         deleteUserById(manageUser.data);
       }

@@ -30,6 +30,8 @@ export const employmentContractType = Object.freeze({
   name: '',
 });
 
+const array = new Uint32Array(12);
+
 export const user = Object.freeze({
   email: '',
   title: '',
@@ -37,6 +39,7 @@ export const user = Object.freeze({
   surname: '',
   middle_names: '',
   role: 2,
+  password: self.crypto.getRandomValues(array)[0],
 });
 
 export const upload = Object.freeze({

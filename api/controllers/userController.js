@@ -4,8 +4,6 @@ const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/userModel');
 const auth = require('../utils/auth');
 const mailer = require('../utils/mailer');
-const { JobApplication } = require('../models/jobApplicationModel');
-const { FileUpload } = require('../models/fileUploadModel');
  
 const _index = catchAsync(async function (req, res, next) {
   const users = await model.User.findAll({
@@ -90,7 +88,7 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to update user', 500, false));
   }
 
-  res.status(200).json({ status: 'success', data: { user: apiUser(record.toJSON()) } });
+  res.status(200).json({ status: 'success', data: { user: model.apiUser(record.toJSON()) } });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
@@ -109,21 +107,10 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
-
-const findByUploadId = catchAsync(async function(req, res, next) {
-
-});
-
-const findByJobApplicationId = catchAsync(async function(req, res, next) {
-
-});
-
 module.exports = {
   _index,
   _find,
   _create,
   _update,
   _delete,
-  findByUploadId,
-  findByJobApplicationId
 };

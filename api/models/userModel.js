@@ -114,7 +114,7 @@ async function userEmailExists(email) {
 
 async function registerUser(user, password, role = 1) {
   try {
-    let hash = await bcrypt.hash(password, 12);
+    let hash = await bcrypt.hash(password.toString(), 12);
     const record = await User.create({ ...user, password: hash, role, });
     return record;
   } catch (error) {

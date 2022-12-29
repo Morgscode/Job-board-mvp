@@ -75,7 +75,6 @@ function CreateJob(props) {
         summary: 'Job posted',
       });
     } catch (error) {
-      console.error(error);
       toast.current.show({
         severity: 'error',
         summary: 'There was a problem creating that job',

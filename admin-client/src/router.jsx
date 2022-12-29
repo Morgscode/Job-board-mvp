@@ -18,6 +18,8 @@ import ManageUploads from './views/Uploads/ManageUploads';
 import ManageUpload from './views/Uploads/ManageUpload';
 import CreateUpload from './views/Uploads/CreateUpload';
 import ManageUsers from './views/Users/ManageUsers';
+import CreateUser from './views/Users/CreateUser';
+import EditUser from './views/Users/EditUser';
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +91,14 @@ export const router = createBrowserRouter([
         path: '/users',
         element: <ManageUsers />
       },
+      {
+        path: '/users/:id/edit',
+        element: <EditUser />
+      },
+      {
+        path: '/users/create',
+        element: <CreateUser />
+      }
     ],
   },
   {

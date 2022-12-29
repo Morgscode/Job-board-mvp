@@ -104,12 +104,10 @@ function Sidebar(props) {
 
   function sidebarModel() {
     let items = [...recruiterItems];
-    console.log(user);
     if (user.role === 3) {
       items = [...items, ...adminItems];
     }
     items.push(logout);
-    console.log(items);
     return items;
   }
 
