@@ -41,7 +41,6 @@ function ManageUpload(props) {
   useEffect(() => {
     async function getUser(user_id) {
       const user = await userService.find(user_id);
-      console.log(user);
       if (!user) {
         getUser(user_id);
       }

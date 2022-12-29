@@ -36,8 +36,11 @@ const _find = catchAsync(async function (req, res, next) {
 
 const _create = catchAsync(async function (req, res, next) {
   const { name } = req.body;
-  const record = await model.EmploymentContractType.create({ name });
+  if (!record) {
+    return next(new AppError('missing contract type details', 400));
+  }
 
+  const record = await model.EmploymentContractType.create({ name });
   if (!record) {
     return next(new AppError("couldn't create that contract type", 500, false));
   }
@@ -49,9 +52,9 @@ const _create = catchAsync(async function (req, res, next) {
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const { contractType } = req.body;
+  const { name } = req.body;
 
-  if (!contractType) {
+  if (!name) {
     return next(new AppError('missing contract type details', 400));
   }
 
@@ -60,7 +63,7 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new NotFoundError('location not found'));
   }
 
-  const updated = await model._update(contractType, { id });
+  const updated = await model._update({ name }, { id });
   if (!updated) {
     return next(
       new AppError('error - could not update salary type', 500, false)

@@ -17,6 +17,7 @@ import EditJobCategory from './views/JobCategories/EditJobCategory';
 import ManageUploads from './views/Uploads/ManageUploads';
 import ManageUpload from './views/Uploads/ManageUpload';
 import CreateUpload from './views/Uploads/CreateUpload';
+import ManageUsers from './views/Users/ManageUsers';
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ export const router = createBrowserRouter([
       {
         path: '/uploads/:id/manage',
         element: <ManageUpload />
+      },
+      {
+        path: '/users',
+        element: <ManageUsers />
       },
     ],
   },

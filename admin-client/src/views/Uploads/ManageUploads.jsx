@@ -11,7 +11,7 @@ import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import UploadLister from '../../components/uploads/UploadLister';
 
-function ManageJobApplications() {
+function ManageUploads() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,4 +83,4 @@ function ManageJobApplications() {
   );
 }
 
-export default ManageJobApplications;
+export default ManageUploads;

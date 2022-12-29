@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import moment from 'moment';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 
@@ -27,7 +28,7 @@ function UploadDetails(props) {
 
   return (
     <React.Fragment>
-      <div className="formgrid grid mb-4 pb-4">
+      <div className="formgrid grid">
         <div className="field col flex flex-column w-full">
           <label htmlFor="title">File nicename</label>
           <Controller
@@ -61,7 +62,7 @@ function UploadDetails(props) {
           {getFormErrorMessage('name')}
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
+      <div className="formgrid grid">
         <div className="field col flex flex-column w-full">
           <label htmlFor="location">Location</label>
           <Controller
@@ -93,6 +94,40 @@ function UploadDetails(props) {
             )}
           />
           {getFormErrorMessage('mimetype')}
+        </div>
+      </div>
+      <div className="formgrid grid">
+        <div className="field col flex flex-column w-full">
+          <label htmlFor="upload-date">Upload date</label>
+          <Controller
+            name="createdAt"
+            control={control}
+            render={({ field }) => (
+              <InputText
+                id="upload-date"
+                value={moment(field.value).format('DD-MM-YYYY H:M:SS') || ''}
+                onChange={(e) => field.onChange(e.value)}
+                disabled={props.disabled}
+              />
+            )}
+          />
+          {getFormErrorMessage('createdAt')}
+        </div>
+        <div className="field col flex flex-column w-full">
+          <label htmlFor="last-updated">last modified</label>
+          <Controller
+            name="updatedAt"
+            control={control}
+            render={({ field }) => (
+              <InputText
+                id="last-updated"
+                value={moment(field.value).format('DD-MM-YYYY H:M:SS') || ''}
+                onChange={(e) => field.onChange(e.value)}
+                disabled={props.disabled}
+              />
+            )}
+          />
+          {getFormErrorMessage('updatedAt')}
         </div>
       </div>
     </React.Fragment>

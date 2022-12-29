@@ -70,7 +70,7 @@ function JobLister(props) {
         globalFilterFields={['name']}
         responsiveLayout="scroll"
         rows={10}
-        rowsPerPageOptions={[10, 25, 50]}
+        rowsPerPageOptions={[10, 20]}
         paginator
         rowHover
         emptyMessage="No locations found."

@@ -26,14 +26,14 @@ function FileDownload(props) {
     download.preventDefault();
     try {
       setLoading(true);
-      const { data } = await uploadService.download(props.file.id)
+      const { data } = await uploadService.download(props.file.id);
       const url = URL.createObjectURL(
         new Blob([data], { type: props.file.mimetype })
       );
       setUrl(url);
       setTimeout(() => {
         anchor.current?.click();
-      }, 500)
+      }, 500);
     } catch (error) {
       toast.current.show({
         severity: 'error',

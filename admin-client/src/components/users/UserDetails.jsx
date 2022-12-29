@@ -14,7 +14,6 @@ function UserDetails(props) {
   });
 
   useEffect(() => {
-    console.log(values);
     if (!isDirty) {
       reset(values);
     }
