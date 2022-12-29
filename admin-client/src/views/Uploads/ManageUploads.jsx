@@ -2,14 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import uploadService from '../../services/uploadService';
-import {
-  setUploads,
-  deleteUpload,
-} from '../../store/features/uploadSlice';
+import { setUploads, deleteUpload } from '../../store/features/uploadSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import UploadLister from '../../components/uploads/UploadLister';
+import useManageResource from '../../utils/manageResource';
 
 function ManageUploads() {
   const toast = useRef(null);
@@ -28,35 +26,27 @@ function ManageUploads() {
     }
   }, [uploads]);
 
-  const [manageUpload, setManageUpload] = useState({
-    action: null,
-    data: null,
-  });
-  useEffect(() => {
-    async function deleteUploadById(job) {
-      try {
-        await uploadService.delete(job.id);
-        dispatch(deleteUpload(job.id));
-        toast.current.show({
-          severity: 'success',
-          summary: 'Upload deleted',
-        });
-      } catch (error) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'There was a problem deleting that upload',
-        });
-      }
+  async function deleteUploadById(job) {
+    try {
+      await uploadService.delete(job.id);
+      dispatch(deleteUpload(job.id));
+      toast.current.show({
+        severity: 'success',
+        summary: 'Upload deleted',
+      });
+    } catch (error) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem deleting that upload',
+      });
     }
-    if (manageUpload.action && manageUpload.data) {
-      if (manageUpload.action === 'edit') {
-        navigate(`/uploads/${manageUpload.data.id}/manage`);
-      } else if (manageUpload.action === 'delete') {
-        deleteUploadById(manageUpload.data);
-      }
-    }
-    return;
-  }, [manageUpload]);
+  }
+
+  const [manageUpload, setManageUpload] = useManageResource(
+    'uploads',
+    'manage',
+    deleteUploadById
+  );
 
   const actions = (
     <React.Fragment>

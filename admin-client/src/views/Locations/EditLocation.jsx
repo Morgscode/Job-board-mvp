@@ -6,6 +6,7 @@ import { updateLocation } from '../../store/features/locationSlice';
 import { Toast } from 'primereact/toast';
 import LocationForm from '../../components/locations/LocationForm';
 import { location as locationSchema } from '../../utils/schema';
+import useFetchResource from '../../utils/fetchResource';
 
 function EditLocation(props) {
   const { id } = useParams();
@@ -13,21 +14,7 @@ function EditLocation(props) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   
-  const [fetchedLocation, setFetchedLocation] = useState(false);
-  const [location, setLocation] = useState({...locationSchema});
-  useEffect(() => {
-    async function getLocation(id) {
-      const location = await locationService.find(id);
-      if (!location) {
-        getLocation(id);
-      }
-      setLocation(location);
-      setFetchedLocation(true);
-    }
-    if (!fetchedLocation) {
-      getLocation(id);
-    }
-  }, [fetchedLocation, location]);
+  const resource = useFetchResource(id, locationSchema, locationService);
 
   async function updateLocationById(submit) {
     setLoading(true);
@@ -53,7 +40,7 @@ function EditLocation(props) {
     <div>
       <h1 className="font-normal">Edit location</h1>
       <LocationForm
-        formData={location}
+        formData={resource}
         submit={updateLocationById}
         loading={loading}
       />

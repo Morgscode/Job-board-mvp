@@ -10,6 +10,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import UserLister from '../../components/users/UserLister';
+import useManageResource from '../../utils/manageResource';
 
 function ManageUploads() {
   const toast = useRef(null);
@@ -35,35 +36,23 @@ function ManageUploads() {
     }
   }, [users]);
 
-  const [manageUser, setManageUser] = useState({
-    action: null,
-    data: null,
-  });
-  useEffect(() => {
-    async function deleteUserById(user) {
-      try {
-        await userService.delete(user.id);
-        dispatch(deleteUser(user.id));
-        toast.current.show({
-          severity: 'success',
-          summary: 'User deleted',
-        });
-      } catch (error) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'There was a problem deleting that user',
-        });
-      }
+  async function deleteUserById(user) {
+    try {
+      await userService.delete(user.id);
+      dispatch(deleteUser(user.id));
+      toast.current.show({
+        severity: 'success',
+        summary: 'User deleted',
+      });
+    } catch (error) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem deleting that user',
+      });
     }
-    if (manageUser.action && manageUser.data) {
-      if (manageUser.action === 'edit') {
-        navigate(`/users/${manageUser.data.id}/edit`);
-      } else if (manageUser.action === 'delete') {
-        deleteUserById(manageUser.data);
-      }
-    }
-    return;
-  }, [manageUser]);
+  }
+
+  const [manageUser, setManageUser] = useManageResource('users', 'edit', deleteUserById);
 
   const actions = (
     <React.Fragment>

@@ -6,6 +6,7 @@ import { updateCategory } from '../../store/features/jobCategorySlice';
 import { Toast } from 'primereact/toast';
 import LocationForm from '../../components/locations/LocationForm';
 import { jobCategory as jobCategorySchema } from '../../utils/schema';
+import useFetchResource from '../../utils/fetchResource';
 
 function EditJobCategory(props) {
   const { id } = useParams();
@@ -13,21 +14,7 @@ function EditJobCategory(props) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   
-  const [fetchedCategory, setFetchedCategory] = useState(false);
-  const [category, setCategory] = useState({...jobCategorySchema});
-  useEffect(() => {
-    async function getCategory(id) {
-      const category = await jobCategoryService.find(id);
-      if (!category) {
-        getCategory(id);
-      }
-      setCategory(category);
-      setFetchedCategory(true);
-    }
-    if (!fetchedCategory) {
-      getCategory(id);
-    }
-  }, [fetchedCategory, category]);
+  const resource = useFetchResource(id, locationSchema, locationService);
 
   async function updateCategoryById(submit) {
     setLoading(true);
@@ -53,7 +40,7 @@ function EditJobCategory(props) {
     <div>
       <h1 className="font-normal">Edit job category</h1>
       <LocationForm
-        formData={category}
+        formData={resource}
         submit={updateCategoryById}
         loading={loading}
       />

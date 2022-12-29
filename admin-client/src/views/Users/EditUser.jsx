@@ -6,6 +6,7 @@ import { user as userSchema } from '../../utils/schema';
 import { updateUser } from '../../store/features/userSlice';
 import { Toast } from 'primereact/toast';
 import UserForm from '../../components/users/UserForm';
+import useFetchResource from '../../utils/fetchResource';
 
 function CreateUser() {
   const { id } = useParams();
@@ -13,21 +14,7 @@ function CreateUser() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const [user, setUser] = useState({ ...userSchema });
-  const [fetchedUser, setFetchedUser] = useState(false);
-  useEffect(() => {
-    async function getUser(id) {
-      const user = await userService.find(id);
-      if (!user) {
-        getUser(id);
-      }
-      setUser(user);
-      setFetchedUser(true);
-    }
-    if (!fetchedUser) {
-      getUser(id);
-    }
-  }, [user, fetchedUser]);
+  const resource = useFetchResource(id, userSchema, userService);
 
   async function updateUserById(submit) {
     setLoading(true);
@@ -51,7 +38,7 @@ function CreateUser() {
   return (
     <div>
       <h1 className="font-normal">Update user</h1>
-      <UserForm formData={user} submit={updateUserById} loading={loading} />
+      <UserForm formData={resource} submit={updateUserById} loading={loading} />
       <Toast ref={toast} />
     </div>
   );

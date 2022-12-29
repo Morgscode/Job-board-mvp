@@ -47,7 +47,6 @@ function UserForm(props) {
 
   return (
     <div>
-      <h1 className="font-normal">Create user</h1>
       <form
         onSubmit={handleSubmit(props.submit)}
         className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1"

@@ -10,6 +10,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import JobCategoryLister from '../../components/job-categories/JobCategoryLister';
+import useManageResource from '../../utils/manageResource';
 
 function ManageJobCategories() {
   const toast = useRef(null);
@@ -27,33 +28,21 @@ function ManageJobCategories() {
     }
   }, [categories]);
 
-  const [manageCategory, setManageCategory] = useState({
-    action: null,
-    data: null,
-  });
-  useEffect(() => {
-    async function deleteCategoryById(job) {
-      try {
-        await jobCategoryService.delete(job.id);
-        dispatch(deleteCategory(job.id));
-        toast.current.show({ severity: 'success', summary: 'Job category deleted' });
-      } catch (error) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'There was a problem deleting that job category',
-        });
-      }
+  async function deleteCategoryById(job) {
+    try {
+      await jobCategoryService.delete(job.id);
+      dispatch(deleteCategory(job.id));
+      toast.current.show({ severity: 'success', summary: 'Job category deleted' });
+    } catch (error) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem deleting that job category',
+      });
     }
-    if (manageCategory.action && manageCategory.data) {
-      if (manageCategory.action === 'edit') {
-        navigate(`/job-categories/${manageCategory.data.id}/edit`);
-      } else if (manageCategory.action === 'delete') {
-        deleteCategoryById(manageCategory.data);
-      }
-    }
-    return;
-  }, [manageCategory]);
+  }
 
+  const [manageCategory, setManageCategory] = useManageResource('job-categories', 'edit', deleteCategoryById);
+ 
   const actions = (
     <React.Fragment>
       <Button

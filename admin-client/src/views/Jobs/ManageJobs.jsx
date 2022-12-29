@@ -7,6 +7,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import JobLister from '../../components/jobs/JobLister';
+import useManageResource from '../../utils/manageResource';
 
 function ManageJobs() {
   const toast = useRef(null);
@@ -24,29 +25,20 @@ function ManageJobs() {
     }
   }, [jobs]);
 
-  const [manageJob, setManageJob] = useState({ action: null, data: null });
-  useEffect(() => {
-    async function deleteJobById(job) {
-      try {
-        await jobService.delete(job.id);
-        dispatch(deleteJob(job.id));
-        toast.current.show({ severity: 'success', summary: 'Job deleted' });
-      } catch (error) {
-        toast.current.show({
-          severity: 'error',
-          summary: 'There was a problem deleting that job',
-        });
-      }
+  async function deleteJobById(job) {
+    try {
+      await jobService.delete(job.id);
+      dispatch(deleteJob(job.id));
+      toast.current.show({ severity: 'success', summary: 'Job deleted' });
+    } catch (error) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'There was a problem deleting that job',
+      });
     }
-    if (manageJob.action && manageJob.data) {
-      if (manageJob.action === 'edit') {
-        navigate(`/jobs/${manageJob.data.id}/edit`);
-      } else if (manageJob.action === 'delete') {
-        deleteJobById(manageJob.data);
-      }
-    }
-    return;
-  }, [manageJob]);
+  }
+
+  const [manageJob, setManageJob] = useManageResource('jobs', 'edit', deleteJobById);
 
   const actions = (
     <React.Fragment>
