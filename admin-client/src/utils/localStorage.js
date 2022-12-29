@@ -1,13 +1,13 @@
 function set(key, value) {
-  window.localStorage.setItem(key, value);
+  self.localStorage.setItem(key, value);
 }
 
 function get(key) {
-  return window.localStorage.getItem(key);
+  return self.localStorage.getItem(key);
 }
 
 function drop(key) {
-  window.localStorage.removeItem(key);
+  self.localStorage.removeItem(key);
 }
 
 export default { set, get, drop };
