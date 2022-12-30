@@ -6,6 +6,7 @@
   "scripts": {
     "dev:api": "npm run -w api dev",
     "dev:admin-client": "npm run -w admin-client dev",
+    "dev:jobfinder-site": "npm run -w jobfinder-site dev",
     "dev": "run-p dev:*"
   },
   "repository": {
@@ -20,7 +21,8 @@
   "homepage": "https://github.com/Morgscode/job-board-project#readme",
   "workspaces": [
     "api",
-    "admin-client"
+    "admin-client",
+    "jobfinder-site"
   ],
   "dependencies": {
     "npm-run-all": "^4.1.5"
