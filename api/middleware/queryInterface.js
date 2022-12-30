@@ -13,12 +13,14 @@ module.exports = (req, res, next) => {
   req.sql = {};
   req.sql.where = { ...query };
 
+  // console.info('pre filter', req.sql);
+
   // filter out anything that has multiple params for now
   Object.keys(req.sql.where).forEach((key) => {
     let value = req.sql.where[key];
-
     try {
       value = JSON.parse(value.toString());
+      console.log('parsed value', value);
       // remove any object parameters from the sql where
       if (typeof value === 'object') delete req.sql.where[key];
     } catch (error) {
@@ -39,14 +41,16 @@ module.exports = (req, res, next) => {
     req.sql.where['description'] = { [Op.like]: `%${decodeURI(req.query.description)}%` };
   }
 
+  // console.info('pre logical', req.sql);
+
   // logical operators (gt, lt, gte, lte)
   Object.keys(query).forEach((queryKey) => {
     let value = query[queryKey];
 
     try {
       value = JSON.parse(value.toString());
-      req.sql.where[queryKey] = {};
       if (typeof value === 'object') {
+        req.sql.where[queryKey] = {};
         Object.keys(value).forEach((paramKey) => {
           switch (paramKey) {
             case 'gte':
@@ -69,6 +73,8 @@ module.exports = (req, res, next) => {
     }
   });
 
+  // console.info('pre limit', req.sql);
+
   // === limiting retuned fields
 
   if (req.query.fields) {
@@ -85,6 +91,8 @@ module.exports = (req, res, next) => {
 
   // === sorting
 
+  // console.info('pre order', req.sql);
+
   if (req.sql.where.order) {
     const order = req.sql.where.order.toUpperCase();
     delete req.sql.where.order;
@@ -100,7 +108,7 @@ module.exports = (req, res, next) => {
     req.sql.order = [['createdAt', 'DESC']];
   }
 
-  console.log(req.sql);
+  // console.info('post query interface', req.sql);
 
   next();
 };

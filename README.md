@@ -4,13 +4,14 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
 ## TODOS
 
-1. setup eail templates for 
+1. setup admin datatables for pagination
+2. setup eail templates for 
   i. register email
   ii. welcome email
   iii. job application email
   iv. job application status email update
   v. new jb recruiter or jb admin welcome email - set password
-2. setup complex email handler with pug templates
+3. setup complex email handler with pug templates
 
 ## Requirements
 

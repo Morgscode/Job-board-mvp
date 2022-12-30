@@ -3,7 +3,7 @@ import { http } from './http';
 const ROUTE = '/jobs';
 
 const jobService = {
-  async index(query = '') {
+  async index(query = 'active=1') {
     const res = await http.get(`${ROUTE}?${query}`);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.jobs || [];
