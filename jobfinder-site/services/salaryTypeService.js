@@ -1,8 +1,8 @@
 import { http } from './http';
 
 const salaryTypeService = {
-    async index(page = 1, sortOrder = 'asc') {
-        const res = await http.get(`/salary-types?page=${page}&order=${sortOrder}`);
+    async index(query = '') {
+        const res = await http.get(`/salary-types?${query}`);
         if (res.status !== 200) throw new Error(res.status);
         return res.data.data.salaryTypes || [];
     }

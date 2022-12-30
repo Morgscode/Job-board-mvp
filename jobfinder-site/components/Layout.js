@@ -2,11 +2,11 @@ import Header from "./Header";
 
 export default function Layout({children}) {
     return (
-    <div>
+    <div className="dark:bg-slate-900 min-h-screen">
         <header>
             <Header />
         </header>
-        <main>
+        <main className="container mx-auto">
         {children}
         </main>
     </div>

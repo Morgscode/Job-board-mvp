@@ -3,7 +3,7 @@ import { http } from './http';
 const ROUTE = '/users';
 
 const userService = {
-  async index(page = 1, sortOrder = 'asc') {
+  async index(query = '') {
     const res = await http.get(`${ROUTE}?page=${page}&order=${sortOrder}`);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.users || [];
