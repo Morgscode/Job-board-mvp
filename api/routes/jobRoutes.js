@@ -13,6 +13,9 @@ router.route('/')
 router.route('/:id')
 .get(controller._find);
 
+router.route('/post/:id')
+.get(controller.getPost);
+
 router.route('/salary-types/:id')
 .get(controller.findBySalaryTypeId);
 

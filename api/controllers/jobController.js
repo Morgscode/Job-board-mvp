@@ -336,6 +336,30 @@ const findByJobApplicationId = catchAsync(async function (req, res, next) {
   });
 });
 
+const getPost = catchAsync(async function (req, res, next) {
+  const { id } = req.params;
+
+  const job = await model.Job.findOne({
+    where: { id },
+    include: [
+      { model: Location, through: JobsInLocations },
+      { model: JobCategory, as: 'Category', through: JobsInCategories },
+      EmploymentContractType,
+      SalaryType,
+    ],
+  });
+  if (!job) {
+    return next(new NotFoundError('job posting not found'));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      job,
+    },
+  });
+});
+
 module.exports = {
   _index,
   _find,
@@ -348,4 +372,5 @@ module.exports = {
   findBySalaryTypeId,
   findByEmploymentContractTypeId,
   findByJobApplicationId,
+  getPost,
 };

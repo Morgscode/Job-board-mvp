@@ -28,8 +28,10 @@ const jobService = {
     if (res.status !== 200) throw new Error(res.status);
     return true;
   },
-  async query(query) {
-
+  async getPost(id) {
+    const res = await http.get(`${ROUTE}/post/${id}`, id);
+    if (res.status !== 200) throw new Error(res.status);
+    return res.data.data.job || false;
   }
 };
 

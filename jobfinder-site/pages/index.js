@@ -33,7 +33,7 @@ export default function Home(props) {
           <JobSearch submit={fetchJobs} />
         </div>
       </section>
-      <section id="job-results">
+      <section id="job-results" className='pt-8 pb-8'>
         <h2 className='mb-2 text-6xl font-bold tracking-tight text-gray-900 dark:text-white mb-8'>{jobsTitle}</h2>
         <JobLister jobs={jobs} />
       </section>
