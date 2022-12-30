@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useNavState from '../utils/useNavState';
+import useActiveState from '../utils/useActiveState';
 
 export async function getServerSideProps(context) {
   return {
@@ -11,8 +11,8 @@ export default function Navbar() {
   const mobileNav = useRef(null);
   const accountNav = useRef(null);
 
-  const [mobileNavActive, setMobileNavActive ] = useNavState(mobileNav);
-  const [accountMenuActive, setAccountMenuActive ] = useNavState(accountNav);
+  const [mobileNavActive, setMobileNavActive ] = useActiveState(mobileNav);
+  const [accountMenuActive, setAccountMenuActive ] = useActiveState(accountNav);
 
   const loggedInLinks = (
     <React.Fragment>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useNavState(ref) {
+export default function useActiveState(ref) {
     const [active, setActive] = useState(false);
     useEffect(() => {
       if (active) {

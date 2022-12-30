@@ -9,5 +9,6 @@ module.exports = (req, res, next) => {
     limit,
     offset,
   };
+  
   next();
 };
