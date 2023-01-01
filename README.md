@@ -5,13 +5,14 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 ## TODOS
 
 1. setup admin datatables for pagination
-2. setup email templates for 
-  i. register email
-  ii. welcome email
-  iii. job application email
-  iv. job application status email update
-  v. new jb recruiter or jb admin welcome email - set password
+2. setup jobfinder site for pagination
 3. setup complex email handler with pug templates
+4. setup email templates for 
+  i. ojb user register email
+  ii. ojb user welcome email
+  iii. job application email
+  iv. job application status update email
+  v. new ojb recruiter and new ojb admin welcome email - set password
 
 ## Requirements
 
@@ -27,7 +28,7 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 
 ## OJB Tooling
 
-- A docker compose environment for QA is ready to go. Follow below for setup instructions.
+- A docker compose environment for QA and cloud deployment is ready to go. Follow below for setup instructions.
 
 1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 

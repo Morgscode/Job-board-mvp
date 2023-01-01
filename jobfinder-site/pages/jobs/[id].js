@@ -43,7 +43,7 @@ export default function Job(props) {
       viewMoreText.current.innerText = 'View more details';
       viewMoreIcon.current.classList.remove('rotate-180');
     }
-  }, [active]);
+  }, [active, viewMoreIcon, viewMoreText]);
 
   return (
     <section className="pt-8 pb-8">

@@ -49,6 +49,10 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('job not found', 404));
   }
 
+  if (job.active !== 1) {
+    return next(new AppError('job not open for applications', 400));
+  }
+
   // uplaod file - if fail - 500
   const upload = {
     title: cv.originalname,

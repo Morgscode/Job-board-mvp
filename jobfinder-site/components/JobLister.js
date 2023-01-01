@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import JobListerCard from './JobListerCard';
 
 export default function JobLister(props) {
-  const jobs = props.jobs.map((job) => <JobListerCard key={job} job={job} />);
+  const jobs = props.jobs.map((job) => <JobListerCard key={job.id} job={job} />);
 
   if (jobs.length > 0) {
     return (

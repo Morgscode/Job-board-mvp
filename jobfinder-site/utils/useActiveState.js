@@ -8,7 +8,7 @@ export default function useActiveState(ref) {
       } else {
         ref.current?.classList?.add('hidden');
       }
-    }, [active]);
+    }, [active, ref]);
 
     return [active, setActive];
 }
