@@ -37,7 +37,7 @@ export const user = Object.freeze({
   surname: '',
   middle_names: '',
   role: 2,
-  password: self.crypto.getRandomValues(new Uint32Array(4)).join(''),
+  password: '',
 });
 
 export const upload = Object.freeze({

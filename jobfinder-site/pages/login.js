@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import http from '../services/http';
+import { http } from '../services/http';
 
-export default function Login(props) {
+export default function Login() {
   const values = { email: '', password: '' };
   const defaultValues = { ...values };
+  const [formSubmitState, setFormSubmitState] = useState(false);
   const {
     register,
     reset,
@@ -14,15 +16,40 @@ export default function Login(props) {
     values,
   });
 
+  function displayFormSubmitState() {
+    return (
+      formSubmitState && (
+        <p role="alert" className={formSubmitState.classes}>
+          {formSubmitState.message}
+        </p>
+      )
+    );
+  }
+
   async function loginUser(submit) {
-    console.log(submit);
-    //await http.post('/register', submit);
+    try {
+      await http.post('/login', submit);
+      // redirect to account page
+      setFormSubmitState({
+        error: false,
+        message: 'logged in',
+        classes: 'text-2xl mb-8 text-green-600',
+      });
+    } catch (error) {
+      console.error(error);
+      setFormSubmitState({
+        error: true,
+        message: error.response.data.message,
+        classes: 'text-2xl mb-8 text-red-600',
+      });
+    }
   }
 
   return (
     <section className="pt-8 pb-8">
      <h1 className='text-6xl mb-6 font-medium text-gray-900 dark:text-white'>Login to apply for jobs</h1>
       <form onSubmit={handleSubmit(loginUser)} className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+      {displayFormSubmitState()}
         <div className="grid md:grid-cols-2 gap-8">
           <div className="mb-6">
             <label

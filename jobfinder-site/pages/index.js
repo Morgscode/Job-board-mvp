@@ -13,11 +13,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-  const [jobs, setJobs] = useState(props.jobs);
-  useEffect(() => {
-    console.log(jobs);
-  }, [jobs]);
-
+  const [jobs, setJobs] = useState(props.jobs || []);
   const [jobsTitle, setJobsTitle] = useState('Latest Jobs');
 
   async function fetchJobs(query) {

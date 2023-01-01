@@ -52,7 +52,7 @@ const login = catchAsync(async function (req, res, next) {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new AppError(`incomplete login attempts`, 400));
+    return next(new AppError('those details are not correct', 400));
   }
 
   const user = await userModel.loginUser(email, password);
