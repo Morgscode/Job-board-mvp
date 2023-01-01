@@ -16,7 +16,7 @@ export default function Home(props) {
   const [jobs, setJobs] = useState(props.jobs || []);
   const [jobsTitle, setJobsTitle] = useState('Latest Jobs');
 
-  async function fetchJobs(query) {
+  async function queryJobs(query) {
     const jobs = await jobService.index(`title=${query}`);
     setJobsTitle(`Results for ${query}`);
     setJobs(jobs);
@@ -26,7 +26,7 @@ export default function Home(props) {
     <React.Fragment>
       <section id="job-search" className="pt-8 pb-8">
         <div className="flex justify-center">
-          <JobSearch submit={fetchJobs} />
+          <JobSearch submit={queryJobs} />
         </div>
       </section>
       <section id="job-results" className='pt-8 pb-8'>

@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux'
 import { http } from '../services/http';
+import { login as setLogin, setLoggedInUser } from '../store/features/authSlice';
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const values = { email: '', password: '' };
   const defaultValues = { ...values };
   const [formSubmitState, setFormSubmitState] = useState(false);
@@ -28,13 +33,11 @@ export default function Login() {
 
   async function loginUser(submit) {
     try {
-      await http.post('/login', submit);
-      // redirect to account page
-      setFormSubmitState({
-        error: false,
-        message: 'logged in',
-        classes: 'text-2xl mb-8 text-green-600',
-      });
+      const res = await http.post('/login', submit);
+      dispatch(setLogin(res.data.token));
+      const { user } = res.data.data;
+      dispatch(setLoggedInUser(user));
+      router.push('/account');
     } catch (error) {
       console.error(error);
       setFormSubmitState({

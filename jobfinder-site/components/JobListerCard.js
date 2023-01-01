@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function JobListerCard(props) {
   const description =
     props.job?.description?.split('')?.slice(0, 155).join('') + '...</p>' ||
@@ -9,7 +11,7 @@ export default function JobListerCard(props) {
         {props.job.title}
       </p>
       <div className="block font-normal text-gray-700 dark:text-gray-400 mb-6" dangerouslySetInnerHTML={{ __html: description }} />
-      <a
+      <Link
         href={`/jobs/${props.job.id}`}
         className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
@@ -27,7 +29,7 @@ export default function JobListerCard(props) {
             clipRule="evenodd"
           ></path>
         </svg>
-      </a>
+      </Link>
     </div>
   );
 }

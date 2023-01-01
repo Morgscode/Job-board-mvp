@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import useActiveState from '../utils/useActiveState';
 
 export async function getServerSideProps(context) {
@@ -11,18 +13,18 @@ export default function Navbar() {
   const mobileNav = useRef(null);
   const accountNav = useRef(null);
 
-  const [mobileNavActive, setMobileNavActive ] = useActiveState(mobileNav);
-  const [accountMenuActive, setAccountMenuActive ] = useActiveState(accountNav);
+  const [mobileNavActive, setMobileNavActive] = useActiveState(mobileNav);
+  const [accountMenuActive, setAccountMenuActive] = useActiveState(accountNav);
 
   const loggedInLinks = (
     <React.Fragment>
       <li>
-        <a
+        <Link
           href="/my-account"
           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
           My Account
-        </a>
+        </Link>
       </li>
     </React.Fragment>
   );
@@ -30,45 +32,45 @@ export default function Navbar() {
   const loggedOutLinks = (
     <React.Fragment>
       <li>
-        <a
+        <Link
           href="/register"
           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
           Register
-        </a>
+        </Link>
       </li>
       <li>
-        <a
+        <Link
           href="/login"
           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
           Login
-        </a>
+        </Link>
       </li>
     </React.Fragment>
   );
 
   const signOutLinks = (
     <React.Fragment>
-    <div className="py-1">
-      <a
-        href="/logout"
-        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-      >
-        Sign out
-      </a>
-    </div>
-  </React.Fragment>
+      <div className="py-1">
+        <Link
+          href="/logout"
+          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+        >
+          Sign out
+        </Link>
+      </div>
+    </React.Fragment>
   );
 
-  const links = (
-    <>{loggedOutLinks}</>
-  );
+  const links = () => {
+    return <ul>{loggedOutLinks}</ul>;
+  };
 
   return (
     <nav className="p-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="/" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-6 mr-3 sm:h-10"
@@ -77,7 +79,7 @@ export default function Navbar() {
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
             Open Job Board
           </span>
-        </a>
+        </Link>
         <button
           onClick={(e) => setMobileNavActive(!mobileNavActive)}
           data-collapse-toggle="navbar-multi-level"
@@ -138,7 +140,7 @@ export default function Navbar() {
                   className="py-1 text-sm text-gray-700 w-full md:w-auto dark:text-gray-400"
                   aria-labelledby="dropdownLargeButton"
                 >
-                  {links}
+                  {links()}
                 </ul>
               </div>
             </li>

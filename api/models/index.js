@@ -67,8 +67,8 @@ async function initModels() {
         await JobsInCategories.sync({ force, alter }),
         await Location.sync({ force, alter }),
         await JobsInLocations.sync({ force, alter }),
-        await JobApplicationStatus.sync({ force, alter }),
         await FileUpload.sync({ force, alter }),
+        await JobApplicationStatus.sync({ force, alter }),
         await JobApplication.sync({ force, alter }),
       ];
       const result = await Promise.all(tables);
