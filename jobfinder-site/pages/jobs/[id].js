@@ -19,8 +19,8 @@ export async function getServerSideProps(context) {
 
 export default function Job(props) {
   const jobDetails = useRef(null);
-  let viewMoreText = useRef(null);
-  let viewMoreIcon = useRef(null);
+  const viewMoreText = useRef(null);
+  const viewMoreIcon = useRef(null);
   const locations =
     props.job.Locations.map((location) => (
       <p key={location.id}>{location.name}</p>
@@ -35,13 +35,12 @@ export default function Job(props) {
       '</p>' || '<p>Loading...</p>';
 
   const [active, setActive] = useActiveState(jobDetails);
-
   useEffect(() => {
     if (active) {
       viewMoreText.current.innerText = 'View less';
       viewMoreIcon.current.classList.add('rotate-180');
     } else {
-      viewMoreText.current.innerText = 'View more';
+      viewMoreText.current.innerText = 'View more details';
       viewMoreIcon.current.classList.remove('rotate-180');
     }
   }, [active]);
@@ -68,14 +67,14 @@ export default function Job(props) {
         </div>
         <div className="mb-8">
           <div id="job-details-collapse" data-accordion="collapse">
-            <h2 id="job-details-collapse-heading-1">
+            <h2 id="job-details-collapse-heading">
               <button
                 onClick={() => setActive(!active)}
                 type="button"
                 className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                data-accordion-target="#job-details-collapse-body-1"
+                data-accordion-target="#job-details-collapse-body"
                 aria-expanded="true"
-                aria-controls="job-details-collapse-body-1"
+                aria-controls="job-details-collapse-body"
               >
                 <span ref={viewMoreText} />
                 <svg
@@ -96,9 +95,9 @@ export default function Job(props) {
             </h2>
             <div
               ref={jobDetails}
-              id="job-details-collapse-body-1"
+              id="job-details-collapse-body"
               className="hidden"
-              aria-labelledby="job-details-collapse-heading-1"
+              aria-labelledby="job-details-collapse-heading"
             >
               <div className="p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-900 dark:text-white">
                 <p className="font-medium mb-2">Contract Type:</p>
@@ -112,7 +111,6 @@ export default function Job(props) {
                     __html: categories,
                   }}
                 />
-                {}
               </div>
             </div>
           </div>
@@ -120,7 +118,7 @@ export default function Job(props) {
         <div
           className="font-normal text-gray-700 dark:text-gray-400"
           dangerouslySetInnerHTML={{
-            __html: `<h3 className="font-bold text-xl mb-3">Full description - </h3> ${props.job.description}`,
+            __html: `<h3 class="font-bold text-2xl mb-3">Full job description - </h3>${props.job.description}`,
           }}
         />
       </article>

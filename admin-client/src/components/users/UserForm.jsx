@@ -7,13 +7,14 @@ import { Button } from 'primereact/button';
 
 function UserForm(props) {
   const values = props.formData;
+  const defaultValues = {...values};
   const {
     control,
     reset,
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm({
-    defaultValues: values,
+    defaultValues,
     values,
   });
 
@@ -45,10 +46,21 @@ function UserForm(props) {
     }
   ];
 
+  async function submit(form) {
+    try {
+      await props.submit(form);
+      if (props.reset) {
+        reset(defaultValues);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div>
       <form
-        onSubmit={handleSubmit(props.submit)}
+        onSubmit={handleSubmit(submit)}
         className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1"
       >
         <div className="formgrid grid mb-4 pb-4">

@@ -38,6 +38,7 @@ function CreateJob(props) {
         formData={{ ...locationSchema }}
         submit={createLocation}
         loading={loading}
+        reset={true}
       />
       <Toast ref={toast} />
     </div>

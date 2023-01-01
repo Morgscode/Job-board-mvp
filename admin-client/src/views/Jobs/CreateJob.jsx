@@ -95,6 +95,7 @@ function CreateJob(props) {
         contractTypes={contractTypes}
         submit={createJob}
         loading={loading}
+        reset={true}
       />
       <Toast ref={toast} />
     </div>

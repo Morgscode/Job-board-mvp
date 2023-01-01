@@ -14,7 +14,7 @@ function EditJobCategory(props) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   
-  const resource = useFetchResource(id, locationSchema, locationService);
+  const resource = useFetchResource(id, jobCategorySchema, jobCategoryService);
 
   async function updateCategoryById(submit) {
     setLoading(true);

@@ -5,7 +5,7 @@ This monorepo is powered for devleopment and production using NPM workspaces (ht
 ## TODOS
 
 1. setup admin datatables for pagination
-2. setup eail templates for 
+2. setup email templates for 
   i. register email
   ii. welcome email
   iii. job application email

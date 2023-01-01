@@ -38,6 +38,7 @@ function CreateJobCategory(props) {
         formData={{ ...jobCategorySchema}}
         submit={createCategory}
         loading={loading}
+        reset={true}
       />
       <Toast ref={toast} />
     </div>

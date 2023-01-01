@@ -39,6 +39,7 @@ function CreateUser() {
         formData={{ ...userSchema }}
         submit={createUser}
         loading={loading}
+        reset={true}
       />
       <Toast ref={toast} />
     </div>

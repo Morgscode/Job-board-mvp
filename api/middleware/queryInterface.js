@@ -20,7 +20,6 @@ module.exports = (req, res, next) => {
     let value = req.sql.where[key];
     try {
       value = JSON.parse(value.toString());
-      console.log('parsed value', value);
       // remove any object parameters from the sql where
       if (typeof value === 'object') delete req.sql.where[key];
     } catch (error) {

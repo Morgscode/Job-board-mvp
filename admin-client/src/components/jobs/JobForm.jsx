@@ -13,13 +13,14 @@ import { classNames } from 'primereact/utils';
 
 function JobForm(props) {
   const values = props.formData;
+  const defaultValues = {...values};
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors, isDirty },
   } = useForm({
-    defaultValues: values,
+    defaultValues,
     values,
   });
 
@@ -47,6 +48,9 @@ function JobForm(props) {
   async function submit(form) {
     try {
       await props.submit(form);
+      if (props.reset) {
+        reset(defaultValues);
+      }
     } catch (error) {
       console.error(error);
     }
