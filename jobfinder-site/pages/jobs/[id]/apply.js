@@ -126,19 +126,21 @@ export default function Apply(props) {
 
   async function handleJobApplication(submit) {
     submit.preventDefault();
-    
+
     if (!cv || cv instanceof File !== true || cv.type !== 'application/pdf') {
       setErrors(errors => ({...errors, cv: 'A file upload as a PDF is required'}));
       return false;
     } else {
       setErrors(errors => delete errors['cv']);
     }
+
     if (cv.size > 1000000) {
       setErrors(errors => ({...errors, cv: 'Please upload a CV with a maximum size of 1MB'}));
       return false;
     } else {
       setErrors(errors => delete errors['cv']);
     }
+    
     if (!coverLetter) {
       setErrors(errors => ({...errors, coverLetter: 'A cover letter is required'}));
       return false;
