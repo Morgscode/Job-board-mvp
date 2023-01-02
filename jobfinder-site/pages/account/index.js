@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import useAuthState from '../../utils/useAuthState';
 
 export default function Account() {
-  const user = useSelector((state) => state.auth.loggedInUser);
-  console.log(user);
+  const [ loggedIn, user ] = useAuthState(true);
   return <h1>Welcome {user.email}</h1>;
 }

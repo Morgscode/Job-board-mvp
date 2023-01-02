@@ -54,7 +54,7 @@ export default function Login() {
       <form onSubmit={handleSubmit(loginUser)} className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
       {displayFormSubmitState()}
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -69,7 +69,7 @@ export default function Login() {
               {...register('email')}
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

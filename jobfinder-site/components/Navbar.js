@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/features/authSlice';
 import Link from 'next/link';
-import Image from 'next/image';
 import useActiveState from '../utils/useActiveState';
 
 export async function getServerSideProps(context) {
@@ -9,18 +11,25 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Navbar() {
+export default function Navbar(props) {
+
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
   const mobileNav = useRef(null);
   const accountNav = useRef(null);
 
   const [mobileNavActive, setMobileNavActive] = useActiveState(mobileNav);
   const [accountMenuActive, setAccountMenuActive] = useActiveState(accountNav);
 
+  async function logoutUser() {
+    dispatch(logout());
+    router.push('/login');
+  }
+
   const loggedInLinks = (
     <React.Fragment>
       <li>
         <Link
-          href="/my-account"
+          href="/account"
           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
           My Account
@@ -53,18 +62,26 @@ export default function Navbar() {
   const signOutLinks = (
     <React.Fragment>
       <div className="py-1">
-        <Link
-          href="/logout"
-          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+        <button
+          onClick={logoutUser}
+          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
         >
           Sign out
-        </Link>
+        </button>
       </div>
     </React.Fragment>
   );
 
   const links = () => {
-    return <ul>{loggedOutLinks}</ul>;
+    if (!loggedIn) {
+      return <ul>{loggedOutLinks}</ul>;
+    } 
+    return (
+    <ul>
+      {loggedInLinks}
+      {signOutLinks}
+    </ul>
+    );
   };
 
   return (

@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { useRouter } from 'next/router';
 import { default as ls } from '../../utils/localStorage';
 import { http } from '../../services/http';
+
 
 export const authSlice = createSlice({
   name: 'auth',

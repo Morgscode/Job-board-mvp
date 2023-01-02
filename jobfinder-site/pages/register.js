@@ -65,8 +65,8 @@ export default function Register() {
         className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
       >
         {displayFormSubmitState()}
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="mb-6">
+        <div className="grid md:grid-cols-2 gap-8 mb-6">
+          <div className="mb-3">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -85,7 +85,7 @@ export default function Register() {
             />
             {fieldErrorMessage('email')}
           </div>
-          <div className="mb-6">
+          <div className="mb-3">
             <label
               htmlFor="title"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -104,7 +104,7 @@ export default function Register() {
             />
             {fieldErrorMessage('title')}
           </div>
-          <div className="mb-6">
+          <div className="mb-3">
             <label
               htmlFor="first_name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -123,7 +123,7 @@ export default function Register() {
             />
             {fieldErrorMessage('first_name')}
           </div>
-          <div className="mb-6">
+          <div className="mb-3">
             <label
               htmlFor="surname"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -142,7 +142,7 @@ export default function Register() {
             />
             {fieldErrorMessage('surname')}
           </div>
-          <div className="mb-6">
+          <div className="mb-3">
             <label
               htmlFor="middle_names"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -158,7 +158,7 @@ export default function Register() {
             />
             {fieldErrorMessage('middle_names')}
           </div>
-          <div className="mb-6">
+          <div className="mb-3">
             <label
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
