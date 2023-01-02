@@ -10,4 +10,4 @@ function drop(key) {
   self.localStorage.removeItem(key);
 }
 
-export const ls = { set, get, drop };
+export default { set, get, drop };

@@ -1,11 +1,11 @@
 {
   "name": "open-job-board",
   "version": "1.0.0",
-  "description": "open source job board software",
+  "description": "a minimum viable open-source self-hosted job-board system",
   "main": "index.js",
   "scripts": {
     "dev:api": "npm run -w api dev",
-    "dev:admin-client": "npm run -w admin-client dev",
+    "dev:cms": "npm run -w cms dev",
     "dev:jobfinder-site": "npm run -w jobfinder-site dev",
     "dev": "run-p dev:*"
   },
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/Morgscode/job-board-project#readme",
   "workspaces": [
     "api",
-    "admin-client",
+    "cms",
     "jobfinder-site"
   ],
   "dependencies": {
