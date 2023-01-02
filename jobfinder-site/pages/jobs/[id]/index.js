@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import moment from 'moment';
-import jobService from '../../services/jobService';
-import useActiveState from '../../utils/useActiveState';
+
+import jobService from '../../../services/jobService';
+import useActiveState from '../../../utils/useActiveState';
 
 export async function getServerSideProps(context) {
   const job = await jobService.getPost(context.query.id);
@@ -88,7 +90,7 @@ export default function JobPost(props) {
                   <path
                     fill-rule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
               </button>
@@ -121,6 +123,14 @@ export default function JobPost(props) {
             __html: `<h3 class="font-bold text-2xl mb-3">Full job description - </h3>${props.job.description}`,
           }}
         />
+        <div className="mt-8">
+          <Link
+            href={`/jobs/${props.job.id}/apply`}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >
+            Apply
+          </Link>
+        </div>
       </article>
     </section>
   );

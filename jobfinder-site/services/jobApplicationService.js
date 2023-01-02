@@ -9,8 +9,13 @@ const jobService = {
     return res.data.data.applications || [];
   },
   async find(id) {
-    const res = await http.get(`${ROUTE}/${id}`, id);
+    const res = await http.get(`${ROUTE}/${id}`);
     if (res.status !== 200) throw new Error(res.status);
+    return res.data.data.application || false;
+  },
+  async create(application) {
+    const res = await http.post(`${ROUTE}`, application);
+    if (res.status !== 201) throw new Error(res.status);
     return res.data.data.application || false;
   },
   async update(application, id) {
