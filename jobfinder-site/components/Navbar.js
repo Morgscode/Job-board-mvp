@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
-import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store/features/authSlice';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import useActiveState from '../utils/useActiveState';
+import useLogout from '../utils/useLogout';
 
 export async function getServerSideProps(context) {
   return {
@@ -12,7 +11,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Navbar(props) {
-
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const mobileNav = useRef(null);
   const accountNav = useRef(null);
@@ -20,10 +18,7 @@ export default function Navbar(props) {
   const [mobileNavActive, setMobileNavActive] = useActiveState(mobileNav);
   const [accountMenuActive, setAccountMenuActive] = useActiveState(accountNav);
 
-  async function logoutUser() {
-    dispatch(logout());
-    router.push('/login');
-  }
+  const logout = useLogout();
 
   const loggedInLinks = (
     <React.Fragment>
@@ -63,7 +58,7 @@ export default function Navbar(props) {
     <React.Fragment>
       <div className="py-1">
         <button
-          onClick={logoutUser}
+          onClick={logout}
           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
         >
           Sign out
