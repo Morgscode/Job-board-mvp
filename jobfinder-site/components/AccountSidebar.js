@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import useLogout from '../utils/useLogout';
 
-export default function AccountSideBar() {
+export default function AccountSideBar(props) {
   const logout = useLogout();
   return (
-    <aside className="w-64" aria-label="Sidebar">
+    <aside className="w-full md:w-64 mb-8" aria-label="Sidebar">
       <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
-        <ul className="space-y-2">
+        <ul className="space-y-2 mb-4">
           <li>
             <Link
               href="/account"
@@ -103,6 +103,9 @@ export default function AccountSideBar() {
             </button>
           </li>
         </ul>
+        <div className='px-2'>
+            <p className="text-gray-900 dark:text-white">Signed in as: {props.user.email}</p>
+        </div>
       </div>
     </aside>
   );

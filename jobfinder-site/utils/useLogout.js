@@ -15,5 +15,10 @@ export default function useLogout() {
       router.push('/login');
     }
   }, [loggedIn, logout, dispatch, router]);
-  return setLogout;
+
+  function triggerLogout() {
+    setLogout(true);
+  }
+
+  return triggerLogout;
 }

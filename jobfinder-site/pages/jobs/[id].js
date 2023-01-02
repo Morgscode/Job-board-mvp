@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Job(props) {
+export default function JobPost(props) {
   const jobDetails = useRef(null);
   const viewMoreText = useRef(null);
   const viewMoreIcon = useRef(null);
