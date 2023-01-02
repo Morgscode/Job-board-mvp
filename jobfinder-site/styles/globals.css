@@ -5,3 +5,15 @@
 .ql-container {
     min-height: 250px;
 }
+
+.ql-container .ql-editor > h1, .ql-container .ql-editor > h2 {
+    margin-bottom: 1rem;
+}
+
+.ql-container .ql-editor > p {
+    margin-bottom: .3rem;
+}
+
+.ql-container .ql-editor > ol, .ql-container .ql-editor > ul {
+    margin: .75rem 0;
+}

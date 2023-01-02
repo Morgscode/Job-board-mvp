@@ -13,7 +13,6 @@ export default function Login() {
   const [formSubmitState, setFormSubmitState] = useState(false);
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm({

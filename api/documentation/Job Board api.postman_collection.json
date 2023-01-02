@@ -18,7 +18,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{dev_domain}}/api/v1/jobs",
+							"raw": "{{dev_domain}}/api/v1/jobs?active=1",
 							"host": [
 								"{{dev_domain}}"
 							],
@@ -26,6 +26,12 @@
 								"api",
 								"v1",
 								"jobs"
+							],
+							"query": [
+								{
+									"key": "active",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -313,6 +319,27 @@
 								"v1",
 								"jobs",
 								"job-applications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get job posting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/jobs/post/1",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"post",
 								"1"
 							]
 						}
@@ -1324,9 +1351,9 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "upload",
+									"key": "uploads",
 									"type": "file",
-									"src": "/Users/lukemorgan/Desktop/CV 2022 - Luke Morgan.pdf"
+									"src": "/Users/lukemorgan/Desktop/Work/TJC/Fuzion4/images/besure/BeSure/20221130_102043.jpg"
 								}
 							]
 						},
@@ -1986,6 +2013,100 @@
 								"job-application-statuses",
 								"job-applications",
 								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Me",
+			"item": [
+				{
+					"name": "Get User Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/me",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Job Applications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/me/job-applications",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"me",
+								"job-applications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user uploads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/me/uploads",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"me",
+								"uploads"
 							]
 						}
 					},

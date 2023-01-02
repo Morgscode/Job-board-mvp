@@ -147,6 +147,7 @@ export default function Navbar(props) {
                 ref={accountNav}
                 id="dropdownNavbar"
                 className="z-10 hidden relative md:absolute w-full md:w-auto font-normal bg-white divide-y divide-gray-100 md:rounded md:shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600"
+                onMouseLeave={() => setAccountMenuActive(false)}
               >
                 <ul
                   className="py-1 text-sm text-gray-700 w-full md:w-auto dark:text-gray-400"

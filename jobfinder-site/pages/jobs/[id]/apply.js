@@ -10,8 +10,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 
 export async function getServerSideProps(context) {
-  const job = await jobService.getPost(context.query.id);
-
+  const job = await jobService.find(context.query.id);
   return {
     props: { job },
   };
@@ -118,8 +117,8 @@ export default function Apply(props) {
         </select>
         <button className="ql-bold" />
         <button className="ql-italic" />
-        <button className="ql-list" />
-        <button className="ql-bullet" />
+        <button className="ql-list" value="ordered" type="button" />
+        <button className="ql-list" value="bullet" type="button" />
       </div>
     );
   }
