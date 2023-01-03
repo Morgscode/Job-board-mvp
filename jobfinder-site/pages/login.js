@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux'
-import { http } from '../services/http';
+import { useDispatch } from 'react-redux';
+import axios from 'axios'
 import { login as setLogin, setLoggedInUser } from '../store/features/authSlice';
 
 export default function Login() {
@@ -32,16 +32,16 @@ export default function Login() {
 
   async function loginUser(submit) {
     try {
-      const res = await http.post('/login', submit);
-      dispatch(setLogin(res.data.token));
-      const { user } = res.data.data;
+      const res = await axios.post('/api/login', submit);
+      const { user, token } = res.data.data;
+      dispatch(setLogin(token));
       dispatch(setLoggedInUser(user));
       router.push('/account');
     } catch (error) {
       console.error(error);
       setFormSubmitState({
         error: true,
-        message: error.response.data.message,
+        message: error.data.data.message || 'There was a problem logging in',
         classes: 'text-2xl mb-8 text-red-600',
       });
     }

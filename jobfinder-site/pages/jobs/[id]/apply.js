@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
+import { withIronSessionSsr } from 'iron-session/next';
+import { sessionOptions } from '../../../utils/session';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
 import jobService from '../../../services/jobService';
@@ -9,16 +10,25 @@ import jobApplicationService from '../../../services/jobApplicationService';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 
-export async function getServerSideProps(context) {
-  const job = await jobService.find(context.query.id);
+export const getServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
+  console.log(req.session);
+  const { user } = req.session;
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  const job = await jobService.find(query.id);
   return {
     props: { job },
   };
-}
+}, sessionOptions);
 
 export default function Apply(props) {
-  const loggedIn = useAuthState(true);
-  const user = useSelector((state) => state.auth.loggedInUser);
+  const [loggedIn, user ] = useAuthState(true);
   const [formSubmitState, setFormSubmitState] = useState(false);
   const [cv, setCv] = useState('');
   const [coverLetter, setCoverLetter] = useState('');

@@ -7,7 +7,7 @@ import useActiveState from '../../../utils/useActiveState';
 
 export async function getServerSideProps(context) {
   const job = await jobService.getPost(context.query.id);
-  if (!job || job.status === 404) {
+  if (!job) {
     return {
       notFound: true,
     };
