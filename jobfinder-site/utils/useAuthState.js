@@ -1,14 +1,19 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector,  useDispatch} from 'react-redux';
+import { refreshLoggedIn } from '../store/features/authSlice';
 
-export default function useAuthState(logout = false) {
+export default function useAuthState(authRequired = false, user = false) {
+  const dispatch = useDispatch();
   const router = useRouter();
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   
   useEffect(() => {
-    if (!loggedIn && logout) {
+    if (user) {
+      dispatch(refreshLoggedIn(true));
+    }
+    if (!loggedIn && authRequired) {
       router.push('/login');
     }
   });

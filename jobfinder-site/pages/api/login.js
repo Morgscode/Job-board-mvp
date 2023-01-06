@@ -16,4 +16,4 @@ async function handler(req, res) {
   }
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withIronSessionApiRoute(handler, sessionOptions);

@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { withIronSessionSsr } from 'iron-session/next';
+import { sessionOptions } from '../../../utils/session';
 import moment from 'moment';
-
 import jobService from '../../../services/jobService';
 import useActiveState from '../../../utils/useActiveState';
+import useAuthState from '../../../utils/useAuthState';
 
-export async function getServerSideProps(context) {
-  const job = await jobService.getPost(context.query.id);
+export const getServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
+  const { user = null } = req.session;
+  const job = await jobService.getPost(query.id);
   if (!job) {
     return {
       notFound: true,
@@ -14,12 +17,13 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
-      job,
+      job, user
     }, // will be passed to the page component as props
   };
-}
+}, sessionOptions);
 
 export default function JobPost(props) {
+  useAuthState(false, props.user);
   const jobDetails = useRef(null);
   const viewMoreText = useRef(null);
   const viewMoreIcon = useRef(null);

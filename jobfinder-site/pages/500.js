@@ -1,4 +1,18 @@
-export default function Custom500() {
+import { withIronSessionSsr } from 'iron-session/next';
+import { sessionOptions } from '../utils/session';
+import useAuthState from '../utils/useAuthState';
+
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const { user } = req.session;
+  return {
+    props: {
+      user,
+    }, // will be passed to the page component as props
+  };
+}, sessionOptions);
+
+export default function Custom500(props) {
+  useAuthState(false, props.user);
   return (
     <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white">
       <div class="text-center">

@@ -63,7 +63,7 @@ MAIL_FROM=mail from <email@here>
 UPLOADS_DIR=storage/uploads
 ```
 
-3. Create an env file for the admin client in `./ojb-tooling/web/.env`
+3. Create an env file for the cms in `./ojb-tooling/web/.env`
 
 ```
 VITE_API_URL=http://localhost:8080/api/v1
@@ -103,7 +103,8 @@ POST: http://localhost:8080/api/v1/register
 ```
 
 9. In the phpMyAdmin container - update your user role to `3` and your email verified at to a `current timestamp`
-10. Explore the admin client - coming soon: explore the job finder site
+10. Explore the cms
+11. Explore the job finder site
 
 ## API
 
@@ -149,13 +150,13 @@ POST: http://localhost:8080/api/v1/register
   2. enter your db credentials to pass into the setup script.
   3. run the setup script.
 
-## ADMIN CLIENT
+## CMS
 
-- At its core - the ojb admin client is a React application. This means you can build on top of it like you would any other React application (https://reactjs.org/).
+- At its core - the ojb cms is a React application. This means you can build on top of it like you would any other React application (https://reactjs.org/).
 
 ### SETUP
 
 1. From the root of the monorepo - run `npm i`
-2. From the root of the monorepo - run `npm run dev:admin-client`
+2. From the root of the monorepo - run `npm run dev:cms`
 
 ## JOBFINDER SITE

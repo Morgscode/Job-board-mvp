@@ -3,7 +3,8 @@ import { sessionOptions } from '../../utils/session';
 import AccountSideBar from '../../components/AccountSidebar';
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
-  const { user } = req.session;
+  const { user = null } = req.session;
+  
   if (!user) {
     return {
       redirect: {
@@ -12,6 +13,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
       },
     };
   }
+  
   return {
     props: {
       user,

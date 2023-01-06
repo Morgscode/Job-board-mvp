@@ -1,18 +1,24 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState } from 'react';
+import { withIronSessionSsr } from 'iron-session/next';
+import { sessionOptions } from '../utils/session';
 import JobSearch from '../components/JobSearch';
 import JobLister from '../components/JobLister';
 import jobService from '../services/jobService';
+import useAuthState from '../utils/useAuthState';
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
+  const { user = null } = req.session;
   const jobs = await jobService.index();
   return {
     props: {
+      user,
       jobs,
     }, // will be passed to the page component as props
   };
-}
+}, sessionOptions);
 
 export default function Home(props) {
+  useAuthState(false, props.user);
   const [jobs, setJobs] = useState(props.jobs || []);
   const [jobsTitle, setJobsTitle] = useState('Latest Jobs');
 

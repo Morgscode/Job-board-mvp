@@ -6,7 +6,6 @@ import axios from 'axios';
 
 export default function useLogout() {
   const [logout, setLogout] = useState(false);
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -21,10 +20,10 @@ export default function useLogout() {
   );
 
   useEffect(() => {
-    if (loggedIn && logout) {
+    if (logout) {
       secureLogout();
     }
-  }, [loggedIn, logout, secureLogout]);
+  }, [logout, secureLogout]);
 
   function triggerLogout() {
     setLogout(true);

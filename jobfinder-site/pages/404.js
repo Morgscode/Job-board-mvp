@@ -1,6 +1,6 @@
 export default function Custom404() {
     return (
-      <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white">
+      <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white dark:bg-gray-900">
         <div class="text-center">
           <div class="inline-flex rounded-full bg-red-100 p-4">
             <div class="rounded-full stroke-red-600 bg-red-200 p-4">
@@ -25,13 +25,9 @@ export default function Custom404() {
               </svg>
             </div>
           </div>
-          <h1 class="mt-5 text-[36px] font-bold text-slate-800 lg:text-[50px]">
-            500 - Server error
+          <h1 class="mt-5 text-[36px] font-bold text-slate-800 lg:text-[50px] dark:text-white">
+            404 - That page does not seem to exist
           </h1>
-          <p class="text-slate-600 mt-5 lg:text-lg">
-            Oops something went wrong. Try to refresh this page or <br /> feel
-            free to contact us if the problem presists.
-          </p>
         </div>
       </div>
     );

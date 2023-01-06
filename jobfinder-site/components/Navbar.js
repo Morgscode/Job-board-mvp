@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import useActiveState from '../utils/useActiveState';
+import useAuthState from '../utils/useAuthState';
 import useLogout from '../utils/useLogout';
 
 export async function getServerSideProps(context) {
@@ -11,7 +12,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Navbar(props) {
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const [loggedIn] = useAuthState(false);
   const mobileNav = useRef(null);
   const accountNav = useRef(null);
 
