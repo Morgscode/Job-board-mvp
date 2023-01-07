@@ -9,24 +9,27 @@ import jobApplicationService from '../../../services/jobApplicationService';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 
-export const getServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
-  const { user = null } = req.session;
-  if (!user) {
+export const getServerSideProps = withIronSessionSsr(
+  async ({ req, res, query }) => {
+    const { user = null } = req.session;
+    if (!user) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+    const job = await jobService.find(query.id);
     return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
+      props: { job, user },
     };
-  }
-  const job = await jobService.find(query.id);
-  return {
-    props: { job, user },
-  };
-}, sessionOptions);
+  },
+  sessionOptions
+);
 
 export default function Apply(props) {
-  useAuthState(false, props.user);
+  useAuthState(true, props.user);
   const [formSubmitState, setFormSubmitState] = useState(false);
   const [cv, setCv] = useState('');
   const [coverLetter, setCoverLetter] = useState('');
@@ -135,24 +138,33 @@ export default function Apply(props) {
     submit.preventDefault();
 
     if (!cv || cv instanceof File !== true || cv.type !== 'application/pdf') {
-      setErrors(errors => ({...errors, cv: 'A file upload as a PDF is required'}));
+      setErrors((errors) => ({
+        ...errors,
+        cv: 'A file upload as a PDF is required',
+      }));
       return false;
     } else {
-      setErrors(errors => delete errors['cv']);
+      setErrors((errors) => delete errors['cv']);
     }
 
     if (cv.size > 1000000) {
-      setErrors(errors => ({...errors, cv: 'Please upload a CV with a maximum size of 1MB'}));
+      setErrors((errors) => ({
+        ...errors,
+        cv: 'Please upload a CV with a maximum size of 1MB',
+      }));
       return false;
     } else {
-      setErrors(errors => delete errors['cv']);
+      setErrors((errors) => delete errors['cv']);
     }
-    
+
     if (!coverLetter) {
-      setErrors(errors => ({...errors, coverLetter: 'A cover letter is required'}));
+      setErrors((errors) => ({
+        ...errors,
+        coverLetter: 'A cover letter is required',
+      }));
       return false;
     } else {
-      setErrors(errors => delete errors['coverLetter']);
+      setErrors((errors) => delete errors['coverLetter']);
     }
 
     try {
@@ -163,9 +175,15 @@ export default function Apply(props) {
       await jobApplicationService.create(application);
       setCv(null);
       setCoverLetter(null);
-      setFormSubmitState({message: `Your application for the ${props.job.title} role has been submitted`, classes: 'text-2xl mb-8 text-green-600'});
+      setFormSubmitState({
+        message: `Your application for the ${props.job.title} role has been submitted`,
+        classes: 'text-2xl mb-8 text-green-600',
+      });
     } catch (error) {
-      setFormSubmitState({message: `There was a problem submitting your application for the ${props.job.title} role. Please try again.`, classes: 'text-2xl mb-8 text-red-600'});
+      setFormSubmitState({
+        message: `There was a problem submitting your application for the ${props.job.title} role. Please try again.`,
+        classes: 'text-2xl mb-8 text-red-600',
+      });
     }
   }
 

@@ -21,6 +21,9 @@ router.use(catchAsync(roles.jobBoardRecruiter));
 router.route('/')
 .get(controller._index);
 
+router.route('/:id/withdraw')
+.put(controller.withdraw);
+
 router.route('/:id')
 .get(controller._find)
 .put(controller._update)

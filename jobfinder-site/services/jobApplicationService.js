@@ -28,6 +28,11 @@ const jobService = {
     if (res.status !== 200) throw new Error(res.status);
     return true;
   },
+  async withdraw(id) {
+    const res = await http.put(`${ROUTE}/${id}/withdraw`);
+    if (res.status !== 200) throw new Error(res.status);
+    return true;
+  },
 };
 
 export default jobService;

@@ -13,7 +13,8 @@ router.use(catchAsync(auth.emailVerified));
 router.use(catchAsync(roles.jobBoardUser));
 
 router.route('/')
-.get(controller._index);
+.get(controller._index)
+.put(controller._update);
 
 router.route('/job-applications')
 .get(controller.getJobApplications);

@@ -84,11 +84,6 @@ export default function Navbar(props) {
     <nav className="p-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <Link href="/" className="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-6 mr-3 sm:h-10"
-            alt="Flowbite Logo"
-          />
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
             Open Job Board
           </span>

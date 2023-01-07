@@ -110,6 +110,25 @@ const _delete = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', data: { deleted } });
 });
 
+const withdraw = catchAsync(async function (req, res, next) {
+  const { id } = req.params;
+
+  const application = await model.JobApplication.findOne({ where: { id } });
+  if (!application) {
+    return next(new NotFoundError('job not found'));
+  }
+
+  if (application.user_id !== req.user.id) {
+    return next(new AppError('not authorized', 401));
+  }
+
+  await application.setJobApplicationStatus(5);
+
+  res
+    .status(200)
+    .json({ status: 'success', data: { application: application.toJSON() } });
+});
+
 const findByJobId = catchAsync(async function (req, res, next) {
   const { id } = req.params;
 
@@ -167,6 +186,7 @@ module.exports = {
   _create,
   _update,
   _delete,
+  withdraw,
   findByJobId,
   findByUserId,
   findByJobApplicationStatusId,

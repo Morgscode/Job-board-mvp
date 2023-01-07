@@ -1,10 +1,11 @@
 import { withIronSessionSsr } from 'iron-session/next';
 import { sessionOptions } from '../../utils/session';
 import AccountSideBar from '../../components/AccountSidebar';
+import useAuthState from '../../utils/useAuthState';
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const { user = null } = req.session;
-  
+
   if (!user) {
     return {
       redirect: {
@@ -13,7 +14,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
       },
     };
   }
-  
+
   return {
     props: {
       user,
@@ -22,6 +23,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 }, sessionOptions);
 
 export default function Account(props) {
+  useAuthState(true, props.user);
   return (
     <div className="flex flex-col md:flex-row">
       <AccountSideBar user={props.user} />

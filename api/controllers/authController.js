@@ -36,7 +36,7 @@ const register = catchAsync(async function (req, res, next) {
   // send email
   mailer.options.to = newUser.email;
   mailer.options.subject = 'Please verify your email';
-  mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${newUser.email}&token=${verify.token}">verify email</a>`;
+  mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/verify-email?email=${newUser.email}&token=${verify.token}">verify email</a>`;
   await mailer.send();
 
   res.status(201).json({
@@ -90,7 +90,7 @@ const forgotPassword = catchAsync(async function (req, res, next) {
 
   mailer.options.to = user.email;
   mailer.options.subject = 'Password reset request';
-  mailer.options.text = `<a href="${process.env.API_DOMAIN}/reset-password?email=${user.email}&token=${reset.token}">reset password</a>`;
+  mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}">reset password</a>`;
   await mailer.send();
 
   res.status(200).send({
@@ -194,7 +194,7 @@ const verifyEmail = catchAsync(async function (req, res, next) {
   user.email_verified_at = now;
   await user.save();
 
-  const jwt = await auth.createJWT(user.toJSON());
+  const jwt = auth.createJWT(user.toJSON());
   if (!jwt) {
     return next(AppError("we couldn't log you in", 500));
   }

@@ -1,20 +1,36 @@
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
-const { User, apiUser } = require('../models/userModel');
-const { JobApplication } = require('../models/jobApplicationModel');
-const { FileUpload } = require('../models/fileUploadModel');
+const model = require('../models/userModel');
 
 const _index = catchAsync(async function (req, res, next) {
-  const user = await User.findOne({ where: { id: req.user.id } });
+  const user = await model.User.findOne({ where: { id: req.user.id } });
   res.status(200).json({
     status: 'success',
-    data: { user: apiUser(user.toJSON()) },
+    data: { user: model.apiUser(user.toJSON()) },
   });
 });
 
+const _update = catchAsync(async function (req, res, next) {
+  const user = ({ title, first_name, surname, middle_names } = req.body);
+
+  console.log('user:', user);
+
+  const record = await model.User.findOne({ where: { id: req.user.id } });
+  if (!record) {
+    return next(new NotFoundError('user not found'));
+  }
+
+  const updated = await model._update(user, { id: req.user.id });
+  if (!updated) {
+    return next(new AppError('error - unable to update user', 500, false));
+  }
+
+  res.status(200).json({ status: 'success', data: { user: model.apiUser(record.toJSON()) } });
+});
+
 const getJobApplications = catchAsync(async function (req, res, next) {
-  const user = await User.findOne({ where: { id: req.user.id } });
+  const user = await model.User.findOne({ where: { id: req.user.id } });
   const applications = await user.getJobApplications();
   res.status(200).json({
     status: 'success',
@@ -23,7 +39,7 @@ const getJobApplications = catchAsync(async function (req, res, next) {
 });
 
 const getFileUploads = catchAsync(async function (req, res, next) {
-  const user = await User.findOne({ where: { id: req.user.id } });
+  const user = await model.User.findOne({ where: { id: req.user.id } });
   const uploads = await user.getFileUploads();
   res.status(200).json({
     status: 'success',
@@ -33,6 +49,7 @@ const getFileUploads = catchAsync(async function (req, res, next) {
 
 module.exports = {
   _index,
+  _update,
   getJobApplications,
   getFileUploads,
 };

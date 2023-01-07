@@ -4,6 +4,7 @@
 
 .ql-container {
     min-height: 250px;
+    width: 100%;
 }
 
 .ql-container .ql-editor > h1, .ql-container .ql-editor > h2 {

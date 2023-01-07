@@ -7,20 +7,24 @@ import jobService from '../../../services/jobService';
 import useActiveState from '../../../utils/useActiveState';
 import useAuthState from '../../../utils/useAuthState';
 
-export const getServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
-  const { user = null } = req.session;
-  const job = await jobService.getPost(query.id);
-  if (!job) {
+export const getServerSideProps = withIronSessionSsr(
+  async ({ req, res, query }) => {
+    const { user = null } = req.session;
+    const job = await jobService.getPost(query.id);
+    if (!job) {
+      return {
+        notFound: true,
+      };
+    }
     return {
-      notFound: true,
+      props: {
+        job,
+        user,
+      }, // will be passed to the page component as props
     };
-  }
-  return {
-    props: {
-      job, user
-    }, // will be passed to the page component as props
-  };
-}, sessionOptions);
+  },
+  sessionOptions
+);
 
 export default function JobPost(props) {
   useAuthState(false, props.user);
