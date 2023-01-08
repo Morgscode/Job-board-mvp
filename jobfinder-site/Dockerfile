@@ -17,6 +17,4 @@ COPY . .
 
 EXPOSE 8888
 
-USER node
-
-CMD npm run build; npm run start;
+CMD npm run deploy;

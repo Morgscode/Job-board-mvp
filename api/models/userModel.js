@@ -68,7 +68,7 @@ const User = db.sequelize.define(
     password_reset_token: {
       type: DataTypes.STRING,
       allowNull: true,
-    }, 
+    },
     password_reset_expires: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -90,7 +90,7 @@ const User = db.sequelize.define(
  * @param {obejct} where - the sql where clause
  * @returns Object
  */
- async function _update(user, where) {
+async function _update(user, where) {
   if ('id' in user) delete user.id;
   if ('role' in user) delete user.role;
   if ('password' in user) delete user.password;
@@ -115,7 +115,7 @@ async function userEmailExists(email) {
 async function registerUser(user, password, role = 1) {
   try {
     let hash = await bcrypt.hash(password.toString(), 12);
-    const record = await User.create({ ...user, password: hash, role, });
+    const record = await User.create({ ...user, password: hash, role });
     return record;
   } catch (error) {
     console.error(error);

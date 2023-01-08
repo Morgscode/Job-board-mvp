@@ -37,7 +37,7 @@ services:
     container_name: ojb-cms
     depends_on:
       - api
-    build: ./../admin-client/
+    build: ./../cms/
     restart: "no"
     env_file: ./web/.env
     ports:

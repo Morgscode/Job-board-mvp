@@ -12,7 +12,8 @@ async function handler(req, res) {
     await req.session.save();
     res.status(200).json({ data: { user, token } });
   } catch (error) {
-    res.status(401).json({ data: { message: 'not authroized' } });
+    console.error(error);
+    res.status(401).json({ data: { message: error.response.data.message } });
   }
 }
 

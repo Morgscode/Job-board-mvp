@@ -1,6 +1,5 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { sessionOptions } from '../../utils/session';
-import { http } from '../../services/http';
 import meService from '../../services/meService';
 
 async function handler(req, res) {

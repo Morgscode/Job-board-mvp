@@ -18,6 +18,8 @@ export default function Register() {
   });
 
   function fieldErrorMessage(field) {
+    console.log(field);
+    console.log(errors);
     return (
       errors[field] && (
         <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -65,7 +67,7 @@ export default function Register() {
         className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
       >
         {displayFormSubmitState()}
-        <div className="mb-6 grid gap-8 md:grid-cols-2"> 
+        <div className="grid gap-8 mb-6 md:grid-cols-2"> 
           <div className="mb-3">
             <label 
               htmlFor="email"
@@ -80,7 +82,6 @@ export default function Register() {
               placeholder="name@email.com"
               {...register('email', {
                 required: 'your email is required',
-                minLength: 4,
               })}
             />
             {fieldErrorMessage('email')}
@@ -99,7 +100,10 @@ export default function Register() {
               placeholder="title"
               {...register('title', {
                 required: 'Please enter a title',
-                minLength: 2,
+                minLength: {
+                  value: 2, 
+                  message: 'At least 2 characters required'
+                },
               })}
             />
             {fieldErrorMessage('title')}
@@ -112,13 +116,16 @@ export default function Register() {
               First name
             </label>
             <input
-              type="text"
+              type="text" 
               id="first_name"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="First name"
               {...register('first_name', {
                 required: 'Your first name is required.',
-                minLength: 2,
+                minLength: {
+                  value: 1,
+                  message: 'At least one character is required'
+                },
               })}
             />
             {fieldErrorMessage('first_name')}
@@ -137,7 +144,10 @@ export default function Register() {
               placeholder="Surname"
               {...register('surname', {
                 required: 'Your surname is required',
-                minLength: 2,
+                minLength: {
+                  value: 1,
+                  message: "At least one character is required"
+                },
               })}
             />
             {fieldErrorMessage('surname')}
@@ -171,7 +181,10 @@ export default function Register() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               {...register('password', {
                 required: 'You must set a password',
-                minLength: 8,
+                minLength: {
+                  value: 8, 
+                  message: "Your password must be at least 8 characters"
+                },
               })}
             />
             {fieldErrorMessage('password')}

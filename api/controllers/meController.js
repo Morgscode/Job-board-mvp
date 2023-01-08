@@ -14,8 +14,6 @@ const _index = catchAsync(async function (req, res, next) {
 const _update = catchAsync(async function (req, res, next) {
   const user = ({ title, first_name, surname, middle_names } = req.body);
 
-  console.log('user:', user);
-
   const record = await model.User.findOne({ where: { id: req.user.id } });
   if (!record) {
     return next(new NotFoundError('user not found'));
@@ -26,7 +24,12 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to update user', 500, false));
   }
 
-  res.status(200).json({ status: 'success', data: { user: model.apiUser(record.toJSON()) } });
+  res
+    .status(200)
+    .json({
+      status: 'success',
+      data: { user: model.apiUser((await record.reload()).toJSON()) },
+    });
 });
 
 const getJobApplications = catchAsync(async function (req, res, next) {

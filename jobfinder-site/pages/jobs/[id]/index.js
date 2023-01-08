@@ -112,7 +112,7 @@ export default function JobPost(props) {
               <div className="p-5 font-light text-gray-900 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
                 <p className="mb-2 font-medium">Contract Type:</p>
                 <p>{props.job.EmploymentContractType.name}</p>
-              </div>
+              </div> 
               <div className="p-5 font-light text-gray-900 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-b-xl">
                 <p className="mb-2 font-medium">Job Categories:</p>
                 <div

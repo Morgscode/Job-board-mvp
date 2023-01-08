@@ -42,12 +42,14 @@ const _create = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(201).json({ status: 'success', data: { category: record.toJSON() } });
+  res
+    .status(201)
+    .json({ status: 'success', data: { category: record.toJSON() } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const category = ({name, description} = req.body);
+  const category = ({ name, description } = req.body);
 
   if (!category) {
     return next(new AppError('missing job category details', 400));
@@ -65,7 +67,12 @@ const _update = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(200).json({ status: 'success', data: { category: record.toJSON() } });
+  res
+    .status(200)
+    .json({
+      status: 'success',
+      data: { category: await record.reload().toJSON() },
+    });
 });
 
 const _delete = catchAsync(async function (req, res, next) {

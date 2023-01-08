@@ -1,18 +1,19 @@
 # OJB - Open Job Board Monorepo
 
-This monorepo is powered for devleopment and production using NPM workspaces (https://docs.npmjs.com/cli/v7/using-npm/workspaces)
+This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
 ## TODOS
 
+1. better host selection in http services for docker container setup
 1. setup admin datatables for pagination
 2. setup jobfinder site for pagination
 3. setup complex email handler with pug templates
 4. setup email templates for 
-  i. ojb user register email
-  ii. ojb user welcome email
-  iii. job application email
-  iv. job application status update email
-  v. new ojb recruiter and new ojb admin welcome email - set password
+  - ojb user register email
+  - ojb user welcome email
+  - job application email
+  - job application status update email
+  - new ojb recruiter and new ojb admin welcome email - set password
 
 ## Requirements
 

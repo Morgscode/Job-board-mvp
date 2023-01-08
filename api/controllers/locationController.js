@@ -65,7 +65,10 @@ const _update = catchAsync(async function (req, res, next) {
 
   res
     .status(200)
-    .json({ status: 'success', data: { location: record.toJSON() } });
+    .json({
+      status: 'success',
+      data: { location: await record.reload().toJSON() },
+    });
 });
 
 const _delete = catchAsync(async function (req, res, next) {

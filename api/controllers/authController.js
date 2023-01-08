@@ -48,6 +48,42 @@ const register = catchAsync(async function (req, res, next) {
   });
 });
 
+const verifyEmail = catchAsync(async function (req, res, next) {
+  const { email, token } = req.query;
+  if (!email || !token) {
+    return next(new AppError('those details are not correct', 400));
+  }
+
+  const user = await userModel.User.findOne({ where: { email } });
+  if (!user) {
+    return next(new AppError('those details are not correct', 404));
+  }
+  // check if token is valid
+  const hash = crypto.createHash('sha256').update(token).digest('hex');
+
+  if (hash !== user.email_verify_token) {
+    return next(AppError('not authroized', 401));
+  }
+
+  const now = moment().format();
+  user.email_verified_at = now;
+  await user.save();
+
+  const jwt = auth.createJWT(user.toJSON());
+  if (!jwt) {
+    return next(AppError("we couldn't log you in", 500));
+  }
+
+  res.send({
+    status: 'success',
+    data: {
+      message: 'email verified',
+      user: { id: user.id, email: user.email },
+      token: jwt,
+    },
+  });
+});
+
 const login = catchAsync(async function (req, res, next) {
   const { email, password } = req.body;
 
@@ -173,47 +209,11 @@ const updatePassword = catchAsync(async function (req, res, next) {
   });
 });
 
-const verifyEmail = catchAsync(async function (req, res, next) {
-  const { email, token } = req.query;
-  if (!email || !token) {
-    return next(new AppError('those details are not correct', 400));
-  }
-
-  const user = await userModel.User.findOne({ where: { email } });
-  if (!user) {
-    return next(new AppError('those details are not correct', 404));
-  }
-  // check if token is valid
-  const hash = crypto.createHash('sha256').update(token).digest('hex');
-
-  if (hash !== user.email_verify_token) {
-    return next(AppError('not authroized', 401));
-  }
-
-  const now = moment().format();
-  user.email_verified_at = now;
-  await user.save();
-
-  const jwt = auth.createJWT(user.toJSON());
-  if (!jwt) {
-    return next(AppError("we couldn't log you in", 500));
-  }
-
-  res.send({
-    status: 'success',
-    data: {
-      message: 'email verified',
-      user: { id: user.id, email: user.email },
-      token: jwt,
-    },
-  });
-});
-
 module.exports = {
   register,
+  verifyEmail,
   login,
   forgotPassword,
   verifyPasswordResetToken,
   updatePassword,
-  verifyEmail,
 };

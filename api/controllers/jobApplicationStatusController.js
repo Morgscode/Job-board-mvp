@@ -42,12 +42,14 @@ const _create = catchAsync(async function (req, res, next) {
     );
   }
 
-  res.status(201).json({ status: 'success', data: { status: record.toJSON() } });
+  res
+    .status(201)
+    .json({ status: 'success', data: { status: record.toJSON() } });
 });
 
 const _update = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const status = ({name } = req.body);
+  const status = ({ name } = req.body);
 
   if (!status) {
     return next(new AppError('missing job application status details', 400));
@@ -61,11 +63,20 @@ const _update = catchAsync(async function (req, res, next) {
   const updated = await model._update(status, { id });
   if (!updated) {
     return next(
-      new AppError('error - unable to update job application status', 500, false)
+      new AppError(
+        'error - unable to update job application status',
+        500,
+        false
+      )
     );
   }
 
-  res.status(200).json({ status: 'success', data: { status: record.toJSON() } });
+  res
+    .status(200)
+    .json({
+      status: 'success',
+      data: { status: await record.reload().toJSON() },
+    });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
@@ -89,4 +100,11 @@ const findByJobApplicationId = catchAsync(async function (req, res, user) {
   });
 });
 
-module.exports = { _index, _find, _create, _update, _delete, findByJobApplicationId };
+module.exports = {
+  _index,
+  _find,
+  _create,
+  _update,
+  _delete,
+  findByJobApplicationId,
+};
