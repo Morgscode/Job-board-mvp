@@ -24,6 +24,16 @@ export default function ForgotPassword() {
     );
   }
 
+  function fieldErrorMessage(field) {
+    return (
+      errors[field] && (
+        <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-500">
+          {errors[field].message}
+        </p>
+      )
+    );
+  }
+
   async function requestPasswordReset(email) {
     console.log(email);
     try {
@@ -71,8 +81,11 @@ export default function ForgotPassword() {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@email.com"
-                {...register('email')}
+                {...register('email', {
+                  required: 'Your email is required',
+                })}
               />
+               {fieldErrorMessage('email')}
             </div>
           </div>
 

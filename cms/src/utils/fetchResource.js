@@ -6,7 +6,7 @@ function useFetchResource(resource_id, schema, service) {
   useEffect(() => {
     async function getResource(resource_id) {
       const resource = await service.find(resource_id);
-      console.log(resource);
+
       if (!resource) {
         getResource(resource_id);
       }

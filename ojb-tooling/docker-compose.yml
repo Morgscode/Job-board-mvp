@@ -15,9 +15,10 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: "no"
     ports:
-      - '8866:8866'
+      - '8866:80'
     environment:
       PMA_HOST: db
+      PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: root
       PMA_USER: root
       PMA_PASSWORD: root
@@ -36,6 +37,7 @@ services:
   cms:
     container_name: ojb-cms
     depends_on:
+      - db
       - api
     build: ./../cms/
     restart: "no"
@@ -45,6 +47,7 @@ services:
   jobfinder-site:
     container_name: ojb-jobfinder-site
     depends_on:
+      - db
       - api
     build: ./../jobfinder-site/
     restart: "no"

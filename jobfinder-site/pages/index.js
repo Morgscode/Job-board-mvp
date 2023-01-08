@@ -8,7 +8,13 @@ import useAuthState from '../utils/useAuthState';
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
   const { user = null } = req.session;
-  const jobs = await jobService.index();
+  let jobs = [];
+  try {
+    jobs = await jobService.index();
+  } catch (error) {
+    console.error(error);
+  }
+  
   return {
     props: {
       user,

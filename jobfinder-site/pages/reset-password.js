@@ -103,7 +103,7 @@ export default function PasswordReset(props) {
       return (
         <form
           onSubmit={handleSubmit(updatePassword)}
-          className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
+          className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md md:w-1/2 dark:bg-gray-800 dark:border-gray-700"
         >
           {displayFormSubmitState()}
           <div className="grid gap-8 md:grid-cols-2">

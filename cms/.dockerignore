@@ -1,3 +1,6 @@
 node_modules
 npm-debug.log
 vite.config.js.timestamp*
+.env
+.env.devleopment
+.env.production

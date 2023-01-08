@@ -19,7 +19,6 @@ function UserForm(props) {
   });
 
   useEffect(() => {
-    console.log(values);
     if (!isDirty) {
       reset(values);
     }
@@ -63,7 +62,7 @@ function UserForm(props) {
         onSubmit={handleSubmit(submit)}
         className="flex w-full p-6 border-solid border-round border-1 border-gray-50 flex-column shadow-1"
       >
-        <div className="pb-4 mb-4 formgrid grid">
+        <div className="grid pb-4 mb-4 formgrid">
           <div className="flex w-full field col flex-column">
             <label htmlFor="title">Title</label>
             <Controller
@@ -97,7 +96,7 @@ function UserForm(props) {
             {getFormErrorMessage('surname')}
           </div>
         </div>
-        <div className="pb-4 mb-4 formgrid grid">
+        <div className="grid pb-4 mb-4 formgrid">
           <div className="flex w-full field col flex-column">
             <label htmlFor="first-name">First Name</label>
             <Controller
@@ -126,7 +125,7 @@ function UserForm(props) {
             {getFormErrorMessage('middle_names')}
           </div>
         </div>
-        <div className="pb-4 mb-4 formgrid grid">
+        <div className="grid pb-4 mb-4 formgrid">
           <div className="flex w-full field col flex-column">
             <label htmlFor="email">Email</label>
             <Controller
@@ -169,7 +168,7 @@ function UserForm(props) {
           {getFormErrorMessage('salaryType')}
         </div>
         </div>
-        <div className="mb-2 formgrid grid">
+        <div className="grid mb-2 formgrid">
           <div className="flex w-full field col flex-column">
             <Button
               label="Submit"

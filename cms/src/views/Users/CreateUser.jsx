@@ -12,7 +12,6 @@ function CreateUser() {
   const [loading, setLoading] = useState(false);
 
   async function createUser(submit) {
-    console.log(submit);
     try {
       setLoading(true);
       const user = await userService.create(user);

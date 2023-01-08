@@ -126,11 +126,13 @@ const login = catchAsync(async function (req, res, next) {
 const forgotPassword = catchAsync(async function (req, res, next) {
   const { email } = req.body;
 
-  console.log(email);
-
   const user = await userModel.User.findOne({ where: { email } });
   if (!user) {
     return next(new AppError('those details are not correct', 404));
+  }
+
+  if (!user.email_verified_at) {
+    return next(new AppError('not authorized', 401));
   }
 
   const reset = auth.createAppToken();
