@@ -32,7 +32,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function VerifyEmail(props) {
-
   async function requestEmailVerify() {
     if (!props.email) return false;
     try {

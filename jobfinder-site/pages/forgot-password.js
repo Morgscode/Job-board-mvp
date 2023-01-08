@@ -41,8 +41,7 @@ export default function ForgotPassword() {
       setFormSubmitState({
         error: true,
         message:
-          error?.response?.data?.message ||
-          'There was a problem logging in',
+          error?.response?.data?.message || 'There was a problem logging in',
         classes: 'text-2xl mb-8 text-red-600',
       });
     }

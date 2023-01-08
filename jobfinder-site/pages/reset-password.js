@@ -160,7 +160,9 @@ export default function PasswordReset(props) {
     } else {
       return (
         <div className="flex flex-col items-center p-6 text-gray-900 bg-white border border-gray-200 rounded-lg shadow-md dark:text-white dark:bg-gray-800 dark:border-gray-700">
-          <p className='mb-8'>Please check your emails for a password reset link</p>
+          <p className="mb-8">
+            Please check your emails for a password reset link
+          </p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
