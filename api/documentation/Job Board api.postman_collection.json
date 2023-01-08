@@ -1875,6 +1875,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Verify email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/verify-email?email=morgan.luke94@gmail.com&token=a02822d228800777f5483b875102d9f91eae4e3939cc821e82863a465fa7f7db",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"verify-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "morgan.luke94@gmail.com"
+								},
+								{
+									"key": "token",
+									"value": "a02822d228800777f5483b875102d9f91eae4e3939cc821e82863a465fa7f7db"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2054,7 +2083,7 @@
 			"name": "Me",
 			"item": [
 				{
-					"name": "Get User Info",
+					"name": "Get user profile",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -2073,7 +2102,35 @@
 					"response": []
 				},
 				{
-					"name": "Get User Job Applications",
+					"name": "Update user profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Mr\",\n    \"first_name\": \"L\",\n    \"surname\": \"Morgan\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_domain}}/api/v1/me",
+							"host": [
+								"{{dev_domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user job application",
 					"request": {
 						"method": "GET",
 						"header": [],
