@@ -126,6 +126,8 @@ const login = catchAsync(async function (req, res, next) {
 const forgotPassword = catchAsync(async function (req, res, next) {
   const { email } = req.body;
 
+  console.log(email);
+
   const user = await userModel.User.findOne({ where: { email } });
   if (!user) {
     return next(new AppError('those details are not correct', 404));
@@ -139,6 +141,7 @@ const forgotPassword = catchAsync(async function (req, res, next) {
   mailer.options.to = user.email;
   mailer.options.subject = 'Password reset request';
   mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}">reset password</a>`;
+
   await mailer.send();
 
   res.status(200).send({

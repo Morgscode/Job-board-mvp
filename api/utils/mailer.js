@@ -4,8 +4,8 @@ const OPTIONS = Object.freeze({
     from: process.env.MAIL_FROM,
     to: '',
     subject: '',
-    template: '',
     html: '',
+    text: '',
 });
 
 const transporter = nodemailer.createTransport({
@@ -21,12 +21,11 @@ const transporter = nodemailer.createTransport({
   debug: true,
 });
 
-let options = {...OPTIONS};
+let options = Object.assign({}, OPTIONS);
 
 async function send() {
   await transporter.verify();
-  const mail = await transporter.sendMail(options);
-  options = {...OPTIONS};
+  const mail = await transporter.sendMail({...options});
   return mail;
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -28,6 +29,18 @@ export default function Login() {
       formSubmitState && (
         <p role="alert" className={formSubmitState.classes}>
           {formSubmitState.message}
+        </p>
+      )
+    );
+  }
+
+  function fieldErrorMessage(field) {
+    console.log(field);
+    console.log(errors);
+    return (
+      errors[field] && (
+        <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-500">
+          {errors[field].message}  
         </p>
       )
     );
@@ -75,8 +88,11 @@ export default function Login() {
               id="email"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="name@email.com"
-              {...register('email')}
+              {...register('email', {
+                required: true,
+              })}
             />
+            {fieldErrorMessage('email')}
           </div>
           <div className="mb-4">
             <label
@@ -89,8 +105,11 @@ export default function Login() {
               type="password"
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              {...register('password')}
+              {...register('password', {
+                required: true,
+              })}
             />
+            {fieldErrorMessage('password')}
           </div>
         </div>
 
@@ -101,6 +120,15 @@ export default function Login() {
           Submit
         </button>
       </form>
+
+      <div className="mt-8">
+        <Link
+          href={'/forgot-password'}
+          class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+        >
+          Reset my password.
+        </Link>
+      </div>
     </section>
   );
 }

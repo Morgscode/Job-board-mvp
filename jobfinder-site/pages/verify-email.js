@@ -32,14 +32,12 @@ export async function getServerSideProps(context) {
 }
 
 export default function VerifyEmail(props) {
-  const [emailInput, setEmailInput] = useState(null);
 
   async function requestEmailVerify() {
-    if (!props.email && !props.emailInput) return false;
+    if (!props.email) return false;
     try {
-      const email = props.email || emailInput;
+      const email = props.email;
       const res = await http.post('/request-email-verify', { email });
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
