@@ -6,7 +6,7 @@ export default function Layout({children}) {
         <header>
             <Header />
         </header>
-        <main className="container mx-auto">
+        <main className="container mx-auto h-full">
         {children}
         </main>
     </div>

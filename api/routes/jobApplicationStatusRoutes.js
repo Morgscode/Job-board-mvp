@@ -9,13 +9,14 @@ const router = express.Router();
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
-router.use(catchAsync(roles.jobBoardRecruiter));
 
 router.route('/')
-.get(controller._index);
+.get(catchAsync(roles.jobBoardUser), controller._index);
 
 router.route('/:id')
-.get(controller._find);
+.get(catchAsync(roles.jobBoardUser), controller._find);
+
+router.use(catchAsync(roles.jobBoardRecruiter));
 
 router.route('/job-applications/:id')
 .get(controller.findByJobApplicationId);

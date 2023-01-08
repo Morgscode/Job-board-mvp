@@ -11,6 +11,8 @@ import AccountSideBar from '../../../components/AccountSidebar';
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const { user = null, jwt } = req.session;
+  let applications = [];
+  let statuses = [];
 
   if (!user) {
     return {
@@ -23,17 +25,21 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
   http.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 
-  let applicationRecords = await meService.applications(jwt);
+  try {
+    let applicationRecords = await meService.applications(jwt);
 
-  const applications = await Promise.all(
-    applicationRecords.map(async (application) => {
-      const job = await jobService.find(application.job_id);
-      application.job = job;
-      return application;
-    })
-  );
+    applications = await Promise.all(
+      applicationRecords.map(async (application) => {
+        const job = await jobService.find(application.job_id);
+        application.job = job;
+        return application;
+      })
+    );
 
-  const statuses = await jobApplicationStatusService.index();
+    statuses = await jobApplicationStatusService.index();
+  } catch (error) {
+    console.error(error);
+  }
 
   return {
     props: {
@@ -55,7 +61,7 @@ export default function Applications(props) {
     props.applications.map((application) => (
       <div
         key={application.id}
-        className="flex items-start block w-full p-8 mb-4 border border-gray-200 rounded-lg shadow-md bg-gray dark:bg-gray-600 dark:border-gray-700"
+        className="flex items-start w-full p-8 mb-4 border border-gray-200 rounded-lg shadow-md bg-gray dark:bg-gray-600 dark:border-gray-700"
       >
         <div>
           <p className="mb-3 text-2xl font-medium text-white">
@@ -83,6 +89,16 @@ export default function Applications(props) {
         </div>
       </div>
     )) || [];
+
+  function markup() {
+    if (applications.length > 0) return applications;
+    return (
+      <p className="text-xl text-gray-900 dark:text-white">
+        No applications to display
+      </p>
+    );
+  }
+
   return (
     <div className="flex flex-col md:flex-row">
       <AccountSideBar user={props.user} />
@@ -91,7 +107,7 @@ export default function Applications(props) {
           Your job applications
         </h1>
         <div className="block w-full p-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-          {applications}
+          {markup()}
         </div>
       </div>
     </div>

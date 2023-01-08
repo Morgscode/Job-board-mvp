@@ -28,16 +28,7 @@ const register = catchAsync(async function (req, res, next) {
     return next(new AppError(`there was a problem creating your account`, 500));
   }
 
-  // set verify token
-  const verify = auth.createAppToken();
-  newUser.email_verify_token = verify.hash;
-  await newUser.save();
-
-  // send email
-  mailer.options.to = newUser.email;
-  mailer.options.subject = 'Please verify your email';
-  mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/verify-email?email=${newUser.email}&token=${verify.token}">verify email</a>`;
-  await mailer.send();
+  await userModel.requestEmailVerify(newUser);
 
   res.status(201).json({
     status: 'sucess',
@@ -46,6 +37,27 @@ const register = catchAsync(async function (req, res, next) {
       user: userModel.apiUser(newUser.toJSON()),
     },
   });
+});
+
+const requestEmailVerify = catchAsync(async function(req, res, next) {
+  const { email } = req.body;
+
+  if (!email) {
+    return next(new AppError('those details are not correct', 400));
+  }
+
+  const user = await userModel.User.findOne({ where: { email } });
+  if (!user) {
+    return next(new AppError('those details are not correct', 404));
+  }
+
+  if (user.email_verified_at !== null) {
+    return next(new AppError('those details are not correct', 400));
+  }
+
+  await userModel.requestEmailVerify(user);
+
+  res.status(204);
 });
 
 const verifyEmail = catchAsync(async function (req, res, next) {
@@ -62,7 +74,7 @@ const verifyEmail = catchAsync(async function (req, res, next) {
   const hash = crypto.createHash('sha256').update(token).digest('hex');
 
   if (hash !== user.email_verify_token) {
-    return next(AppError('not authroized', 401));
+    return next(new AppError('not authroized', 401));
   }
 
   const now = moment().format();
@@ -71,7 +83,7 @@ const verifyEmail = catchAsync(async function (req, res, next) {
 
   const jwt = auth.createJWT(user.toJSON());
   if (!jwt) {
-    return next(AppError("we couldn't log you in", 500));
+    return next(new AppError("we couldn't log you in", 500));
   }
 
   res.send({
@@ -212,6 +224,7 @@ const updatePassword = catchAsync(async function (req, res, next) {
 module.exports = {
   register,
   verifyEmail,
+  requestEmailVerify,
   login,
   forgotPassword,
   verifyPasswordResetToken,

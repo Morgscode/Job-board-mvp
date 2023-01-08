@@ -26,8 +26,21 @@ export default function Navbar(props) {
       <li>
         <Link
           href="/account"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          className="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="currentColor"
+              d="M4 22a8 8 0 1 1 16 0h-2a6 6 0 1 0-12 0H4zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"
+            />
+          </svg>
           My Account
         </Link>
       </li>
@@ -39,16 +52,42 @@ export default function Navbar(props) {
       <li>
         <Link
           href="/register"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          className="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="currentColor"
+              d="M7 4V2h10v2h3.007c.548 0 .993.445.993.993v16.014a.994.994 0 0 1-.993.993H3.993A.994.994 0 0 1 3 21.007V4.993C3 4.445 3.445 4 3.993 4H7zm0 2H5v14h14V6h-2v2H7V6zm2-2v2h6V4H9z"
+            />
+          </svg>
           Register
         </Link>
       </li>
       <li>
         <Link
           href="/login"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          className="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="currentColor"
+              d="M4 15h2v5h12V4H6v5H4V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6zm6-4V8l5 4-5 4v-3H2v-2h8z"
+            />
+          </svg>{' '}
           Login
         </Link>
       </li>
@@ -60,8 +99,21 @@ export default function Navbar(props) {
       <div className="py-1">
         <button
           onClick={logout}
-          className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+          className="flex items-center w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="currentColor"
+              d="M4 18h2v2h12V4H6v2H4V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3zm2-7h7v2H6v3l-5-4 5-4v3z"
+            />
+          </svg>{' '}
           Sign out
         </button>
       </div>
@@ -71,12 +123,12 @@ export default function Navbar(props) {
   const links = () => {
     if (!loggedIn) {
       return <ul>{loggedOutLinks}</ul>;
-    } 
+    }
     return (
-    <ul>
-      {loggedInLinks}
-      {signOutLinks}
-    </ul>
+      <ul>
+        {loggedInLinks}
+        {signOutLinks}
+      </ul>
     );
   };
 
@@ -142,7 +194,7 @@ export default function Navbar(props) {
               <div
                 ref={accountNav}
                 id="dropdownNavbar"
-                className="relative z-10 hidden w-full font-normal bg-white md:absolute md:w-auto divide-y divide-gray-100 md:rounded md:shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600"
+                className="relative z-10 hidden w-full font-normal bg-white divide-y divide-gray-100 md:absolute md:w-auto md:rounded md:shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600"
                 onMouseLeave={() => setAccountMenuActive(false)}
               >
                 <ul

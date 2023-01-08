@@ -58,7 +58,7 @@ export default function JobPost(props) {
   return (
     <section className="pt-8 pb-8">
       <article className="block w-full p-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-        <h1 className="mb-2 mb-10 font-bold tracking-tight text-gray-900 text-7xl dark:text-white">
+        <h1 className="mb-10 font-bold tracking-tight text-gray-900 text-7xl dark:text-white">
           {props.job.title}
         </h1>
         <div className="pl-4 mb-8 text-gray-900 border-l-4 dark:text-white">
@@ -96,7 +96,7 @@ export default function JobPost(props) {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clipRule="evenodd"
                   ></path>

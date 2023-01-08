@@ -1,3 +1,5 @@
+const AppError = require('../utils/AppError');
+
 async function jobBoardUser(req, res, next) {
   let user = req.user;
   if (user.role === 1 || user.role === 2 || user.role === 3) {

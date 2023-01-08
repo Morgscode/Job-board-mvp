@@ -3,6 +3,7 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 const db = require('./../utils/db');
 const auth = require('./../utils/auth');
+const mailer = require('./../utils/mailer');
 
 const User = db.sequelize.define(
   'User',
@@ -123,6 +124,20 @@ async function registerUser(user, password, role = 1) {
   }
 }
 
+async function requestEmailVerify(user) {
+  if (!user instanceof User) throw new Error('you must pass in a valid user');
+  // set verify token
+  const verify = auth.createAppToken();
+  user.email_verify_token = verify.hash;
+  await user.save();
+
+  // send email
+  mailer.options.to = user.email;
+  mailer.options.subject = 'Please verify your email';
+  mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/verify-email?email=${user.email}&token=${verify.token}">verify email</a>`;
+  await mailer.send();
+}
+
 async function loginUser(email, password) {
   try {
     const user = await User.findOne({ where: { email } });
@@ -160,10 +175,13 @@ async function updatePassword(user, password) {
   return true;
 }
 
+
+
 module.exports = {
   User,
   userEmailExists,
   registerUser,
+  requestEmailVerify,
   loginUser,
   apiUser,
   updatePassword,

@@ -78,7 +78,8 @@ app.get('/api/v1', async function (req, res, next) {
 // auth routes
 app.post('/api/v1/register', authController.register);
 app.post('/api/v1/login', authController.login);
-app.get('/api/v1/verify-email', authController.verifyEmail);
+app.post('/api/v1/request-email-verify', authController.requestEmailVerify);
+app.get('/api/v1/verify-email', authController.verifyEmail); 
 app.post('/api/v1/forgot-password', authController.forgotPassword);
 app.get('/api/v1/reset-password', authController.verifyPasswordResetToken);
 app.use('/api/v1/update-password', [auth.protect, auth.emailVerified, roles.jobBoardUser]);
