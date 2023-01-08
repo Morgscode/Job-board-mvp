@@ -4,14 +4,15 @@ module.exports = (req, res, next) => {
   const query = { ...req.query };
   const exclude = ['page', 'limit', 'fields', 'description', 'id'];
 
-  // === filtering
+  // console.info('pre query interface', req.query);
 
-  // remove any non allowed keys
   exclude.forEach((item) => delete query[item]);
 
   // copy the query into a new object
   req.sql = {};
   req.sql.where = { ...query };
+
+  // === filtering
 
   // console.info('pre filter', req.sql);
 
@@ -27,6 +28,10 @@ module.exports = (req, res, next) => {
     }
   });
 
+  // === logical operations
+
+  // console.info('pre logical', req.sql);
+
   // allow like/contains clauses for titles and names
   if (req.query.title) {
     req.sql.where['title'] = { [Op.like]: `%${decodeURI(req.query.title)}%` };
@@ -36,16 +41,10 @@ module.exports = (req, res, next) => {
     req.sql.where['name'] = { [Op.like]: `%${decodeURI(req.query.name)}%` };
   }
 
-  if (req.query.description) {
-    req.sql.where['description'] = { [Op.like]: `%${decodeURI(req.query.description)}%` };
-  }
-
-  // console.info('pre logical', req.sql);
-
   // logical operators (gt, lt, gte, lte)
   Object.keys(query).forEach((queryKey) => {
+    if (exclude.includes(queryKey)) return;
     let value = query[queryKey];
-
     try {
       value = JSON.parse(value.toString());
       if (typeof value === 'object') {
@@ -72,7 +71,7 @@ module.exports = (req, res, next) => {
     }
   });
 
-  // console.info('pre limit', req.sql);
+  // console.info('pre limiting', req.sql);
 
   // === limiting retuned fields
 
@@ -90,7 +89,7 @@ module.exports = (req, res, next) => {
 
   // === sorting
 
-  // console.info('pre order', req.sql);
+  // console.info('pre sorting', req.sql);
 
   if (req.sql.where.order) {
     const order = req.sql.where.order.toUpperCase();
@@ -106,6 +105,9 @@ module.exports = (req, res, next) => {
     // by default sort by the newest records
     req.sql.order = [['createdAt', 'DESC']];
   }
+
+  // === final filter layer
+  exclude.forEach((item) => delete req.sql.where[item]);
 
   // console.info('post query interface', req.sql);
 
