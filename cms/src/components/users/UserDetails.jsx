@@ -27,8 +27,8 @@ function UserDetails(props) {
 
   return (
     <React.Fragment>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="title">Title</label>
           <Controller
             name="title"
@@ -44,7 +44,7 @@ function UserDetails(props) {
           />
           {getFormErrorMessage('title')}
         </div>
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="surname">Surname</label>
           <Controller
             name="surname"
@@ -61,8 +61,8 @@ function UserDetails(props) {
           {getFormErrorMessage('surname')}
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="first-name">First Name</label>
           <Controller
             name="first_name"
@@ -78,7 +78,7 @@ function UserDetails(props) {
           />
           {getFormErrorMessage('first_name')}
         </div>
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="middle-names">Middle Names</label>
           <Controller
             name="middle_names"
@@ -95,8 +95,8 @@ function UserDetails(props) {
           {getFormErrorMessage('middle_names')}
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="email">Email</label>
           <Controller
             name="email"

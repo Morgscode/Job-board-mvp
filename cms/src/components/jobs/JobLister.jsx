@@ -73,7 +73,7 @@ function JobLister(props) {
   };
 
   return (
-    <div className="card w-full">
+    <div className="w-full card">
       <DataTable
         value={props.jobs}
         selection={selectedJobs}

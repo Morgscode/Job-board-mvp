@@ -27,7 +27,7 @@ export default function Home(props) {
     setJobsTitle(`Results for ${query}`);
     setJobs(jobs);
   }
-
+ 
   return (
     <React.Fragment>
       <section id="job-search" className="pt-8 pb-8">
@@ -36,7 +36,7 @@ export default function Home(props) {
         </div>
       </section>
       <section id="job-results" className='pt-8 pb-8'>
-        <h2 className='mb-2 text-6xl font-bold tracking-tight text-gray-900 dark:text-white mb-8'>{jobsTitle}</h2>
+        <h2 className='mb-2 mb-8 text-6xl font-bold tracking-tight text-gray-900 dark:text-white'>{jobsTitle}</h2>
         <JobLister jobs={jobs} />
       </section>
     </React.Fragment>

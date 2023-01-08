@@ -16,8 +16,8 @@ export default function Custom500(props) {
   return (
     <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white">
       <div class="text-center">
-        <div class="inline-flex rounded-full bg-red-100 p-4">
-          <div class="rounded-full stroke-red-600 bg-red-200 p-4">
+        <div class="inline-flex p-4 bg-red-100 rounded-full">
+          <div class="p-4 bg-red-200 rounded-full stroke-red-600">
             <svg
               class="w-16 h-16"
               viewBox="0 0 28 28"
@@ -42,7 +42,7 @@ export default function Custom500(props) {
         <h1 class="mt-5 text-[36px] font-bold text-slate-800 lg:text-[50px]">
           500 - Server error
         </h1>
-        <p class="text-slate-600 mt-5 lg:text-lg">
+        <p class="mt-5 text-slate-600 lg:text-lg">
           Oops something went wrong. Try to refresh this page or <br /> feel
           free to contact us if the problem presists.
         </p>

@@ -58,20 +58,20 @@ export default function JobPost(props) {
   return (
     <section className="pt-8 pb-8">
       <article className="block w-full p-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-        <h1 className="mb-2 text-7xl font-bold tracking-tight text-gray-900 dark:text-white mb-10">
+        <h1 className="mb-2 mb-10 font-bold tracking-tight text-gray-900 text-7xl dark:text-white">
           {props.job.title}
         </h1>
-        <div className="border-l-4 pl-4 text-gray-900 dark:text-white mb-8">
+        <div className="pl-4 mb-8 text-gray-900 border-l-4 dark:text-white">
           <div className="mb-4">
-            <p className="font-bold mb-3">Locations:</p>
+            <p className="mb-3 font-bold">Locations:</p>
             <div>{locations}</div>
           </div>
           <div className="mb-4">
-            <p className="font-bold mb-3">Salary:</p>
+            <p className="mb-3 font-bold">Salary:</p>
             <div>{salary}</div>
           </div>
           <div className="mb-0">
-            <p className="font-bold mb-3">Closing date:</p>
+            <p className="mb-3 font-bold">Closing date:</p>
             <p>{moment(props.job.deadline).format('LL')}</p>
           </div>
         </div>
@@ -109,12 +109,12 @@ export default function JobPost(props) {
               className="hidden"
               aria-labelledby="job-details-collapse-heading"
             >
-              <div className="p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-900 dark:text-white">
-                <p className="font-medium mb-2">Contract Type:</p>
+              <div className="p-5 font-light text-gray-900 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                <p className="mb-2 font-medium">Contract Type:</p>
                 <p>{props.job.EmploymentContractType.name}</p>
               </div>
-              <div className="p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-900 dark:text-white rounded-b-xl">
-                <p className="font-medium mb-2">Job Categories:</p>
+              <div className="p-5 font-light text-gray-900 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-b-xl">
+                <p className="mb-2 font-medium">Job Categories:</p>
                 <div
                   className="font-normal text-gray-700 dark:text-gray-400"
                   dangerouslySetInnerHTML={{
@@ -128,7 +128,7 @@ export default function JobPost(props) {
         <div
           className="font-normal text-gray-700 dark:text-gray-400"
           dangerouslySetInnerHTML={{
-            __html: `<h3 class="font-bold text-2xl mb-3">Full job description - </h3>${props.job.description}`,
+            __html: `<h3 class="mb-3 text-2xl font-bold">Full job description - </h3>${props.job.description}`,
           }}
         />
         <div className="mt-8">

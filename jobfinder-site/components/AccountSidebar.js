@@ -4,9 +4,9 @@ import useLogout from '../utils/useLogout';
 export default function AccountSideBar(props) {
   const logout = useLogout();
   return (
-    <aside className="w-full md:w-64 mb-8" aria-label="Sidebar">
-      <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
-        <ul className="space-y-2 mb-4">
+    <aside className="w-full mb-8 md:w-64" aria-label="Sidebar">
+      <div className="px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800">
+        <ul className="mb-4 space-y-2">
           <li>
             <Link
               href="/account"
@@ -70,7 +70,7 @@ export default function AccountSideBar(props) {
           <li>
             <button
               onClick={logout}
-              className="w-full flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="flex items-center w-full p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <svg
                 aria-hidden="true"

@@ -2,7 +2,7 @@ import Header from "./Header";
 
 export default function Layout({children}) {
     return (
-    <div className="dark:bg-slate-900 min-h-screen">
+    <div className="min-h-screen dark:bg-slate-900">
         <header>
             <Header />
         </header>

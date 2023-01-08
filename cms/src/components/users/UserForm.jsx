@@ -61,10 +61,10 @@ function UserForm(props) {
     <div>
       <form
         onSubmit={handleSubmit(submit)}
-        className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1"
+        className="flex w-full p-6 border-solid border-round border-1 border-gray-50 flex-column shadow-1"
       >
-        <div className="formgrid grid mb-4 pb-4">
-          <div className="field col flex flex-column w-full">
+        <div className="pb-4 mb-4 formgrid grid">
+          <div className="flex w-full field col flex-column">
             <label htmlFor="title">Title</label>
             <Controller
               name="title"
@@ -80,7 +80,7 @@ function UserForm(props) {
             />
             {getFormErrorMessage('title')}
           </div>
-          <div className="field col flex flex-column w-full">
+          <div className="flex w-full field col flex-column">
             <label htmlFor="surname">Surname</label>
             <Controller
               name="surname"
@@ -97,8 +97,8 @@ function UserForm(props) {
             {getFormErrorMessage('surname')}
           </div>
         </div>
-        <div className="formgrid grid mb-4 pb-4">
-          <div className="field col flex flex-column w-full">
+        <div className="pb-4 mb-4 formgrid grid">
+          <div className="flex w-full field col flex-column">
             <label htmlFor="first-name">First Name</label>
             <Controller
               name="first_name"
@@ -114,7 +114,7 @@ function UserForm(props) {
             />
             {getFormErrorMessage('first_name')}
           </div>
-          <div className="field col flex flex-column w-full">
+          <div className="flex w-full field col flex-column">
             <label htmlFor="middle-names">Middle Names</label>
             <Controller
               name="middle_names"
@@ -126,8 +126,8 @@ function UserForm(props) {
             {getFormErrorMessage('middle_names')}
           </div>
         </div>
-        <div className="formgrid grid mb-4 pb-4">
-          <div className="field col flex flex-column w-full">
+        <div className="pb-4 mb-4 formgrid grid">
+          <div className="flex w-full field col flex-column">
             <label htmlFor="email">Email</label>
             <Controller
               name="email"
@@ -149,7 +149,7 @@ function UserForm(props) {
             />
             {getFormErrorMessage('email')}
           </div>
-          <div className="field col flex flex-column">
+          <div className="flex field col flex-column">
           <label htmlFor="user-role">User role</label>
           <Controller
             name="role"
@@ -169,8 +169,8 @@ function UserForm(props) {
           {getFormErrorMessage('salaryType')}
         </div>
         </div>
-        <div className="formgrid grid mb-2">
-          <div className="field col flex flex-column w-full">
+        <div className="mb-2 formgrid grid">
+          <div className="flex w-full field col flex-column">
             <Button
               label="Submit"
               loading={props.loading}

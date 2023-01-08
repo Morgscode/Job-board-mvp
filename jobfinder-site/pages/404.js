@@ -2,8 +2,8 @@ export default function Custom404() {
     return (
       <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white dark:bg-gray-900">
         <div class="text-center">
-          <div class="inline-flex rounded-full bg-red-100 p-4">
-            <div class="rounded-full stroke-red-600 bg-red-200 p-4">
+          <div class="inline-flex p-4 bg-red-100 rounded-full">
+            <div class="p-4 bg-red-200 rounded-full stroke-red-600">
               <svg
                 class="w-16 h-16"
                 viewBox="0 0 28 28"

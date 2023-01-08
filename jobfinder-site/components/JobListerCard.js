@@ -7,10 +7,10 @@ export default function JobListerCard(props) {
 
   return (
     <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <p className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
+      <p className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
         {props.job.title}
       </p>
-      <div className="block font-normal text-gray-700 dark:text-gray-400 mb-6" dangerouslySetInnerHTML={{ __html: description }} />
+      <div className="block mb-6 font-normal text-gray-700 dark:text-gray-400" dangerouslySetInnerHTML={{ __html: description }} />
       <Link
         href={`/jobs/${props.job.id}`}
         className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

@@ -21,7 +21,7 @@ function App() {
   }
   
   return (
-    <div className="App w-full min-h-screen p-0 m-0">
+    <div className="w-full min-h-screen p-0 m-0 App">
       <div className="flex h-full">
         <aside className="w-2 min-h-screen">
           <Sidebar logout={logoutUser} />

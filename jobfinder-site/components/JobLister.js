@@ -6,11 +6,11 @@ export default function JobLister(props) {
 
   if (jobs.length > 0) {
     return (
-      <div className="grid gap-4 md:gap-12 md:grid-cols-2  w-full">{jobs}</div>
+      <div className="w-full grid gap-4 md:gap-12 md:grid-cols-2 ">{jobs}</div>
     );
   }
   return (
-    <div className="grid gap-4 md:gap-12 md:grid-cols-2 w-full">
+    <div className="w-full grid gap-4 md:gap-12 md:grid-cols-2">
         <p className='mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white'>No jobs found... :(</p>
     </div> 
   );

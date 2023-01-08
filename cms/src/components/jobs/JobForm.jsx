@@ -73,10 +73,10 @@ function JobForm(props) {
 
   return (
     <form
-      className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1"
+      className="flex w-full p-6 border-solid border-round border-1 border-gray-50 flex-column shadow-1"
       onSubmit={handleSubmit(submit)}
     >
-      <div className="field-checkbox mb-6">
+      <div className="mb-6 field-checkbox">
         <Controller
           name="active"
           control={control}
@@ -99,8 +99,8 @@ function JobForm(props) {
           )}
         />
       </div>
-      <div className="formgrid gird mb-4">
-        <div className="field flex flex-column">
+      <div className="mb-4 formgrid gird">
+        <div className="flex field flex-column">
           <label htmlFor="title">Job Title</label>
           <Controller
             name="title"
@@ -118,8 +118,8 @@ function JobForm(props) {
           {getFormErrorMessage('title')}
         </div>
       </div>
-      <div className="formgrid grid mb-2">
-        <div className="field col flex flex-column">
+      <div className="mb-2 formgrid grid">
+        <div className="flex field col flex-column">
           <label htmlFor="contract-type">Contract Type</label>
           <Controller
             name="employment_contract_type_id"
@@ -138,7 +138,7 @@ function JobForm(props) {
           />
           {getFormErrorMessage('salaryType')}
         </div>
-        <div className="field col flex flex-column">
+        <div className="flex field col flex-column">
           <label htmlFor="salary">Salary</label>
           <Controller
             name="salary"
@@ -158,7 +158,7 @@ function JobForm(props) {
           />
           {getFormErrorMessage('salary')}
         </div>
-        <div className="field col flex flex-column">
+        <div className="flex field col flex-column">
           <label htmlFor="salary-type">Salary Type</label>
           <Controller
             name="salary_type_id"
@@ -178,8 +178,8 @@ function JobForm(props) {
           {getFormErrorMessage('salaryType')}
         </div>
       </div>
-      <div className="formgrid grid mb-4">
-        <div className="col field flex flex-column">
+      <div className="mb-4 formgrid grid">
+        <div className="flex col field flex-column">
           <label htmlFor="locations-select" className="block">
             Locations
           </label>
@@ -201,7 +201,7 @@ function JobForm(props) {
           />
           {getFormErrorMessage('locations')}
         </div>
-        <div className="col field flex flex-column">
+        <div className="flex col field flex-column">
           <label htmlFor="categories-select" className="block">
             Job Categories
           </label>
@@ -224,8 +224,8 @@ function JobForm(props) {
           {getFormErrorMessage('categories')}
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field flex-column">
           <label htmlFor="job-description">Job Description</label>
           <Controller
             name="description"
@@ -246,8 +246,8 @@ function JobForm(props) {
           {getFormErrorMessage('description')}
         </div>
       </div>
-      <div className="formgrid grid mb-2">
-        <div className="field flex flex-column w-full">
+      <div className="mb-2 formgrid grid">
+        <div className="flex w-full field flex-column">
           <label htmlFor="application-deadline">Application deadline</label>
           <Controller
             name="deadline"
@@ -271,8 +271,8 @@ function JobForm(props) {
           {getFormErrorMessage('deadline')}
         </div>
       </div>
-      <div className="formgrid grid mb-2">
-        <div className="field flex flex-column w-full">
+      <div className="mb-2 formgrid grid">
+        <div className="flex w-full field flex-column">
           <Button
             label="Submit"
             loading={props.loading}

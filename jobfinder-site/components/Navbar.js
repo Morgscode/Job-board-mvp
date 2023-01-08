@@ -60,7 +60,7 @@ export default function Navbar(props) {
       <div className="py-1">
         <button
           onClick={logout}
-          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+          className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
         >
           Sign out
         </button>
@@ -142,11 +142,11 @@ export default function Navbar(props) {
               <div
                 ref={accountNav}
                 id="dropdownNavbar"
-                className="z-10 hidden relative md:absolute w-full md:w-auto font-normal bg-white divide-y divide-gray-100 md:rounded md:shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600"
+                className="relative z-10 hidden w-full font-normal bg-white md:absolute md:w-auto divide-y divide-gray-100 md:rounded md:shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600"
                 onMouseLeave={() => setAccountMenuActive(false)}
               >
                 <ul
-                  className="py-1 text-sm text-gray-700 w-full md:w-auto dark:text-gray-400"
+                  className="w-full py-1 text-sm text-gray-700 md:w-auto dark:text-gray-400"
                   aria-labelledby="dropdownLargeButton"
                 >
                   {links()}

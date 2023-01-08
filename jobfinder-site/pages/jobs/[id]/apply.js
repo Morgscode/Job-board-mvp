@@ -95,7 +95,7 @@ export default function Apply(props) {
         <React.Fragment>
           {toolbar()}
           <ReactQuill
-            className="text-gray-900 dark:text-white rounded-lg"
+            className="text-gray-900 rounded-lg dark:text-white"
             theme="snow"
             value={coverLetter}
             onChange={setCoverLetter}
@@ -211,12 +211,12 @@ export default function Apply(props) {
     <section className="pt-8 pb-8">
       <div className="max-w-[1000px] mx-auto block w-full p-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
         <form className="p-2 md:p-8" onSubmit={handleJobApplication}>
-          <h1 className="text-4xl text-gray-900 dark:text-white mb-6">
+          <h1 className="mb-6 text-4xl text-gray-900 dark:text-white">
             Apply for the {props.job.title} role
           </h1>
           {displayFormSubmitState()}
           <div id="cv-upload" className="mb-8">
-            <h2 className="text-xl text-gray-900 dark:text-white mb-6">
+            <h2 className="mb-6 text-xl text-gray-900 dark:text-white">
               Please upload your cv
             </h2>
             <div
@@ -234,7 +234,7 @@ export default function Apply(props) {
             {fieldErrorMessage('cv')}
           </div>
           <div id="cover-letter" className="mb-8">
-            <h2 className="text-xl text-gray-900 dark:text-white mb-6">
+            <h2 className="mb-6 text-xl text-gray-900 dark:text-white">
               Please write a covering letter for this application
             </h2>
             {editor()}

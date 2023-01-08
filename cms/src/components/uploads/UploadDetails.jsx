@@ -29,7 +29,7 @@ function UploadDetails(props) {
   return (
     <React.Fragment>
       <div className="formgrid grid">
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="title">File nicename</label>
           <Controller
             name="title"
@@ -45,7 +45,7 @@ function UploadDetails(props) {
           />
           {getFormErrorMessage('title')}
         </div>
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="name">Filesystem name</label>
           <Controller
             name="name"
@@ -63,7 +63,7 @@ function UploadDetails(props) {
         </div>
       </div>
       <div className="formgrid grid">
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="location">Location</label>
           <Controller
             name="path"
@@ -79,7 +79,7 @@ function UploadDetails(props) {
           />
           {getFormErrorMessage('path')}
         </div>
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="mimetype">File mimetype</label>
           <Controller
             name="mimetype"
@@ -97,7 +97,7 @@ function UploadDetails(props) {
         </div>
       </div>
       <div className="formgrid grid">
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="upload-date">Upload date</label>
           <Controller
             name="createdAt"
@@ -113,7 +113,7 @@ function UploadDetails(props) {
           />
           {getFormErrorMessage('createdAt')}
         </div>
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="last-updated">last modified</label>
           <Controller
             name="updatedAt"

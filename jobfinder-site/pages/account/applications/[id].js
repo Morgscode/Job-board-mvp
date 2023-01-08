@@ -77,7 +77,7 @@ export default function JobApplication(props) {
         <React.Fragment>
           {toolbar()}
           <ReactQuill
-            className="text-gray-900 dark:text-white rounded-lg"
+            className="text-gray-900 rounded-lg dark:text-white"
             theme="snow"
             value={props.application.cover_letter}
             format={formats}
@@ -119,22 +119,22 @@ export default function JobApplication(props) {
     <div className="flex flex-col md:flex-row">
       <AccountSideBar user={props.user} />
       <div className="flex-1 p-2 md:p-8">
-        <h1 className="text-5xl dark:text-white text-gray-900 mb-6">
+        <h1 className="mb-6 text-5xl text-gray-900 dark:text-white">
           Application for {props.job.title}
         </h1>
         <div className="block w-full p-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-col md:flex-row">
-            <article className="mr-auto flex-1">
-              <h2 className="dark:text-white text-gray-900 text-2xl mb-6">
+            <article className="flex-1 mr-auto">
+              <h2 className="mb-6 text-2xl text-gray-900 dark:text-white">
                 Application status: {statusText()}
               </h2>
-              <h2 className="dark:text-white text-gray-900 text-2xl mb-6">
+              <h2 className="mb-6 text-2xl text-gray-900 dark:text-white">
                 Application date:{' '}
                 <span className="font-medium">
                   {moment(props.application.createdAt).format('DD-MM-YYYY')}
                 </span>
               </h2>
-              <h2 className="dark:text-white text-gray-900 text-2xl mb-4">
+              <h2 className="mb-4 text-2xl text-gray-900 dark:text-white">
                 Covering Letter:
               </h2>
               <div>{editor()}</div>

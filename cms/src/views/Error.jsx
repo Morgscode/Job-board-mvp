@@ -6,11 +6,11 @@ export default function ErrorPage() {
 
   return (
     <div id="h-full w-full flex-col align-items-center justify-content-center">
-      <div className="text-center pt-8">
+      <div className="pt-8 text-center">
         <i className="pi pi-times-circle text-8xl text-500"></i>
-        <h1 className="text-center text-5xl text-500">Error</h1>
-        <p className="text-center text-4xl text-500">Something went wrong :(</p>
-        <p className="text-center text-xl text-red-300">
+        <h1 className="text-5xl text-center text-500">Error</h1>
+        <p className="text-4xl text-center text-500">Something went wrong :(</p>
+        <p className="text-xl text-center text-red-300">
           <i>{error.statusText || error.message}</i>
         </p>
       </div>

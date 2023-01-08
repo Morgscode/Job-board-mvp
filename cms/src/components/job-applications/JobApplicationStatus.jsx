@@ -17,7 +17,7 @@ function JobApplicationStatus(props) {
   }, [values]);
 
   return (
-    <form className="field col flex flex-column" onSubmit={handleSubmit(props.handleStatusChange)}>
+    <form className="flex field col flex-column" onSubmit={handleSubmit(props.handleStatusChange)}>
       <label htmlFor="application-status">Current Application Status</label>
       <div className="p-inputgroup">
         <Controller

@@ -65,7 +65,7 @@ export default function EditAccount(props) {
     console.log(user);
     try {
       await meService.update(user);
-      await axios.post('/api/authRefresh');
+      await axios.post('/api/me');
       setFormSubmitState({
         error: false,
         message: 'User updated.',
@@ -77,25 +77,25 @@ export default function EditAccount(props) {
         message: error.response.data.message,
         classes: 'text-2xl mb-8 text-red-600',
       });
-    }
+    } 
   }
 
   return (
     <div className="flex flex-col md:flex-row">
-      <AccountSideBar user={props.user} />
+      <AccountSideBar user={props.user} /> 
       <div className="flex-1 p-2 md:p-8">
-        <h1 className="text-4xl mb-6 dark:text-white text-gray-900">
+        <h1 className="mb-6 text-4xl text-gray-900 dark:text-white">
           Update your account
         </h1>
-        <form
+        <form 
           onSubmit={handleSubmit(updateUser)}
           className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
         >
           {displayFormSubmitState()}
-          <div className="grid md:grid-cols-2 gap-8 mb-6">
+          <div className="mb-6 grid gap-8 md:grid-cols-2">
             <div className="mb-3">
               <label
-                htmlFor="title"
+                htmlFor="title" 
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Title

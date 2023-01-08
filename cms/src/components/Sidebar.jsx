@@ -112,7 +112,7 @@ function Sidebar(props) {
   }
 
   return (
-    <MegaMenu className="h-full w-full" model={sidebarModel()} orientation="vertical" />
+    <MegaMenu className="w-full h-full" model={sidebarModel()} orientation="vertical" />
   );
 }
 

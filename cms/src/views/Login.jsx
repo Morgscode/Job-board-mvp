@@ -28,7 +28,7 @@ function Login() {
   }
 
   return (
-    <div className="login w-full h-full flex flex-column align-items-center justify-content-center">
+    <div className="flex w-full h-full login flex-column align-items-center justify-content-center">
       <h2 className="text-4xl font-semibold">OJB Admin Login</h2>
       <LoginForm login={login} />
     </div>

@@ -64,7 +64,7 @@ function FileDownload(props) {
     return (
       <React.Fragment>
         <div className="formgrid grid">
-          <div className="field col flex flex-column w-full">
+          <div className="flex w-full field col flex-column">
             <label htmlFor="cv-title">{props.label || 'Upload'}</label>
             <div className="p-inputgroup">
               <Controller

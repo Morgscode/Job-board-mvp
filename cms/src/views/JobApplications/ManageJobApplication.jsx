@@ -108,10 +108,10 @@ function ManageJobApplication() {
   return (
     <div>
       <h1 className="font-normal">Manage job application</h1>
-      <div className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1">
+      <div className="flex w-full p-6 border-solid border-round border-1 border-gray-50 flex-column shadow-1">
         {/* <Toolbar className="mb-5" right={actions} /> */}
-        <h2 className="font-normal mb-6">Application Details</h2>
-        <div className="p-3 surface-200 mb-6 border-solid border-1 border-gray-100 border-round">
+        <h2 className="mb-6 font-normal">Application Details</h2>
+        <div className="p-3 mb-6 border-gray-100 border-solid surface-200 border-1 border-round">
           <JobApplicationStatus application={application} statuses={statuses} handleStatusChange={updateApplicationStatus} loading={loading} />
         </div>
         <UserDetails user={user} disabled />

@@ -32,13 +32,13 @@ function LoginForm(props) {
   return (
     <div className="flex align-items-center justify-content-center">
       <form
-        className="p-8 border-round border-gray-50 border-solid border-1 shadow-1"
+        className="p-8 border-solid border-round border-gray-50 border-1 shadow-1"
         onSubmit={handleFormSubmit}
       >
         <label className="block mb-2" htmlFor="email">
           Email
         </label>
-        <div className="p-inputgroup mb-5">
+        <div className="mb-5 p-inputgroup">
           <span className="p-inputgroup-addon">
             <i className="pi pi-user"></i>
           </span>
@@ -51,7 +51,7 @@ function LoginForm(props) {
         <label className="block mb-2" htmlFor="password">
           Password
         </label>
-        <div className="p-inputgroup mb-3">
+        <div className="mb-3 p-inputgroup">
           <span className="p-inputgroup-addon">
             <i className="pi pi-lock"></i>
           </span>

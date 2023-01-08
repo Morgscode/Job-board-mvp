@@ -4,14 +4,11 @@ import { http } from '../../services/http';
 import meService from '../../services/meService';
 
 async function handler(req, res) {
-  const { user, jwt } = req.session;
+  const { jwt } = req.session;
 
-  if (!user) {
-    console.log('runs');
+  if (!jwt) {
     return res.status(401).json({ data: { message: 'not authroized' } });
   }
-
-  http.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 
   try {
     const details = await meService.index(jwt);

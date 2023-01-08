@@ -55,11 +55,11 @@ function ManageUpload(props) {
   return (
     <div>
       <h1 className="font-normal">Manage upload</h1>
-      <form className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6 shadow-1">
-        <h3 className="font-normal mb-6">Upload details</h3>
+      <form className="flex w-full p-6 border-solid border-round border-1 border-gray-50 flex-column shadow-1">
+        <h3 className="mb-6 font-normal">Upload details</h3>
         <FileDownload file={upload} />
         <UploadDetails upload={upload} disabled />
-        <h3 className="font-normal mb-6">User details</h3>
+        <h3 className="mb-6 font-normal">User details</h3>
         <UserDetails user={user} disabled />
       </form>
       <Toast ref={toast} />

@@ -38,8 +38,8 @@ function JobApplicationDetails(props) {
 
   return (
     <React.Fragment>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="job-title">Position applied for</label>
           <Controller
             name="job.title"
@@ -50,11 +50,11 @@ function JobApplicationDetails(props) {
           />
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field col flex-column">
           <FileDownload file={props.cv} />
         </div>
-        <div className="field col flex flex-column w-full">
+        <div className="flex w-full field col flex-column">
           <label htmlFor="cover-letter">Application Date</label>
           <Controller
             name="application.createdAt"
@@ -73,8 +73,8 @@ function JobApplicationDetails(props) {
           />
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field col flex flex-column w-half">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex field col flex-column w-half">
           <label htmlFor="cover-letter">Cover Letter</label>
           <Controller
             name="application.cover_letter"

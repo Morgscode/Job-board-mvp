@@ -55,16 +55,16 @@ export default function Applications(props) {
     props.applications.map((application) => (
       <div
         key={application.id}
-        className="block w-full p-8 bg-gray mb-4 border border-gray-200 rounded-lg shadow-md dark:bg-gray-600 dark:border-gray-700 flex items-start"
+        className="flex items-start block w-full p-8 mb-4 border border-gray-200 rounded-lg shadow-md bg-gray dark:bg-gray-600 dark:border-gray-700"
       >
         <div>
-          <p className="text-white font-medium text-2xl mb-3">
+          <p className="mb-3 text-2xl font-medium text-white">
             Job Title: {application.job.title}
           </p>
-          <p className="text-white mb-3">
+          <p className="mb-3 text-white">
             Date applied: {moment(application.createdAt).format('DD-MM-YYYY')}
           </p>
-          <p className="text-white mb-3">
+          <p className="mb-3 text-white">
             Application Status:{' '}
             <span className="font-semibold">
               {getApplicationStatus(application.job_application_status_id)}
@@ -87,7 +87,7 @@ export default function Applications(props) {
     <div className="flex flex-col md:flex-row">
       <AccountSideBar user={props.user} />
       <div className="flex-1 p-2 md:p-8">
-        <h1 className="text-5xl dark:text-white text-gray-900 mb-6">
+        <h1 className="mb-6 text-5xl text-gray-900 dark:text-white">
           Your job applications
         </h1>
         <div className="block w-full p-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">

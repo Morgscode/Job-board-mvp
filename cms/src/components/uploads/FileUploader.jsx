@@ -55,7 +55,7 @@ function FileUploader(props) {
 
   const itemTemplate = (file, props) => {
     return (
-      <div className="flex align-items-center flex-wrap">
+      <div className="flex flex-wrap align-items-center">
         <div className="flex align-items-center" style={{ width: '40%' }}>
           <img
             alt={file.name}
@@ -63,7 +63,7 @@ function FileUploader(props) {
             src={file.objectURL}
             width={100}
           />
-          <span className="flex flex-column text-left ml-3">
+          <span className="flex ml-3 text-left flex-column">
             {file.name}
             <small>{new Date().toLocaleDateString()}</small>
           </span>
@@ -76,7 +76,7 @@ function FileUploader(props) {
         <Button
           type="button"
           icon="pi pi-times"
-          className="p-button-outlined p-button-rounded p-button-danger ml-auto"
+          className="ml-auto p-button-outlined p-button-rounded p-button-danger"
           onClick={() => onRemove(file, props.onRemove)}
         />
       </div>
@@ -87,7 +87,7 @@ function FileUploader(props) {
     return (
       <div className="flex align-items-center flex-column">
         <i
-          className="pi pi-image mt-3 p-5"
+          className="p-5 mt-3 pi pi-image"
           style={{
             fontSize: '5em',
             borderRadius: '50%',

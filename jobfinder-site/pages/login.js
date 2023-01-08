@@ -22,7 +22,7 @@ export default function Login() {
 
   function displayFormSubmitState() {
     return (
-      formSubmitState && (
+      formSubmitState && ( 
         <p role="alert" className={formSubmitState.classes}>
           {formSubmitState.message}
         </p>
@@ -49,10 +49,10 @@ export default function Login() {
 
   return (
     <section className="pt-8 pb-8">
-     <h1 className='text-6xl mb-6 font-medium text-gray-900 dark:text-white'>Login to apply for jobs</h1>
+     <h1 className='mb-6 text-6xl font-medium text-gray-900 dark:text-white'>Login to apply for jobs</h1>
       <form onSubmit={handleSubmit(loginUser)} className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
       {displayFormSubmitState()}
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid gap-8 md:grid-cols-2">
           <div className="mb-4">
             <label
               htmlFor="email"

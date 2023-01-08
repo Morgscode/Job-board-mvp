@@ -28,7 +28,7 @@ export default function Account(props) {
     <div className="flex flex-col md:flex-row">
       <AccountSideBar user={props.user} />
       <div className="flex-1 p-2 md:p-8">
-        <h1 className="text-5xl dark:text-white text-gray-900">
+        <h1 className="text-5xl text-gray-900 dark:text-white">
           Welcome back, {props.user.first_name}
         </h1>
       </div>

@@ -2,7 +2,7 @@ import { Panel } from 'primereact/panel';
 
 function Dashboard() {
   return (
-    <div className="Dashboard w-full">
+    <div className="w-full Dashboard">
       <Panel header="Welcome to the dashboard">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

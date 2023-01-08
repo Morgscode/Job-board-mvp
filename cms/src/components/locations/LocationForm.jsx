@@ -67,11 +67,11 @@ function LocationForm(props) {
 
   return (
     <form
-      className="border-round border-solid border-1 border-gray-50 w-full flex flex-column p-6  shadow-1"
+      className="flex w-full p-6 border-solid border-round border-1 border-gray-50 flex-column  shadow-1"
       onSubmit={handleSubmit(submit)}
     >
-      <div className="formgrid gird mb-4">
-        <div className="field flex flex-column">
+      <div className="mb-4 formgrid gird">
+        <div className="flex field flex-column">
           <label htmlFor="name">Name</label>
           <Controller
             name="name"
@@ -89,8 +89,8 @@ function LocationForm(props) {
           {getFormErrorMessage('name')}
         </div>
       </div>
-      <div className="formgrid grid mb-4 pb-4">
-        <div className="field flex flex-column w-full">
+      <div className="pb-4 mb-4 formgrid grid">
+        <div className="flex w-full field flex-column">
           <label htmlFor="location-description">Description</label>
           <Controller
             name="description"
@@ -111,8 +111,8 @@ function LocationForm(props) {
           {getFormErrorMessage('description')}
         </div>
       </div>
-      <div className="formgrid grid mb-2">
-        <div className="field flex flex-column w-full">
+      <div className="mb-2 formgrid grid">
+        <div className="flex w-full field flex-column">
           <Button
             label="Submit"
             loading={props.loading}
