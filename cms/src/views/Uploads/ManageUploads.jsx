@@ -15,16 +15,25 @@ function ManageUploads() {
   const navigate = useNavigate();
   const [selectedUploads, setSelectedUploads] = useState([]);
 
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const uploads = useSelector((state) => state.uploads.data);
   useEffect(() => {
     async function getUploads() {
-      const uploads = await uploadService.index();
-      dispatch(setUploads(uploads));
+      try {
+        const uploads = await uploadService.index();
+        if (uploads instanceof Array) {
+          dispatch(setUploads(uploads));
+        }
+        setRequestSuccess(true);
+      } catch (error) {
+        setRequestSuccess(false);
+        console.error(error);
+      }
     }
-    if (uploads.length === 0) {
+    if (uploads.length === 0 && !requestSuccess) {
       getUploads();
     }
-  }, [uploads]);
+  }, [uploads, requestSuccess]);
 
   async function deleteUploadById(job) {
     try {

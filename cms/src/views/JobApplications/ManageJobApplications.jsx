@@ -21,19 +21,28 @@ import useManageResource from '../../utils/manageResource';
 function ManageJobApplications() {
   const toast = useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [selectedApplications, setSelectedApplications] = useState([]);
 
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const applications = useSelector((state) => state.jobApplications.data);
   useEffect(() => {
     async function getApplications() {
-      const applications = await jobApplicationService.index();
-      dispatch(setApplications(applications));
+      try {
+        const applications = await jobApplicationService.index();
+        if (applications instanceof Array) {
+          dispatch(setApplications(applications));
+        }
+        setRequestSuccess(true);
+      } catch (error) {
+        setRequestSuccess(false);
+        console.error(error);
+      }
     }
-    if (applications.length === 0) {
+    if (applications.length === 0 && !requestSuccess) {
       getApplications();
     }
-  }, [applications]);
+  }, [applications, requestSuccess]);
+
 
   const statuses = useSelector((state) => state.jobApplicationStatuses.data);
   useEffect(() => {
@@ -84,7 +93,11 @@ function ManageJobApplications() {
     }
   }
 
-  const [manageApplication, setManageApplication] =  useManageResource('job-applications', 'manage', deleteApplicationById);
+  const [manageApplication, setManageApplication] = useManageResource(
+    'job-applications',
+    'manage',
+    deleteApplicationById
+  );
 
   const actions = (
     <React.Fragment>

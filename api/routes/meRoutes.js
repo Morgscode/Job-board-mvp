@@ -12,14 +12,10 @@ router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
 router.use(catchAsync(roles.jobBoardUser));
 
-router.route('/')
-.get(controller._index)
-.put(controller._update);
+router.route('/').get(controller._index).put(controller._update);
 
-router.route('/job-applications')
-.get(controller.getJobApplications);
+router.route('/job-applications').get(controller.getJobApplications);
 
-router.route('/uploads')
-.get(controller.getFileUploads);
+router.route('/uploads').get(controller.getFileUploads);
 
 module.exports = router;

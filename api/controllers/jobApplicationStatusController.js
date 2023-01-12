@@ -17,7 +17,10 @@ const _index = catchAsync(async function (req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    data: { statuses },
+    data: { 
+      statuses, 
+      totalRecords: await model.JobApplicationStatus.count() 
+    },
   });
 });
 
@@ -75,7 +78,7 @@ const _update = catchAsync(async function (req, res, next) {
     .status(200)
     .json({
       status: 'success',
-      data: { status: await record.reload().toJSON() },
+      data: { status: (await record.reload()).toJSON() },
     });
 });
 

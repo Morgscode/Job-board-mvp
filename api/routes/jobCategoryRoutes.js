@@ -7,24 +7,18 @@ const controller = require('../controllers/jobCategoryController');
 
 const router = express.Router();
 
-router.route('/')
-.get(controller._index)
+router.route('/').get(controller._index);
 
-router.route('/:id')
-.get(controller._find);
+router.route('/:id').get(controller._find);
 
-router.route('/jobs/:id')
-.get(controller.findByJobId);
+router.route('/jobs/:id').get(controller.findByJobId);
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
 router.use(catchAsync(roles.jobBoardRecruiter));
 
-router.route('/')
-.post(controller._create);
+router.route('/').post(controller._create);
 
-router.route('/:id')
-.put(controller._update)
-.delete(controller._delete);
- 
+router.route('/:id').put(controller._update).delete(controller._delete);
+
 module.exports = router;

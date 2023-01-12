@@ -2,7 +2,7 @@
 
 This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
-## TODOS
+## TODOS 
 
 1. better host selection in http services for docker container setup
 2. setup admin datatables for pagination

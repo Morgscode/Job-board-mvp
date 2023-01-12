@@ -17,16 +17,25 @@ function ManageLocations() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const locations = useSelector((state) => state.locations.data);
   useEffect(() => {
     async function getLocations() {
-      const locations = await locationService.index();
-      dispatch(setLocations(locations));
+      try {
+        const locations = await locationService.index();
+        if (locations instanceof Array) {
+          dispatch(setLocations(locations));
+        }
+        setRequestSuccess(true);
+      } catch (error) {
+        setRequestSuccess(false);
+        console.error(error);
+      }
     }
-    if (locations.length === 0) {
+    if (locations.length === 0 && !requestSuccess) {
       getLocations();
     }
-  }, [locations]);
+  }, [locations, requestSuccess]);
 
   async function deleteLocationById(job) {
     try {
@@ -41,7 +50,11 @@ function ManageLocations() {
     }
   }
 
-  const [manageLocation, setManageLocation] = useManageResource('locations', 'edit', deleteLocationById);
+  const [manageLocation, setManageLocation] = useManageResource(
+    'locations',
+    'edit',
+    deleteLocationById
+  );
 
   const actions = (
     <React.Fragment>

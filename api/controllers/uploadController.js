@@ -20,6 +20,7 @@ const _index = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       uploads,
+      totalRecords: await FileUpload.count(),
     },
   });
 });

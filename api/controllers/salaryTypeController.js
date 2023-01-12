@@ -17,7 +17,10 @@ const _index = catchAsync(async function (req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    data: { salaryTypes },
+    data: { 
+      salaryTypes, 
+      totalRecords: await model.SalaryType.count() 
+    },
   });
 });
 

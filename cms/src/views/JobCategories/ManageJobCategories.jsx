@@ -17,22 +17,42 @@ function ManageJobCategories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const categories = useSelector((state) => state.jobCategories.data);
   useEffect(() => {
     async function getCategories() {
-      const categories = await jobCategoryService.index();
-      dispatch(setCategories(categories));
+      try {
+        const categories = await jobCategoryService.index();
+        if (categories instanceof Array) {
+          dispatch(setCategories(categories));
+        }
+        setRequestSuccess(true);
+      } catch (error) {
+        setRequestSuccess(false);
+        console.error(error);
+      }
     }
-    if (categories.length === 0) {
+    if (categories.length === 0 && !requestSuccess) {
       getCategories();
     }
-  }, [categories]);
+  }, [categories, requestSuccess]);
+
+  const jobs = useSelector((state) => state.jobs.data);
+  useEffect(() => {
+    async function getJobs() {}
+    if (jobs.length === 0 && !requestSuccess) {
+      getJobs();
+    }
+  }, [jobs, requestSuccess]);
 
   async function deleteCategoryById(job) {
     try {
       await jobCategoryService.delete(job.id);
       dispatch(deleteCategory(job.id));
-      toast.current.show({ severity: 'success', summary: 'Job category deleted' });
+      toast.current.show({
+        severity: 'success',
+        summary: 'Job category deleted',
+      });
     } catch (error) {
       toast.current.show({
         severity: 'error',
@@ -41,8 +61,12 @@ function ManageJobCategories() {
     }
   }
 
-  const [manageCategory, setManageCategory] = useManageResource('job-categories', 'edit', deleteCategoryById);
- 
+  const [manageCategory, setManageCategory] = useManageResource(
+    'job-categories',
+    'edit',
+    deleteCategoryById
+  );
+
   const actions = (
     <React.Fragment>
       <Button

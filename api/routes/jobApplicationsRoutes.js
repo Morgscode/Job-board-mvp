@@ -7,35 +7,34 @@ const auth = require('../middleware/authentication');
 const controller = require('../controllers/jobApplicationController');
 
 const router = express.Router();
-const upload = multer({dest: `${process.env.UPLOADS_DIR}/cv`});
+const upload = multer({ dest: `${process.env.UPLOADS_DIR}/cv` });
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
 
-router.route('/')
-.post(catchAsync(roles.jobBoardUser))
-.post(upload.single('cv'), controller._create);
+router
+  .route('/')
+  .post(catchAsync(roles.jobBoardUser))
+  .post(upload.single('cv'), controller._create);
 
 router.use(catchAsync(roles.jobBoardRecruiter));
 
-router.route('/')
-.get(controller._index);
+router.route('/').get(controller._index);
 
-router.route('/:id/withdraw')
-.put(controller.withdraw);
+router.route('/:id/withdraw').put(controller.withdraw);
 
-router.route('/:id')
-.get(controller._find)
-.put(controller._update)
-.delete(controller._delete);
+router
+  .route('/:id')
+  .get(controller._find)
+  .put(controller._update)
+  .delete(controller._delete);
 
-router.route('/jobs/:id')
-.get(controller.findByJobId);
+router.route('/jobs/:id').get(controller.findByJobId);
 
-router.route('/users/:id')
-.get(controller.findByUserId);
+router.route('/users/:id').get(controller.findByUserId);
 
-router.route('/job-application-statuses/:id')
-.get(controller.findByJobApplicationStatusId);
+router
+  .route('/job-application-statuses/:id')
+  .get(controller.findByJobApplicationStatusId);
 
 module.exports = router;

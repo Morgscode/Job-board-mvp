@@ -4,7 +4,7 @@ const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/userModel');
 const auth = require('../utils/auth');
 const mailer = require('../utils/mailer');
- 
+
 const _index = catchAsync(async function (req, res, next) {
   const users = await model.User.findAll({
     attributes: req.sql.attributes,
@@ -16,8 +16,14 @@ const _index = catchAsync(async function (req, res, next) {
     return next(new NotFoundError('users not found'));
   }
 
-  const apiUsers = users.map(user => model.apiUser(user.toJSON()));
-  res.status(200).json({ status: 'success', data: { users: apiUsers } });
+  const apiUsers = users.map((user) => model.apiUser(user.toJSON()));
+  res.status(200).json({
+    status: 'success',
+    data: {
+      users: apiUsers,
+      totalRecords: await model.User.count(),
+    },
+  });
 });
 
 const _find = catchAsync(async function (req, res, next) {
@@ -28,7 +34,9 @@ const _find = catchAsync(async function (req, res, next) {
     return next(new NotFoundError('user not found'));
   }
 
-  res.status(200).json({ status: 'success', data: { user: model.apiUser(user.toJSON()) }});
+  res
+    .status(200)
+    .json({ status: 'success', data: { user: model.apiUser(user.toJSON()) } });
 });
 
 const _create = catchAsync(async function (req, res, next) {
@@ -57,7 +65,7 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to create newUser', 500, false));
   }
 
-  // set verify token 
+  // set verify token
   const verify = auth.createAppToken();
   newUser.email_verify_token = verify.hash;
   await newUser.save();
@@ -88,12 +96,15 @@ const _update = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to update user', 500, false));
   }
 
-  res.status(200).json({ status: 'success', data: { user: model.apiUser(record.toJSON()) } });
+  res.status(200).json({
+    status: 'success',
+    data: { user: model.apiUser(record.toJSON()) },
+  });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
   const { id } = req.params;
-  const user = await model.User.findOne({where: { id, }});
+  const user = await model.User.findOne({ where: { id } });
   if (!user) {
     return next(new NotFoundError('user not found'));
   }

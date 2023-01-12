@@ -20,7 +20,10 @@ const _index = catchAsync(async function (req, res, next) {
   }
   res.status(200).json({
     status: 'success',
-    data: { applications },
+    data: {
+      applications,
+      totalRecords: await model.JobApplication.count(),
+    },
   });
 });
 
@@ -99,12 +102,10 @@ const _update = catchAsync(async function (req, res, next) {
     await record.setJobApplicationStatus(job_application_status_id);
   }
 
-  res
-    .status(200)
-    .json({
-      status: 'success',
-      data: { application: await record.reload().toJSON() },
-    });
+  res.status(200).json({
+    status: 'success',
+    data: { application: (await record.reload()).toJSON() },
+  });
 });
 
 const _delete = catchAsync(async function (req, res, next) {

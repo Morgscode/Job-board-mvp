@@ -7,33 +7,35 @@ const auth = require('../middleware/authentication');
 const controller = require('../controllers/uploadController');
 
 const router = express.Router();
-const upload = multer({dest: process.env.UPLOADS_DIR});
+const upload = multer({ dest: process.env.UPLOADS_DIR });
 
 router.use(catchAsync(auth.protect));
 router.use(catchAsync(auth.emailVerified));
 
-router.route('/:id')
-.get(catchAsync(roles.jobBoardUser), controller._find);
+router.route('/:id').get(catchAsync(roles.jobBoardUser), controller._find);
 
-router.route('/:id/download')
-.get(catchAsync(roles.jobBoardRecruiter), controller.download);
+router
+  .route('/:id/download')
+  .get(catchAsync(roles.jobBoardRecruiter), controller.download);
 
-router.route('/users/:id')
-.get(catchAsync(roles.jobBoardUser), controller.findByUserId);
+router
+  .route('/users/:id')
+  .get(catchAsync(roles.jobBoardUser), controller.findByUserId);
 
-router.route('/')
-.post(catchAsync(roles.jobBoardUser), upload.array('uploads', 10), controller._create);
+router
+  .route('/')
+  .post(
+    catchAsync(roles.jobBoardUser),
+    upload.array('uploads', 10),
+    controller._create
+  );
 
 router.use(catchAsync(roles.jobBoardRecruiter));
 
-router.route('/')
-.get(controller._index);
+router.route('/').get(controller._index);
 
-router.route('/:id')
-.put(controller._update) 
-.delete(controller._delete);
+router.route('/:id').put(controller._update).delete(controller._delete);
 
-router.route('/job-applications/:id')
-.get(controller.findByJobApplicationId);
- 
+router.route('/job-applications/:id').get(controller.findByJobApplicationId);
+
 module.exports = router;

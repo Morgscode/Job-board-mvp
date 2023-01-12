@@ -19,11 +19,18 @@ const _index = catchAsync(async function (req, res, next) {
     order: req.sql.order,
     ...req.pagination,
   });
+
   if (!jobs) {
     return next(new NotFoundError('jobs not found'));
   }
 
-  res.status(200).json({ status: 'success', data: { jobs } });
+  res.status(200).json({
+    status: 'success',
+    data: { 
+      jobs, 
+      totalRecords: await model.Job.count()
+    },
+  });
 });
 
 const _find = catchAsync(async function (req, res, next) {
@@ -173,9 +180,10 @@ const _update = catchAsync(async function (req, res, next) {
     );
   }
 
-  res
-    .status(200)
-    .json({ status: 'success', data: { job: await record.reload().toJSON() } });
+  res.status(200).json({
+    status: 'success',
+    data: { job: (await record.reload()).toJSON() },
+  });
 });
 
 const _delete = catchAsync(async function (req, res, next) {
@@ -359,6 +367,13 @@ const getPost = catchAsync(async function (req, res, next) {
     data: {
       job,
     },
+  });
+});
+
+const count = catchAsync(async function (req, res, next) {
+  res.status(200).json({
+    status: 'success',
+    data: {},
   });
 });
 

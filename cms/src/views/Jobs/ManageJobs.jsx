@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import jobService from '../../services/jobService';
-import { setJobs, deleteJob } from '../../store/features/jobSlice';
+import { setJobs, deleteJob, setPage } from '../../store/features/jobSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
@@ -14,16 +14,38 @@ function ManageJobs() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [requestSuccess, setRequestSuccess] = useState(false);
+  const page = useSelector((state) => state.jobs.page);
+  
+  async function getJobs(page) {
+    try {
+      const jobs = await jobService.index(`?page=${page}`);
+      if (jobs instanceof Array) {
+        dispatch(setJobs(jobs));
+      }
+      setRequestSuccess(true);
+    } catch (error) {
+      setRequestSuccess(false);
+      console.error(error);
+    }
+  }
+
   const jobs = useSelector((state) => state.jobs.data);
   useEffect(() => {
-    async function getJobs() {
-      const jobs = await jobService.index();
-      dispatch(setJobs(jobs));
-    }
-    if (jobs.length === 0) {
+    if (jobs.length === 0 && !requestSuccess) {
       getJobs();
     }
-  }, [jobs]);
+  }, [jobs, requestSuccess]);
+
+  const locations = useSelector((state) => state.locations.data);
+  useEffect(() => {
+    async function getLocations() {
+    
+    }
+    if (locations.length === 0 && !requestSuccess) {
+      getLocations();
+    }
+  }, [locations, requestSuccess]);
 
   async function deleteJobById(job) {
     try {
@@ -54,7 +76,7 @@ function ManageJobs() {
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobLister jobs={jobs} manage={setManageJob} />
+      <JobLister jobs={jobs} manage={setManageJob} page={page} setPage={setPage} />
       <Toast ref={toast} />
     </div>
   );
