@@ -7,8 +7,9 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 1. better host selection in http services for docker container setup
 2. setup admin datatables for pagination
 3. setup jobfinder site for pagination
-4. setup complex email handler with pug templates
-5. setup email templates for 
+4. Build advanced search form
+5. setup complex email handler with pug templates
+6. setup email templates for 
   - ojb user register email
   - ojb user welcome email
   - job application email
@@ -109,8 +110,6 @@ POST: http://localhost:8080/api/v1/register
 
 ## API
 
-- At its core - the ojb api is an express application. This means you can build on top of it like you would any other express application (https://expressjs.com/).
-
 #### SETUP
 
 1. From the root of the monorepo - run `npm i`
@@ -152,8 +151,6 @@ POST: http://localhost:8080/api/v1/register
   3. run the setup script.
 
 ## CMS
-
-- At its core - the ojb cms is a React application. This means you can build on top of it like you would any other React application (https://reactjs.org/).
 
 ### SETUP
 
