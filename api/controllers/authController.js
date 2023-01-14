@@ -8,7 +8,7 @@ const mailer = require('../utils/mailer');
 
 const register = catchAsync(async function (req, res, next) {
   const user = ({ email, first_name, surname, title, middle_names } = req.body);
-  const { password } = req.body;
+  const { password, passwordConfirm } = req.body;
 
   if (!user.email || !password) {
     return next(new AppError(`incomplete signup`, 400));
@@ -16,6 +16,10 @@ const register = catchAsync(async function (req, res, next) {
 
   if (password.length < 8) {
     return next(new AppError(`password must be at least 8 characters`, 400));
+  }
+
+  if (password !== passwordConfirm) {
+    return next(new AppError(`Password must match the confirmation`, 400));
   }
 
   const userExists = await userModel.userEmailExists(user.email);

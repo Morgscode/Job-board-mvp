@@ -8,17 +8,24 @@ import { Button } from 'primereact/button';
 
 function JobLister(props) {
   const [selectedJobs, setSelectedJobs] = useState([]);
-  const [globalFilterValue, setGlobalFilterValue] = useState(''); 
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
-  const onGlobalFilterChange = (e) => {
+  const onGlobalFilterChange = (e) => { 
     const value = e.target.value;
     let _filters = { ...filters };
     _filters['global'].value = value;
     setFilters(_filters);
     setGlobalFilterValue(value);
+  };
+
+
+  const onPage = (event) => {
+    event.page+=1;
+    props.setFirst(event.first);
+    props.setParams(event);
   };
 
   function formatCreatedDate(data) {
@@ -30,7 +37,7 @@ function JobLister(props) {
   }
 
   function formateActive(data) {
-    return data.active== 0 ? 'Hidden' : 'Active';
+    return data.active == 0 ? 'Hidden' : 'Active';
   }
 
   const header = (
@@ -48,7 +55,6 @@ function JobLister(props) {
       </div>
     </React.Fragment>
   );
-
 
   const updateTemplate = (options) => {
     return (
@@ -76,25 +82,39 @@ function JobLister(props) {
     <div className="w-full card">
       <DataTable
         value={props.jobs}
+        lazy
         selection={selectedJobs}
-        onSelectionChange={e => setSelectedJobs(e.value)}
+        onPage={onPage}
+        dataKey="id"
+        first={props.params.first}
+        onSelectionChange={(e) => setSelectedJobs(e.value)}
         filters={filters}
         header={header}
-        className="w-full p-datatable-customers"
-        globalFilterFields={['title', 'deadline', 'createdAt', 'active']}
+        globalFilterFields={['title']}
         responsiveLayout="scroll"
         rows={10}
-        rowsPerPageOptions={[10, 20]}
         paginator
+        totalRecords={props.totalRecords}
+        loading={props.loading}
         rowHover
         emptyMessage="No jobs found."
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       >
-        <Column selectionMode="multiple" selectionAriaLabel="name" headerStyle={{ width: '3em' }}></Column>
+        <Column
+          selectionMode="multiple"
+          selectionAriaLabel="name"
+          headerStyle={{ width: '3em' }}
+        ></Column>
         <Column field="title" filter header="Job Title"></Column>
-        <Column field="active" sortable header="Status" body={formateActive}></Column>
+        <Column
+          field="active"
+          sortable
+          header="Status"
+          body={formateActive}
+        ></Column>
         <Column
           field="createdAt"
-          sortable 
+          sortable
           header="Created"
           body={formatCreatedDate}
         ></Column>

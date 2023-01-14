@@ -13,9 +13,10 @@ function ManageUploads() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const [selectedUploads, setSelectedUploads] = useState([]);
 
-  const [requestSuccess, setRequestSuccess] = useState(false);
   const uploads = useSelector((state) => state.uploads.data);
   useEffect(() => {
     async function getUploads() {

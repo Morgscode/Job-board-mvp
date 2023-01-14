@@ -22,4 +22,3 @@ function useFetchResource(resource_id, schema, service) {
 }
 
 export default useFetchResource;
- 

@@ -5,11 +5,19 @@ export const uploadSlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setUploads: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload;
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload;
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -32,6 +40,15 @@ export const uploadSlice = createSlice({
   },
 });
 
-export const { setUploads, setPage, setSortOrder, addUpload, updateUpload, deleteUpload } = uploadSlice.actions;
+export const {
+  setUploads,
+  setPage,
+  setFirstRow,
+  setTotalRecords,
+  setSortOrder,
+  addUpload,
+  updateUpload,
+  deleteUpload,
+} = uploadSlice.actions;
 
 export default uploadSlice.reducer;

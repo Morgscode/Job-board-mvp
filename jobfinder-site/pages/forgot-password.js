@@ -60,14 +60,13 @@ export default function ForgotPassword() {
   return (
     <section className="pt-8 pb-8">
       <div className="flex flex-col items-center">
-        <h1 className="mb-6 text-2xl font-medium text-gray-900 dark:text-white">
-          Reset your password
-        </h1>
+  
         <form
           onSubmit={handleSubmit(requestPasswordReset)}
           className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md md:w-1/2 dark:bg-gray-800 dark:border-gray-700"
         >
           {displayFormSubmitState()}
+          <h2 className='text-2xl mb-8 text-gray-900 dark:text-white'>Reset your password</h2>
           <div className="grid gap-8">
             <div className="mb-4">
               <label
@@ -88,7 +87,6 @@ export default function ForgotPassword() {
                {fieldErrorMessage('email')}
             </div>
           </div>
-
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

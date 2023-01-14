@@ -5,11 +5,19 @@ export const salaryTypeSlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setSalaryTypes: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload;
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload;
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -32,7 +40,15 @@ export const salaryTypeSlice = createSlice({
   },
 });
 
-export const { setSalaryTypes, setPage, setSortOrder, deleteSalaryType } =
-  salaryTypeSlice.actions;
+export const {
+  setSalaryTypes,
+  setPage,
+  setFirstRow,
+  setTotalRecords,
+  setSortOrder,
+  addSalaryType,
+  updateSalaryType,
+  deleteSalaryType,
+} = salaryTypeSlice.actions;
 
 export default salaryTypeSlice.reducer;

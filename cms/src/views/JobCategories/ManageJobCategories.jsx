@@ -16,8 +16,9 @@ function ManageJobCategories() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+
   const categories = useSelector((state) => state.jobCategories.data);
   useEffect(() => {
     async function getCategories() {

@@ -5,35 +5,53 @@ import locationService from '../../services/locationService';
 import {
   deleteLocation,
   setLocations,
+  setPage,
+  setFirstRow,
+  setTotalRecords,
 } from '../../store/features/locationSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import LocationLister from '../../components/locations/LocationLister';
 import useManageResource from '../../utils/manageResource';
+import useLazyParams from '../../utils/lazyParams';
 
 function ManageLocations() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const totalRecords = useSelector((state) => state.locations.totalRecords);
+  const currentPage = useSelector((state) => state.locations.page);
+  const firstRow = useSelector((state) => state.locations.firstRow);
+
+  function setFirst(row) {
+    dispatch(setFirstRow(row));
+  }
+  
+  function setCurrentPage(page) {
+    dispatch(setPage(page))
+  }
+
+  async function getLocations(page) {
+    try {
+      const locations = await locationService.index(`page=${page}&limit-1`);
+      if (locations instanceof Object) {
+        dispatch(setLocations(locations.locations));
+        dispatch(setTotalRecords(locations.totalRecords));
+      }
+      setRequestSuccess(true);
+    } catch (error) {
+      setRequestSuccess(false);
+      console.error(error);
+    }
+  }
+
   const locations = useSelector((state) => state.locations.data);
   useEffect(() => {
-    async function getLocations() {
-      try {
-        const locations = await locationService.index();
-        if (locations instanceof Array) {
-          dispatch(setLocations(locations));
-        }
-        setRequestSuccess(true);
-      } catch (error) {
-        setRequestSuccess(false);
-        console.error(error);
-      }
-    }
     if (locations.length === 0 && !requestSuccess) {
-      getLocations();
+      getLocations(page);
     }
   }, [locations, requestSuccess]);
 
@@ -55,6 +73,8 @@ function ManageLocations() {
     'edit',
     deleteLocationById
   );
+
+  const [lazyParams, setLazyParams] = useLazyParams(firstRow, currentPage, getLocations, setCurrentPage);
 
   const actions = (
     <React.Fragment>

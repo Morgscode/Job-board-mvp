@@ -67,7 +67,7 @@ export default function Login() {
 
   return (
     <section className="pt-8 pb-8">
-      <h1 className="mb-6 text-6xl font-medium text-gray-900 dark:text-white">
+      <h1 className="mb-12 text-6xl font-medium text-gray-900 dark:text-white">
         Login to apply for jobs
       </h1>
       <form

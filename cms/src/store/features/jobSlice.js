@@ -5,11 +5,19 @@ export const jobSlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setJobs: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload;
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload;
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -32,7 +40,15 @@ export const jobSlice = createSlice({
   },
 });
 
-export const { setJobs, setPage, setSortOrder, addJob, updateJob, deleteJob } =
-  jobSlice.actions;
+export const {
+  setJobs,
+  setTotalRecords,
+  setFirstRow,
+  setPage,
+  setSortOrder,
+  addJob,
+  updateJob,
+  deleteJob,
+} = jobSlice.actions;
 
 export default jobSlice.reducer;

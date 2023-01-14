@@ -5,11 +5,19 @@ export const jobCategorySlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setCategories: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -37,6 +45,8 @@ export const jobCategorySlice = createSlice({
 export const {
   setCategories,
   setPage,
+  setFirstRow,
+  setTotalRecords,
   setSortOrder,
   addCategory,
   updateCategory,

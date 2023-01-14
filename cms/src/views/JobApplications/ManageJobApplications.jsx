@@ -22,8 +22,9 @@ function ManageJobApplications() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const [selectedApplications, setSelectedApplications] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+
   const applications = useSelector((state) => state.jobApplications.data);
   useEffect(() => {
     async function getApplications() {

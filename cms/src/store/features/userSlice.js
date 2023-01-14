@@ -5,11 +5,19 @@ export const userSlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setUsers: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload;
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload;
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -32,6 +40,15 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUsers, setPage, setSortOrder, addUser, updateUser, deleteUser } = userSlice.actions;
+export const {
+  setUsers,
+  setPage,
+  setFirstRow,
+  setTotalRecords,
+  setSortOrder,
+  addUser,
+  updateUser,
+  deleteUser,
+} = userSlice.actions;
 
 export default userSlice.reducer;

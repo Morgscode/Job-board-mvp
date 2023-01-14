@@ -5,11 +5,19 @@ export const jobApplicationStatusSlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setStatuses: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -33,6 +41,8 @@ export const jobApplicationStatusSlice = createSlice({
 export const {
   setStatuses,
   setPage,
+  setFirstRow,
+  setTotalRecords,
   setSortOrder,
   updateStatus,
   deleteStatus,

@@ -14,6 +14,8 @@ function ManageUploads() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
 
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   useEffect(() => {
@@ -22,7 +24,6 @@ function ManageUploads() {
     }
   }, [loggedInUser]);
 
-  const [requestSuccess, setRequestSuccess] = useState(false);
   const users = useSelector((state) => state.users.data);
   useEffect(() => {
     async function getUsers() {

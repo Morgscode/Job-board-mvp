@@ -5,11 +5,19 @@ export const employmentContractTypeSlice = createSlice({
   initialState: {
     data: [],
     page: 1,
+    firstRow: 0,
     sortOrder: 'asc',
+    totalRecords: 0,
   },
   reducers: {
     setContractTypes: (state, action) => {
       state.data = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload;
+    },
+    setFirstRow: (state, action) => {
+      state.firstRow = action.payload;
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -29,6 +37,8 @@ export const employmentContractTypeSlice = createSlice({
 export const {
   setContractTypes,
   setPage,
+  setFirstRow,
+  setTotalRecords,
   setSortOrder,
   addContractType,
   deleteContractType,

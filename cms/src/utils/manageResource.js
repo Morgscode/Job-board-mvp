@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function useManageResource(resource = 'jobs', editPath = 'edit', deleteResourceById) {
+function useManageResource(
+  resource = 'jobs',
+  editPath = 'edit',
+  deleteResourceById
+) {
   const navigate = useNavigate();
 
   const [manageResource, setManageResource] = useState({
@@ -20,8 +24,6 @@ function useManageResource(resource = 'jobs', editPath = 'edit', deleteResourceB
   }, [manageResource]);
 
   return [manageResource, setManageResource];
-
 }
+
 export default useManageResource;
-
-

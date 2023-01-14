@@ -4,7 +4,7 @@ import { user as userSchema } from '../utils/schema';
 import { http } from '../services/http';
 
 export default function Register() {
-  const values = { ...userSchema };
+  const values = { ...userSchema, passwordConfirm: '' };
   const defaultValues = { ...values };
   const [formSubmitState, setFormSubmitState] = useState(false);
   const {
@@ -59,7 +59,7 @@ export default function Register() {
 
   return (
     <section className="pt-8 pb-8">
-      <h1 className="mb-6 text-6xl font-medium text-gray-900 dark:text-white">
+      <h1 className="mb-12 text-6xl font-medium text-gray-900 dark:text-white">
         Register to apply for jobs
       </h1>
       <form
@@ -67,6 +67,7 @@ export default function Register() {
         className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
       >
         {displayFormSubmitState()}
+        <h2 className='text-2xl mb-8 text-gray-900 dark:text-white'>Enter your details</h2>
         <div className="grid gap-8 mb-6 md:grid-cols-2"> 
           <div className="mb-3">
             <label 
@@ -168,7 +169,10 @@ export default function Register() {
             />
             {fieldErrorMessage('middle_names')}
           </div>
-          <div className="mb-3">
+        </div>
+        <h2 className='text-2xl mb-8 text-gray-900 dark:text-white'>Enter and confirm your password</h2>
+        <div className='grid md:grid-cols-2 gap-8'>
+        <div className="mb-3">
             <label
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -189,8 +193,28 @@ export default function Register() {
             />
             {fieldErrorMessage('password')}
           </div>
+          <div className="mb-3">
+            <label
+              htmlFor="password-confirm"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your password
+            </label>
+            <input
+              type="password"
+              id="password-confirm"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              {...register('passwordConfirm', {
+                required: 'Password confirmation is required',
+                minLength: {
+                  value: 8, 
+                  message: "Your password confirmation must be at least 8 characters"
+                },
+              })}
+            />
+            {fieldErrorMessage('passwordConfirm')}
+          </div>
         </div>
-
         <button
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
