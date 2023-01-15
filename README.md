@@ -5,11 +5,10 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 ## TODOS 
 
 1. better host selection in http services for docker container setup
-2. setup admin datatables for pagination
-3. setup jobfinder site for pagination
-4. Build advanced search form
-5. setup complex email handler with pug templates
-6. setup email templates for 
+2. setup jobfinder site for pagination
+3. Build advanced search form
+4. setup complex email handler with pug templates
+5. setup email templates for 
   - ojb user register email
   - ojb user welcome email
   - job application email
