@@ -38,20 +38,20 @@ export default function Home(props) {
   const [jobs, setJobs] = useState(props.data || []);
   const [jobsTitle, setJobsTitle] = useState('Latest Jobs');
   const [totalRecords, setTotalRecords] = useState(props.total || 0);
-
+  const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   useEffect(() => {
-    pageJobs(page);
-  }, [page]);
+    let qs = `active=1&page=${page}`;
+    if (query) {
+      qs += `&title=${query}`
+    }
+    console.log(qs);
+    queryJobs(qs);
+  }, [page, query]);
 
-  async function pageJobs(page) {
-    const { jobs } = await jobService.index(`page=${page}`);
-    setJobs(jobs);
-  }
-
-  async function queryJobs(query, page) {
-    const { jobs } = await jobService.index(`title=${query}&page=${page}`);
-    setJobsTitle(`Results for ${query}`);
+  async function queryJobs(query) {
+    const { jobs } = await jobService.index(query);
+    setJobsTitle(`Results for ${query?.title || 'job search'}`);
     setJobs(jobs);
   }
 
@@ -59,7 +59,7 @@ export default function Home(props) {
     <React.Fragment>
       <section id="job-search" className="pt-8 pb-8">
         <div className="flex justify-center">
-          <BasicSearch submit={queryJobs} />
+          <BasicSearch submit={setQuery} />
         </div>
       </section>
       <section id="job-results" className="pt-8 pb-8">
