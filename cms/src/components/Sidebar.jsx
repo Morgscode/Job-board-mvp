@@ -52,7 +52,6 @@ function Sidebar(props) {
       icon: 'pi pi-tag',
       items: manageResourceItems('job-categories'),
     },
-   
   ];
 
   const recruiterItems = [
@@ -112,7 +111,11 @@ function Sidebar(props) {
   }
 
   return (
-    <MegaMenu className="w-full h-full" model={sidebarModel()} orientation="vertical" />
+    <MegaMenu
+      className="w-full h-full"
+      model={sidebarModel()}
+      orientation="vertical"
+    />
   );
 }
 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
-function useLazyParams(first, page, getResource, setPage) {
+function useLazyParams(first, rows = 10, page, getResource, setPage) {
   let loadLazyTimeout = null;
   const [lazyParams, setLazyParams] = useState({
     first,
-    rows: 10,
+    rows,
     page,
     sortOrder: null,
     sortField: null,
@@ -14,16 +14,14 @@ function useLazyParams(first, page, getResource, setPage) {
     loadLazyData();
   }, [lazyParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const loadLazyData = () => {
+  const loadLazyData = async () => {
     if (loadLazyTimeout) {
       clearTimeout(loadLazyTimeout);
     }
 
-    //imitate delay of a backend call
-    loadLazyTimeout = setTimeout(async () => {
-      await getResource(lazyParams.page);
-      setPage(lazyParams.page);
-    }, 300);
+    await getResource(lazyParams);
+    setPage(lazyParams.page);
+
   };
 
   return [lazyParams, setLazyParams];

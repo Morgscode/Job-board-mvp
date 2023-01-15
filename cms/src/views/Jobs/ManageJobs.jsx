@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import jobService from '../../services/jobService';
 import {
   setJobs,
@@ -12,7 +13,8 @@ import {
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import JobLister from '../../components/jobs/JobLister';
+import { Column } from 'primereact/column';
+import Lister from '../../components/Lister';
 import useManageResource from '../../utils/manageResource';
 import useLazyParams from '../../utils/lazyParams';
 
@@ -22,9 +24,23 @@ function ManageJobs() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const [selectedJobs, setSelectedJobs] = useState([]);
   const totalRecords = useSelector((state) => state.jobs.totalRecords);
   const currentPage = useSelector((state) => state.jobs.page);
   const firstRow = useSelector((state) => state.jobs.firstRow);
+  const [manageJob, setManageJob] = useManageResource(
+    'jobs',
+    'edit',
+    deleteJobById
+  );
+
+  const [lazyParams, setLazyParams] = useLazyParams(
+    firstRow,
+    10,
+    currentPage,
+    getJobs,
+    setCurrentPage
+  );
 
   function setFirst(row) {
     dispatch(setFirstRow(row));
@@ -34,13 +50,17 @@ function ManageJobs() {
     dispatch(setPage(page));
   }
 
-  async function getJobs(page) {
+  async function getJobs(params) {
     try {
       setLoading(true);
-      const { jobs, totalRecords } = await jobService.index(`page=${page}`);
-      dispatch(setJobs(jobs));
-      dispatch(setTotalRecords(totalRecords));
-      setRequestSuccess(true);
+      const { jobs, totalRecords } = await jobService.index(
+        `page=${params.page}&limit=${params.rows}`
+      );
+      if (jobs instanceof Array) {
+        dispatch(setJobs(jobs));
+        dispatch(setTotalRecords(totalRecords));
+        setRequestSuccess(true);
+      }
     } catch (error) {
       setRequestSuccess(false);
       console.error(error);
@@ -52,17 +72,9 @@ function ManageJobs() {
   const jobs = useSelector((state) => state.jobs.data);
   useEffect(() => {
     if (jobs.length === 0 && !requestSuccess) {
-      getJobs(currentPage);
+      getJobs(lazyParams);
     }
-  }, [jobs, requestSuccess]);
-
-  const locations = useSelector((state) => state.locations.data);
-  useEffect(() => {
-    async function getLocations() {}
-    if (locations.length === 0 && !requestSuccess) {
-      getLocations();
-    }
-  }, [locations, requestSuccess]);
+  }, [jobs, requestSuccess, lazyParams]);
 
   async function deleteJobById(job) {
     try {
@@ -77,18 +89,17 @@ function ManageJobs() {
     }
   }
 
-  const [manageJob, setManageJob] = useManageResource(
-    'jobs',
-    'edit',
-    deleteJobById
-  );
+  function formatCreatedDate(data) {
+    return moment(data.createdAt).format('DD-MM-YYYY');
+  }
 
-  const [lazyParams, setLazyParams] = useLazyParams(
-    firstRow,
-    currentPage,
-    getJobs,
-    setCurrentPage
-  );
+  function formateDeadline(data) {
+    return moment(data.deadline).format('DD-MM-YYYY');
+  }
+
+  function formatActive(data) {
+    return data.active == 0 ? 'Hidden' : 'Active';
+  }
 
   const actions = (
     <React.Fragment>
@@ -101,12 +112,27 @@ function ManageJobs() {
     </React.Fragment>
   );
 
+  const columns = [
+    { field: 'title', header: 'Job title', filter: true, body: false },
+    { field: 'active', header: 'Status', filter: true, body: formatActive },
+    { field: 'createdAt', header: 'Post date', filter: true, body: formatCreatedDate },
+    { field: 'deadline', header: 'Closing date', filter: true, body: formateDeadline },
+  ];
+
+  const dataColumns = columns.map((col, i) => {
+    return <Column key={i} field={col.field} filter={col.filter} header={col.header} body={col.body} />;
+  });
+
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <JobLister
-        jobs={jobs}
+      <Lister
+        resourceName="Jobs"
+        data={jobs}
+        dataColumns={dataColumns}
         manage={setManageJob}
+        selectedResources={selectedJobs}
+        setSelectedResources={setSelectedJobs}
         params={lazyParams}
         setParams={setLazyParams}
         loading={loading}

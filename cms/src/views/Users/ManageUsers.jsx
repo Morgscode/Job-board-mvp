@@ -1,21 +1,46 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import userService from '../../services/userService';
-import { setUsers, deleteUser } from '../../store/features/userSlice';
+import {
+  setUsers,
+  deleteUser,
+  setPage,
+  setFirstRow,
+  setTotalRecords,
+} from '../../store/features/userSlice';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import UserLister from '../../components/users/UserLister';
+import { Column } from 'primereact/column';
+import Lister from '../../components/Lister';
 import useManageResource from '../../utils/manageResource';
+import useLazyParams from '../../utils/lazyParams';
 
 function ManageUploads() {
   const toast = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedUsers, setSelectedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const totalRecords = useSelector((state) => state.users.totalRecords);
+  const currentPage = useSelector((state) => state.users.page);
+  const firstRow = useSelector((state) => state.users.firstRow);
+  const [manageUser, setManageUser] = useManageResource(
+    'users',
+    'edit',
+    deleteUserById
+  );
+
+  const [lazyParams, setLazyParams] = useLazyParams(
+    firstRow,
+    10,
+    currentPage,
+    getUsers,
+    setCurrentPage
+  );
 
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   useEffect(() => {
@@ -24,32 +49,39 @@ function ManageUploads() {
     }
   }, [loggedInUser]);
 
+  function setFirst(row) {
+    dispatch(setFirstRow(row));
+  }
+
+  function setCurrentPage(page) {
+    dispatch(setPage(page));
+  }
+
+  async function getUsers(params) {
+    try {
+      setLoading(true);
+      const { users, totalRecords } = await userService.index(
+        `page=${params.page}&limit=${params.rows}`
+      );
+      if (users instanceof Array) {
+        dispatch(setUsers(users));
+        dispatch(setTotalRecords(totalRecords));
+        setRequestSuccess(true);
+      }
+    } catch (error) {
+      setRequestSuccess(false);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const users = useSelector((state) => state.users.data);
   useEffect(() => {
-    async function getUsers() {
-      try {
-        const users = await userService.index();
-        if (users instanceof Array) {
-          dispatch(setUsers(users));
-        }
-        setRequestSuccess(true);
-      } catch (error) {
-        setRequestSuccess(false);
-        console.error(error);
-      }
-    }
     if (users.length === 0 && !requestSuccess) {
-      getUsers();
+      getUsers(lazyParams);
     }
-  }, [users, requestSuccess]);
-
-  const uploads = useSelector((state) => state.uploads.data);
-  useEffect(() => {
-    async function getUploads() {}
-    if (uploads.length === 0 && !requestSuccess) {
-      getUploads();
-    }
-  }, [uploads, requestSuccess]);
+  }, [users, requestSuccess, lazyParams]);
 
   async function deleteUserById(user) {
     try {
@@ -67,12 +99,6 @@ function ManageUploads() {
     }
   }
 
-  const [manageUser, setManageUser] = useManageResource(
-    'users',
-    'edit',
-    deleteUserById
-  );
-
   const actions = (
     <React.Fragment>
       <Button
@@ -84,14 +110,37 @@ function ManageUploads() {
     </React.Fragment>
   );
 
+  function formatRegisteredDate(data) {
+    return moment(data.createdAt).format('DD-MM-YYYY')
+  }
+
+  const columns = [
+    { field: 'title', header: 'Title', filter: true },
+    { field: 'first_name', header: 'First name', filter: true },
+    { field: 'surname', header: 'Last name', filter: true },
+    { field: 'email', header: 'Email address', filter: true },
+    { field: 'createdAt', header: 'Registered date', filter: true, body: formatRegisteredDate },
+  ];
+
+  const dataColumns = columns.map((col, i) => {
+    return <Column key={i} field={col.field} filter={col.filter} header={col.header} body={col.body} />;
+  });
+
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <UserLister
-        users={users}
+      <Lister
+        resourceName="Users"
+        data={users}
+        dataColumns={dataColumns}
         manage={setManageUser}
-        selectedUsers={selectedUsers}
-        setSelectedUsers={setSelectedUsers}
+        selectedResources={selectedUsers}
+        setSelectedResources={setSelectedUsers}
+        params={lazyParams}
+        setParams={setLazyParams}
+        loading={loading}
+        totalRecords={totalRecords}
+        setFirst={setFirst}
       />
       <Toast ref={toast} />
     </div>

@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { DataTable } from 'primereact/datatable';
 import { FilterMatchMode } from 'primereact/api';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
-function JobLister(props) {
-  const [selectedJobs, setSelectedJobs] = useState([]);
+function Lister(props) {
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
-  const onGlobalFilterChange = (e) => { 
+  const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
     _filters['global'].value = value;
@@ -21,29 +19,16 @@ function JobLister(props) {
     setGlobalFilterValue(value);
   };
 
-
   const onPage = (event) => {
-    event.page+=1;
+    event.page += 1;
     props.setFirst(event.first);
     props.setParams(event);
   };
 
-  function formatCreatedDate(data) {
-    return moment(data.createdAt).format('DD-MM-YYYY');
-  }
-
-  function formateDeadline(data) {
-    return moment(data.deadline).format('DD-MM-YYYY');
-  }
-
-  function formateActive(data) {
-    return data.active == 0 ? 'Hidden' : 'Active';
-  }
-
   const header = (
     <React.Fragment>
       <div className="flex justify-content-between align-items-center">
-        <h2 className="m-0">Mange jobs</h2>
+        <h2 className="m-0">Mange {props.resourceName}</h2>
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText
@@ -81,49 +66,27 @@ function JobLister(props) {
   return (
     <div className="w-full card">
       <DataTable
-        value={props.jobs}
+        value={props.data}
         lazy
-        selection={selectedJobs}
+        paginator
+        first={props.params.first}
+        totalRecords={props.totalRecords}
+        rows={props.params.rows}
         onPage={onPage}
         dataKey="id"
-        first={props.params.first}
-        onSelectionChange={(e) => setSelectedJobs(e.value)}
         filters={filters}
         header={header}
-        globalFilterFields={['title']}
-        responsiveLayout="scroll"
-        rows={10}
-        paginator
-        totalRecords={props.totalRecords}
         loading={props.loading}
+        globalFilterFields={['name']}
+        responsiveLayout="scroll"
         rowHover
-        emptyMessage="No jobs found."
+        selection={props.selectedResources}
+        onSelectionChange={(e) => props.setSelectedResources(e.value)}
+        emptyMessage="No entries found."
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       >
-        <Column
-          selectionMode="multiple"
-          selectionAriaLabel="name"
-          headerStyle={{ width: '3em' }}
-        ></Column>
-        <Column field="title" filter header="Job Title"></Column>
-        <Column
-          field="active"
-          sortable
-          header="Status"
-          body={formateActive}
-        ></Column>
-        <Column
-          field="createdAt"
-          sortable
-          header="Created"
-          body={formatCreatedDate}
-        ></Column>
-        <Column
-          field="deadline"
-          sortable
-          header="Closing date"
-          body={formateDeadline}
-        ></Column>
+        <Column selectionMode="multiple" headerStyle={{ width: '3em' }} />
+        {props.dataColumns}
         <Column
           headerStyle={{ width: '4rem', textAlign: 'center' }}
           bodyStyle={{ textAlign: 'center', overflow: 'visible' }}
@@ -139,4 +102,4 @@ function JobLister(props) {
   );
 }
 
-export default JobLister;
+export default Lister;

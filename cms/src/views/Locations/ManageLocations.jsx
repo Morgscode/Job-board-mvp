@@ -12,7 +12,8 @@ import {
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import LocationLister from '../../components/locations/LocationLister';
+import { Column } from 'primereact/column';
+import Lister from '../../components/Lister';
 import useManageResource from '../../utils/manageResource';
 import useLazyParams from '../../utils/lazyParams';
 
@@ -22,38 +23,56 @@ function ManageLocations() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const [selectedLocations, setSelectedLocations] = useState([]);
   const totalRecords = useSelector((state) => state.locations.totalRecords);
   const currentPage = useSelector((state) => state.locations.page);
   const firstRow = useSelector((state) => state.locations.firstRow);
+  const [manageLocation, setManageLocation] = useManageResource(
+    'locations',
+    'edit',
+    deleteLocationById
+  );
+  const [lazyParams, setLazyParams] = useLazyParams(
+    firstRow,
+    10,
+    currentPage,
+    getLocations,
+    setCurrentPage
+  );
 
   function setFirst(row) {
     dispatch(setFirstRow(row));
   }
-  
+
   function setCurrentPage(page) {
-    dispatch(setPage(page))
+    dispatch(setPage(page));
   }
 
-  async function getLocations(page) {
+  async function getLocations(params) {
     try {
-      const locations = await locationService.index(`page=${page}&limit-1`);
-      if (locations instanceof Object) {
-        dispatch(setLocations(locations.locations));
-        dispatch(setTotalRecords(locations.totalRecords));
+      setLoading(true);
+      const { locations, totalRecords } = await locationService.index(
+        `page=${params.page}&limit=${params.rows}`
+      );
+      if (locations instanceof Array) {
+        dispatch(setLocations(locations));
+        dispatch(setTotalRecords(totalRecords));
+        setRequestSuccess(true);
       }
-      setRequestSuccess(true);
     } catch (error) {
       setRequestSuccess(false);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
   const locations = useSelector((state) => state.locations.data);
   useEffect(() => {
     if (locations.length === 0 && !requestSuccess) {
-      getLocations(page);
+      getLocations(lazyParams);
     }
-  }, [locations, requestSuccess]);
+  }, [locations, requestSuccess, lazyParams]);
 
   async function deleteLocationById(job) {
     try {
@@ -68,14 +87,6 @@ function ManageLocations() {
     }
   }
 
-  const [manageLocation, setManageLocation] = useManageResource(
-    'locations',
-    'edit',
-    deleteLocationById
-  );
-
-  const [lazyParams, setLazyParams] = useLazyParams(firstRow, currentPage, getLocations, setCurrentPage);
-
   const actions = (
     <React.Fragment>
       <Button
@@ -87,10 +98,28 @@ function ManageLocations() {
     </React.Fragment>
   );
 
+  const columns = [{ field: 'name', header: 'Location name', filter: true }];
+
+  const dataColumns = columns.map((col, i) => {
+    return <Column key={i} field={col.field} filter={col.filter} header={col.header} />;
+  });
+
   return (
     <div>
       <Toolbar className="mb-5" right={actions} />
-      <LocationLister locations={locations} manage={setManageLocation} />
+      <Lister
+        resourceName="Locations"
+        data={locations}
+        dataColumns={dataColumns}
+        manage={setManageLocation}
+        selectedResources={selectedLocations}
+        setSelectedResources={setSelectedLocations}
+        params={lazyParams}
+        setParams={setLazyParams}
+        loading={loading}
+        totalRecords={totalRecords}
+        setFirst={setFirst}
+      />
       <Toast ref={toast} />
     </div>
   );
