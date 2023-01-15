@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'
 import { withIronSessionSsr } from 'iron-session/next';
 import { sessionOptions } from '../utils/session';
 import BasicSearch from '../components/BasicSearch';
@@ -12,8 +13,9 @@ export const getServerSideProps = withIronSessionSsr(
     const { user = null } = req.session;
     let data = [];
     let total = 0;
+    const page = query.page || 1;
     try {
-      let { jobs, totalRecords } = await jobService.index();
+      let { jobs, totalRecords } = await jobService.index(`active=1&page=${page}`);
       if (jobs instanceof Array) {
         data = jobs;
         total = totalRecords;
@@ -27,6 +29,7 @@ export const getServerSideProps = withIronSessionSsr(
         user,
         data,
         total,
+        page
       }, // will be passed to the page component as props
     };
   },
@@ -39,19 +42,22 @@ export default function Home(props) {
   const [jobsTitle, setJobsTitle] = useState('Latest Jobs');
   const [totalRecords, setTotalRecords] = useState(props.total || 0);
   const [query, setQuery] = useState('');
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(props.page);
+  const router = useRouter()
+  
   useEffect(() => {
     let qs = `active=1&page=${page}`;
     if (query) {
       qs += `&title=${query}`
     }
-    console.log(qs);
+    router.push(false, `?${qs}`)
     queryJobs(qs);
   }, [page, query]);
 
   async function queryJobs(query) {
     const { jobs } = await jobService.index(query);
-    setJobsTitle(`Results for ${query?.title || 'job search'}`);
+    const params = new URLSearchParams(query);
+    setJobsTitle(`Results for ${params.get('title') || 'job search'}`);
     setJobs(jobs);
   }
 

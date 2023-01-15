@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import JobListerCard from './JobListerCard';
 
 export default function JobLister(props) {
