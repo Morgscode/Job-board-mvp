@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 
-function useLazyParams(first, rows = 10, page, getResource, setPage) {
+function useLazyParams(first = 0, rows = 10, page = 1, getResource, setPage) {
   let loadLazyTimeout = null;
   const [lazyParams, setLazyParams] = useState({
     first,
     rows,
     page,
-    sortOrder: null,
-    sortField: null,
   });
 
   useEffect(() => {
@@ -18,10 +16,8 @@ function useLazyParams(first, rows = 10, page, getResource, setPage) {
     if (loadLazyTimeout) {
       clearTimeout(loadLazyTimeout);
     }
-
     await getResource(lazyParams);
     setPage(lazyParams.page);
-
   };
 
   return [lazyParams, setLazyParams];

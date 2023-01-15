@@ -1,11 +1,11 @@
 export default function Custom404() {
     return (
-      <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white dark:bg-gray-900">
-        <div class="text-center">
-          <div class="inline-flex p-4 bg-red-100 rounded-full">
-            <div class="p-4 bg-red-200 rounded-full stroke-red-600">
+      <div className="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white dark:bg-gray-900">
+        <div className="text-center">
+          <div className="inline-flex p-4 bg-red-100 rounded-full">
+            <div className="p-4 bg-red-200 rounded-full stroke-red-600">
               <svg
-                class="w-16 h-16"
+                className="w-16 h-16"
                 viewBox="0 0 28 28"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export default function Custom404() {
               </svg>
             </div>
           </div>
-          <h1 class="mt-5 text-[36px] font-bold text-slate-800 lg:text-[50px] dark:text-white">
+          <h1 className="mt-5 text-[36px] font-bold text-slate-800 lg:text-[50px] dark:text-white">
             404 - That page does not seem to exist
           </h1>
         </div>
