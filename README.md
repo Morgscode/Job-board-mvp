@@ -12,7 +12,6 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
   - ojb user welcome email
   - job application email
   - job application status update email
-  - new ojb recruiter and new ojb admin welcome email - set password
 
 ## Requirements
 
