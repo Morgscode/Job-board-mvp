@@ -15,7 +15,6 @@ export const getServerSideProps = withIronSessionSsr(
     const page = query.page || 1;
     try {
       let { jobs, totalRecords } = await jobService.index(`active=1&page=${page}`);
-      console.log(jobs);
       if (jobs instanceof Array) {
         data = jobs;
         total = totalRecords;
@@ -54,7 +53,7 @@ export default function Home(props) {
       getJobs(qs);
       setPaged(true);
     }
-  }, [page, query, props.page]);
+  }, [page, query, props.page, paged]);
 
   async function getJobs(query) {
     const { jobs, totalRecords } = await jobService.index(query);
