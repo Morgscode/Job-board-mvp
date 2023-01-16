@@ -16,6 +16,7 @@ export const getServerSideProps = withIronSessionSsr(
     const page = query.page || 1;
     try {
       let { jobs, totalRecords } = await jobService.index(`active=1&page=${page}`);
+      console.log(jobs);
       if (jobs instanceof Array) {
         data = jobs;
         total = totalRecords;
@@ -43,21 +44,20 @@ export default function Home(props) {
   const [totalRecords, setTotalRecords] = useState(props.total || 0);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(props.page);
-  const router = useRouter()
   
   useEffect(() => {
     let qs = `active=1&page=${page}`;
     if (query) {
       qs += `&title=${query}`
     }
-    router.push(false, `?${qs}`)
     queryJobs(qs);
   }, [page, query]);
 
   async function queryJobs(query) {
-    const { jobs } = await jobService.index(query);
+    const { jobs, totalRecords } = await jobService.index(query);
     const params = new URLSearchParams(query);
     setJobsTitle(`Results for ${params.get('title') || 'job search'}`);
+    setTotalRecords(totalRecords);
     setJobs(jobs);
   }
 
