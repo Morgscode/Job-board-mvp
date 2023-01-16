@@ -13,6 +13,7 @@ export const getServerSideProps = withIronSessionSsr(
     let data = [];
     let total = 0;
     const page = query.page || 1;
+    
     try {
       let { jobs, totalRecords } = await jobService.index(`active=1&page=${page}`);
       if (jobs instanceof Array) {

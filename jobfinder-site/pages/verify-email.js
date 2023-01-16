@@ -19,6 +19,8 @@ export async function getServerSideProps(context) {
       console.error(error);
       verified = false;
     }
+  } else if (!email) {
+    message = 'Please verify your email address';
   }
 
   return {
@@ -32,14 +34,56 @@ export async function getServerSideProps(context) {
 }
 
 export default function VerifyEmail(props) {
-  async function requestEmailVerify() {
-    if (!props.email) return false;
+  const [email, setEmail] = useState(props.email || '');
+  const [formSubmitState, setFormSubmitState] = useState(false);
+
+  async function handleSubmit(submit) {
+    submit.preventDefault();
+    const data = new FormData(submit.target);
+    const email = data.get('email');
+    
+    await requestEmailVerify(email);
+  }
+
+  async function requestEmailVerify(email = false) {
+    if (!props.email && !email) {
+      setFormSubmitState({
+        error: true,
+        message: 'You must enter an email',
+        classes: 'text-2xl mb-8 text-red-600',
+      });
+      return;
+    }
     try {
-      const email = props.email;
-      const res = await http.post('/request-email-verify', { email });
+      let value = email || props.email;
+      const res = await http.post('/request-email-verify', { email: value });
+      setFormSubmitState({
+        error: false,
+        message:
+          res.data?.data?.message ||
+          'Email verification sent, please check your emails',
+        classes: 'text-2xl mb-8 text-green-600',
+      });
     } catch (error) {
       console.error(error);
+      setFormSubmitState({
+        error: true,
+        message:
+          error?.response?.data?.message ||
+          'There was a problem requesting email verification',
+        classes: 'text-2xl mb-8 text-red-600',
+      });
     }
+  }
+
+  function displayFormSubmitState() {
+    return (
+      formSubmitState && (
+        <p role="alert" className={formSubmitState.classes}>
+          {formSubmitState.message}
+        </p>
+      )
+    );
   }
 
   function icon() {
@@ -95,6 +139,39 @@ export default function VerifyEmail(props) {
           Login
         </Link>
       );
+    } else {
+      return (
+        <form
+          onSubmit={handleSubmit}
+          className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
+        >
+          <div className="grid gap-8">
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Your email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@email.com"
+                value={email}
+                onInput={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
+        </form>
+      );
     }
   }
 
@@ -106,6 +183,7 @@ export default function VerifyEmail(props) {
             {props.message}
           </p>
           <div className="mb-8">{icon()}</div>
+          {displayFormSubmitState()}
           {actions()}
         </div>
       </div>

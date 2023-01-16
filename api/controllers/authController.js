@@ -61,7 +61,7 @@ const requestEmailVerify = catchAsync(async function(req, res, next) {
 
   await userModel.requestEmailVerify(user);
 
-  res.status(204);
+  res.status(204).end();
 });
 
 const verifyEmail = catchAsync(async function (req, res, next) {
