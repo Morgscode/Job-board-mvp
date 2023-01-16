@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
 import { withIronSessionSsr } from 'iron-session/next';
 import { sessionOptions } from '../utils/session';
 import BasicSearch from '../components/BasicSearch';
@@ -44,19 +43,23 @@ export default function Home(props) {
   const [totalRecords, setTotalRecords] = useState(props.total || 0);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(props.page);
+  const [paged, setPaged] = useState(false);
   
   useEffect(() => {
     let qs = `active=1&page=${page}`;
     if (query) {
       qs += `&title=${query}`
     }
-    queryJobs(qs);
-  }, [page, query]);
+    if (!paged && page !== props.page || paged || query) {
+      getJobs(qs);
+      setPaged(true);
+    }
+  }, [page, query, props.page]);
 
-  async function queryJobs(query) {
+  async function getJobs(query) {
     const { jobs, totalRecords } = await jobService.index(query);
     const params = new URLSearchParams(query);
-    setJobsTitle(`Results for ${params.get('title') || 'job search'}`);
+    setJobsTitle(`${params.get('title') ? `Results for ${params.get('title')}` : 'Latest jobs'}`);
     setTotalRecords(totalRecords);
     setJobs(jobs);
   }
