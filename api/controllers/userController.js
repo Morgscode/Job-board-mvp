@@ -2,8 +2,6 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');
 const model = require('../models/userModel');
-const auth = require('../utils/auth');
-const mailer = require('../utils/mailer');
 
 const _index = catchAsync(async function (req, res, next) {
   const users = await model.User.findAll({
@@ -39,21 +37,13 @@ const _create = catchAsync(async function (req, res, next) {
   const user = ({ email, first_name, surname, title, middle_names } = req.body);
   const { password, role } = req.body;
 
-  if (!user.email || !password) {
+  if (!user.email) {
     return next(new AppError('user details incorrect', 400));
   }
 
   const userExists = await model.userEmailExists(user.email);
   if (userExists) {
     return next(new AppError(`email address already exists`, 400));
-  }
-
-  if (password.length < 8) {
-    return next(new AppError('passwords must be at least 8 characters', 400));
-  }
-
-  if (parseInt(role, 10) !== 1 && parseInt(role, 10) !== 2) {
-    return next(new AppError('user details incorrect', 400));
   }
 
   const newUser = await model.registerUser(user, password, role);

@@ -54,7 +54,7 @@ const User = db.sequelize.define(
       validate: {
         isNumeric: true,
         notNull: true,
-        isIn: [[1, 2]],
+        isIn: [[1, 2, 3]],
       },
     },
     email_verify_token: {

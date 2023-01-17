@@ -1,4 +1,3 @@
-const path = require('path');
 const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const NotFoundError = require('../utils/NotFoundError');

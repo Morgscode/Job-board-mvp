@@ -8,7 +8,9 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 2. build advanced search form and api query jobs route
 3. setup complex email handler with pug templates
 4. setup email templates for 
-  - ojb register email
+  - ojb verify email
+  - ojb forgot password
+  - ojb new user - set password
   - job application email
   - job application status update email
 5. upload route for assets
@@ -108,6 +110,7 @@ POST: http://localhost:8080/api/v1/register
   2. enter your db credentials to pass into the setup script.
   3. run the setup script.
   4. Register as a user through the api
+
     ```
     POST: http://localhost:8080/api/v1/register
     {
@@ -116,6 +119,7 @@ POST: http://localhost:8080/api/v1/register
       "passwordConfirm": "password"
     }
     ```
+    
   5. In your db client - update your user role to `3` and your email verified at to a `current timestamp`
 
 ## CMS
