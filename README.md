@@ -8,10 +8,10 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 2. build advanced search form and api query jobs route
 3. setup complex email handler with pug templates
 4. setup email templates for 
-  - ojb user register email
-  - ojb user welcome email
+  - ojb register email
   - job application email
   - job application status update email
+5. upload route for assets
 
 ## Requirements
 
@@ -40,28 +40,7 @@ MYSQL_PASSWORD=root
 MYSQL_ROOT_PASSWORD=root
 ```
 
-2.  Create an env file for the api in `./ojb-tooling/node/.env`
-
-```
-APP_ENV_LOADED=1
-API_DOMAIN=http://localhost:8080/api/v1
-NODE_PORT=8080
-MYSQL_HOST=db
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASS=root
-MYSQL_DB=ojb_local
-JWT_SECRET=yOuRsUpErSeCuReSeCrEt
-SMTP_NAME=smtp@sender.name
-SMTP_HOST=smtp.relay
-SMTP_PORT=587
-SMTP_USER=yoursmtp@user.com
-SMTP_MASTER_PASS=pass
-SMTP_KEY=key
-MAIL_FROM=mail from <email@here>
-UPLOADS_DIR=storage/uploads
-```
-
+2.  Create an env file for the api in `./ojb-tooling/node/.env` - take a look at `example.env`
 3. Create an env file for the cms in `./ojb-tooling/web/.env`
 
 ```
@@ -117,26 +96,7 @@ POST: http://localhost:8080/api/v1/register
 - API Environment
 
   1. Set your root environment in `./api/config/config.env` to either `development` or `production` or `whateverenvyoulike`
-  2. Then create a file for you environment and fill in the following variables i.e. `development.env` or `production.env` or `whateverenvyoulike.env`
-
-     ```
-     API_DOMAIN=http://localhost:8080/api/v1
-     NODE_PORT=8080
-     MYSQL_HOST=127.0.0.1
-     MYSQL_PORT=8889
-     MYSQL_USER=root
-     MYSQL_PASS=root
-     MYSQL_DB=ojb_db_name
-     JWT_SECRET=yOuRsUpErSeCuReSeCrEt
-     SMTP_NAME=smtp@sender.name
-     SMTP_HOST=smtp.relay
-     SMTP_PORT=587
-     SMTP_USER=yoursmtp@user.com
-     SMTP_MASTER_PASS=pass
-     SMTP_KEY=key
-     MAIL_FROM=mail from <email@here>
-     UPLOADS_DIR=storage/uploads
-     ```
+  2. Then create a file for your environment i.e. `development.env` or `production.env` or `whateverenvyoulike.env` - take a look at the `example.env`
 
 - Custom environments
 
@@ -156,3 +116,8 @@ POST: http://localhost:8080/api/v1/register
 2. From the root of the monorepo - run `npm run dev:cms`
 
 ## JOBFINDER SITE
+
+### SETUP
+
+1. From the root of the monorepo - run `npm i`
+2. From the root of the monorepo - run `npm run dev:jobfinder-site`

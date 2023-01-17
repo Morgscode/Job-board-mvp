@@ -149,6 +149,10 @@ const findByJobApplicationId = catchAsync(async (req, res, next) => {
   });
 });
 
+const uploadAsset = catchAsync(async function(req, res, next) {
+  res.status(204).end();
+});
+
 module.exports = {
   _index,
   _find,
@@ -156,6 +160,7 @@ module.exports = {
   _update,
   _delete,
   download,
+  uploadAsset,
   findByUserId,
   findByJobApplicationId,
 };

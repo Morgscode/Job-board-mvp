@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -49,6 +50,9 @@ process.env.NODE_ENV === 'production'
 
 // json with limits
 app.use(express.json({limit: '256kb'}));
+
+// serve files from public dir
+app.use(express.static(path.join(__dirname, 'public')))
 
 // api specific global middleware
 app.use('/api/v1', [time, pagination, queryInterface]);

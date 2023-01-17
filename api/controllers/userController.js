@@ -12,11 +12,7 @@ const _index = catchAsync(async function (req, res, next) {
     order: req.sql.order,
     ...req.pagination,
   });
-  if (!users) {
-    return next(new NotFoundError('users not found'));
-  }
-
-  const apiUsers = users.map((user) => model.apiUser(user.toJSON()));
+  const apiUsers = users?.map((user) => model.apiUser(user.toJSON())) || [];
   res.status(200).json({
     status: 'success',
     data: {
@@ -65,16 +61,7 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('error - unable to create newUser', 500, false));
   }
 
-  // set verify token
-  const verify = auth.createAppToken();
-  newUser.email_verify_token = verify.hash;
-  await newUser.save();
-
-  // send email
-  mailer.options.to = newUser.email;
-  mailer.options.subject = 'Please verify your email';
-  mailer.options.text = `<a href="${process.env.API_DOMAIN}/verify-email?email=${newUser.email}&token=${verify.token}">verify email</a>`;
-  await mailer.send();
+  await model.requestEmailVerify(newUser);
 
   res.status(201).json({
     status: 'success',

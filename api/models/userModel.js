@@ -175,8 +175,6 @@ async function updatePassword(user, password) {
   return true;
 }
 
-
-
 module.exports = {
   User,
   userEmailExists,
