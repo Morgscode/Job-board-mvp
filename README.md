@@ -102,11 +102,21 @@ POST: http://localhost:8080/api/v1/register
 
   Out of the box - OJB comes configured to handle `production` and `development` environment. You can create extra environments by following the naming conventions with your new .env files explained above. Be sure to load your env in the switch statement in `./api/env.js` before setting it as the app environment in `./api/config/config.env`
 
-- Database seeding - An exmaple setup shell script `./api/dev-data/app-setup.js` is provided to create some jobs, categories and locations.
+- Database seeding - An exmaple setup shell script `./api/dev-data/app-setup.js` is provided to create enough data to see the project in action.
 
   1. copy `example.setup.sh` to `setup.sh` into the root of the project.
   2. enter your db credentials to pass into the setup script.
   3. run the setup script.
+  4. Register as a user through the api
+    ```
+    POST: http://localhost:8080/api/v1/register
+    {
+      "email": "your@email.here",
+      "password": "password",
+      "passwordConfirm": "password"
+    }
+    ```
+  5. In your db client - update your user role to `3` and your email verified at to a `current timestamp`
 
 ## CMS
 
