@@ -29,9 +29,12 @@ const app = express();
 // drop express powered-by header
 app.disable('x-powered-by'); 
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 const limit = rateLimit({ 
   max: 25000,
-  windowMs: 60 * 60 * 1000, 
+  windowMs: 60 * 60 * 1000,  
   messgae: 'too many requests from this ip'
 });
 
@@ -52,7 +55,7 @@ process.env.NODE_ENV === 'production'
 app.use(express.json({limit: '256kb'}));
 
 // serve files from public dir
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
 // api specific global middleware
 app.use('/api/v1', [time, pagination, queryInterface]);

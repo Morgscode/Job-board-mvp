@@ -4,7 +4,7 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const auth = require('../utils/auth');
 const userModel = require('../models/userModel');
-const mailer = require('../utils/mailer');
+const mailer = require('../utils/Mailer');
 
 const register = catchAsync(async function (req, res, next) {
   const user = ({ email, first_name, surname, title, middle_names } = req.body);
@@ -40,6 +40,33 @@ const register = catchAsync(async function (req, res, next) {
       message: 'registered! please verify your email address',
       user: userModel.apiUser(newUser.toJSON()),
     },
+  });
+});
+
+const login = catchAsync(async function (req, res, next) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(new AppError('those details are not correct', 400));
+  }
+
+  const user = await userModel.loginUser(email, password);
+  if (!user) {
+    return next(new AppError('those details are not correct', 401));
+  }
+
+  if (!user.email_verified_at) {
+    return next(new AppError('please verify your email', 401));
+  }
+
+  const token = auth.createJWT(user);
+  res.status(200).json({
+    status: 'sucess',
+    data: {
+      message: 'user logged in',
+      user: userModel.apiUser(user),
+    },
+    token,
   });
 });
 
@@ -100,33 +127,6 @@ const verifyEmail = catchAsync(async function (req, res, next) {
   });
 });
 
-const login = catchAsync(async function (req, res, next) {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return next(new AppError('those details are not correct', 400));
-  }
-
-  const user = await userModel.loginUser(email, password);
-  if (!user) {
-    return next(new AppError('those details are not correct', 401));
-  }
-
-  if (!user.email_verified_at) {
-    return next(new AppError('please verify your email', 401));
-  }
-
-  const token = await auth.createJWT(user);
-  res.status(200).json({
-    status: 'sucess',
-    data: {
-      message: 'user logged in',
-      user: userModel.apiUser(user),
-    },
-    token,
-  });
-});
-
 const forgotPassword = catchAsync(async function (req, res, next) {
   const { email } = req.body;
 
@@ -139,22 +139,12 @@ const forgotPassword = catchAsync(async function (req, res, next) {
     return next(new AppError('not authorized', 401));
   }
 
-  const reset = auth.createAppToken();
-  user.password_reset_token = reset.hash;
-  user.password_reset_expires = moment().add(15, 'minutes');
-  await user.save();
-
-  mailer.options.to = user.email;
-  mailer.options.subject = 'Password reset request';
-  mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}">reset password</a>`;
-
-  await mailer.send();
+  await userModel.requestPasswordReset(user);
 
   res.status(200).send({
     status: 'success',
     data: {
       message: 'Password reset sent',
-      token: reset.token,
     },
   });
 });

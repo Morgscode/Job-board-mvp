@@ -41,6 +41,11 @@ const _create = catchAsync(async function (req, res, next) {
     return next(new AppError('user details incorrect', 400));
   }
 
+  // only admins can create admins
+  if (user.role === 3 && req.user.role !== 3) {
+    return next(new AppError('not authorized', 401));
+  }
+
   const userExists = await model.userEmailExists(user.email);
   if (userExists) {
     return next(new AppError(`email address already exists`, 400));
@@ -66,6 +71,11 @@ const _update = catchAsync(async function (req, res, next) {
   const record = await model.User.findOne({ where: { id } });
   if (!record) {
     return next(new NotFoundError('user not found'));
+  }
+
+  // only admins can update admins
+  if (record.role === 3 && req.user.role !== 3) {
+    return next(new AppError('not authorized', 401));
   }
 
   const updated = await model._update(user, { id });

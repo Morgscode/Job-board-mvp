@@ -3,7 +3,7 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 const db = require('./../utils/db');
 const auth = require('./../utils/auth');
-const mailer = require('./../utils/mailer');
+const { Mailer } = require('../utils/Mailer');
 
 const User = db.sequelize.define(
   'User',
@@ -130,11 +130,36 @@ async function requestEmailVerify(user) {
   const verify = auth.createAppToken();
   user.email_verify_token = verify.hash;
   await user.save();
-
+  
   // send email
-  mailer.options.to = user.email;
-  mailer.options.subject = 'Please verify your email';
-  mailer.options.text = `<a href="${process.env.JOBFINDER_SITE_URL}/verify-email?email=${user.email}&token=${verify.token}">verify email</a>`;
+  const mailer = new Mailer();
+  mailer.setOption('to', user.email);
+  mailer.setOption('subject', 'Your email address has been registered with OJB. Please verify your email');
+  const data = {
+    firstName: user.first_name,
+    url: encodeURI(`${process.env.JOBFINDER_SITE_URL}/verify-email?email=${user.email}&token=${verify.token}`),
+  };
+  mailer.renderTemplate('verify-email', data);
+  await mailer.send();
+}
+
+async function requestPasswordReset(user) {
+  if (!user instanceof User) throw new Error('you must pass in a valid user');
+  
+  const reset = auth.createAppToken();
+  user.password_reset_token = reset.hash;
+  user.password_reset_expires = moment().add(15, 'minutes');
+  await user.save();
+
+  const mailer = new Mailer();
+
+  mailer.setOption('to', user.email);
+  mailer.setOption('subject', 'Password reset request');
+  const data = {
+    firstName: user.first_name,
+    url: encodeURI(`${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}`),
+  };  
+  mailer.renderTemplate('reset-password', data);
   await mailer.send();
 }
 
@@ -180,6 +205,7 @@ module.exports = {
   userEmailExists,
   registerUser,
   requestEmailVerify,
+  requestPasswordReset,
   loginUser,
   apiUser,
   updatePassword,

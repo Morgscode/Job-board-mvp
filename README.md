@@ -8,9 +8,6 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 2. build advanced search form and api query jobs route
 3. setup complex email handler with pug templates
 4. setup email templates for 
-  - ojb verify email
-  - ojb forgot password
-  - ojb new user - set password
   - job application email
   - job application status update email
 5. upload route for assets
@@ -29,7 +26,7 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 
 ## OJB Tooling
 
-- A docker compose environment for QA and cloud deployment is ready to go. Follow below for setup instructions.
+- A docker compose environment for the api and cms is setup and ready to go.
 
 1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 
