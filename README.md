@@ -5,12 +5,12 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 ## TODOS 
 
 1. better host selection in http services for docker container setup
-2. build advanced search form and api query jobs route
-3. setup complex email handler with pug templates
-4. setup email templates for 
+2. api: query jobs route
+3. jobfinder-site: build advanced search form
+4. api: setup email templates for 
   - job application email
   - job application status update email
-5. upload route for assets
+5. api: upload route for assets
 
 ## Requirements
 
