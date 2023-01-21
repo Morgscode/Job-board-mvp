@@ -114,14 +114,9 @@ async function userEmailExists(email) {
 }
 
 async function registerUser(user, password, role = 1) {
-  try {
-    let hash = await bcrypt.hash(password.toString(), 12);
-    const record = await User.create({ ...user, password: hash, role });
-    return record;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
+  let hash = await bcrypt.hash(password.toString(), 12);
+  const record = await User.create({ ...user, password: hash, role });
+  return record;
 }
 
 async function requestEmailVerify(user) {
@@ -130,14 +125,19 @@ async function requestEmailVerify(user) {
   const verify = auth.createAppToken();
   user.email_verify_token = verify.hash;
   await user.save();
-  
+
   // send email
   const mailer = new Mailer();
   mailer.setOption('to', user.email);
-  mailer.setOption('subject', 'Your email address has been registered with OJB. Please verify your email');
+  mailer.setOption(
+    'subject',
+    'Your email address has been registered with OJB. Please verify your email'
+  );
   const data = {
     firstName: user.first_name,
-    url: encodeURI(`${process.env.JOBFINDER_SITE_URL}/verify-email?email=${user.email}&token=${verify.token}`),
+    url: encodeURI(
+      `${process.env.JOBFINDER_SITE_URL}/verify-email?email=${user.email}&token=${verify.token}`
+    ),
   };
   mailer.renderTemplate('verify-email', data);
   await mailer.send();
@@ -145,39 +145,35 @@ async function requestEmailVerify(user) {
 
 async function requestPasswordReset(user) {
   if (!user instanceof User) throw new Error('you must pass in a valid user');
-  
+
   const reset = auth.createAppToken();
   user.password_reset_token = reset.hash;
   user.password_reset_expires = moment().add(15, 'minutes');
   await user.save();
 
   const mailer = new Mailer();
-
   mailer.setOption('to', user.email);
   mailer.setOption('subject', 'Password reset request');
   const data = {
     firstName: user.first_name,
-    url: encodeURI(`${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}`),
-  };  
+    url: encodeURI(
+      `${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}`
+    ),
+  };
   mailer.renderTemplate('reset-password', data);
   await mailer.send();
 }
 
 async function loginUser(email, password) {
-  try {
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      throw new Error();
-    }
-    const passwordMatch = await auth.verifyPassword(password, user.password);
-    if (!passwordMatch) {
-      throw new Error();
-    }
-    return user.toJSON();
-  } catch (error) {
-    console.error(error);
-    return false;
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
+    throw new Error('Email invalid');
   }
+  const passwordMatch = await auth.verifyPassword(password, user.password);
+  if (!passwordMatch) {
+    throw new Error('Password invalid');
+  }
+  return user.toJSON();
 }
 
 function apiUser(user) {

@@ -111,17 +111,11 @@ const verifyEmail = catchAsync(async function (req, res, next) {
   user.email_verified_at = now;
   await user.save();
 
-  const jwt = auth.createJWT(user.toJSON());
-  if (!jwt) {
-    return next(new AppError("we couldn't log you in", 500));
-  }
-
   res.send({
     status: 'success',
     data: {
       message: 'email verified',
       user: { id: user.id, email: user.email },
-      token: jwt,
     },
   });
 });
