@@ -3,7 +3,7 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 const db = require('./../utils/db');
 const auth = require('./../utils/auth');
-const { Mailer } = require('../utils/Mailer');
+const Mailer = require('../utils/Mailer');
 
 const User = db.sequelize.define(
   'User',

@@ -4,7 +4,6 @@ const catchAsync = require('../utils/catchAsyncError');
 const AppError = require('../utils/AppError');
 const auth = require('../utils/auth');
 const userModel = require('../models/userModel');
-const mailer = require('../utils/Mailer');
 
 const register = catchAsync(async function (req, res, next) {
   const user = ({ email, first_name, surname, title, middle_names } = req.body);

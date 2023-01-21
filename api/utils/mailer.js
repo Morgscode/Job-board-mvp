@@ -24,23 +24,9 @@ const transporter = nodemailer.createTransport({
   debug: true,
 });
 
-let options = Object.assign({}, OPTIONS);
-
-async function send() {
-  await transporter.verify();
-  const mail = await transporter.sendMail({ ...options });
-  return mail;
-}
-
 class Mailer {
   constructor() {
-    this.options = {
-      from: process.env.MAIL_FROM,
-      to: '',
-      subject: '',
-      html: '',
-      text: '',
-    };
+    this.options = Object.assign({}, OPTIONS);
     this.template = '';
   }
 
@@ -103,4 +89,4 @@ class Mailer {
   }
 }
 
-module.exports = { send, options, Mailer };
+module.exports = Mailer
