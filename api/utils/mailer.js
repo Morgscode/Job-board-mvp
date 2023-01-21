@@ -47,18 +47,17 @@ class Mailer {
   }
 
   resetOptions() {
-    return (this.options = {
+    this.options = {
       from: process.env.MAIL_FROM,
       to: '',
       subject: '',
       html: '',
       text: '',
-    });
+    };
+    this.template = '';
   }
 
-  // load template
   renderTemplate(template, data) {
-    // validate template
     if (!template || !data) throw new Error('Template or data not set');
     const html = pug.renderFile(
       path.join(__dirname, '..', 'emails', `${template}.pug`),
@@ -67,26 +66,21 @@ class Mailer {
       }
     );
     if (!html) throw new Error(`Template "${template}" could not be found`);
-    // render template to string
     this.options.html = html;
     this.options.text = htmlToText(html);
     this.template = template;
-    // set optiosn html
   }
 
   setText(text) {
     this.options.text = text;
   }
 
-  // send email
   async send() {
-    // define options
     await transporter.verify();
-    // send mail
     const mail = await transporter.sendMail({ ...this.options });
     this.resetOptions();
     return mail;
   }
 }
 
-module.exports = Mailer
+module.exports = Mailer;
