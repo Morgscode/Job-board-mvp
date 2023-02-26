@@ -7,6 +7,7 @@
     "dev:api": "npm run -w api dev",
     "dev:cms": "npm run -w cms dev",
     "dev:jobfinder-site": "npm run -w jobfinder-site dev",
+    "dev:jobboard-graphql": "npm run -w jobboard-graphql dev",
     "dev": "run-p dev:*"
   },
   "repository": {
@@ -22,7 +23,8 @@
   "workspaces": [
     "api",
     "cms",
-    "jobfinder-site"
+    "jobfinder-site",
+    "jobboard-graphql"
   ],
   "dependencies": {
     "npm-run-all": "^4.1.5"

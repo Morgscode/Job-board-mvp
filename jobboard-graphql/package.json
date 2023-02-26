@@ -1,0 +1,20 @@
+{
+  "name": "ojb-jobboard-graphql",
+  "version": "1.0.0",
+  "description": "a graph ql server for the ojb-api",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Luke Morgan",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/datasource-rest": "^5.0.2",
+    "@apollo/server": "^4.4.0",
+    "dotenv": "^16.0.3",
+    "graphql": "^16.6.0",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.20"
+  }
+}
