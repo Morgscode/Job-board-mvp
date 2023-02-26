@@ -1,7 +1,7 @@
 const { RESTDataSource } = require('@apollo/datasource-rest');
 
 class JobsAPI extends RESTDataSource {
-  baseURL = 'http://localhost:8080/api/v1/';
+  baseURL = process.env.API_DOMAIN;
 
   async getJobs(query = 'page=1') {
     const res = await this.get(`jobs?${query}`);

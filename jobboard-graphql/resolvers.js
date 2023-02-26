@@ -1,4 +1,4 @@
-const { authenticated, getUserFromToken } = require('./auth');
+const { authenticated } = require('./auth');
 
 const resolvers = {
     Query: {

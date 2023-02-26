@@ -1,7 +1,7 @@
 {
   "name": "ojb-cms",
-  "private": true,
   "version": "0.0.0",
+  "description": "cms spa for the open job board project",
   "type": "module",
   "scripts": {
     "dev": "vite",

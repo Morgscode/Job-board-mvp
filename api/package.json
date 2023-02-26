@@ -32,10 +32,6 @@
   "devDependencies": {
     "nodemon": "^2.0.20"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Morgscode/job-board-project.git"
-  },
   "keywords": [],
   "bugs": {
     "url": "https://github.com/Morgscode/job-board-project/issues"
