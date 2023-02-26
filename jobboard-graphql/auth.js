@@ -8,10 +8,10 @@ const jwt = require('jsonwebtoken');
  */
 const getUserFromToken = token => {
   try {
-    const { user } = jwt.verify(token, process.env.JWT_SECRET)
+    const { user } = jwt.verify(token, process.env.JWT_SECRET);
     return user;
   } catch (e) {
-    return null
+    return null;
   }
 }
 

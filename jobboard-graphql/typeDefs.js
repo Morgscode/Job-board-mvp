@@ -29,6 +29,11 @@ type EmploymentContractType {
   name: String! 
 }
 
+type SalaryType {
+  id: Int! 
+  name: String! 
+}
+
 type Job {
   id: Int!
   title: String!
@@ -45,7 +50,8 @@ type Job {
 
 type JobPost {
   job: Job!
-  contract_type: EmploymentContractType
+  salaryType: SalaryType!
+  contract: EmploymentContractType!
   categories: [JobCategory]
   locations: [JobLocation]
 }
@@ -60,7 +66,7 @@ input JobsInput {
 
 type Query {
   me: User!
-  job(input: JobInput): Job!
+  job(input: JobInput): JobPost!
   jobs(input: JobsInput): [Job]!
 }
 `;

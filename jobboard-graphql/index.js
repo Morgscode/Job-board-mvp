@@ -5,6 +5,10 @@ const { typeDefs } = require('./typeDefs');
 const { resolvers } = require('./resolvers');
 const { JobsAPI } = require('./data/JobsAPI');
 const { UsersAPI } = require('./data/UsersAPI');
+const { ContractAPI } = require('./data/ContractAPI');
+const { SalaryAPI } = require('./data/SalaryAPI');
+const { LocationsAPI } = require('./data/LocationsAPI');
+const { CategoriesAPI } = require('./data/CategoriesAPI');
 const { getUserFromToken } = require('./auth');
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -27,6 +31,10 @@ startStandaloneServer(server, {
       dataSources: {
         JobsAPI: new JobsAPI({cache, token}),
         UsersAPI: new UsersAPI({cache, token}),
+        ContractAPI: new ContractAPI({cache, token}),
+        LocationsAPI: new LocationsAPI({cache, token}),
+        CategoriesAPI: new CategoriesAPI({cache, token}),
+        SalaryAPI: new SalaryAPI({cache, token}),
       },
       user,
       token

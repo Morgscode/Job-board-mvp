@@ -10,7 +10,7 @@ class JobsAPI extends RESTDataSource {
   }
 
   async getJob(id) {
-    const res = await this.get(`jobs/post/${encodeURIComponent(id)}`);
+    const res = await this.get(`jobs/${encodeURIComponent(id)}`);
     const { job } = res.data;
     return job;
   }
