@@ -4,29 +4,28 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 
 ## TODOS 
 
-1. better host selection in http services for docker container setup
-2. api: query jobs route
-3. jobfinder-site: build advanced search form
-4. api: setup email templates for 
+1. api: query jobs route
+2. jobfinder-site: build advanced search form
+3. api: setup email templates for 
   - job application email
   - job application status update email
-5. api: upload route for assets
+4. api: upload route for assets
 
-## Requirements
+## Requirements 
 
 - Node.js 16.16.0
 - NPM 7.24.2
 - MySQL 5.7
 
-### SETUP
+### SETUP 
 
 1. From the root of the monorepo - run `npm i`
 2. Follow the environment setup instructions for the api
 3. From the root of the monorepo - run `npm run dev`
 
-## OJB Tooling
+## OJB Tooling 
 
-- A docker compose environment for the api and cms is setup and ready to go.
+- A docker compose environment is ready to go out of the box
 
 1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 
@@ -48,7 +47,7 @@ NODE_PORT=8888
 NODE_HOST=0.0.0.0
 ```
 
-4.  Copy `example.setup.sh` to `setup.sh` into the root of the project.
+4.  Copy `api/example.setup.sh` to `api/setup.sh` into the root of the project.
 5.  Enter your db credentials to pass into the setup script.
 
 ```

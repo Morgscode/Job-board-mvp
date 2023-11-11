@@ -9,6 +9,8 @@ services:
       - 3306:3306
     volumes:
       - db:/var/lib/mysql
+    networks:
+      - ojb-network
   phpmyadmin:
     depends_on:
       - db
@@ -23,6 +25,8 @@ services:
       PMA_USER: root
       PMA_PASSWORD: root
       UPLOAD_LIMIT: 512M
+    networks:
+      - ojb-network
   api:
     container_name: ojb-api
     depends_on:
@@ -32,8 +36,8 @@ services:
     env_file: ./node/.env
     ports:
       - 8080:8080
-    stdin_open: true
-    tty: true
+    networks:
+      - ojb-network
   cms:
     container_name: ojb-cms
     depends_on:
@@ -44,6 +48,8 @@ services:
     env_file: ./web/.env
     ports:
       - 8888:8888
+    networks:
+      - ojb-network
   jobfinder-site:
     container_name: ojb-jobfinder-site
     depends_on:
@@ -54,6 +60,12 @@ services:
     env_file: ./web/.env
     ports:
       - 8887:8887
+    networks:
+      - ojb-network
+
+networks:
+  ojb-network:
+
 
 volumes:
   db:
