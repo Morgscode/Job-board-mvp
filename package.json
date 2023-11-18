@@ -1,14 +1,20 @@
 {
   "name": "open-job-board",
   "version": "1.0.0",
-  "description": "a minimum viable open-source self-hosted job-board system",
+  "description": "a minimum viable open-source self-hosted job board system",
   "main": "index.js",
   "scripts": {
     "dev:api": "npm run -w api dev",
     "dev:cms": "npm run -w cms dev",
     "dev:jobfinder-site": "npm run -w jobfinder-site dev",
     "dev:jobboard-graphql": "npm run -w jobboard-graphql dev",
-    "dev": "run-p dev:*"
+    "dev": "run-p dev:*",
+    "build": "npm run build --workspaces",
+    "start:api": "npm run -w api start",
+    "start:cms": "npm run -w cms start",
+    "start:jobfinder-site": "npm run -w jobfinder-site start",
+    "start:jobboard-graphql": "npm run -w jobboard-graphql start",
+    "start": "run-p start:*"
   },
   "repository": {
     "type": "git",

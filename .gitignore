@@ -2,5 +2,6 @@
 /api/config/*.env
 /api/storage
 /api/setup.sh
+/api/docker.setup.sh
 /ojb-tooling/node/.env
 /jobboard-graphql/.env

@@ -1,16 +1,16 @@
-const catchAsync = require('../utils/catchAsyncError');
-const AppError = require('../utils/AppError');
-const NotFoundError = require('../utils/NotFoundError');
-const model = require('../models/jobModel');
-const { Location } = require('../models/locationModel');
-const { JobCategory } = require('../models/jobCategoryModel');
-const { JobsInLocations } = require('../models/jobsInLocationsModel');
-const { JobsInCategories } = require('../models/jobsInCategoriesModel');
-const { SalaryType } = require('../models/salaryTypeModel');
+const catchAsync = require("../utils/catchAsyncError");
+const AppError = require("../utils/AppError");
+const NotFoundError = require("../utils/NotFoundError");
+const model = require("../models/jobModel");
+const { Location } = require("../models/locationModel");
+const { JobCategory } = require("../models/jobCategoryModel");
+const { JobsInLocations } = require("../models/jobsInLocationsModel");
+const { JobsInCategories } = require("../models/jobsInCategoriesModel");
+const { SalaryType } = require("../models/salaryTypeModel");
 const {
   EmploymentContractType,
-} = require('../models/employmentContractTypeModel');
-const { JobApplication } = require('../models/jobApplicationModel');
+} = require("../models/employmentContractTypeModel");
+const { JobApplication } = require("../models/jobApplicationModel");
 
 const _index = catchAsync(async function (req, res, next) {
   const jobs = await model.Job.findAll({
@@ -21,14 +21,16 @@ const _index = catchAsync(async function (req, res, next) {
   });
 
   if (!jobs) {
-    return next(new NotFoundError('jobs not found'));
+    return next(new NotFoundError("jobs not found"));
   }
 
   res.status(200).json({
-    status: 'success',
-    data: { 
-      jobs, 
-      totalRecords: await model.Job.count()
+    status: "success",
+    data: {
+      jobs,
+      totalRecords: await model.Job.count({
+        where: { active: 1 },
+      }),
     },
   });
 });
@@ -38,10 +40,10 @@ const _find = catchAsync(async function (req, res, next) {
   const job = await model.Job.findOne({ where: { id } });
 
   if (!job) {
-    return next(new NotFoundError('job not found'));
+    return next(new NotFoundError("job not found"));
   }
 
-  res.status(200).json({ status: 'success', data: { job } });
+  res.status(200).json({ status: "success", data: { job } });
 });
 
 const _create = catchAsync(async function (req, res, next) {
@@ -54,18 +56,18 @@ const _create = catchAsync(async function (req, res, next) {
   } = req.body;
 
   if (locations?.length === 0 || categories?.length === 0) {
-    return next(new AppError('missing job location and/or category', 400));
+    return next(new AppError("missing job location and/or category", 400));
   }
 
   if (!employment_contract_type_id || !salary_type_id) {
     return next(
-      new AppError('missing job salary type and/or contract type', 400)
+      new AppError("missing job salary type and/or contract type", 400)
     );
   }
 
   const record = await model.Job.create(job);
   if (!record) {
-    return next(new AppError('error - unable to create job', 500, false));
+    return next(new AppError("error - unable to create job", 500, false));
   }
 
   await record.setSalaryType(salary_type_id);
@@ -81,7 +83,7 @@ const _create = catchAsync(async function (req, res, next) {
   );
 
   res.status(201).json({
-    status: 'success',
+    status: "success",
     data: {
       job: record.toJSON(),
     },
@@ -99,17 +101,17 @@ const _update = catchAsync(async function (req, res, next) {
   } = req.body;
 
   if (!job) {
-    return next(new AppError('missing job details', 400));
+    return next(new AppError("missing job details", 400));
   }
 
   const record = await model.Job.findOne({ where: { id } });
   if (!record) {
-    return next(new NotFoundError('job not found'));
+    return next(new NotFoundError("job not found"));
   }
 
   const updated = await model._update(job, { id });
   if (!updated) {
-    return next(new AppError('error - unable to update job', 500, false));
+    return next(new AppError("error - unable to update job", 500, false));
   }
 
   if (salary_type_id) {
@@ -181,7 +183,7 @@ const _update = catchAsync(async function (req, res, next) {
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: { job: (await record.reload()).toJSON() },
   });
 });
@@ -191,7 +193,7 @@ const _delete = catchAsync(async function (req, res, next) {
   const deleted = await model.Job.destroy({ where: { id } });
   await JobsInCategories.destroy({ where: { job_id: id } });
   await JobsInLocations.destroy({ where: { job_id: id } });
-  res.status(200).json({ status: 'success', data: { deleted } });
+  res.status(200).json({ status: "success", data: { deleted } });
 });
 
 const findByLocation = catchAsync(async function (req, res, next) {
@@ -210,7 +212,7 @@ const findByLocation = catchAsync(async function (req, res, next) {
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       jobs,
     },
@@ -232,7 +234,7 @@ const findByCategory = catchAsync(async function (req, res, next) {
     );
   }
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       jobs,
     },
@@ -243,7 +245,7 @@ const findByCategoryAndLocation = catchAsync(async function (req, res, next) {
   const { locationId, jobCategoryId } = req.params;
   if (!locationId || !jobCategoryId) {
     return next(
-      new AppError('you need to specify a category and a location', 400)
+      new AppError("you need to specify a category and a location", 400)
     );
   }
 
@@ -260,7 +262,7 @@ const findByCategoryAndLocation = catchAsync(async function (req, res, next) {
     include: [
       {
         model: JobCategory,
-        as: 'Category',
+        as: "Category",
         attributes: [],
         where: { id: jobCategoryId },
       },
@@ -272,7 +274,7 @@ const findByCategoryAndLocation = catchAsync(async function (req, res, next) {
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       jobs,
     },
@@ -293,7 +295,7 @@ const findBySalaryTypeId = catchAsync(async function (req, res, next) {
     );
   }
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       jobs,
     },
@@ -318,7 +320,7 @@ const findByEmploymentContractTypeId = catchAsync(async function (
     );
   }
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       jobs,
     },
@@ -330,16 +332,16 @@ const findByJobApplicationId = catchAsync(async function (req, res, next) {
 
   const application = await JobApplication.findOne({ where: { id } });
   if (!application) {
-    return next(new NotFoundError('application not found'));
+    return next(new NotFoundError("application not found"));
   }
 
   const job = await application.getJob();
   if (!job) {
-    return next(new NotFoundError('job not found'));
+    return next(new NotFoundError("job not found"));
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       job,
     },
@@ -353,17 +355,17 @@ const getPost = catchAsync(async function (req, res, next) {
     where: { id },
     include: [
       { model: Location, through: JobsInLocations },
-      { model: JobCategory, as: 'Category', through: JobsInCategories },
+      { model: JobCategory, as: "Category", through: JobsInCategories },
       EmploymentContractType,
       SalaryType,
     ],
   });
   if (!job) {
-    return next(new NotFoundError('job posting not found'));
+    return next(new NotFoundError("job posting not found"));
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       job,
     },
@@ -372,7 +374,7 @@ const getPost = catchAsync(async function (req, res, next) {
 
 const count = catchAsync(async function (req, res, next) {
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {},
   });
 });
