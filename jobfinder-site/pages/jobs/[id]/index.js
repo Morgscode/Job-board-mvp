@@ -1,11 +1,10 @@
-import { useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { withIronSessionSsr } from 'iron-session/next';
-import { sessionOptions } from '../../../utils/session';
-import moment from 'moment';
-import jobService from '../../../services/jobService';
-import useActiveState from '../../../utils/useActiveState';
-import useAuthState from '../../../utils/useAuthState';
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "../../../utils/session";
+import moment from "moment";
+import jobService from "../../../services/jobService";
+import useActiveState from "../../../utils/useActiveState";
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req, res, query }) => {
@@ -27,7 +26,6 @@ export const getServerSideProps = withIronSessionSsr(
 );
 
 export default function JobPost(props) {
-  useAuthState(false, props.user);
   const jobDetails = useRef(null);
   const viewMoreText = useRef(null);
   const viewMoreIcon = useRef(null);
@@ -40,18 +38,18 @@ export default function JobPost(props) {
   }`;
 
   const categories =
-    '<p>' +
-      props.job.Category.map((category) => category.name).join(', ') +
-      '</p>' || '<p>Loading...</p>';
+    "<p>" +
+      props.job.Category.map((category) => category.name).join(", ") +
+      "</p>" || "<p>Loading...</p>";
 
   const [active, setActive] = useActiveState(jobDetails);
   useEffect(() => {
     if (active) {
-      viewMoreText.current.innerText = 'View less';
-      viewMoreIcon.current.classList.add('rotate-180');
+      viewMoreText.current.innerText = "View less";
+      viewMoreIcon.current.classList.add("rotate-180");
     } else {
-      viewMoreText.current.innerText = 'View more details';
-      viewMoreIcon.current.classList.remove('rotate-180');
+      viewMoreText.current.innerText = "View more details";
+      viewMoreIcon.current.classList.remove("rotate-180");
     }
   }, [active, viewMoreIcon, viewMoreText]);
 
@@ -72,7 +70,7 @@ export default function JobPost(props) {
           </div>
           <div className="mb-0">
             <p className="mb-3 font-bold">Closing date:</p>
-            <p>{moment(props.job.deadline).format('LL')}</p>
+            <p>{moment(props.job.deadline).format("LL")}</p>
           </div>
         </div>
         <div className="mb-8">
@@ -112,7 +110,7 @@ export default function JobPost(props) {
               <div className="p-5 font-light text-gray-900 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
                 <p className="mb-2 font-medium">Contract Type:</p>
                 <p>{props.job.EmploymentContractType.name}</p>
-              </div> 
+              </div>
               <div className="p-5 font-light text-gray-900 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-b-xl">
                 <p className="mb-2 font-medium">Job Categories:</p>
                 <div

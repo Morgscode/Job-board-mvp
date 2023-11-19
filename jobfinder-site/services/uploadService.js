@@ -1,9 +1,9 @@
-import { http } from './http';
+import { http } from "./http";
 
-const ROUTE = '/uploads';
+const ROUTE = "/uploads";
 
 const userService = {
-  async index(query = '') {
+  async index(query = "") {
     const res = await http.get(`${ROUTE}?${query}`);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.uploads || [];
@@ -18,7 +18,7 @@ const userService = {
     if (res.status !== 201) throw new Error(res.status);
     return res.data.data.uploads || false;
   },
-  async update(upload, id) { 
+  async update(upload, id) {
     const res = await http.put(`${ROUTE}/${id}`, upload);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.upload || false;
@@ -29,7 +29,9 @@ const userService = {
     return true;
   },
   async download(id) {
-    const res = await http.get(`${ROUTE}/${id}/download`, { responseType: 'blob' });
+    const res = await http.get(`${ROUTE}/${id}/download`, {
+      responseType: "blob",
+    });
     if (res.status !== 200) throw new Error(res.status);
     return res;
   },

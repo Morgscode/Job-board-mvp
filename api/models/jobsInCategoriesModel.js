@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const db = require('./../utils/db');
-const { Job } = require('./jobModel');
-const { JobCategory } = require('./jobCategoryModel');
+const { DataTypes } = require("sequelize");
+const db = require("./../utils/db");
+const { Job } = require("./jobModel");
+const { JobCategory } = require("./jobCategoryModel");
 
 const JobsInCategories = db.sequelize.define(
-  'JobInCategory',
+  "JobInCategory",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,19 +15,19 @@ const JobsInCategories = db.sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Job,
-        key: 'id'
-      }
+        key: "id",
+      },
     },
     job_category_id: {
       type: DataTypes.INTEGER,
       references: {
         model: JobCategory,
-        key: 'id'
-      }
+        key: "id",
+      },
     },
   },
   {
-    tableName: 'ojb_jobs_in_categories',
+    tableName: "ojb_jobs_in_categories",
     paranoid: true,
   }
 );

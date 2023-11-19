@@ -1,21 +1,21 @@
-import React, { useCallback, useState } from 'react';
-import { withIronSessionSsr } from 'iron-session/next';
-import { sessionOptions } from '../../../utils/session';
-import dynamic from 'next/dynamic';
-import { useDropzone } from 'react-dropzone';
-import jobService from '../../../services/jobService';
-import useAuthState from '../../../utils/useAuthState';
-import jobApplicationService from '../../../services/jobApplicationService';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+import React, { useCallback, useState } from "react";
+import { withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "../../../utils/session";
+import dynamic from "next/dynamic";
+import { useDropzone } from "react-dropzone";
+import jobService from "../../../services/jobService";
+import jobApplicationService from "../../../services/jobApplicationService";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req, res, query }) => {
     const { user = null } = req.session;
+    console.log(user);
     if (!user) {
       return {
         redirect: {
-          destination: '/login',
+          destination: "/login",
           permanent: false,
         },
       };
@@ -29,10 +29,9 @@ export const getServerSideProps = withIronSessionSsr(
 );
 
 export default function Apply(props) {
-  useAuthState(true, props.user);
   const [formSubmitState, setFormSubmitState] = useState(false);
-  const [cv, setCv] = useState('');
-  const [coverLetter, setCoverLetter] = useState('');
+  const [cv, setCv] = useState("");
+  const [coverLetter, setCoverLetter] = useState("");
   const [errors, setErrors] = useState({});
 
   const onDrop = useCallback((files) => {
@@ -102,7 +101,7 @@ export default function Apply(props) {
             format={formats}
             modules={{
               toolbar: {
-                container: '#toolbar',
+                container: "#toolbar",
               },
             }}
           />
@@ -112,14 +111,14 @@ export default function Apply(props) {
     return <textarea value={coverLetter} onChange={setCoverLetter}></textarea>;
   }
 
-  const formats = ['header', 'bold', 'italic', 'list', 'bullet'];
+  const formats = ["header", "bold", "italic", "list", "bullet"];
 
   function toolbar() {
     return (
       <div id="toolbar">
         <select
           className="ql-header"
-          defaultValue={''}
+          defaultValue={""}
           onChange={(e) => e.persist()}
         >
           <option value="1" />
@@ -137,52 +136,52 @@ export default function Apply(props) {
   async function handleJobApplication(submit) {
     submit.preventDefault();
 
-    if (!cv || cv instanceof File !== true || cv.type !== 'application/pdf') {
+    if (!cv || cv instanceof File !== true || cv.type !== "application/pdf") {
       setErrors((errors) => ({
         ...errors,
-        cv: 'A file upload as a PDF is required',
+        cv: "A file upload as a PDF is required",
       }));
       return false;
     } else {
-      setErrors((errors) => delete errors['cv']);
+      setErrors((errors) => delete errors["cv"]);
     }
 
     if (cv.size > 1000000) {
       setErrors((errors) => ({
         ...errors,
-        cv: 'Please upload a CV with a maximum size of 1MB',
+        cv: "Please upload a CV with a maximum size of 1MB",
       }));
       return false;
     } else {
-      setErrors((errors) => delete errors['cv']);
+      setErrors((errors) => delete errors["cv"]);
     }
 
     if (!coverLetter) {
       setErrors((errors) => ({
         ...errors,
-        coverLetter: 'A cover letter is required',
+        coverLetter: "A cover letter is required",
       }));
       return false;
     } else {
-      setErrors((errors) => delete errors['coverLetter']);
+      setErrors((errors) => delete errors["coverLetter"]);
     }
 
     try {
       const application = new FormData();
-      application.append('cv', cv);
-      application.append('cover_letter', coverLetter);
-      application.append('job_id', props.job.id);
+      application.append("cv", cv);
+      application.append("cover_letter", coverLetter);
+      application.append("job_id", props.job.id);
       await jobApplicationService.create(application);
       setCv(null);
       setCoverLetter(null);
       setFormSubmitState({
         message: `Your application for the ${props.job.title} role has been submitted`,
-        classes: 'text-2xl mb-8 text-green-600',
+        classes: "text-2xl mb-8 text-green-600",
       });
     } catch (error) {
       setFormSubmitState({
         message: `There was a problem submitting your application for the ${props.job.title} role. Please try again.`,
-        classes: 'text-2xl mb-8 text-red-600',
+        classes: "text-2xl mb-8 text-red-600",
       });
     }
   }
@@ -231,14 +230,14 @@ export default function Apply(props) {
                 <input {...getInputProps()} />
               </label>
             </div>
-            {fieldErrorMessage('cv')}
+            {fieldErrorMessage("cv")}
           </div>
           <div id="cover-letter" className="mb-8">
             <h2 className="mb-6 text-xl text-gray-900 dark:text-white">
               Please write a covering letter for this application
             </h2>
             {editor()}
-            {fieldErrorMessage('coverLetter')}
+            {fieldErrorMessage("coverLetter")}
           </div>
           <button
             type="submit"

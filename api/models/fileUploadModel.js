@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const moment = require('moment');
-const db = require('./../utils/db');
-const { User } = require('./userModel');
+const { DataTypes } = require("sequelize");
+const moment = require("moment");
+const db = require("./../utils/db");
+const { User } = require("./userModel");
 
 const FileUpload = db.sequelize.define(
-  'FileUpload',
+  "FileUpload",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -16,7 +16,7 @@ const FileUpload = db.sequelize.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: true, 
+        notNull: true,
       },
     },
     name: {
@@ -44,12 +44,12 @@ const FileUpload = db.sequelize.define(
       allowNull: false,
       references: {
         model: User,
-        key: 'id',
+        key: "id",
       },
     },
   },
   {
-    tableName: 'ojb_file_uploads',
+    tableName: "ojb_file_uploads",
     paranoid: true,
   }
 );
@@ -61,14 +61,15 @@ const FileUpload = db.sequelize.define(
  * @returns Object
  */
 async function _update(file, where) {
-  if ('id' in file) delete file.id;
-  if ('user_id' in file) delete file.user_id;
-  if ('mimetype' in file) delete file.mimetype;
-  if ('path' in file) delete file.path;
-  if ('name' in file) delete file.name; 
+  if ("id" in file) delete file.id;
+  if ("user_id" in file) delete file.user_id;
+  if ("mimetype" in file) delete file.mimetype;
+  if ("path" in file) delete file.path;
+  if ("name" in file) delete file.name;
   return await FileUpload.update(file, { where });
 }
 
 module.exports = {
-  FileUpload, _update
+  FileUpload,
+  _update,
 };

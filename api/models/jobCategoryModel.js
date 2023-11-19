@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const db = require('./../utils/db');
+const { DataTypes } = require("sequelize");
+const db = require("./../utils/db");
 
 const JobCategory = db.sequelize.define(
-  'JobCategory',
+  "JobCategory",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ const JobCategory = db.sequelize.define(
     },
   },
   {
-    tableName: 'ojb_job_categories',
+    tableName: "ojb_job_categories",
     paranoid: true,
   }
 );
@@ -34,9 +34,9 @@ const JobCategory = db.sequelize.define(
  * @param {obejct} where - the sql where clause
  * @returns Object
  */
- async function _update(category, where) {
-  if ('id' in category) delete category.id;
-  return await JobCategory.update(category, {where,});
+async function _update(category, where) {
+  if ("id" in category) delete category.id;
+  return await JobCategory.update(category, { where });
 }
 
 module.exports = { JobCategory, _update };

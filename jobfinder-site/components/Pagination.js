@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Pagination(props) {
   const pages = Math.ceil(props.totalRecords / 10);
 
@@ -18,9 +16,9 @@ export default function Pagination(props) {
           <button
             onClick={() => props.setPage(index + 1)}
             className={`p-5 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 ${
-              isFirstButton(index) ? 'rounded-l-lg' : ''
+              isFirstButton(index) ? "rounded-l-lg" : ""
             } ${
-              isLastButton(index) ? 'rounded-r-lg' : ''
+              isLastButton(index) ? "rounded-r-lg" : ""
             } hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
           >
             {index + 1}

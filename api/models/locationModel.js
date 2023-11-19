@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const db = require('./../utils/db');
+const { DataTypes } = require("sequelize");
+const db = require("./../utils/db");
 
 const Location = db.sequelize.define(
-  'Location',
+  "Location",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -17,13 +17,13 @@ const Location = db.sequelize.define(
         notNull: true,
       },
     },
-    description: { 
+    description: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
   },
   {
-    tableName: 'ojb_locations',
+    tableName: "ojb_locations",
     paranoid: true,
   }
 );
@@ -35,7 +35,7 @@ const Location = db.sequelize.define(
  * @returns Object
  */
 async function _update(location, where) {
-  if ('id' in location) delete location.id;
+  if ("id" in location) delete location.id;
   return await Location.update(location, { where });
 }
 

@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const db = require('./../utils/db');
-const { Job } = require('./jobModel');
-const { Location } = require('./locationModel');
+const { DataTypes } = require("sequelize");
+const db = require("./../utils/db");
+const { Job } = require("./jobModel");
+const { Location } = require("./locationModel");
 
 const JobsInLocations = db.sequelize.define(
-  'JobInLocation', 
+  "JobInLocation",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,19 +15,19 @@ const JobsInLocations = db.sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Job,
-        key: 'id'
-      }
+        key: "id",
+      },
     },
     location_id: {
       type: DataTypes.INTEGER,
       references: {
         model: Location,
-        key: 'id'
-      }
+        key: "id",
+      },
     },
   },
   {
-    tableName: 'ojb_jobs_in_locations',
+    tableName: "ojb_jobs_in_locations",
     paranoid: true,
   }
 );

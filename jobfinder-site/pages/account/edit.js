@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { withIronSessionSsr } from 'iron-session/next';
-import { sessionOptions } from '../../utils/session';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import meService from '../../services/meService';
-import AccountSideBar from '../../components/AccountSidebar';
-import useAuthState from '../../utils/useAuthState';
+import React, { useState } from "react";
+import { withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "../../utils/session";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import meService from "../../services/meService";
+import AccountSideBar from "../../components/AccountSidebar";
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const { user = null } = req.session;
@@ -13,7 +12,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   if (!user) {
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
@@ -27,13 +26,11 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 }, sessionOptions);
 
 export default function EditAccount(props) {
-  useAuthState(true, props.user);
   const values = { ...props.user };
   const defaultValues = { ...values };
   const [formSubmitState, setFormSubmitState] = useState(false);
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -62,32 +59,31 @@ export default function EditAccount(props) {
   }
 
   async function updateUser(user) {
-    console.log(user);
     try {
       await meService.update(user);
-      await axios.post('/api/me');
+      await axios.post("/api/me");
       setFormSubmitState({
         error: false,
-        message: 'User updated.',
-        classes: 'text-2xl mb-8 text-green-600',
+        message: "User updated.",
+        classes: "text-2xl mb-8 text-green-600",
       });
     } catch (error) {
       setFormSubmitState({
         error: true,
         message: error.response.data.message,
-        classes: 'text-2xl mb-8 text-red-600',
+        classes: "text-2xl mb-8 text-red-600",
       });
-    } 
+    }
   }
 
   return (
     <div className="flex flex-col md:flex-row">
-      <AccountSideBar user={props.user} /> 
+      <AccountSideBar user={props.user} />
       <div className="flex-1 p-2 md:p-8">
         <h1 className="mb-6 text-4xl text-gray-900 dark:text-white">
           Update your account
         </h1>
-        <form 
+        <form
           onSubmit={handleSubmit(updateUser)}
           className="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
         >
@@ -95,7 +91,7 @@ export default function EditAccount(props) {
           <div className="mb-6 grid gap-8 md:grid-cols-2">
             <div className="mb-3">
               <label
-                htmlFor="title" 
+                htmlFor="title"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Title
@@ -105,12 +101,12 @@ export default function EditAccount(props) {
                 id="title"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="title"
-                {...register('title', {
-                  required: 'Please enter a title',
+                {...register("title", {
+                  required: "Please enter a title",
                   minLength: 2,
                 })}
               />
-              {fieldErrorMessage('title')}
+              {fieldErrorMessage("title")}
             </div>
             <div className="mb-3">
               <label
@@ -124,12 +120,12 @@ export default function EditAccount(props) {
                 id="first_name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="First name"
-                {...register('first_name', {
-                  required: 'Your first name is required.',
+                {...register("first_name", {
+                  required: "Your first name is required.",
                   minLength: 2,
                 })}
               />
-              {fieldErrorMessage('first_name')}
+              {fieldErrorMessage("first_name")}
             </div>
             <div className="mb-3">
               <label
@@ -143,12 +139,12 @@ export default function EditAccount(props) {
                 id="surname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Surname"
-                {...register('surname', {
-                  required: 'Your surname is required',
+                {...register("surname", {
+                  required: "Your surname is required",
                   minLength: 2,
                 })}
               />
-              {fieldErrorMessage('surname')}
+              {fieldErrorMessage("surname")}
             </div>
             <div className="mb-3">
               <label
@@ -162,9 +158,9 @@ export default function EditAccount(props) {
                 id="middle_names"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@email.com"
-                {...register('middle_names')}
+                {...register("middle_names")}
               />
-              {fieldErrorMessage('middle_names')}
+              {fieldErrorMessage("middle_names")}
             </div>
           </div>
 

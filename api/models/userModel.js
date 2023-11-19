@@ -1,12 +1,12 @@
-const { DataTypes } = require('sequelize');
-const moment = require('moment');
-const bcrypt = require('bcrypt');
-const db = require('./../utils/db');
-const auth = require('./../utils/auth');
-const Mailer = require('../utils/Mailer');
+const { DataTypes } = require("sequelize");
+const moment = require("moment");
+const bcrypt = require("bcrypt");
+const db = require("./../utils/db");
+const auth = require("./../utils/auth");
+const Mailer = require("../utils/Mailer");
 
 const User = db.sequelize.define(
-  'User',
+  "User",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -80,7 +80,7 @@ const User = db.sequelize.define(
     },
   },
   {
-    tableName: 'ojb_users',
+    tableName: "ojb_users",
     paranoid: true,
   }
 );
@@ -92,15 +92,15 @@ const User = db.sequelize.define(
  * @returns Object
  */
 async function _update(user, where) {
-  if ('id' in user) delete user.id;
-  if ('role' in user) delete user.role;
-  if ('password' in user) delete user.password;
-  if ('password_reset_token' in user) delete user.password_reset_token;
-  if ('password_reset_expires' in user) delete user.password_reset_expires;
-  if ('pssword_refreshed_at' in user) delete user.pssword_refreshed_at;
-  if ('email' in user) delete user.email;
-  if ('email_verify_token' in user) delete user.email_verify_token;
-  if ('email_verified_at' in user) delete user.email_verified_at;
+  if ("id" in user) delete user.id;
+  if ("role" in user) delete user.role;
+  if ("password" in user) delete user.password;
+  if ("password_reset_token" in user) delete user.password_reset_token;
+  if ("password_reset_expires" in user) delete user.password_reset_expires;
+  if ("pssword_refreshed_at" in user) delete user.pssword_refreshed_at;
+  if ("email" in user) delete user.email;
+  if ("email_verify_token" in user) delete user.email_verify_token;
+  if ("email_verified_at" in user) delete user.email_verified_at;
   return await User.update(user, { where });
 }
 
@@ -120,7 +120,7 @@ async function registerUser(user, password, role = 1) {
 }
 
 async function requestEmailVerify(user) {
-  if (!user instanceof User) throw new Error('you must pass in a valid user');
+  if (!user instanceof User) throw new Error("you must pass in a valid user");
   // set verify token
   const verify = auth.createAppToken();
   user.email_verify_token = verify.hash;
@@ -128,10 +128,10 @@ async function requestEmailVerify(user) {
 
   // send email
   const mailer = new Mailer();
-  mailer.setOption('to', user.email);
+  mailer.setOption("to", user.email);
   mailer.setOption(
-    'subject',
-    'Your email address has been registered with OJB. Please verify your email'
+    "subject",
+    "Your email address has been registered with OJB. Please verify your email"
   );
   const data = {
     firstName: user.first_name,
@@ -139,54 +139,54 @@ async function requestEmailVerify(user) {
       `${process.env.JOBFINDER_SITE_URL}/verify-email?email=${user.email}&token=${verify.token}`
     ),
   };
-  mailer.renderTemplate('verify-email', data);
+  mailer.renderTemplate("verify-email", data);
   await mailer.send();
 }
 
 async function requestPasswordReset(user) {
-  if (!user instanceof User) throw new Error('you must pass in a valid user');
+  if (!user instanceof User) throw new Error("you must pass in a valid user");
 
   const reset = auth.createAppToken();
   user.password_reset_token = reset.hash;
-  user.password_reset_expires = moment().add(15, 'minutes');
+  user.password_reset_expires = moment().add(15, "minutes");
   await user.save();
 
   const mailer = new Mailer();
-  mailer.setOption('to', user.email);
-  mailer.setOption('subject', 'Password reset request');
+  mailer.setOption("to", user.email);
+  mailer.setOption("subject", "Password reset request");
   const data = {
     firstName: user.first_name,
     url: encodeURI(
       `${process.env.JOBFINDER_SITE_URL}/reset-password?email=${user.email}&token=${reset.token}`
     ),
   };
-  mailer.renderTemplate('reset-password', data);
+  mailer.renderTemplate("reset-password", data);
   await mailer.send();
 }
 
 async function loginUser(email, password) {
   const user = await User.findOne({ where: { email } });
   if (!user) {
-    throw new Error('Email invalid');
+    throw new Error("Email invalid");
   }
   const passwordMatch = await auth.verifyPassword(password, user.password);
   if (!passwordMatch) {
-    throw new Error('Password invalid');
+    throw new Error("Password invalid");
   }
   return user.toJSON();
 }
 
 function apiUser(user) {
-  if ('password' in user) delete user['password'];
-  if ('password_reset_token' in user) delete user['password_reset_token'];
-  if ('password_reset_expires' in user) delete user['password_reset_expires'];
-  if ('password_refreshed_at' in user) delete user['password_refreshed_at'];
-  if ('email_verify_token' in user) delete user['email_verify_token'];
+  if ("password" in user) delete user["password"];
+  if ("password_reset_token" in user) delete user["password_reset_token"];
+  if ("password_reset_expires" in user) delete user["password_reset_expires"];
+  if ("password_refreshed_at" in user) delete user["password_refreshed_at"];
+  if ("email_verify_token" in user) delete user["email_verify_token"];
   return user;
 }
 
 async function updatePassword(user, password) {
-  if (!user instanceof User) throw new Error('you must pass in a valid user');
+  if (!user instanceof User) throw new Error("you must pass in a valid user");
   let hash = await bcrypt.hash(password, 12);
   user.password = hash;
   user.password_reset_expires = null;

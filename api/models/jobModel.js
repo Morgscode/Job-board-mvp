@@ -1,11 +1,11 @@
-const { DataTypes } = require('sequelize');
-const moment = require('moment');
-const db = require('./../utils/db');
-const { SalaryType } = require('./salaryTypeModel');
-const { EmploymentContractType } = require('./employmentContractTypeModel');
+const { DataTypes } = require("sequelize");
+const moment = require("moment");
+const db = require("./../utils/db");
+const { SalaryType } = require("./salaryTypeModel");
+const { EmploymentContractType } = require("./employmentContractTypeModel");
 
 const Job = db.sequelize.define(
-  'Job',
+  "Job",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -43,7 +43,7 @@ const Job = db.sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: SalaryType,
-        key: 'id',
+        key: "id",
       },
     },
     salary: {
@@ -58,7 +58,7 @@ const Job = db.sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: EmploymentContractType,
-        key: 'id',
+        key: "id",
       },
     },
     deadline: {
@@ -68,12 +68,12 @@ const Job = db.sequelize.define(
       validate: {
         notNull: true,
         isDate: true,
-        isAfter: moment().format('L'),
+        isAfter: moment().format("L"),
       },
     },
   },
   {
-    tableName: 'ojb_jobs',
+    tableName: "ojb_jobs",
     paranoid: true,
   }
 );
@@ -85,7 +85,7 @@ const Job = db.sequelize.define(
  * @returns Object
  */
 async function _update(job, where) {
-  if ('id' in job) delete job.id;
+  if ("id" in job) delete job.id;
   return await Job.update(job, { where });
 }
 

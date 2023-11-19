@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 import {
   login as setLogin,
   setLoggedInUser,
-} from '../store/features/authSlice';
+} from "../store/features/authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const values = { email: '', password: '' };
+  const values = { email: "", password: "" };
   const defaultValues = { ...values };
   const [formSubmitState, setFormSubmitState] = useState(false);
   const {
@@ -35,8 +35,6 @@ export default function Login() {
   }
 
   function fieldErrorMessage(field) {
-    console.log(field);
-    console.log(errors);
     return (
       errors[field] && (
         <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -48,19 +46,17 @@ export default function Login() {
 
   async function loginUser(submit) {
     try {
-      const res = await axios.post('/api/login', submit);
-      const { user, token } = res.data.data;
-      dispatch(setLogin(token));
-      dispatch(setLoggedInUser(user));
-      router.push('/account');
+      const res = await axios.post("/api/login", submit);
+      const { user } = res.data;
+      dispatch(setLogin(user));
+      router.push("/account");
     } catch (error) {
       console.error(error);
       setFormSubmitState({
         error: true,
         message:
-          error?.response?.data?.data?.message ||
-          'There was a problem logging in',
-        classes: 'text-2xl mb-8 text-red-600',
+          error?.response?.data?.message || "There was a problem logging in",
+        classes: "text-2xl mb-8 text-red-600",
       });
     }
   }
@@ -88,11 +84,11 @@ export default function Login() {
               id="email"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="name@email.com"
-              {...register('email', {
+              {...register("email", {
                 required: true,
               })}
             />
-            {fieldErrorMessage('email')}
+            {fieldErrorMessage("email")}
           </div>
           <div className="mb-4">
             <label
@@ -105,11 +101,11 @@ export default function Login() {
               type="password"
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              {...register('password', {
+              {...register("password", {
                 required: true,
               })}
             />
-            {fieldErrorMessage('password')}
+            {fieldErrorMessage("password")}
           </div>
         </div>
 
@@ -123,7 +119,7 @@ export default function Login() {
 
       <div className="mt-8">
         <Link
-          href={'/forgot-password'}
+          href={"/forgot-password"}
           class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
         >
           Reset my password

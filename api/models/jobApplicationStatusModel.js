@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const db = require('./../utils/db');
+const { DataTypes } = require("sequelize");
+const db = require("./../utils/db");
 
 const JobApplicationStatus = db.sequelize.define(
-  'JobApplicationStatus',
+  "JobApplicationStatus",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,7 +15,7 @@ const JobApplicationStatus = db.sequelize.define(
     },
   },
   {
-    tableName: 'ojb_job_application_status',
+    tableName: "ojb_job_application_status",
     paranoid: true,
   }
 );
@@ -27,7 +27,7 @@ const JobApplicationStatus = db.sequelize.define(
  * @returns Object
  */
 async function _update(status, where) {
-  if ('id' in status) delete status.id;
+  if ("id" in status) delete status.id;
   return await JobApplicationStatus.update(status, { where });
 }
 

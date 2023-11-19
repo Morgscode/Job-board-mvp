@@ -1,10 +1,10 @@
-import { http } from './http';
+import { http } from "./http";
 
-const ROUTE = '/me';
+const ROUTE = "/me";
 
 const meService = {
-  async index(token) {
-    const res = await http.get(`${ROUTE}`, {headers: {'Authorization': `Bearer ${token}`}});
+  async index() {
+    const res = await http.get(`${ROUTE}`);
     if (res.status !== 200) throw new Error(res);
     return res.data.data.user || false;
   },
@@ -13,8 +13,8 @@ const meService = {
     if (res.status !== 200) throw new Error(res);
     return res.data.data.user || false;
   },
-  async applications(token) {
-    const res = await http.get(`${ROUTE}/job-applications`, {headers: {'Authorization': `Bearer ${token}`}});
+  async applications() {
+    const res = await http.get(`${ROUTE}/job-applications`);
     if (res.status !== 200) throw new Error(res);
     return res.data.data.applications || [];
   },

@@ -1,37 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { useRouter } from 'next/router';
-import { default as ls } from '../../utils/localStorage';
-import { http } from '../../services/http';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     loggedIn: false,
     loggedInUser: {},
   },
   reducers: {
     login: (state, action) => {
-      ls.set('jwt', action.payload);
       state.loggedIn = true;
-      http.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${action.payload}`;
-    },
-    logout: (state) => {
-      ls.drop('jwt');
-      state.loggedIn = false;
-      state.loggedInUser = {};
-      http.defaults.headers.common['Authorization'] = ``;
-    },
-    setLoggedInUser: (state, action) => {
       state.loggedInUser = action.payload;
     },
-    refreshLoggedIn: (state, action) => {
-      state.loggedIn = action.payload;
-    }
+    logout: (state) => {
+      state.loggedIn = false;
+      state.loggedInUser = {};
+    },
   },
 });
 
-export const { login, logout, setLoggedInUser, refreshLoggedIn } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

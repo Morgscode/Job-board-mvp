@@ -1,13 +1,13 @@
-const { DataTypes } = require('sequelize');
-const moment = require('moment');
-const db = require('./../utils/db');
-const { Job } = require('./jobModel');
-const { User } = require('./userModel');
-const { JobApplicationStatus } = require('./jobApplicationStatusModel');
-const { FileUpload } = require('./fileUploadModel');
+const { DataTypes } = require("sequelize");
+const moment = require("moment");
+const db = require("./../utils/db");
+const { Job } = require("./jobModel");
+const { User } = require("./userModel");
+const { JobApplicationStatus } = require("./jobApplicationStatusModel");
+const { FileUpload } = require("./fileUploadModel");
 
 const JobApplication = db.sequelize.define(
-  'JobApplication',
+  "JobApplication",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,7 +18,7 @@ const JobApplication = db.sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: JobApplicationStatus,
-        key: 'id',
+        key: "id",
       },
     },
     job_id: {
@@ -26,7 +26,7 @@ const JobApplication = db.sequelize.define(
       allowNull: false,
       references: {
         model: Job,
-        key: 'id',
+        key: "id",
       },
       validate: {
         notEmpty: true,
@@ -39,7 +39,7 @@ const JobApplication = db.sequelize.define(
       allowNull: false,
       references: {
         model: User,
-        key: 'id',
+        key: "id",
       },
       validate: {
         notEmpty: true,
@@ -53,29 +53,29 @@ const JobApplication = db.sequelize.define(
     },
     cv_id: {
       type: DataTypes.INTEGER,
-      references: { 
+      references: {
         model: FileUpload,
-        key: 'id',
+        key: "id",
       },
     },
   },
   {
-    tableName: 'ojb_job_applications',
+    tableName: "ojb_job_applications",
     paranoid: true,
   }
 );
 
 /**
  * A model specific update function which will prepare user input for db insertion
- * @param {object} application - the data 
+ * @param {object} application - the data
  * @param {obejct} where - the sql where clause
  * @returns Object
  */
 async function _update(application, where) {
-  if ('id' in application) delete application.id;
-  if ('job_id' in application) delete application.job_id;
-  if ('user_id' in application) delete application.user_id;
-  if ('cover_letter' in application) delete application.cover_letter;
+  if ("id" in application) delete application.id;
+  if ("job_id" in application) delete application.job_id;
+  if ("user_id" in application) delete application.user_id;
+  if ("cover_letter" in application) delete application.cover_letter;
   return await JobApplication.update(application, { where });
 }
 

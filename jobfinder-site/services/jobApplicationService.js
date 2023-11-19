@@ -1,9 +1,9 @@
-import { http } from './http';
+import { http } from "./http";
 
-const ROUTE = '/job-applications';
+const ROUTE = "/job-applications";
 
 const jobService = {
-  async index(query = '') {
+  async index(query = "") {
     const res = await http.get(`${ROUTE}?${query}`);
     if (res.status !== 200) throw new Error(res.status);
     return res.data.data.applications || [];
@@ -17,16 +17,6 @@ const jobService = {
     const res = await http.post(`${ROUTE}`, application);
     if (res.status !== 201) throw new Error(res.status);
     return res.data.data.application || false;
-  },
-  async update(application, id) {
-    const res = await http.put(`${ROUTE}/${id}`, application);
-    if (res.status !== 200) throw new Error(res.status);
-    return res.data.data.application || false;
-  },
-  async delete(id) {
-    const res = await http.delete(`${ROUTE}/${id}`);
-    if (res.status !== 200) throw new Error(res.status);
-    return true;
   },
   async withdraw(id) {
     const res = await http.put(`${ROUTE}/${id}/withdraw`);

@@ -1,31 +1,28 @@
-import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { withIronSessionSsr } from 'iron-session/next';
-import { sessionOptions } from '../../../utils/session';
-import moment from 'moment';
-import useAuthState from '../../../utils/useAuthState';
-import { http } from '../../../services/http';
-import jobService from '../../../services/jobService';
-import jobApplicationService from '../../../services/jobApplicationService';
-import jobApplicationStatusService from '../../../services/jobApplicationStatusService';
-import AccountSideBar from '../../../components/AccountSidebar';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import { withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "../../../utils/session";
+import moment from "moment";
+import { http } from "../../../services/http";
+import jobService from "../../../services/jobService";
+import jobApplicationService from "../../../services/jobApplicationService";
+import jobApplicationStatusService from "../../../services/jobApplicationStatusService";
+import AccountSideBar from "../../../components/AccountSidebar";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req, res, query }) => {
-    const { user = null, jwt } = req.session;
+    const { user = null } = req.session;
 
     if (!user) {
       return {
         redirect: {
-          destination: '/login',
+          destination: "/login",
           permanent: false,
         },
       };
     }
-
-    http.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 
     const application = await jobApplicationService.find(query.id);
     if (!application) {
@@ -51,8 +48,9 @@ export const getServerSideProps = withIronSessionSsr(
 );
 
 export default function JobApplication(props) {
-  useAuthState(true, props.user);
-  const [status, setStatus] = useState(props.application.job_application_status_id);
+  const [status, setStatus] = useState(
+    props.application.job_application_status_id
+  );
 
   async function withdrawApplication(action) {
     action.preventDefault();
@@ -65,10 +63,8 @@ export default function JobApplication(props) {
   }
 
   function statusText() {
-    const target = props.statuses.find(
-      (item) => item.id === status
-    );
-    return target?.name || 'Unavailable';
+    const target = props.statuses.find((item) => item.id === status);
+    return target?.name || "Unavailable";
   }
 
   function editor() {
@@ -84,7 +80,7 @@ export default function JobApplication(props) {
             readOnly
             modules={{
               toolbar: {
-                container: '#toolbar',
+                container: "#toolbar",
               },
             }}
           />
@@ -104,14 +100,14 @@ export default function JobApplication(props) {
     if (status != 5) {
       return (
         <form onSubmit={withdrawApplication}>
-        <button
-          type="submit"
-          className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-500 dark:focus:ring-red-900"
-        >
-          Withdraw Application
-        </button>
-      </form>
-      ); 
+          <button
+            type="submit"
+            className="focus:outline-none text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-500 dark:focus:ring-red-900"
+          >
+            Withdraw Application
+          </button>
+        </form>
+      );
     }
   }
 
@@ -129,9 +125,9 @@ export default function JobApplication(props) {
                 Application status: {statusText()}
               </h2>
               <h2 className="mb-6 text-2xl text-gray-900 dark:text-white">
-                Application date:{' '}
+                Application date:{" "}
                 <span className="font-medium">
-                  {moment(props.application.createdAt).format('DD-MM-YYYY')}
+                  {moment(props.application.createdAt).format("DD-MM-YYYY")}
                 </span>
               </h2>
               <h2 className="mb-4 text-2xl text-gray-900 dark:text-white">
@@ -139,7 +135,7 @@ export default function JobApplication(props) {
               </h2>
               <div>{editor()}</div>
             </article>
-           {withdrawForm()}
+            {withdrawForm()}
           </div>
         </div>
       </div>

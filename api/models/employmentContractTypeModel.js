@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const db = require('./../utils/db');
+const { DataTypes } = require("sequelize");
+const db = require("./../utils/db");
 
 const EmploymentContractType = db.sequelize.define(
-  'EmploymentContractType',
+  "EmploymentContractType",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,9 +15,9 @@ const EmploymentContractType = db.sequelize.define(
     },
   },
   {
-    tableName: 'ojb_employment_contract_types',
-    paranoid: true, 
-  } 
+    tableName: "ojb_employment_contract_types",
+    paranoid: true,
+  }
 );
 
 /**
@@ -27,7 +27,7 @@ const EmploymentContractType = db.sequelize.define(
  * @returns Object
  */
 async function _update(type, where) {
-  if ('id' in type) delete type.id;
+  if ("id" in type) delete type.id;
   return await EmploymentContractType.update(type, { where });
 }
 

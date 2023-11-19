@@ -2,28 +2,7 @@
 
 This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
-## TODOS 
-
-1. api: query jobs route
-2. jobfinder-site: build advanced search form
-3. api: setup email templates for 
-  - job application email
-  - job application status update email
-4. api: upload route for assets
-
-## Requirements 
-
-- Node.js 16.16.0
-- NPM 7.24.2
-- MySQL 5.7
-
-### SETUP 
-
-1. From the root of the monorepo - run `npm i`
-2. Follow the environment setup instructions for the api
-3. From the root of the monorepo - run `npm run dev`
-
-## OJB Tooling 
+## DOCKER SETUP (OJB-TOOLING)
 
 - A docker compose environment is ready to go out of the box
 
@@ -38,20 +17,44 @@ MYSQL_PASSWORD=root
 MYSQL_ROOT_PASSWORD=root
 ```
 
-2.  Create an env file for the api in `./ojb-tooling/node/.env` - take a look at `example.env`
-3. Create an env file for the cms in `./ojb-tooling/web/.env`
+2.  Create an env file for the api in `./ojb-tooling/node/.env` - take a look at `example.env` in `/api`
+
+```
+APP_ENV_LOADED=1
+NODE_ENV=production
+JOBFINDER_SITE_URL=http://localhost:8887
+NODE_PORT=8080
+MYSQL_HOST=db
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASS=root
+MYSQL_DB=ojb_production
+JWT_SECRET=yOuRsUpErSeCuReSeCrEt
+SMTP_NAME=smtp@sender.name
+SMTP_HOST=smtp.relay
+SMTP_PORT=587
+SMTP_USER=yoursmtp@user.com
+SMTP_KEY=key
+MAIL_FROM=mail from <email@here>
+UPLOADS_DIR=storage/uploads
+ASSETS_DIR=public/assets
+```
+
+3. Create an env file for the cms and jobfinder site in `./ojb-tooling/web/.env` - take a look at example.env in `/cms` and `jobfinder site`.
 
 ```
 VITE_API_URL=http://localhost:8080/api/v1
+NODE_HOST=cms
 NODE_PORT=8888
-NODE_HOST=0.0.0.0
+NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+SECRET_COOKIE_PASSWORD=yOuRSuPeRsEcUrEsEcReT
 ```
 
 4.  Copy `api/example.setup.sh` to `api/setup.sh` into the root of the project.
 5.  Enter your db credentials to pass into the setup script.
 
 ```
-MYSQL_DB=ojb_local MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js
+MYSQL_DB=ojb_production MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js
 ```
 
 6.  Build the container
@@ -82,6 +85,20 @@ POST: http://localhost:8080/api/v1/register
 9. In the phpMyAdmin container - update your user role to `3` and your email verified at to a `current timestamp`
 10. Explore the cms
 11. Explore the job finder site
+
+### LOCAL SETUP 
+
+## Minimum Requirements 
+
+- Node.js 16.16.0
+- NPM 7.24.2
+- MySQL 5.7
+
+1. From the root of the monorepo - run `npm i`
+2. Follow the environment setup instructions for the api
+3. Follow the environment setup instructions for the cms
+4. Follow the environment setup instructions for the jobfinder site
+5. From the root of the monorepo - run `npm run start`
 
 ## API
 
@@ -131,3 +148,12 @@ POST: http://localhost:8080/api/v1/register
 
 1. From the root of the monorepo - run `npm i`
 2. From the root of the monorepo - run `npm run dev:jobfinder-site`
+
+## TODOS 
+
+1. api: query jobs route
+2. jobfinder-site: build advanced search form
+3. api: setup email templates for 
+  - job application email
+  - job application status update email
+4. api: upload route for assets

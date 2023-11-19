@@ -1,17 +1,10 @@
-import React, { useRef } from 'react';
-import { useSelector } from 'react-redux';
-import Link from 'next/link';
-import useActiveState from '../utils/useActiveState';
-import useAuthState from '../utils/useAuthState';
-import useLogout from '../utils/useLogout';
+import React, { useRef } from "react";
+import Link from "next/link";
+import useActiveState from "../utils/useActiveState";
+import useAuthState from "../utils/useAuthState";
+import useLogout from "../utils/useLogout";
 
-export async function getServerSideProps(context) {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
-
-export default function Navbar(props) {
+export default function Navbar() {
   const [loggedIn] = useAuthState(false);
   const mobileNav = useRef(null);
   const accountNav = useRef(null);
@@ -87,7 +80,7 @@ export default function Navbar(props) {
               fill="currentColor"
               d="M4 15h2v5h12V4H6v5H4V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6zm6-4V8l5 4-5 4v-3H2v-2h8z"
             />
-          </svg>{' '}
+          </svg>{" "}
           Login
         </Link>
       </li>
@@ -113,7 +106,7 @@ export default function Navbar(props) {
               fill="currentColor"
               d="M4 18h2v2h12V4H6v2H4V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3zm2-7h7v2H6v3l-5-4 5-4v3z"
             />
-          </svg>{' '}
+          </svg>{" "}
           Sign out
         </button>
       </div>
@@ -176,7 +169,7 @@ export default function Navbar(props) {
                 data-dropdown-toggle="dropdownNavbar"
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
               >
-                Account{' '}
+                Account{" "}
                 <svg
                   className="w-4 h-4 ml-1"
                   aria-hidden="true"

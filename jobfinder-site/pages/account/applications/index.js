@@ -1,13 +1,12 @@
-import Link from 'next/link';
-import { withIronSessionSsr } from 'iron-session/next';
-import { sessionOptions } from '../../../utils/session';
-import moment from 'moment';
-import useAuthState from '../../../utils/useAuthState';
-import { http } from '../../../services/http';
-import meService from '../../../services/meService';
-import jobService from '../../../services/jobService';
-import jobApplicationStatusService from '../../../services/jobApplicationStatusService';
-import AccountSideBar from '../../../components/AccountSidebar';
+import Link from "next/link";
+import { withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "../../../utils/session";
+import moment from "moment";
+import { http } from "../../../services/http";
+import meService from "../../../services/meService";
+import jobService from "../../../services/jobService";
+import jobApplicationStatusService from "../../../services/jobApplicationStatusService";
+import AccountSideBar from "../../../components/AccountSidebar";
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const { user = null, jwt } = req.session;
@@ -17,13 +16,13 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   if (!user) {
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
   }
 
-  http.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+  http.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
 
   try {
     let applicationRecords = await meService.applications(jwt);
@@ -51,10 +50,9 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 }, sessionOptions);
 
 export default function Applications(props) {
-  useAuthState(true, props.user);
   function getApplicationStatus(id) {
     const status = props.statuses.find((status) => status.id === id);
-    return status.name || 'Unavailable';
+    return status.name || "Unavailable";
   }
 
   const applications =
@@ -68,10 +66,10 @@ export default function Applications(props) {
             Job Title: {application.job.title}
           </p>
           <p className="mb-3 text-white">
-            Date applied: {moment(application.createdAt).format('DD-MM-YYYY')}
+            Date applied: {moment(application.createdAt).format("DD-MM-YYYY")}
           </p>
           <p className="mb-3 text-white">
-            Application Status:{' '}
+            Application Status:{" "}
             <span className="font-semibold">
               {getApplicationStatus(application.job_application_status_id)}
             </span>
