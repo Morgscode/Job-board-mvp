@@ -5,6 +5,7 @@ import BasicSearch from "../components/BasicSearch";
 import JobLister from "../components/JobLister";
 import Pagination from "../components/Pagination";
 import jobService from "../services/jobService";
+import axios from "axios";
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req, res, query }) => {
@@ -57,7 +58,8 @@ export default function Home(props) {
   }, [page, query, props.page, paged]);
 
   async function getJobs(query) {
-    const { jobs, totalRecords } = await jobService.index(query);
+    const response = await axios.get(`/api/jobs?${query}`);
+    const { jobs = [], totalRecords = 0 } = response.data;
     const params = new URLSearchParams(query);
     setJobsTitle(
       `${

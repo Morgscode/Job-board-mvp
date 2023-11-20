@@ -57,7 +57,7 @@ SECRET_COOKIE_PASSWORD=yOuRSuPeRsEcUrEsEcReT
 MYSQL_DB=ojb_production MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js
 ```
 
-6.  Build the container
+6.  Build the containers
 
 ```
 cd ./ojb-tooling
@@ -71,7 +71,7 @@ docker exec -it ojb-api /bin/bash
 sh setup.sh
 ```
 
-8. Register as a user through the api
+8. Register as a user through the api or the register page on the jobfinder-site
 
 ```
 POST: http://localhost:8080/api/v1/register
@@ -119,10 +119,10 @@ POST: http://localhost:8080/api/v1/register
 
 - Database seeding - An exmaple setup shell script `./api/dev-data/app-setup.js` is provided to create enough data to see the project in action.
 
-  1. copy `example.setup.sh` to `setup.sh` into the root of the project.
+  1. copy `example.setup.sh` to `setup.sh` in `/api`.
   2. enter your db credentials to pass into the setup script.
   3. run the setup script.
-  4. Register as a user through the api
+  4. Register as a user through the api.
 
     ```
     POST: http://localhost:8080/api/v1/register

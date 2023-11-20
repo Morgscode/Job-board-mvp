@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { http } from '../services/http';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { http } from "../services/http";
+import axios from "axios";
 
 export async function getServerSideProps(context) {
   let user = null;
@@ -70,30 +71,29 @@ export default function PasswordReset(props) {
     if (values.password !== values.passwordConfirm) {
       setFormSubmitState({
         error: true,
-        message: 'Your password must match the confirmation',
+        message: "Your password must match the confirmation",
       });
       return false;
     }
     try {
-      const res = await http.put('/update-password', form, {
-        headers: {
-          Authorization: `Bearer ${props.jwt}`,
-        },
+      const res = await axios.post("/api/reset-password", {
+        user: props.user,
+        form,
+        token: props.jwt,
       });
       setFormSubmitState({
         error: false,
-        message: res?.data?.data?.message || 'Password reset. Please log in',
-        classes: 'text-2xl mb-8 text-green-600',
+        message: res?.data?.message || "Password reset. Please log in",
+        classes: "text-2xl mb-8 text-green-600",
       });
       reset(defaultValues);
     } catch (error) {
-      console.error(error);
       setFormSubmitState({
         error: true,
         message:
           error?.response?.data?.message ||
-          'There was a problem reseting your password',
-        classes: 'text-2xl mb-8 text-red-600',
+          "There was a problem reseting your password",
+        classes: "text-2xl mb-8 text-red-600",
       });
     }
   }
@@ -106,7 +106,9 @@ export default function PasswordReset(props) {
           className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md md:w-1/2 dark:bg-gray-800 dark:border-gray-700"
         >
           {displayFormSubmitState()}
-          <h2 className='text-2xl mb-8 text-gray-900 dark:text-white'>Reset your password</h2>
+          <h2 className="text-2xl mb-8 text-gray-900 dark:text-white">
+            Reset your password
+          </h2>
           <div className="grid gap-8 md:grid-cols-2">
             <div className="mb-4">
               <label
@@ -119,15 +121,15 @@ export default function PasswordReset(props) {
                 type="password"
                 id="password"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...register('password', {
+                {...register("password", {
                   required: "You must set a password",
                   minLength: {
                     value: 8,
-                    message: 'Your password must be at least 8 characters',
+                    message: "Your password must be at least 8 characters",
                   },
                 })}
               />
-              {fieldErrorMessage('password')}
+              {fieldErrorMessage("password")}
             </div>
             <div className="mb-4">
               <label
@@ -140,16 +142,16 @@ export default function PasswordReset(props) {
                 type="password"
                 id="password-confirm"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...register('passwordConfirm', {
+                {...register("passwordConfirm", {
                   required: "Password confirmation is required",
                   minLength: {
                     value: 8,
                     message:
-                      'Your password confirm must be at least 8 characters',
+                      "Your password confirm must be at least 8 characters",
                   },
                 })}
               />
-              {fieldErrorMessage('passwordConfirm')}
+              {fieldErrorMessage("passwordConfirm")}
             </div>
           </div>
           <button

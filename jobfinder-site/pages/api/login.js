@@ -8,11 +8,6 @@ async function handler(req, res) {
     const user = login.data.data.user;
     const token = login.data.token;
 
-    http.interceptors.request.use(function (config) {
-      config.headers.Authorization = token;
-      return config;
-    });
-
     req.session.user = user;
     req.session.jwt = token;
     await req.session.save();

@@ -48,6 +48,7 @@ export default function Register() {
       });
       reset(defaultValues);
     } catch (error) {
+      console.error(error);
       setFormSubmitState({
         error: true,
         message:

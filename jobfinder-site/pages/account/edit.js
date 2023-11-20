@@ -60,8 +60,7 @@ export default function EditAccount(props) {
 
   async function updateUser(user) {
     try {
-      await meService.update(user);
-      await axios.post("/api/me");
+      await axios.post("/api/account/edit", user);
       setFormSubmitState({
         error: false,
         message: "User updated.",
@@ -70,7 +69,7 @@ export default function EditAccount(props) {
     } catch (error) {
       setFormSubmitState({
         error: true,
-        message: error.response.data.message,
+        message: error?.response?.data?.message,
         classes: "text-2xl mb-8 text-red-600",
       });
     }

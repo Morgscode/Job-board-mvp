@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { http } from '../services/http';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState(null);
@@ -35,24 +35,22 @@ export default function ForgotPassword() {
   }
 
   async function requestPasswordReset(email) {
-    console.log(email);
     try {
-      const res = await http.post('/forgot-password', email);
-      console.log(res);
+      const res = await axios.post("/api/forgot-password", email);
       setFormSubmitState({
         error: false,
         message:
-          res.data?.data?.message ||
-          'Password reset link sent, Please check your emails',
-        classes: 'text-2xl mb-8 text-green-600',
+          res.data?.message ||
+          "Password reset link sent, Please check your emails",
+        classes: "text-2xl mb-8 text-green-600",
       });
     } catch (error) {
       console.error(error);
       setFormSubmitState({
         error: true,
         message:
-          error?.response?.data?.message || 'There was a problem logging in',
-        classes: 'text-2xl mb-8 text-red-600',
+          error?.response?.data?.message || "There was a problem logging in",
+        classes: "text-2xl mb-8 text-red-600",
       });
     }
   }
@@ -60,13 +58,14 @@ export default function ForgotPassword() {
   return (
     <section className="pt-8 pb-8">
       <div className="flex flex-col items-center">
-  
         <form
           onSubmit={handleSubmit(requestPasswordReset)}
           className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md md:w-1/2 dark:bg-gray-800 dark:border-gray-700"
         >
           {displayFormSubmitState()}
-          <h2 className='text-2xl mb-8 text-gray-900 dark:text-white'>Reset your password</h2>
+          <h2 className="text-2xl mb-8 text-gray-900 dark:text-white">
+            Reset your password
+          </h2>
           <div className="grid gap-8">
             <div className="mb-4">
               <label
@@ -80,11 +79,11 @@ export default function ForgotPassword() {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@email.com"
-                {...register('email', {
-                  required: 'Your email is required',
+                {...register("email", {
+                  required: "Your email is required",
                 })}
               />
-               {fieldErrorMessage('email')}
+              {fieldErrorMessage("email")}
             </div>
           </div>
           <button

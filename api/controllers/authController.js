@@ -127,6 +127,7 @@ const forgotPassword = catchAsync(async function (req, res, next) {
   const { email } = req.body;
 
   const user = await userModel.User.findOne({ where: { email } });
+
   if (!user) {
     return next(new AppError("those details are not correct", 404));
   }

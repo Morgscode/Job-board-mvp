@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { http } from '../services/http';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { http } from "../services/http";
+import axios from "axios";
 
 export async function getServerSideProps(context) {
   const { email = null, token = null } = context.query;
   let verified = false;
   let message =
-    'An account activation link has been sent to the email address you provided.';
+    "An account activation link has been sent to the email address you provided.";
 
   if (email && token) {
     try {
       const res = await http.get(`/verify-email?email=${email}&token=${token}`);
       if (res.status === 200) {
         verified = true;
-        message = 'Your email address has been verified.';
+        message = "Your email address has been verified.";
       }
     } catch (error) {
       console.error(error);
       verified = false;
     }
   } else if (!email) {
-    message = 'Please verify your email address';
+    message = "Please verify your email address";
   }
 
   return {
@@ -34,14 +35,14 @@ export async function getServerSideProps(context) {
 }
 
 export default function VerifyEmail(props) {
-  const [email, setEmail] = useState(props.email || '');
+  const [email, setEmail] = useState(props.email || "");
   const [formSubmitState, setFormSubmitState] = useState(false);
 
   async function handleSubmit(submit) {
     submit.preventDefault();
     const data = new FormData(submit.target);
-    const email = data.get('email');
-    
+    const email = data.get("email");
+
     await requestEmailVerify(email);
   }
 
@@ -49,20 +50,20 @@ export default function VerifyEmail(props) {
     if (!props.email && !email) {
       setFormSubmitState({
         error: true,
-        message: 'You must enter an email',
-        classes: 'text-2xl mb-8 text-red-600',
+        message: "You must enter an email",
+        classes: "text-2xl mb-8 text-red-600",
       });
       return;
     }
     try {
       let value = email || props.email;
-      const res = await http.post('/request-email-verify', { email: value });
+      const res = await axios.post("api/verify-email", { email: value });
       setFormSubmitState({
         error: false,
         message:
-          res.data?.data?.message ||
-          'Email verification sent, please check your emails',
-        classes: 'text-2xl mb-8 text-green-600',
+          res.data?.message ||
+          "Email verification sent, please check your emails",
+        classes: "text-2xl mb-8 text-green-600",
       });
     } catch (error) {
       console.error(error);
@@ -70,8 +71,8 @@ export default function VerifyEmail(props) {
         error: true,
         message:
           error?.response?.data?.message ||
-          'There was a problem requesting email verification',
-        classes: 'text-2xl mb-8 text-red-600',
+          "There was a problem requesting email verification",
+        classes: "text-2xl mb-8 text-red-600",
       });
     }
   }
