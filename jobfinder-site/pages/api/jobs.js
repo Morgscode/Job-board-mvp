@@ -1,7 +1,7 @@
 import jobService from "../../services/jobService";
 
 export default async function handler(req, res) {
-  if (req.url.startsWith("/api/jobs")) {
+  if (req.method === "GET" && req.url.startsWith("/api/jobs")) {
     try {
       const query = new URLSearchParams(req.query);
       const { jobs, totalRecords } = await jobService.index(

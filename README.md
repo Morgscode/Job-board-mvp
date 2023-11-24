@@ -11,7 +11,7 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 ```
 MYSQL_HOST=localhost
 MYSQL_TCP_PORT=3306
-MYSQL_DATABASE=ojb_local
+MYSQL_DATABASE=ojb_production
 MYSQL_USER=root
 MYSQL_PASSWORD=root
 MYSQL_ROOT_PASSWORD=root
@@ -124,14 +124,14 @@ POST: http://localhost:8080/api/v1/register
   3. run the setup script.
   4. Register as a user through the api.
 
-    ```
-    POST: http://localhost:8080/api/v1/register
-    {
-      "email": "your@email.here",
-      "password": "password",
-      "passwordConfirm": "password"
-    }
-    ```
+  ```
+  POST: http://localhost:8080/api/v1/register
+  {
+    "email": "your@email.here",
+    "password": "password",
+    "passwordConfirm": "password"
+  }
+  ```
     
   5. In your db client - update your user role to `3` and your email verified at to a `current timestamp`
 
