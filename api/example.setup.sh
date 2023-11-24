@@ -1,1 +1,1 @@
-MYSQL_DB=ojb_production MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./api/config/app-setup.js
+MYSQL_DB=ojb_production MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./config/app-setup.js
