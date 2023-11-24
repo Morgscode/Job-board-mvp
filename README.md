@@ -12,8 +12,6 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 MYSQL_HOST=db
 MYSQL_TCP_PORT=3306
 MYSQL_DATABASE=ojb_production
-MYSQL_USER=root
-MYSQL_PASSWORD=root
 MYSQL_ROOT_PASSWORD=root
 ```
 
