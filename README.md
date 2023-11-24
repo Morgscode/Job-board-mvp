@@ -9,7 +9,7 @@ This monorepo is setup for NPM workspaces (https://docs.npmjs.com/cli/v7/using-n
 1.  Create an env file for the db in `./ojb-tooling/mysql/.env`
 
 ```
-MYSQL_HOST=localhost
+MYSQL_HOST=db
 MYSQL_TCP_PORT=3306
 MYSQL_DATABASE=ojb_production
 MYSQL_USER=root
