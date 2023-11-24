@@ -44,7 +44,7 @@ ASSETS_DIR=public/assets
 VITE_API_URL=http://localhost:8080/api/v1
 NODE_HOST=cms
 NODE_PORT=8888
-NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+NEXT_PUBLIC_API_URL=http://api:8080/api/v1
 SECRET_COOKIE_PASSWORD=yOuRSuPeRsEcUrEsEcReT
 ```
 
