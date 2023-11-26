@@ -63,7 +63,7 @@ export default function EditAccount(props) {
       await axios.post("/api/account/edit", user);
       setFormSubmitState({
         error: false,
-        message: "User updated.",
+        message: "Your details have been updated.",
         classes: "text-2xl mb-8 text-green-600",
       });
     } catch (error) {
@@ -80,7 +80,7 @@ export default function EditAccount(props) {
       <AccountSideBar user={props.user} />
       <div className="flex-1 p-2 md:p-8">
         <h1 className="mb-6 text-4xl text-gray-900 dark:text-white">
-          Update your account
+          Update your details
         </h1>
         <form
           onSubmit={handleSubmit(updateUser)}
@@ -156,7 +156,7 @@ export default function EditAccount(props) {
                 type="text"
                 id="middle_names"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@email.com"
+                placeholder="Enter any middle names"
                 {...register("middle_names")}
               />
               {fieldErrorMessage("middle_names")}

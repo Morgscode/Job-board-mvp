@@ -5,13 +5,13 @@ import dynamic from "next/dynamic";
 import { useDropzone } from "react-dropzone";
 import jobService from "../../../services/jobService";
 import jobApplicationService from "../../../services/jobApplicationService";
+import axios from "axios";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req, res, query }) => {
     const { user = null } = req.session;
-    console.log(user);
     if (!user) {
       return {
         redirect: {
@@ -171,7 +171,11 @@ export default function Apply(props) {
       application.append("cv", cv);
       application.append("cover_letter", coverLetter);
       application.append("job_id", props.job.id);
-      await jobApplicationService.create(application);
+      await axios.post("/api/jobs/apply", application, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setCv(null);
       setCoverLetter(null);
       setFormSubmitState({
