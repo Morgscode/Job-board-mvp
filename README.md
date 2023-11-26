@@ -52,7 +52,7 @@ SECRET_COOKIE_PASSWORD=yOuRSuPeRsEcUrEsEcReT
 5.  Enter your db credentials to pass into the setup script.
 
 ```
-MYSQL_DB=ojb_production MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./dev-data/app-setup.js
+MYSQL_DB=ojb_production MYSQL_USER=root MYSQL_PASS=root MYSQL_HOST=db MYSQL_PORT=3306 node ./config/app-setup.js
 ```
 
 6.  Build the containers
@@ -153,5 +153,4 @@ POST: http://localhost:8080/api/v1/register
 2. jobfinder-site: build advanced search form
 3. api: setup email templates for 
   - job application email
-  - job application status update email
 4. api: upload route for assets

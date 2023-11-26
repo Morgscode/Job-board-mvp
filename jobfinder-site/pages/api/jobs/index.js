@@ -1,4 +1,4 @@
-import jobService from "../../services/jobService";
+import jobService from "../../../services/jobService";
 
 export default async function handler(req, res) {
   if (req.method === "GET" && req.url.startsWith("/api/jobs")) {
